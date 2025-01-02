@@ -1,8 +1,8 @@
-<img src="brand/icon.png" alt="Blankie logo" width="128" height="128" align="left" style="margin-right: 16px; margin-bottom: 16px"/>
+<img src="brand/icon.png" alt="Blankie logo" width="128" height="128" align="left"/>
 
-<h1 style="padding-bottom: 0; margin-bottom: 0; border-bottom: 0px;">Blankie</h1>
+### Blankie
 
-## Simple ambient sound mixer
+<small>Ambient sound mixer inspired by <a href="https://github.com/rafaelmardojai/blanket">Blanket</a></small>
 
 [![macOS](https://img.shields.io/badge/13.5+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/sonoma/)
 [![Swift](https://img.shields.io/badge/Swift%205-F05138?logo=Swift&logoColor=white)](https://swift.org)
@@ -13,7 +13,7 @@
 
 ## Description
 
-Improve focus and increase your productivity by mixing different ambient sounds. Or use it to help you fall asleep in a noisy environment. Blankie provides a native macOS experience with support for system appearance modes and media controls.
+Blankie makes it easy to mix different ambient sounds into a custom soundscape. Use it to focus and increase your productivity or help you fall asleep in a noisy environment. Blankie is a native macOS app with support for automatic light/dark modes, and your system or a custom accent color and global play/pause control from your keyboard's media keys, command center, or headphones.
 
 ## Features
 
@@ -55,14 +55,14 @@ All sounds are used under various open licenses. Full attribution information ab
 
 ## Credits
 
-Special thanks to [Rafael Mardojai CM](https://github.com/rafaelmardojai) and the [Blanket](https://github.com/rafaelmardojai/blanket) project, which inspired this app.
+An incredibly special thanks to [Rafael Mardojai CM](https://github.com/rafaelmardojai) and all the contributors to the [Blanket](https://github.com/rafaelmardojai/blanket) project which inspired me to build this app when I couldn't find a free, simple and open-source Mac app like it.
 
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request. Here are some areas that still need work to bring it to parity with Blanket:
 
-- Add custom sound support
-- Translations
+- [Add custom sound support](https://github.com/codybrom/blankie/issues/1)
+- [Internationalization / Translation](https://github.com/codybrom/blankie/issues/2)
 
 ## License
 
@@ -74,4 +74,4 @@ If you encounter any issues or have feature requests, please file them in the [G
 
 ---
 
-Note: Blankie is an independent project built for macOS and uses none of the original code from the Blanket project. Blankie is not affiliated with or endorsed by the Blanket project.
+Note: Blankie is an independent project built for macOS. Blankie and its developer did not use any of the original code from the Blanket project. Blankie is not affiliated with or endorsed by the Blanket project.

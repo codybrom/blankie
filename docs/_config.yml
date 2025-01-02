@@ -1,0 +1,11 @@
+# _config.yml — Just the Docs configuration
+
+title: "Blankie"
+description: "Documentation for Blankie"
+markdown: kramdown
+plugins:
+  - jekyll-remote-theme
+
+remote_theme: just-the-docs/just-the-docs
+
+logo: /brand/icon.png

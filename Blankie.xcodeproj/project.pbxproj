@@ -62,7 +62,6 @@
 		F91350722D233A44003C85BE /* BlankieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlankieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F913507C2D233A44003C85BE /* BlankieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlankieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration.xcconfig; sourceTree = "<group>"; };
-		F921EDD12D2744CE00D4F3D3 /* Blankie-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Blankie-Info.plist"; sourceTree = "<group>"; };
 		F93A3B0C2D26E93600EFC1C9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		F93A3B0E2D26E93600EFC1C9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
@@ -126,7 +125,6 @@
 		F91350562D233A43003C85BE = {
 			isa = PBXGroup;
 			children = (
-				F921EDD12D2744CE00D4F3D3 /* Blankie-Info.plist */,
 				F93A3B0C2D26E93600EFC1C9 /* AboutView.swift */,
 				F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */,
 				F93A3B0E2D26E93600EFC1C9 /* AppState.swift */,
@@ -206,7 +204,7 @@
 				F913505B2D233A43003C85BE /* Sources */,
 				F913505C2D233A43003C85BE /* Frameworks */,
 				F913505D2D233A43003C85BE /* Resources */,
-				F921EDC02D27408E00D4F3D3 /* ShellScript */,
+				F921EDC02D27408E00D4F3D3 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -353,7 +351,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F921EDC02D27408E00D4F3D3 /* ShellScript */ = {
+		F921EDC02D27408E00D4F3D3 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 12;
@@ -363,6 +361,7 @@
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -371,7 +370,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nset -e\nset -x\n\n# Get paths\nPLIST_PATH=\"${TARGET_BUILD_DIR}/${INFOPLIST_PATH}\"\nCONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"\nTEMP_PLIST=\"${DERIVED_FILE_DIR}/temp_Info.plist\"\n\necho \"Info.plist path: ${PLIST_PATH}\"\necho \"Config path: ${CONFIG_PATH}\"\n\n# Copy Info.plist to temp location\ncp \"${PLIST_PATH}\" \"${TEMP_PLIST}\"\n\n# Try to get current build number, initialize to 0 if it fails\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${TEMP_PLIST}\" 2>/dev/null || echo \"0\")\n\n# Clean up buildNumber to ensure it's just a number\nbuildNumber=$(echo \"$buildNumber\" | grep -o '[0-9]*' || echo \"0\")\n\n# If buildNumber is empty, set it to 0\nif [ -z \"$buildNumber\" ]; then\n    buildNumber=0\nfi\n\n# Increment it\nbuildNumber=$((buildNumber + 1))\necho \"New build number: $buildNumber\"\n\n# Update the temp plist\nif ! /usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${TEMP_PLIST}\" 2>/dev/null; then\n    /usr/libexec/PlistBuddy -c \"Add :CFBundleVersion string $buildNumber\" \"${TEMP_PLIST}\"\nfi\n\n# Copy back to original location\ncp \"${TEMP_PLIST}\" \"${PLIST_PATH}\"\n\n# Update xcconfig using a temp file\nTEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"\nsed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"\ncp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"\n";
+			shellScript = "#!/bin/sh\nset -e\nset -x\n\n# Get paths\nCONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"\nTEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"\n\n# Get current build number from xcconfig\nbuildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')\n\n# Increment the build number\nbuildNumber=$((buildNumber + 1))\necho \"New build number: $buildNumber\"\n\n# Update xcconfig using a temp file\nsed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"\ncp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -429,6 +428,7 @@
 		F91350842D233A44003C85BE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				AGVTOOL_KEYCHAIN = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -488,6 +488,7 @@
 		F91350852D233A44003C85BE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				AGVTOOL_KEYCHAIN = "";
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -540,6 +541,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
+				AGVTOOL_KEYCHAIN = agvtool_keychain;
+				AGVTOOL_VERSIONING = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Blankie.entitlements;
@@ -547,6 +550,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blankie-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
@@ -565,7 +569,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "$(CURRENT_MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -580,6 +584,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
+				AGVTOOL_KEYCHAIN = agvtool_keychain;
+				AGVTOOL_VERSIONING = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Blankie.entitlements;
@@ -587,6 +593,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
+				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Blankie-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
@@ -605,7 +612,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.5;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = "$(CURRENT_MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				PRODUCT_NAME = "$(TARGET_NAME)";

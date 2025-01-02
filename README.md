@@ -1,8 +1,8 @@
 <img src="brand/icon.png" alt="Blankie logo" width="128" height="128" align="left" style="margin-right: 16px; margin-bottom: 16px"/>
 
-<h1 style="padding-bottom: 0; margin-bottom: 0; border-bottom: none">Blankie</h1>
+<h1 style="padding-bottom: 0; margin-bottom: 0; border-bottom: 0px;">Blankie</h1>
 
-## An ambient sound mixer for macOS
+## Simple ambient sound mixer
 
 [![macOS](https://img.shields.io/badge/13.5+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/sonoma/)
 [![Swift](https://img.shields.io/badge/Swift%205-F05138?logo=Swift&logoColor=white)](https://swift.org)

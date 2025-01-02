@@ -1,0 +1,20 @@
+{
+  "gpt-context-generator.detectedFileExtensions": [
+    "js",
+    "jsx",
+    "ts",
+    "tsx",
+    "mdx",
+    "json",
+    "swift",
+    "plist",
+    "pbxproj",
+    "entitlements"
+  ],
+  "markdownlint.config": {
+    "default": true,
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  }
+}

@@ -1,0 +1,77 @@
+<img src="brand/icon.png" alt="Blankie logo" width="128" height="128" align="left" style="margin-right: 16px; margin-bottom: 16px"/>
+
+<h1 style="padding-bottom: 0; margin-bottom: 0; border-bottom: none">Blankie</h1>
+
+## An ambient sound mixer for macOS
+
+[![macOS](https://img.shields.io/badge/13.5+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/sonoma/)
+[![Swift](https://img.shields.io/badge/Swift%205-F05138?logo=Swift&logoColor=white)](https://swift.org)
+[![SwiftUI](https://img.shields.io/badge/Swift%20UI-0071e3.svg?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
+[![Xcode](https://img.shields.io/badge/XCode%2016-007ACC?logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)
+[![GitHub](https://img.shields.io/github/license/codybrom/blankie.svg)](https://github.com/codybrom/blankie/blob/master/LICENSE)
+![Screenshot](brand/screenshot.png)
+
+## Description
+
+Improve focus and increase your productivity by mixing different ambient sounds. Or use it to help you fall asleep in a noisy environment. Blankie provides a native macOS experience with support for system appearance modes and media controls.
+
+## Features
+
+- 14 high-quality ambient sounds:
+  - Nature sounds (rain, waves, birds, wind)
+  - Environmental sounds (train, city, coffee shop)
+  - White/pink noise
+- Individual volume controls for each sound
+- Global volume control
+- Preset system to save your favorite sound combinations
+- Native macOS integration
+  - System media controls
+  - Automatic or customizable light/dark modes
+  - Automatic or custom accent colors
+
+## Requirements to Run
+
+macOS Ventura 13.5 or later
+
+## Development Setup
+
+1. Clone the repository
+2. Copy `Configuration.example.xcconfig` to `Configuration.xcconfig`
+3. Edit `Configuration.xcconfig` to set your development team and bundle identifier:
+
+   ```xcconfig
+   DEVELOPMENT_TEAM = YOUR_TEAM_ID_HERE
+   PRODUCT_BUNDLE_IDENTIFIER = com.your.identifier
+   ```
+
+4. Open `Blankie.xcodeproj` in Xcode
+5. Build and run!
+
+Note: `Configuration.xcconfig` is ignored by git to keep your personal development settings private.
+
+## Sound Credits
+
+All sounds are used under various open licenses. Full attribution information about sounds licensing is visible in the About screen in the app.
+
+## Credits
+
+Special thanks to [Rafael Mardojai CM](https://github.com/rafaelmardojai) and the [Blanket](https://github.com/rafaelmardojai/blanket) project, which inspired this app.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. Here are some areas that still need work to bring it to parity with Blanket:
+
+- Add custom sound support
+- Translations
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Support
+
+If you encounter any issues or have feature requests, please file them in the [GitHub Issues](https://github.com/codybrom/blankie/issues) section.
+
+---
+
+Note: Blankie is an independent project built for macOS and uses none of the original code from the Blanket project. Blankie is not affiliated with or endorsed by the Blanket project.

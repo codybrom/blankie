@@ -198,9 +198,9 @@ struct AboutView: View {
 
 private var softwareLicenseSection: some View {
     VStack(alignment: .leading, spacing: 8) {
-        Text("This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation.")
+        Text("This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.")
             .font(.system(size: 12))
-        Link("See the GNU General Public License, version 3 or later for details.", destination: URL(string: "https://www.gnu.org/licenses/gpl-3.0.en.html")!)
+        Link("See the MIT License for details.", destination: URL(string: "https://opensource.org/licenses/MIT")!)
         .foregroundColor(.accentColor)
         .onHover { inside in
             if inside {

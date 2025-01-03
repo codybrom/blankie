@@ -29,7 +29,6 @@ struct BlankieApp: App {
                 .sheet(isPresented: $showingAbout) {
                     AboutView()
                 }
-                .keyboardShortcut("w", modifiers: .command)
         }
         .defaultSize(width: 600, height: 800)
         .windowToolbarStyle(.unified)

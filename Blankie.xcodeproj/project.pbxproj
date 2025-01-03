@@ -9,32 +9,8 @@
 /* Begin PBXBuildFile section */
 		F93A3B332D26E93600EFC1C9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B0E2D26E93600EFC1C9 /* AppState.swift */; };
 		F93A3B342D26E93600EFC1C9 /* WindowObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */; };
-		F93A3B352D26E93600EFC1C9 /* PresetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B1E2D26E93600EFC1C9 /* PresetManager.swift */; };
-		F93A3B362D26E93600EFC1C9 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B1C2D26E93600EFC1C9 /* PreferencesView.swift */; };
 		F93A3B372D26E93600EFC1C9 /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */; };
-		F93A3B382D26E93600EFC1C9 /* Preset.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B1D2D26E93600EFC1C9 /* Preset.swift */; };
-		F93A3B392D26E93600EFC1C9 /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B0C2D26E93600EFC1C9 /* AboutView.swift */; };
-		F93A3B3A2D26E93600EFC1C9 /* GlobalSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B192D26E93600EFC1C9 /* GlobalSettings.swift */; };
-		F93A3B3B2D26E93600EFC1C9 /* SoundIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B202D26E93600EFC1C9 /* SoundIcon.swift */; };
-		F93A3B3C2D26E93600EFC1C9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B172D26E93600EFC1C9 /* ContentView.swift */; };
-		F93A3B3D2D26E93600EFC1C9 /* MainMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B1B2D26E93600EFC1C9 /* MainMenu.swift */; };
-		F93A3B3E2D26E93600EFC1C9 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B102D26E93600EFC1C9 /* AudioManager.swift */; };
 		F93A3B3F2D26E93600EFC1C9 /* BlankieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */; };
-		F93A3B402D26E93600EFC1C9 /* city.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B232D26E93600EFC1C9 /* city.mp3 */; };
-		F93A3B412D26E93600EFC1C9 /* rain.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B272D26E93600EFC1C9 /* rain.mp3 */; };
-		F93A3B432D26E93600EFC1C9 /* train.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2B2D26E93600EFC1C9 /* train.mp3 */; };
-		F93A3B442D26E93600EFC1C9 /* white-noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2D2D26E93600EFC1C9 /* white-noise.mp3 */; };
-		F93A3B452D26E93600EFC1C9 /* coffee-shop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B242D26E93600EFC1C9 /* coffee-shop.mp3 */; };
-		F93A3B462D26E93600EFC1C9 /* fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B252D26E93600EFC1C9 /* fireplace.mp3 */; };
-		F93A3B482D26E93600EFC1C9 /* birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B212D26E93600EFC1C9 /* birds.mp3 */; };
-		F93A3B492D26E93600EFC1C9 /* summer-night.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2A2D26E93600EFC1C9 /* summer-night.mp3 */; };
-		F93A3B4A2D26E93600EFC1C9 /* stream.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B292D26E93600EFC1C9 /* stream.mp3 */; };
-		F93A3B4B2D26E93600EFC1C9 /* boat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B222D26E93600EFC1C9 /* boat.mp3 */; };
-		F93A3B4D2D26E93600EFC1C9 /* wind.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2E2D26E93600EFC1C9 /* wind.mp3 */; };
-		F93A3B502D26E93600EFC1C9 /* waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2C2D26E93600EFC1C9 /* waves.mp3 */; };
-		F93A3B512D26E93600EFC1C9 /* pink-noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B262D26E93600EFC1C9 /* pink-noise.mp3 */; };
-		F93A3B522D26E93600EFC1C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B0F2D26E93600EFC1C9 /* Assets.xcassets */; };
-		F93A3B532D26E93600EFC1C9 /* storm.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B282D26E93600EFC1C9 /* storm.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,37 +35,41 @@
 		F91350722D233A44003C85BE /* BlankieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlankieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F913507C2D233A44003C85BE /* BlankieUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlankieUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Configuration.xcconfig; sourceTree = "<group>"; };
-		F93A3B0C2D26E93600EFC1C9 /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCommands.swift; sourceTree = "<group>"; };
 		F93A3B0E2D26E93600EFC1C9 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
-		F93A3B0F2D26E93600EFC1C9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F93A3B102D26E93600EFC1C9 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
 		F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blankie.entitlements; sourceTree = "<group>"; };
 		F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Blankie.xcodeproj; sourceTree = "<group>"; };
 		F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankieApp.swift; sourceTree = "<group>"; };
-		F93A3B172D26E93600EFC1C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F93A3B192D26E93600EFC1C9 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
-		F93A3B1B2D26E93600EFC1C9 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
-		F93A3B1C2D26E93600EFC1C9 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
-		F93A3B1D2D26E93600EFC1C9 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
-		F93A3B1E2D26E93600EFC1C9 /* PresetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetManager.swift; sourceTree = "<group>"; };
-		F93A3B202D26E93600EFC1C9 /* SoundIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundIcon.swift; sourceTree = "<group>"; };
-		F93A3B212D26E93600EFC1C9 /* birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = birds.mp3; sourceTree = "<group>"; };
-		F93A3B222D26E93600EFC1C9 /* boat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boat.mp3; sourceTree = "<group>"; };
-		F93A3B232D26E93600EFC1C9 /* city.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = city.mp3; sourceTree = "<group>"; };
-		F93A3B242D26E93600EFC1C9 /* coffee-shop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "coffee-shop.mp3"; sourceTree = "<group>"; };
-		F93A3B252D26E93600EFC1C9 /* fireplace.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = fireplace.mp3; sourceTree = "<group>"; };
-		F93A3B262D26E93600EFC1C9 /* pink-noise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "pink-noise.mp3"; sourceTree = "<group>"; };
-		F93A3B272D26E93600EFC1C9 /* rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = rain.mp3; sourceTree = "<group>"; };
-		F93A3B282D26E93600EFC1C9 /* storm.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = storm.mp3; sourceTree = "<group>"; };
-		F93A3B292D26E93600EFC1C9 /* stream.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = stream.mp3; sourceTree = "<group>"; };
-		F93A3B2A2D26E93600EFC1C9 /* summer-night.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "summer-night.mp3"; sourceTree = "<group>"; };
-		F93A3B2B2D26E93600EFC1C9 /* train.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = train.mp3; sourceTree = "<group>"; };
-		F93A3B2C2D26E93600EFC1C9 /* waves.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = waves.mp3; sourceTree = "<group>"; };
-		F93A3B2D2D26E93600EFC1C9 /* white-noise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "white-noise.mp3"; sourceTree = "<group>"; };
-		F93A3B2E2D26E93600EFC1C9 /* wind.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = wind.mp3; sourceTree = "<group>"; };
 		F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F97369002D27A6F8006AF32C /* Models */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F97369012D27A709006AF32C /* Managers */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		F97369022D27A71F006AF32C /* UI */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = UI;
+			sourceTree = "<group>";
+		};
+		F97369082D27A767006AF32C /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F97369262D27A78D006AF32C /* Extensions */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F913505C2D233A43003C85BE /* Frameworks */ = {
@@ -119,25 +99,19 @@
 		F91350562D233A43003C85BE = {
 			isa = PBXGroup;
 			children = (
-				F93A3B0C2D26E93600EFC1C9 /* AboutView.swift */,
+				F91350602D233A43003C85BE /* Products */,
+				F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */,
+				F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */,
+				F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */,
+				F97369002D27A6F8006AF32C /* Models */,
+				F97369012D27A709006AF32C /* Managers */,
+				F97369022D27A71F006AF32C /* UI */,
+				F97369082D27A767006AF32C /* Resources */,
+				F97369262D27A78D006AF32C /* Extensions */,
 				F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */,
 				F93A3B0E2D26E93600EFC1C9 /* AppState.swift */,
-				F93A3B0F2D26E93600EFC1C9 /* Assets.xcassets */,
-				F93A3B102D26E93600EFC1C9 /* AudioManager.swift */,
-				F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */,
-				F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */,
 				F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */,
-				F93A3B172D26E93600EFC1C9 /* ContentView.swift */,
-				F93A3B192D26E93600EFC1C9 /* GlobalSettings.swift */,
-				F93A3B1B2D26E93600EFC1C9 /* MainMenu.swift */,
-				F93A3B1C2D26E93600EFC1C9 /* PreferencesView.swift */,
-				F93A3B1D2D26E93600EFC1C9 /* Preset.swift */,
-				F93A3B1E2D26E93600EFC1C9 /* PresetManager.swift */,
-				F93A3B202D26E93600EFC1C9 /* SoundIcon.swift */,
-				F93A3B2F2D26E93600EFC1C9 /* Sounds */,
 				F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */,
-				F91350602D233A43003C85BE /* Products */,
-				F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,32 +122,6 @@
 				F91350722D233A44003C85BE /* BlankieTests.xctest */,
 				F913507C2D233A44003C85BE /* BlankieUITests.xctest */,
 			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		F93A3B2F2D26E93600EFC1C9 /* Sounds */ = {
-			isa = PBXGroup;
-			children = (
-				F93A3B212D26E93600EFC1C9 /* birds.mp3 */,
-				F93A3B222D26E93600EFC1C9 /* boat.mp3 */,
-				F93A3B232D26E93600EFC1C9 /* city.mp3 */,
-				F93A3B242D26E93600EFC1C9 /* coffee-shop.mp3 */,
-				F93A3B252D26E93600EFC1C9 /* fireplace.mp3 */,
-				F93A3B262D26E93600EFC1C9 /* pink-noise.mp3 */,
-				F93A3B272D26E93600EFC1C9 /* rain.mp3 */,
-				F93A3B282D26E93600EFC1C9 /* storm.mp3 */,
-				F93A3B292D26E93600EFC1C9 /* stream.mp3 */,
-				F93A3B2A2D26E93600EFC1C9 /* summer-night.mp3 */,
-				F93A3B2B2D26E93600EFC1C9 /* train.mp3 */,
-				F93A3B2C2D26E93600EFC1C9 /* waves.mp3 */,
-				F93A3B2D2D26E93600EFC1C9 /* white-noise.mp3 */,
-				F93A3B2E2D26E93600EFC1C9 /* wind.mp3 */,
-			);
-			path = Sounds;
-			sourceTree = "<group>";
-		};
-		F93A3B312D26E93600EFC1C9 /* Products */ = {
-			isa = PBXGroup;
 			name = Products;
 			sourceTree = "<group>";
 		};
@@ -192,6 +140,13 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				F97369002D27A6F8006AF32C /* Models */,
+				F97369012D27A709006AF32C /* Managers */,
+				F97369022D27A71F006AF32C /* UI */,
+				F97369082D27A767006AF32C /* Resources */,
+				F97369262D27A78D006AF32C /* Extensions */,
 			);
 			name = Blankie;
 			packageProductDependencies = (
@@ -276,12 +231,6 @@
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F91350602D233A43003C85BE /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = F93A3B312D26E93600EFC1C9 /* Products */;
-					ProjectRef = F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				F913505E2D233A43003C85BE /* Blankie */,
@@ -296,21 +245,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F93A3B402D26E93600EFC1C9 /* city.mp3 in Resources */,
-				F93A3B412D26E93600EFC1C9 /* rain.mp3 in Resources */,
-				F93A3B432D26E93600EFC1C9 /* train.mp3 in Resources */,
-				F93A3B442D26E93600EFC1C9 /* white-noise.mp3 in Resources */,
-				F93A3B452D26E93600EFC1C9 /* coffee-shop.mp3 in Resources */,
-				F93A3B462D26E93600EFC1C9 /* fireplace.mp3 in Resources */,
-				F93A3B482D26E93600EFC1C9 /* birds.mp3 in Resources */,
-				F93A3B492D26E93600EFC1C9 /* summer-night.mp3 in Resources */,
-				F93A3B4A2D26E93600EFC1C9 /* stream.mp3 in Resources */,
-				F93A3B4B2D26E93600EFC1C9 /* boat.mp3 in Resources */,
-				F93A3B4D2D26E93600EFC1C9 /* wind.mp3 in Resources */,
-				F93A3B502D26E93600EFC1C9 /* waves.mp3 in Resources */,
-				F93A3B512D26E93600EFC1C9 /* pink-noise.mp3 in Resources */,
-				F93A3B522D26E93600EFC1C9 /* Assets.xcassets in Resources */,
-				F93A3B532D26E93600EFC1C9 /* storm.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,16 +295,7 @@
 			files = (
 				F93A3B332D26E93600EFC1C9 /* AppState.swift in Sources */,
 				F93A3B342D26E93600EFC1C9 /* WindowObserver.swift in Sources */,
-				F93A3B352D26E93600EFC1C9 /* PresetManager.swift in Sources */,
-				F93A3B362D26E93600EFC1C9 /* PreferencesView.swift in Sources */,
 				F93A3B372D26E93600EFC1C9 /* AppCommands.swift in Sources */,
-				F93A3B382D26E93600EFC1C9 /* Preset.swift in Sources */,
-				F93A3B392D26E93600EFC1C9 /* AboutView.swift in Sources */,
-				F93A3B3A2D26E93600EFC1C9 /* GlobalSettings.swift in Sources */,
-				F93A3B3B2D26E93600EFC1C9 /* SoundIcon.swift in Sources */,
-				F93A3B3C2D26E93600EFC1C9 /* ContentView.swift in Sources */,
-				F93A3B3D2D26E93600EFC1C9 /* MainMenu.swift in Sources */,
-				F93A3B3E2D26E93600EFC1C9 /* AudioManager.swift in Sources */,
 				F93A3B3F2D26E93600EFC1C9 /* BlankieApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

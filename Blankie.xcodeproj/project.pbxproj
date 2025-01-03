@@ -26,14 +26,11 @@
 		F93A3B442D26E93600EFC1C9 /* white-noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2D2D26E93600EFC1C9 /* white-noise.mp3 */; };
 		F93A3B452D26E93600EFC1C9 /* coffee-shop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B242D26E93600EFC1C9 /* coffee-shop.mp3 */; };
 		F93A3B462D26E93600EFC1C9 /* fireplace.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B252D26E93600EFC1C9 /* fireplace.mp3 */; };
-		F93A3B472D26E93600EFC1C9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B1F2D26E93600EFC1C9 /* README.md */; };
 		F93A3B482D26E93600EFC1C9 /* birds.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B212D26E93600EFC1C9 /* birds.mp3 */; };
 		F93A3B492D26E93600EFC1C9 /* summer-night.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2A2D26E93600EFC1C9 /* summer-night.mp3 */; };
 		F93A3B4A2D26E93600EFC1C9 /* stream.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B292D26E93600EFC1C9 /* stream.mp3 */; };
 		F93A3B4B2D26E93600EFC1C9 /* boat.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B222D26E93600EFC1C9 /* boat.mp3 */; };
 		F93A3B4D2D26E93600EFC1C9 /* wind.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2E2D26E93600EFC1C9 /* wind.mp3 */; };
-		F93A3B4E2D26E93600EFC1C9 /* screenshot.png in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B152D26E93600EFC1C9 /* screenshot.png */; };
-		F93A3B4F2D26E93600EFC1C9 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B142D26E93600EFC1C9 /* icon.png */; };
 		F93A3B502D26E93600EFC1C9 /* waves.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B2C2D26E93600EFC1C9 /* waves.mp3 */; };
 		F93A3B512D26E93600EFC1C9 /* pink-noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B262D26E93600EFC1C9 /* pink-noise.mp3 */; };
 		F93A3B522D26E93600EFC1C9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F93A3B0F2D26E93600EFC1C9 /* Assets.xcassets */; };
@@ -70,15 +67,12 @@
 		F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blankie.entitlements; sourceTree = "<group>"; };
 		F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Blankie.xcodeproj; sourceTree = "<group>"; };
 		F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankieApp.swift; sourceTree = "<group>"; };
-		F93A3B142D26E93600EFC1C9 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		F93A3B152D26E93600EFC1C9 /* screenshot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = screenshot.png; sourceTree = "<group>"; };
 		F93A3B172D26E93600EFC1C9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F93A3B192D26E93600EFC1C9 /* GlobalSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSettings.swift; sourceTree = "<group>"; };
 		F93A3B1B2D26E93600EFC1C9 /* MainMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenu.swift; sourceTree = "<group>"; };
 		F93A3B1C2D26E93600EFC1C9 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
 		F93A3B1D2D26E93600EFC1C9 /* Preset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preset.swift; sourceTree = "<group>"; };
 		F93A3B1E2D26E93600EFC1C9 /* PresetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresetManager.swift; sourceTree = "<group>"; };
-		F93A3B1F2D26E93600EFC1C9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F93A3B202D26E93600EFC1C9 /* SoundIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundIcon.swift; sourceTree = "<group>"; };
 		F93A3B212D26E93600EFC1C9 /* birds.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = birds.mp3; sourceTree = "<group>"; };
 		F93A3B222D26E93600EFC1C9 /* boat.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = boat.mp3; sourceTree = "<group>"; };
@@ -133,14 +127,12 @@
 				F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */,
 				F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */,
 				F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */,
-				F93A3B162D26E93600EFC1C9 /* brand */,
 				F93A3B172D26E93600EFC1C9 /* ContentView.swift */,
 				F93A3B192D26E93600EFC1C9 /* GlobalSettings.swift */,
 				F93A3B1B2D26E93600EFC1C9 /* MainMenu.swift */,
 				F93A3B1C2D26E93600EFC1C9 /* PreferencesView.swift */,
 				F93A3B1D2D26E93600EFC1C9 /* Preset.swift */,
 				F93A3B1E2D26E93600EFC1C9 /* PresetManager.swift */,
-				F93A3B1F2D26E93600EFC1C9 /* README.md */,
 				F93A3B202D26E93600EFC1C9 /* SoundIcon.swift */,
 				F93A3B2F2D26E93600EFC1C9 /* Sounds */,
 				F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */,
@@ -157,15 +149,6 @@
 				F913507C2D233A44003C85BE /* BlankieUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		F93A3B162D26E93600EFC1C9 /* brand */ = {
-			isa = PBXGroup;
-			children = (
-				F93A3B142D26E93600EFC1C9 /* icon.png */,
-				F93A3B152D26E93600EFC1C9 /* screenshot.png */,
-			);
-			path = brand;
 			sourceTree = "<group>";
 		};
 		F93A3B2F2D26E93600EFC1C9 /* Sounds */ = {
@@ -319,14 +302,11 @@
 				F93A3B442D26E93600EFC1C9 /* white-noise.mp3 in Resources */,
 				F93A3B452D26E93600EFC1C9 /* coffee-shop.mp3 in Resources */,
 				F93A3B462D26E93600EFC1C9 /* fireplace.mp3 in Resources */,
-				F93A3B472D26E93600EFC1C9 /* README.md in Resources */,
 				F93A3B482D26E93600EFC1C9 /* birds.mp3 in Resources */,
 				F93A3B492D26E93600EFC1C9 /* summer-night.mp3 in Resources */,
 				F93A3B4A2D26E93600EFC1C9 /* stream.mp3 in Resources */,
 				F93A3B4B2D26E93600EFC1C9 /* boat.mp3 in Resources */,
 				F93A3B4D2D26E93600EFC1C9 /* wind.mp3 in Resources */,
-				F93A3B4E2D26E93600EFC1C9 /* screenshot.png in Resources */,
-				F93A3B4F2D26E93600EFC1C9 /* icon.png in Resources */,
 				F93A3B502D26E93600EFC1C9 /* waves.mp3 in Resources */,
 				F93A3B512D26E93600EFC1C9 /* pink-noise.mp3 in Resources */,
 				F93A3B522D26E93600EFC1C9 /* Assets.xcassets in Resources */,
@@ -555,7 +535,7 @@
 				INFOPLIST_FILE = "Blankie-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Cody Bromley. Sound effects under various Creative Commons licenses.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Cody Bromley";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -598,7 +578,7 @@
 				INFOPLIST_FILE = "Blankie-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Cody Bromley. Sound effects under various Creative Commons licenses.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "© 2024 Cody Bromley";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

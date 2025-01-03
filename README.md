@@ -4,7 +4,7 @@
 
 <small>Ambient sound mixer inspired by <a href="https://github.com/rafaelmardojai/blanket">Blanket</a></small>
 
-[![macOS](https://img.shields.io/badge/13.5+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/sonoma/)
+[![macOS](https://img.shields.io/badge/13.5+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/)
 [![Swift](https://img.shields.io/badge/Swift%205-F05138?logo=Swift&logoColor=white)](https://swift.org)
 [![SwiftUI](https://img.shields.io/badge/Swift%20UI-0071e3.svg?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
 [![Xcode](https://img.shields.io/badge/XCode%2016-007ACC?logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)

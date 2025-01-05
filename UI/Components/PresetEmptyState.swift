@@ -24,13 +24,6 @@ struct PresetEmptyState: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            
-            Button {
-                showingNewPresetSheet = true
-            } label: {
-                Label("Create Preset", systemImage: "plus")
-            }
-            .buttonStyle(.borderedProminent)
         }
         .padding()
         .frame(maxWidth: 250)

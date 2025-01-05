@@ -112,19 +112,45 @@ class PresetManager: ObservableObject {
             return
         }
         
+       
+        let wasCurrentPreset = (currentPreset?.id == preset.id)
+        
         presets.removeAll { $0.id == preset.id }
         updateCustomPresetStatus()
         
-        if currentPreset?.id == preset.id {
-            print("🎛️ PresetManager: Deleted current preset, switching to default")
-            if let defaultPreset = presets.first {
-                do {
-                    try applyPreset(defaultPreset)
-                } catch {
-                    handleError(error)
-                }
+        
+        if wasCurrentPreset {
+                print("🎛️ PresetManager: Deleted current preset, switching to default/next")
+                
+                // Find next available CUSTOM preset
+                if let nextCustomPreset = presets.first(where: {!$0.isDefault}) {
+                    do {
+                      print("🎛️ PresetManager: Applying next custom preset '\(nextCustomPreset.name)'")
+                      try applyPreset(nextCustomPreset)
+                    } catch {
+                            handleError(error)
+                    }
+                } else {
+                    // If no other custom presets exist, copy the deleted preset's state to the default preset
+                   if let defaultPresetIndex = presets.firstIndex(where: {$0.isDefault}) {
+                        // Copy current state
+                      var updatedDefaultPreset = presets[defaultPresetIndex]
+                         updatedDefaultPreset.soundStates = preset.soundStates
+                       presets[defaultPresetIndex] = updatedDefaultPreset
+                     currentPreset = nil // Set current preset to nil
+                        
+                        do {
+                           print("🎛️ PresetManager: No other custom presets. Updating default and setting current preset to nil.")
+                            try applyPreset(updatedDefaultPreset)
+                        } catch {
+                            handleError(error)
+                        }
+                        
+                   } else {
+                     print("🎛️ PresetManager: No default or custom presets to switch too after deletion")
+                   }
+                  }
             }
-        }
         
         savePresets() // Remove try
         print("🎛️ PresetManager: --- End Delete Preset ---\n")
@@ -136,11 +162,11 @@ class PresetManager: ObservableObject {
         if isInitializing { return }
 
         guard let preset = currentPreset else {
-            // Only log this once, not repeatedly
-            if !isInitializing {
-                print("❌ PresetManager: No current preset to update")
+           // Only log this once, not repeatedly
+           if !isInitializing {
+             print("❌ PresetManager: No current preset to update")
             }
-            return
+           return
         }
 
         // Get current state

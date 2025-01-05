@@ -21,6 +21,13 @@ struct NewPresetSheet: View {
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 200)
             
+             .onSubmit { // Handle enter key here
+                 if !presetName.isEmpty {
+                   presetManager.saveNewPreset(name: presetName)
+                     isPresented = false
+                 }
+            }
+
             HStack(spacing: 16) {
                 Button("Cancel") {
                     isPresented = false
@@ -45,7 +52,7 @@ struct NewPresetSheet: View {
 struct EditPresetSheet: View {
     let preset: Preset
     @Binding var presetName: String
-    @Binding var isPresented: Bool
+      @Binding var isPresented: Preset?
     @ObservedObject private var presetManager = PresetManager.shared
     @State private var error: String?
     
@@ -54,41 +61,49 @@ struct EditPresetSheet: View {
             Text("Edit Preset")
                 .font(.headline)
             
-            if preset.isDefault {
-                Text("The default preset cannot be renamed")
-                    .foregroundStyle(.secondary)
+             if preset.isDefault {
+                 Text("The default preset cannot be renamed")
+                      .foregroundStyle(.secondary)
                     .font(.caption)
-            } else {
+              } else {
                 TextField("Preset Name", text: $presetName)
                     .textFieldStyle(.roundedBorder)
-                    .frame(width: 200)
+                   .frame(width: 200)
+                  .onSubmit { // Handle enter key here
+                      if !presetName.isEmpty {
+                          presetManager.updatePreset(preset, newName: presetName)
+                        isPresented = nil
+                       } else {
+                         error = "Preset name cannot be empty"
+                       }
+                   }
                 
                 if let error = error {
-                    Text(error)
-                        .foregroundStyle(.red)
+                     Text(error)
+                         .foregroundStyle(.red)
                         .font(.caption)
-                }
-                
-                HStack(spacing: 16) {
+                  }
+            
+                 HStack(spacing: 16) {
                     Button("Cancel") {
-                        isPresented = false
+                        isPresented = nil
                     }
-                    
+                   
                     Button("Save") {
-                        if !presetName.isEmpty {
+                         if !presetName.isEmpty {
                             presetManager.updatePreset(preset, newName: presetName)
-                            isPresented = false
-                        } else {
+                              isPresented = nil
+                          } else {
                             error = "Preset name cannot be empty"
                         }
                     }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(presetName.isEmpty)
-                }
+                     .buttonStyle(.borderedProminent)
+                     .disabled(presetName.isEmpty)
+               }
             }
         }
         .padding()
         .frame(width: 300)
-        .fixedSize()
+       .fixedSize()
     }
 }

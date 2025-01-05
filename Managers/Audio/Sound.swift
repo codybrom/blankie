@@ -11,6 +11,7 @@ import Combine
 
 /// Represents a single sound with its associated properties and playback controls.
 class Sound: ObservableObject, Identifiable {
+
     let id = UUID()
     let title: String
     let systemIconName: String
@@ -21,7 +22,7 @@ class Sound: ObservableObject, Identifiable {
             UserDefaults.standard.set(isSelected, forKey: "\(fileName)_isSelected")
         }
     }
-    
+
     @Published var volume: Float = 1.0 {
         didSet {
             guard volume >= 0 && volume <= 1 else {
@@ -36,6 +37,7 @@ class Sound: ObservableObject, Identifiable {
             UserDefaults.standard.set(volume, forKey: "\(fileName)_volume")
         }
     }
+
 
     var player: AVAudioPlayer?
     private let fileExtension = "mp3"
@@ -76,7 +78,18 @@ class Sound: ObservableObject, Identifiable {
     private func updateVolume() {
         let scaledVol = scaledVolume(volume)
         let effectiveVolume = scaledVol * Float(GlobalSettings.shared.volume)
-        player?.volume = effectiveVolume
+        
+        // Only log if volume actually changed
+        if player?.volume != effectiveVolume {
+            player?.volume = effectiveVolume
+            print("🔊 Sound: Updated '\(fileName)' volume to \(effectiveVolume)")
+        }
+    }
+
+    private func updatePresetState() {
+        Task { @MainActor in
+            PresetManager.shared.updateCurrentPresetState()
+        }
     }
 
     private var loadedPlayer: AVAudioPlayer? {
@@ -104,25 +117,33 @@ class Sound: ObservableObject, Identifiable {
     }
 
     func play(completion: ((Result<Void, AudioError>) -> Void)? = nil) {
-        updateVolume()  // Set correct volume before playing
+        print("🔊 Sound: Attempting to play '\(fileName)'")
+        updateVolume()
         guard let player = player else {
+            print("❌ Sound: Player not available for '\(fileName)'")
             completion?(.failure(.fileNotFound))
             return
         }
         
+        print("🔊 Sound: Playing '\(fileName)' with volume \(volume)")
         player.play()
         completion?(.success(()))
     }
     
     func pause(immediate: Bool = false) {
+        print("🔊 Sound: Pausing '\(fileName)' (immediate: \(immediate))")
         if immediate {
             player?.pause()
             player?.volume = 0
+            isSelected = false  // Add this line
+            print("🔊 Sound: Immediate pause complete for '\(fileName)'")
         } else {
             fadeOut()
+            isSelected = false  // Add this line
+            print("🔊 Sound: Fade out initiated for '\(fileName)'")
         }
     }
-
+    
     private func fadeIn() {
         fadeTimer?.invalidate()
         fadeStartVolume = 0

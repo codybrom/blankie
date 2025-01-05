@@ -5,94 +5,88 @@
 //  Created by Cody Bromley on 12/30/24.
 //
 
-
 import SwiftUI
 import AVFoundation
 import Combine
 import MediaPlayer
 
-// First, declare the Error types and ErrorReporter at the top
-enum AudioError: Error, LocalizedError {
-    case fileNotFound
-    case loadFailed(Error)
-    case playbackFailed(Error)
-    case invalidVolume
-    case systemAudioError(String)
-    
-    var errorDescription: String? {
-        switch self {
-        case .fileNotFound:
-            return "Audio file could not be found"
-        case .loadFailed(let error):
-            return "Failed to load audio: \(error.localizedDescription)"
-        case .playbackFailed(let error):
-            return "Playback failed: \(error.localizedDescription)"
-        case .invalidVolume:
-            return "Invalid volume level specified"
-        case .systemAudioError(let message):
-            return "System audio error: \(message)"
-        }
-    }
-}
-
-class ErrorReporter: ObservableObject {
-    static let shared = ErrorReporter()
-    @Published var lastError: Error?
-    
-    func report(_ error: Error) {
-        DispatchQueue.main.async {
-            self.lastError = error
-            #if DEBUG
-            print("Error reported: \(error.localizedDescription)")
-            #endif
-        }
-    }
-}
-
-// AudioManager class
 class AudioManager: ObservableObject {
+    private var cancellables = Set<AnyCancellable>()
+
     static let shared = AudioManager()
     var onReset: (() -> Void)?
     
     @Published var sounds: [Sound] = []
-    @Published var isGloballyPlaying: Bool = false {
-        didSet {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                UserDefaults.standard.set(self.isGloballyPlaying, forKey: "isGloballyPlaying")
-                
-                if self.isGloballyPlaying {
-                    self.playSelected()
-                } else {
-                    self.pauseAll()
-                }
-            }
-        }
-    }
+    @Published private(set) var isGloballyPlaying: Bool = false
     
     private let commandCenter = MPRemoteCommandCenter.shared()
     private var nowPlayingInfo: [String: Any] = [:]
+    private var isInitializing = true
 
     private init() {
+        print("🎵 AudioManager: Initializing")
         loadSounds()
         loadSavedState()
         setupMediaControls()
         setupNowPlaying()
         setupNotificationObservers()
+        setupSoundObservers()
         
-        // Handle autoplay behavior
-        if !GlobalSettings.shared.alwaysStartPaused {
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+        // Handle autoplay behavior after a slight delay to ensure proper initialization
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.isInitializing = false
+            
+            if !GlobalSettings.shared.alwaysStartPaused {
                 let hasSelectedSounds = self.sounds.contains { $0.isSelected }
-                self.isGloballyPlaying = hasSelectedSounds
                 if hasSelectedSounds {
-                    self.updateNowPlayingInfo()
+                    self.setPlaybackState(true)
                 }
             }
         }
     }
+    
+    private func setupSoundObservers() {
+        // Clear any existing observers
+        cancellables.removeAll()
+        
+        // Set up new observers for each sound
+        for sound in sounds {
+            sound.objectWillChange
+                .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+                .sink { [weak self] _ in
+                    guard self != nil else { return }
+                    Task { @MainActor in
+                        PresetManager.shared.updateCurrentPresetState()
+                    }
+                }
+                .store(in: &cancellables)
+        }
+    }
 
+
+    func setPlaybackState(_ playing: Bool) {
+        guard !isInitializing else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            // Only update if the state is actually changing
+            if self.isGloballyPlaying != playing {
+                print("🎵 AudioManager: Setting playback state to \(playing)")
+                self.isGloballyPlaying = playing
+                
+                if playing {
+                    self.playSelected()
+                } else {
+                    self.pauseAll()
+                }
+                
+                self.updateNowPlayingInfo()
+            }
+        }
+    }
+    
     private func loadSounds() {
         sounds = [
             Sound(title: "Rain",         systemIconName: "cloud.rain",         fileName: "rain"),
@@ -136,13 +130,12 @@ class AudioManager: ObservableObject {
     }
     
     private func playSelected() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            for sound in self.sounds where sound.isSelected {
-                sound.play()
-            }
-            self.updateNowPlayingInfo()
+        print("🎵 AudioManager: Playing selected sounds")
+        for sound in sounds where sound.isSelected {
+            print("  - Playing '\(sound.fileName)'")
+            sound.play()
         }
+        updateNowPlayingInfo()
     }
 
     private func loadSavedState() {
@@ -228,12 +221,18 @@ class AudioManager: ObservableObject {
     }
     
     func pauseAll() {
-        for sound in sounds {
-            sound.pause()
+        print("🎵 AudioManager: Pausing all sounds")
+        print("  - Current playing state: \(isGloballyPlaying)")
+        
+        sounds.forEach { sound in
+            if sound.isSelected {  // Changed from isPlaying
+                print("  - Pausing '\(sound.fileName)'")
+                sound.pause()
+            }
         }
-        updateNowPlayingInfo() // Add this line
+        print("  - Pause all complete")
     }
-
+    
     func saveState() {
         let state = sounds.map { sound in
             [
@@ -249,22 +248,26 @@ class AudioManager: ObservableObject {
     
     /// Toggles the playback state of all selected sounds
     /// - Parameter completion: Optional completion handler
-    public func togglePlayback(completion: ((Result<Void, AudioError>) -> Void)? = nil) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.isGloballyPlaying.toggle()
-            self.updateNowPlayingInfo()
-            completion?(.success(()))
-        }
+    func togglePlayback(completion: ((Result<Void, AudioError>) -> Void)? = nil) {
+        print("🎵 AudioManager: Toggling playback")
+        print("  - Current state: \(isGloballyPlaying)")
+        
+        setPlaybackState(!isGloballyPlaying)
+        completion?(.success(()))
+        
+        print("  - New state: \(isGloballyPlaying)")
     }
 
     func resetSounds() {
+        print("🎵 AudioManager: Resetting all sounds")
+        
         // First pause all sounds immediately
         sounds.forEach { sound in
+            print("  - Stopping '\(sound.fileName)'")
             sound.pause(immediate: true)
         }
         
-        isGloballyPlaying = false
+        setPlaybackState(false)
         
         // Reset all sounds
         sounds.forEach { sound in
@@ -272,11 +275,30 @@ class AudioManager: ObservableObject {
             sound.isSelected = false
         }
         
-        // Reset global volume using the setter method
+        // Reset global volume
         GlobalSettings.shared.setVolume(1.0)
         
         // Call the reset callback
         onReset?()
+        
+        print("🎵 AudioManager: Reset complete")
+    }
+    
+    // Public method for changing playback state
+    @MainActor
+    public func setGlobalPlaybackState(_ playing: Bool) {
+        print("🎵 AudioManager: Setting playback state to \(playing)")
+        isGloballyPlaying = playing
+        
+        if playing {
+            print("🎵 AudioManager: Playing selected sounds")
+            sounds.filter { $0.isSelected }.forEach { sound in
+                print("  - Playing '\(sound.fileName)'")
+                sound.play()
+            }
+        } else {
+            pauseAll()
+        }
     }
 
     deinit {
@@ -284,34 +306,3 @@ class AudioManager: ObservableObject {
         cleanup()
     }
 }
-
-struct AudioErrorHandler: ViewModifier {
-    @ObservedObject private var errorReporter = ErrorReporter.shared
-    @State private var showingError = false
-    
-    func body(content: Content) -> some View {
-        content
-            .onChange(of: errorReporter.lastError != nil) { hasError in
-                showingError = hasError
-            }
-            .alert("Error", isPresented: $showingError) {
-                Button("OK") {
-                    errorReporter.lastError = nil
-                }
-            } message: {
-                if let error = errorReporter.lastError {
-                    Text(error.localizedDescription)
-                }
-            }
-    }
-}
-
-extension View {
-    func handleAudioErrors() -> some View {
-        self.modifier(AudioErrorHandler())
-    }
-}
-
-
-
-

@@ -45,6 +45,7 @@ class GlobalSettings: ObservableObject {
         // After initialization, setup observers and update appearance
         setupObservers()
         updateAppAppearance()
+        logCurrentSettings()
     }
 
     private func validateVolume(_ volume: Double) -> Double {
@@ -90,22 +91,36 @@ class GlobalSettings: ObservableObject {
     // Public methods to update values
     func setVolume(_ newVolume: Double) {
         volume = newVolume
+        logCurrentSettings()
     }
     
     func setAppearance(_ newAppearance: AppearanceMode) {
         DispatchQueue.main.async { [weak self] in
             self?.appearance = newAppearance
             self?.updateAppAppearance()
+            self?.logCurrentSettings()
         }
+        
     }
 
     func setAccentColor(_ newColor: Color?) {
         customAccentColor = newColor
+        logCurrentSettings()
     }
    
     func setAlwaysStartPaused(_ value: Bool) {
         alwaysStartPaused = value
+        logCurrentSettings()
     }
+    
+    func logCurrentSettings() {
+        print("\n⚙️ GlobalSettings: Current State")
+        print("  - Volume: \(volume)")
+        print("  - Appearance: \(appearance.rawValue)")
+        print("  - Custom Accent Color: \(customAccentColor?.toString ?? "System")")
+        print("  - Always Start Paused: \(alwaysStartPaused)")
+    }
+
 }
 
 

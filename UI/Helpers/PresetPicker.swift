@@ -10,83 +10,158 @@ import SwiftUI
 struct PresetPicker: View {
     @ObservedObject private var presetManager = PresetManager.shared
     @State private var showingPresetPopover = false
-    @State private var showingEditSheet = false
-    @State private var selectedPreset: Preset?
-    @State private var presetName = ""
+    @State private var showingNewPresetSheet = false
+    @State private var newPresetName = ""
+    @State private var error: Error?
     
     var body: some View {
-        if presetManager.hasCustomPresets {
+        HStack {
             Button {
                 showingPresetPopover.toggle()
             } label: {
                 HStack(spacing: 4) {
                     Text(presetManager.currentPreset?.name ?? "Default")
                         .fontWeight(.bold)
+                    
                     Image(systemName: "chevron.down")
                         .imageScale(.small)
                 }
             }
             .buttonStyle(.plain)
+            .disabled(presetManager.isLoading)
             .popover(isPresented: $showingPresetPopover, arrowEdge: .bottom) {
-            VStack(spacing: 0) {
-                // Default preset
-                Button(action: {
-                    presetManager.applyPreset(presetManager.presets[0])
-                    showingPresetPopover = false
-                }) {
-                    HStack {
-                        Text("Default")
-                        Spacer()
-                        if presetManager.currentPreset?.id == presetManager.presets[0].id {
-                            Image(systemName: "checkmark")
+                if presetManager.isLoading {
+                    PresetLoadingView()
+                } else {
+                    VStack(spacing: 0) {
+                        PresetList(presetManager: presetManager, isPresented: $showingPresetPopover)
+                            .frame(width: 200)
+                        
+                        Divider()
+                        
+                        Button(action: {
+                            showingPresetPopover = false
+                            showingNewPresetSheet = true
+                        }) {
+                            Label("New Preset", systemImage: "plus")
                         }
+                        .buttonStyle(.plain)
+                        .padding(8)
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .contentShape(Rectangle())
                 }
-                .buttonStyle(.plain)
+            }
+        }
+        .sheet(isPresented: $showingNewPresetSheet) {
+            NewPresetSheet(
+                presetName: $newPresetName,
+                isPresented: $showingNewPresetSheet
+            )
+        }
+    }
+}
+
+struct PresetList: View {
+    @ObservedObject var presetManager: PresetManager
+    @Binding var isPresented: Bool
+    @State private var error: Error?
+    
+    var body: some View {
+        VStack(spacing: 0) {
+            // Default preset
+            PresetRow(preset: presetManager.presets[0], isPresented: $isPresented)
+            
+            if presetManager.hasCustomPresets {
+                Divider()
                 
                 // Custom presets
                 ForEach(presetManager.presets.dropFirst()) { preset in
-                    Divider()
-                    HStack(spacing: 8) {
-                        Text(preset.name)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                presetManager.applyPreset(preset)
-                                showingPresetPopover = false
-                            }
-                        
-                        Button {
-                            selectedPreset = preset
-                            presetName = preset.name
-                            showingPresetPopover = false
-                            showingEditSheet = true
-                        } label: {
-                            Image(systemName: "pencil")
-                        }
-                        .buttonStyle(.plain)
-                        
-                        Button {
-                            presetManager.deletePreset(preset)
-                        } label: {
-                            Image(systemName: "trash")
-                        }
-                        .buttonStyle(.plain)
+                    PresetRow(preset: preset, isPresented: $isPresented)
+                    if preset.id != presetManager.presets.last?.id {
+                        Divider()
                     }
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
                 }
             }
-            .frame(width: 200)
-            .background(Color(NSColor.controlBackgroundColor))
         }
-            .sheet(isPresented: $showingEditSheet) {
-                if let preset = selectedPreset {
-                    EditPresetSheet(preset: preset, presetName: $presetName, isPresented: $showingEditSheet)
+        .background(Color(NSColor.controlBackgroundColor))
+        .alert("Error", isPresented: .constant(error != nil)) {
+            Button("OK") { error = nil }
+        } message: {
+            if let error = error {
+                Text(error.localizedDescription)
+            }
+        }
+    }
+}
+
+struct PresetRow: View {
+    let preset: Preset
+    @Binding var isPresented: Bool
+    @ObservedObject private var presetManager = PresetManager.shared
+    @State private var showingEditSheet = false
+    @State private var presetName: String = ""
+    @State private var error: Error?
+    
+    var body: some View {
+        HStack(spacing: 8) {
+            Button(action: {
+                do {
+                    try presetManager.applyPreset(preset)
+                    isPresented = false
+                } catch {
+                    self.error = error
                 }
+            }) {
+                HStack {
+                    Text(preset.name)
+                        .foregroundStyle(.primary)
+                    
+                    Spacer()
+                    
+                    if presetManager.currentPreset?.id == preset.id {
+                        Image(systemName: "checkmark")
+                            .foregroundStyle(.blue)
+                    }
+                }
+            }
+            .buttonStyle(.plain)
+            .frame(maxWidth: .infinity)
+            
+            // Only show edit and delete buttons for non-default presets
+            if !preset.isDefault {
+                Button(action: {
+                    presetName = preset.name
+                    showingEditSheet = true
+                }) {
+                    Image(systemName: "pencil")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Rename Preset")
+                
+                Button(action: {
+                    presetManager.deletePreset(preset)
+                }) {
+                    Image(systemName: "trash")
+                        .foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Delete Preset")
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .sheet(isPresented: $showingEditSheet) {
+            EditPresetSheet(
+                preset: preset,
+                presetName: $presetName,
+                isPresented: $showingEditSheet
+            )
+        }
+        .alert("Error", isPresented: .constant(error != nil)) {
+            Button("OK") { error = nil }
+        } message: {
+            if let error = error {
+                Text(error.localizedDescription)
             }
         }
     }

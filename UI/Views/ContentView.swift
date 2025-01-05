@@ -12,6 +12,7 @@ struct ContentView: View {
     @ObservedObject var audioManager = AudioManager.shared
     @ObservedObject var globalSettings = GlobalSettings.shared
     @ObservedObject private var appState = AppState.shared
+    @StateObject private var presetManager = PresetManager.shared
 
     @State private var showingVolumePopover = false
     @State private var showingColorPicker = false
@@ -168,7 +169,7 @@ struct ContentView: View {
         
         .ignoresSafeArea(.container, edges: .horizontal)
         .toolbar {
-            if !PresetManager.shared.presets.isEmpty {
+            if !presetManager.presets.isEmpty {
                 ToolbarItem(placement: .primaryAction) {
                     PresetPicker()
                 }

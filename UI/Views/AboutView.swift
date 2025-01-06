@@ -11,7 +11,7 @@ struct AboutView: View {
     @Environment(\.dismiss) private var dismiss
     private let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     private let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
-    
+
     var body: some View {
         VStack(spacing: 20) {
             // Fixed header
@@ -20,19 +20,18 @@ struct AboutView: View {
                     .resizable()
                     .frame(width: 128, height: 128)
             }
-            
+
             Text("Blankie")
                 .font(.system(size: 24, weight: .medium, design: .rounded))
-            
+
             Text("Version \(appVersion) (\(buildNumber))")
                 .font(.system(size: 12))
                 .foregroundStyle(.secondary)
-                       
-            
+
             inspirationSection
 
             developerSection
-            
+
             Text("© 2025 Cody Bromley")
                 .font(.caption)
 
@@ -41,9 +40,9 @@ struct AboutView: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         softwareLicenseSection
-                        
+
                         Divider()
-                        
+
                         soundCreditsSection
                         editingNoteSection
                     }
@@ -53,9 +52,9 @@ struct AboutView: View {
                 .frame(height: 200) // Added fixed height
             }
             .frame(width: 440)
-            
+
             reportIssueSection
-            
+
             // Close button
             Button("Close") {
                 dismiss()
@@ -70,7 +69,7 @@ struct AboutView: View {
         VStack(spacing: 4) {
             Text("Developed By")
                 .font(.system(size: 13, weight: .bold))
-            
+
             HStack(spacing: 2) {
                 Link("Cody Bromley", destination: URL(string: "https://github.com/codybrom")!)
             }
@@ -86,7 +85,7 @@ struct AboutView: View {
         }
         .frame(maxWidth: .infinity)
     }
-    
+
     private var reportIssueSection: some View {
         HStack(spacing: 2) {
             Link("Report an Issue", destination: URL(string: "https://github.com/codybrom/blankie/issues")!)
@@ -107,7 +106,7 @@ struct AboutView: View {
                 Text("Inspired by")
                     .font(.system(size: 12))
                     .italic()
-        
+
                 Link("Blanket", destination: URL(string: "https://github.com/rafaelmardojai/blanket")!)
                     .foregroundColor(.accentColor)
                     .onHover { inside in
@@ -122,12 +121,12 @@ struct AboutView: View {
             .font(.system(size: 12))
             .italic()
     }
-    
+
     private var soundCreditsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text("Sound Credits")
                 .font(.system(size: 13, weight: .bold))
-            
+
             VStack(alignment: .leading, spacing: 4) {
                 ForEach(soundCredits, id: \.name) { credit in
                     CreditRow(credit: credit)
@@ -138,7 +137,7 @@ struct AboutView: View {
 
     struct CreditRow: View {
         let credit: SoundCredit
-        
+
         var body: some View {
             HStack(alignment: .top, spacing: 0) {
                 Text("• ")
@@ -187,7 +186,6 @@ struct AboutView: View {
         }
     }
 
-    
     private var editingNoteSection: some View {
         Text("Note: Sound editing involved optimizing audio levels and characteristics according to established guidelines for ambient sound playback.")
             .font(.system(size: 11))
@@ -216,5 +214,3 @@ private var softwareLicenseSection: some View {
 #Preview {
     AboutView()
 }
-
-

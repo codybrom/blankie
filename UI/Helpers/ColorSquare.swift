@@ -11,7 +11,7 @@ struct ColorSquare: View {
     let color: AccentColor
     let isSelected: Bool
     @ObservedObject private var globalSettings = GlobalSettings.shared
-    
+
     var textColorForAccent: Color {
         if let nsColor = NSColor(color.color ?? .accentColor).usingColorSpace(.sRGB) {
             let brightness = (0.299 * nsColor.redComponent) +
@@ -21,7 +21,7 @@ struct ColorSquare: View {
         }
         return .white
     }
-    
+
     var body: some View {
         Button(action: {
             globalSettings.setAccentColor(color.color)

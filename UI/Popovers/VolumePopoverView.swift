@@ -10,7 +10,7 @@ import SwiftUI
 struct VolumePopoverView: View {
     @ObservedObject var audioManager = AudioManager.shared
     @ObservedObject var globalSettings = GlobalSettings.shared
-    
+
     var accentColor: Color {
         globalSettings.customAccentColor ?? .accentColor
     }
@@ -34,13 +34,13 @@ struct VolumePopoverView: View {
             // Only show middle divider if there are active sounds
             if audioManager.sounds.contains(where: \.isSelected) {
                 Divider()
-                
+
                 // Active sound sliders
                 ForEach(audioManager.sounds.filter(\.isSelected)) { sound in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(sound.title)
                             .font(.caption)
-                        
+
                         Slider(value: Binding(
                             get: { Double(sound.volume) },
                             set: { sound.volume = Float($0) }
@@ -50,9 +50,9 @@ struct VolumePopoverView: View {
                     }
                 }
             }
-            
+
             Divider()
-            
+
             // Reset button
             Button("Reset Sounds") {
                 audioManager.resetSounds()

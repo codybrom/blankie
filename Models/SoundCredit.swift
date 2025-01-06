@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 // Sound credit model
 struct SoundCredit {
     let name: String
@@ -15,7 +14,7 @@ struct SoundCredit {
     let license: License
     let editor: String?
     let soundUrl: URL?
-    
+
     var attributionText: String {
         let text = "\""
         return text
@@ -28,7 +27,7 @@ enum License {
     case ccBySa
     case ccBy3
     case publicDomain
-    
+
     var linkText: String {
         switch self {
         case .cc0: return "CC0"
@@ -38,7 +37,7 @@ enum License {
         case .publicDomain: return "Public Domain"
         }
     }
-    
+
     var url: URL? {
         switch self {
         case .cc0: return URL(string: "https://creativecommons.org/publicdomain/zero/1.0/")

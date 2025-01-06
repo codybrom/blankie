@@ -10,11 +10,11 @@ import SwiftUI
 struct PreferencesView: View {
     @ObservedObject private var globalSettings = GlobalSettings.shared
     private let colorsPerRow = 6
-    
+
     var accentColorForUI: Color {
         globalSettings.customAccentColor ?? .accentColor
     }
-    
+
     var textColorForAccent: Color {
         if let nsColor = NSColor(accentColorForUI).usingColorSpace(.sRGB) {
             let brightness = (0.299 * nsColor.redComponent) +
@@ -24,7 +24,7 @@ struct PreferencesView: View {
         }
         return .white
     }
-    
+
     var appearanceButtons: some View {
         HStack(spacing: 8) {
             ForEach(AppearanceMode.allCases, id: \.self) { mode in
@@ -45,7 +45,7 @@ struct PreferencesView: View {
             }
         }
     }
-    
+
     var colorButtons: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -60,12 +60,12 @@ struct PreferencesView: View {
                         .cornerRadius(6)
                 }
                 .buttonStyle(.plain)
-                
+
                 ForEach(Array(AccentColor.allCases.dropFirst().prefix(colorsPerRow - 1)), id: \.self) { color in
                     ColorSquare(color: color, isSelected: color.color == globalSettings.customAccentColor)
                 }
             }
-            
+
             HStack(spacing: 8) {
                 ForEach(Array(AccentColor.allCases.dropFirst().dropFirst(colorsPerRow - 1)), id: \.self) { color in
                     ColorSquare(color: color, isSelected: color.color == globalSettings.customAccentColor)
@@ -73,7 +73,7 @@ struct PreferencesView: View {
             }
         }
     }
-    
+
     var body: some View {
         Form {
             Section("Appearance") {
@@ -82,14 +82,14 @@ struct PreferencesView: View {
                         .frame(width: 100, alignment: .leading)
                     appearanceButtons
                 }
-                
+
                 HStack(alignment: .top, spacing: 16) {
                     Text("Accent Color")
                         .frame(width: 100, alignment: .leading)
                     colorButtons
                 }
             }
-            
+
             Section("Behavior") {
                 Toggle("Always Start Paused", isOn: Binding(
                     get: { globalSettings.alwaysStartPaused },

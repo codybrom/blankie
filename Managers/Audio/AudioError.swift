@@ -13,7 +13,7 @@ enum AudioError: Error, LocalizedError {
     case playbackFailed(Error)
     case invalidVolume
     case systemAudioError(String)
-    
+
     var errorDescription: String? {
         switch self {
         case .fileNotFound:

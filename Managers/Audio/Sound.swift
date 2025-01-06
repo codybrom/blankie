@@ -16,7 +16,7 @@ class Sound: ObservableObject, Identifiable {
     let title: String
     let systemIconName: String
     let fileName: String
-    
+
     @Published var isSelected = false {
         didSet {
             UserDefaults.standard.set(isSelected, forKey: "\(fileName)_isSelected")
@@ -30,14 +30,13 @@ class Sound: ObservableObject, Identifiable {
                 volume = oldValue
                 return
             }
-            
+
             if player?.isPlaying == true {
                 updateVolume()
             }
             UserDefaults.standard.set(volume, forKey: "\(fileName)_volume")
         }
     }
-
 
     var player: AVAudioPlayer?
     private let fileExtension = "mp3"
@@ -52,33 +51,33 @@ class Sound: ObservableObject, Identifiable {
         self.title = title
         self.systemIconName = systemIconName
         self.fileName = fileName
-        
+
         // Restore saved volume
         self.volume = UserDefaults.standard.float(forKey: "\(fileName)_volume")
         if self.volume == 0 {
             self.volume = 1.0
         }
-        
+
         // Restore selected state
         self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
-        
+
         // Observe global volume changes
         globalSettingsObserver = GlobalSettings.shared.$volume
             .sink { [weak self] _ in
                 self?.updateVolume()
             }
-        
+
         loadSound()
     }
 
     private func scaledVolume(_ linear: Float) -> Float {
         return pow(linear, 3)
     }
-    
+
     private func updateVolume() {
         let scaledVol = scaledVolume(volume)
         let effectiveVolume = scaledVol * Float(GlobalSettings.shared.volume)
-        
+
         // Only log if volume actually changed
         if player?.volume != effectiveVolume {
             player?.volume = effectiveVolume
@@ -98,13 +97,13 @@ class Sound: ObservableObject, Identifiable {
         }
         return player
     }
-    
+
     private func loadSound() {
         guard let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) else {
             ErrorReporter.shared.report(AudioError.fileNotFound)
             return
         }
-        
+
         do {
             player = try AVAudioPlayer(contentsOf: url)
             player?.volume = volume * Float(GlobalSettings.shared.volume)
@@ -124,12 +123,12 @@ class Sound: ObservableObject, Identifiable {
             completion?(.failure(.fileNotFound))
             return
         }
-        
+
         print("🔊 Sound: Playing '\(fileName)' with volume \(volume)")
         player.play()
         completion?(.success(()))
     }
-    
+
     func pause(immediate: Bool = false) {
         print("🔊 Sound: Pausing '\(fileName)' (immediate: \(immediate))")
         if immediate {
@@ -143,12 +142,12 @@ class Sound: ObservableObject, Identifiable {
             print("🔊 Sound: Fade out initiated for '\(fileName)'")
         }
     }
-    
+
     private func fadeIn() {
         fadeTimer?.invalidate()
         fadeStartVolume = 0
         targetVolume = volume * Float(GlobalSettings.shared.volume)
-        
+
         player?.volume = fadeStartVolume
 
         fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
@@ -156,7 +155,7 @@ class Sound: ObservableObject, Identifiable {
                 timer.invalidate()
                 return
             }
-            
+
             let newVolume = self.player?.volume ?? 0
             if newVolume < self.targetVolume {
                 self.player?.volume = min(newVolume + (self.targetVolume / 10), self.targetVolume)
@@ -165,17 +164,17 @@ class Sound: ObservableObject, Identifiable {
             }
         }
     }
-    
+
     private func fadeOut() {
         fadeTimer?.invalidate()
         fadeStartVolume = player?.volume ?? 0
-        
+
         fadeTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { [weak self] timer in
             guard let self = self else {
                 timer.invalidate()
                 return
             }
-            
+
             let newVolume = self.player?.volume ?? 0
             if newVolume > 0 {
                 self.player?.volume = max(newVolume - (self.fadeStartVolume / 10), 0)
@@ -185,11 +184,11 @@ class Sound: ObservableObject, Identifiable {
             }
         }
     }
-    
+
     func toggle() {
         let wasSelected = isSelected
         isSelected.toggle()
-        
+
         if isSelected && !wasSelected {  // Only when turning ON
             // If we selected a new sound and the app is paused, start playing
             if !AudioManager.shared.isGloballyPlaying {

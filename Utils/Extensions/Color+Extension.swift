@@ -21,7 +21,7 @@ enum AccentColor: CaseIterable {
     case blue
     case indigo
     case purple
-    
+
     var name: String {
         switch self {
         case .system: return "System"
@@ -39,7 +39,7 @@ enum AccentColor: CaseIterable {
         case .purple: return "Purple"
         }
     }
-    
+
     var color: Color? {
         switch self {
         case .system: return nil
@@ -63,7 +63,7 @@ enum AppearanceMode: String, CaseIterable {
     case system = "System"
     case light = "Light"
     case dark = "Dark"
-    
+
     var icon: String {
         switch self {
         case .system: return "circle.lefthalf.filled"
@@ -91,7 +91,7 @@ extension Color {
         default: return ""
         }
     }
-    
+
     init?(fromString string: String) {
         switch string {
         case "red": self = .red

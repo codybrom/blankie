@@ -11,7 +11,7 @@ struct PresetState: Codable, Equatable {
     let fileName: String
     let isSelected: Bool
     let volume: Float
-    
+
     static func == (lhs: PresetState, rhs: PresetState) -> Bool {
         lhs.fileName == rhs.fileName &&
         lhs.isSelected == rhs.isSelected &&

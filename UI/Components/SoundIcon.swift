@@ -12,7 +12,7 @@ struct SoundIcon: View {
     @ObservedObject var globalSettings = GlobalSettings.shared
     @ObservedObject var audioManager = AudioManager.shared
     let maxWidth: CGFloat
-    
+
     private struct Configuration {
         static let iconSize: CGFloat = 100
         static let sliderWidth: CGFloat = 85
@@ -28,14 +28,14 @@ struct SoundIcon: View {
     var accentColor: Color {
         globalSettings.customAccentColor ?? .accentColor
     }
-    
+
     var iconColor: Color {
         if !audioManager.isGloballyPlaying {
             return .gray
         }
         return sound.isSelected ? accentColor : .gray
     }
-    
+
     var backgroundFill: Color {
         if !audioManager.isGloballyPlaying {
             return sound.isSelected ? Color.gray.opacity(0.2) : .clear
@@ -52,7 +52,7 @@ struct SoundIcon: View {
                     Circle()
                         .fill(backgroundFill)
                         .frame(width: Configuration.iconSize, height: Configuration.iconSize)
-                    
+
                     Image(systemName: sound.systemIconName)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
@@ -69,7 +69,7 @@ struct SoundIcon: View {
                 .multilineTextAlignment(.center)
                 .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))
                 .foregroundColor(.primary)
-        
+
             Slider(value: Binding(
                 get: { Double(sound.volume) },
                 set: { sound.volume = Float($0) }

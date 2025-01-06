@@ -18,5 +18,8 @@
     "MD034": false,
     "MD041": false
   },
-  "cSpell.words": ["Blankie"]
+  "cSpell.words": ["Blankie"],
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "always"
+  }
 }

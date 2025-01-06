@@ -16,29 +16,29 @@ private enum UserDefaultsKeys {
 
 class GlobalSettings: ObservableObject {
     static let shared = GlobalSettings()
-    
+
     @Published private(set) var volume: Double
     @Published private(set) var appearance: AppearanceMode
     @Published private(set) var customAccentColor: Color?
     @Published private(set) var alwaysStartPaused: Bool
 
     private var observers = Set<AnyCancellable>()
-    
+
     private init() {
         // Initialize properties directly
         let savedVolume = UserDefaults.standard.double(forKey: "globalVolume")
         volume = savedVolume == 0 ? 1.0 : savedVolume
-        
+
         appearance = UserDefaults.standard.string(forKey: "appearanceMode")
             .flatMap { AppearanceMode(rawValue: $0) } ?? .system
-        
+
         // Load saved accent color
         if let colorString = UserDefaults.standard.string(forKey: "customAccentColor") {
             customAccentColor = Color(fromString: colorString)
         } else {
             customAccentColor = nil
         }
-        
+
         // Default to true for alwaysStartPaused if not set
         alwaysStartPaused = UserDefaults.standard.object(forKey: "alwaysStartPaused") as? Bool ?? true
 
@@ -51,17 +51,17 @@ class GlobalSettings: ObservableObject {
     private func validateVolume(_ volume: Double) -> Double {
         min(max(volume, 0.0), 1.0)
     }
-    
+
     private func setupObservers() {
         _volume.projectedValue.sink { newValue in
             UserDefaults.standard.set(newValue, forKey: "globalVolume")
         }.store(in: &observers)
-        
+
         _appearance.projectedValue.sink { [weak self] newValue in
             UserDefaults.standard.setValue(newValue.rawValue, forKey: "appearanceMode")
             self?.updateAppAppearance()
         }.store(in: &observers)
-        
+
         _customAccentColor.projectedValue.sink { newColor in
             if let color = newColor {
                 UserDefaults.standard.set(color.toString, forKey: "customAccentColor")
@@ -69,7 +69,7 @@ class GlobalSettings: ObservableObject {
                 UserDefaults.standard.removeObject(forKey: "customAccentColor")
             }
         }.store(in: &observers)
-      
+
         _alwaysStartPaused.projectedValue.sink { newValue in
             UserDefaults.standard.set(newValue, forKey: "alwaysStartPaused")
         }.store(in: &observers)
@@ -93,26 +93,26 @@ class GlobalSettings: ObservableObject {
         volume = newVolume
         logCurrentSettings()
     }
-    
+
     func setAppearance(_ newAppearance: AppearanceMode) {
         DispatchQueue.main.async { [weak self] in
             self?.appearance = newAppearance
             self?.updateAppAppearance()
             self?.logCurrentSettings()
         }
-        
+
     }
 
     func setAccentColor(_ newColor: Color?) {
         customAccentColor = newColor
         logCurrentSettings()
     }
-   
+
     func setAlwaysStartPaused(_ value: Bool) {
         alwaysStartPaused = value
         logCurrentSettings()
     }
-    
+
     func logCurrentSettings() {
         print("\n⚙️ GlobalSettings: Current State")
         print("  - Volume: \(volume)")
@@ -122,5 +122,3 @@ class GlobalSettings: ObservableObject {
     }
 
 }
-
-

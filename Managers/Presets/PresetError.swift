@@ -5,7 +5,6 @@
 //  Created by Cody Bromley on 1/5/25.
 //
 
-
 //
 //  PresetError.swift
 //  Blankie
@@ -20,7 +19,7 @@ enum PresetError: LocalizedError {
     case saveFailed
     case loadFailed
     case defaultPresetMissing
-    
+
     var errorDescription: String? {
         switch self {
         case .invalidPreset:

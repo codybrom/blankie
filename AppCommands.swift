@@ -5,20 +5,19 @@
 //  Created by Cody Bromley on 1/1/25.
 //
 
-
 import SwiftUI
 
 struct AppCommands: Commands {
     @Binding var showingAbout: Bool
     @Binding var hasWindow: Bool
-    
+
     var body: some Commands {
         CommandGroup(replacing: .appInfo) {
             Button("About Blankie") {
                 showingAbout = true
             }
         }
-        
+
         CommandGroup(replacing: .newItem) {
             Button("New Window") {
                 if !hasWindow {

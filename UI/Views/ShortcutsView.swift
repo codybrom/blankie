@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ShortcutsView: View {
     @Environment(\.dismiss) private var dismiss
-    
+
     let shortcuts: [(String, String)] = [
         ("⏯", "Play/Pause Sounds"),
 //        ("⌘ O", "Add Custom Sound"),
@@ -18,16 +18,16 @@ struct ShortcutsView: View {
         ("⌘ ⇧ ?", "Keyboard Shortcuts"),
         ("⌘ Q", "Quit")
     ]
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             // Header with close button
             HStack {
                 Text("Keyboard Shortcuts")
                     .font(.headline)
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     dismiss()
                 }) {
@@ -38,16 +38,16 @@ struct ShortcutsView: View {
                 .buttonStyle(.plain)
             }
             .padding(.bottom, 8)
-            
+
             // Shortcuts list
             VStack(spacing: 12) {
                 ForEach(shortcuts, id: \.0) { shortcut in
                     HStack {
                         Text(shortcut.1)
                             .foregroundColor(.primary)
-                        
+
                         Spacer()
-                        
+
                         Text(shortcut.0)
                             .foregroundColor(.secondary)
                             .font(.system(.body, design: .rounded))

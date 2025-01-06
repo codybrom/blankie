@@ -9,11 +9,11 @@ import Foundation
 
 struct PresetStorage {
     private static let defaults = UserDefaults.standard
-    
+
     static let defaultPresetKey = "defaultPreset"
     static let customPresetsKey = "savedPresets"
     static let lastActivePresetIDKey = "lastActivePresetID"
-    
+
     static func saveDefaultPreset(_ preset: Preset) {
         print("💾 PresetStorage: Saving default preset")
         if let data = try? JSONEncoder().encode(preset) {
@@ -23,7 +23,7 @@ struct PresetStorage {
             print("❌ PresetStorage: Failed to save default preset")
         }
     }
-    
+
     static func loadDefaultPreset() -> Preset? {
         print("💾 PresetStorage: Loading default preset")
         guard let data = defaults.data(forKey: defaultPresetKey),
@@ -34,7 +34,7 @@ struct PresetStorage {
         print("💾 PresetStorage: Default preset loaded successfully")
         return preset
     }
-    
+
     static func saveCustomPresets(_ presets: [Preset]) {
         print("💾 PresetStorage: Saving \(presets.count) custom presets")
         if let data = try? JSONEncoder().encode(presets) {
@@ -53,7 +53,7 @@ struct PresetStorage {
             print("💾 PresetStorage: Custom presets saved successfully")
         }
     }
-    
+
     static func loadCustomPresets() -> [Preset] {
         print("💾 PresetStorage: Loading custom presets")
         if let data = UserDefaults.standard.data(forKey: customPresetsKey),
@@ -74,12 +74,12 @@ struct PresetStorage {
         print("💾 PresetStorage: No custom presets found")
         return []
     }
-    
+
     static func saveLastActivePresetID(_ id: UUID) {
         print("💾 PresetStorage: Saving last active preset ID: \(id)")
         defaults.set(id.uuidString, forKey: lastActivePresetIDKey)
     }
-    
+
     static func loadLastActivePresetID() -> UUID? {
         print("💾 PresetStorage: Loading last active preset ID")
         guard let idString = defaults.string(forKey: lastActivePresetIDKey),

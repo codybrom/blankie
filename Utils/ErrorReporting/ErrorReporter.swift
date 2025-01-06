@@ -10,7 +10,7 @@ import SwiftUI
 class ErrorReporter: ObservableObject {
     static let shared = ErrorReporter()
     @Published var lastError: Error?
-    
+
     func report(_ error: Error) {
         DispatchQueue.main.async {
             self.lastError = error

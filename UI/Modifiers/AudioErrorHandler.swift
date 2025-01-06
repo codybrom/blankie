@@ -10,7 +10,7 @@ import SwiftUI
 struct AudioErrorHandler: ViewModifier {
     @ObservedObject private var errorReporter = ErrorReporter.shared
     @State private var showingError = false
-    
+
     func body(content: Content) -> some View {
         content
             .onChange(of: errorReporter.lastError != nil) { hasError in

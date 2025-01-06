@@ -24,7 +24,7 @@ struct NewPresetSheet: View {
         .onSubmit {
           if !presetName.isEmpty {
             Task {
-              await presetManager.saveNewPreset(name: presetName)
+              presetManager.saveNewPreset(name: presetName)
               isPresented = false
             }
           }
@@ -38,7 +38,7 @@ struct NewPresetSheet: View {
         Button("Save") {
           if !presetName.isEmpty {
             Task {
-              await presetManager.saveNewPreset(name: presetName)
+              presetManager.saveNewPreset(name: presetName)
               isPresented = false
             }
           }
@@ -76,7 +76,7 @@ struct EditPresetSheet: View {
           .onSubmit {
             if !presetName.isEmpty {
               Task {
-                await presetManager.updatePreset(preset, newName: presetName)
+                presetManager.updatePreset(preset, newName: presetName)
                 isPresented = nil
               }
             } else {
@@ -98,7 +98,7 @@ struct EditPresetSheet: View {
           Button("Save") {
             if !presetName.isEmpty {
               Task {
-                await presetManager.updatePreset(preset, newName: presetName)
+                presetManager.updatePreset(preset, newName: presetName)
                 isPresented = nil
               }
             } else {

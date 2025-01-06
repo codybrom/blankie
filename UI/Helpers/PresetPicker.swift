@@ -92,7 +92,7 @@ struct PresetPicker: View {
     }
 
     for index in 0..<presetManager.currentPreset!.soundStates.count {
-      let presetState = presetManager.currentPreset!.soundStates[i]
+      let presetState = presetManager.currentPreset!.soundStates[index]
       let audioManagerSound = AudioManager.shared.sounds.first {
         $0.fileName == presetState.fileName
       }

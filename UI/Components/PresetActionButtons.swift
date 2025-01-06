@@ -25,7 +25,7 @@ struct PresetActionButtons: View {
           Button("Cancel", role: .cancel) {}
           Button("Delete", role: .destructive) {
             Task {
-              await presetManager.deletePreset(preset)
+              presetManager.deletePreset(preset)
             }
           }
         } message: {

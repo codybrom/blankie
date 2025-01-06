@@ -92,21 +92,26 @@ extension Color {
         }
     }
 
+    private static let colorMap: [String: Color] = [
+        "red": .red,
+        "pink": .pink,
+        "orange": .orange,
+        "brown": .brown,
+        "yellow": .yellow,
+        "green": .green,
+        "mint": .mint,
+        "teal": .teal,
+        "cyan": .cyan,
+        "blue": .blue,
+        "indigo": .indigo,
+        "purple": .purple
+    ]
+
     init?(fromString string: String) {
-        switch string {
-        case "red": self = .red
-        case "pink": self = .pink
-        case "orange": self = .orange
-        case "brown": self = .brown
-        case "yellow": self = .yellow
-        case "green": self = .green
-        case "mint": self = .mint
-        case "teal": self = .teal
-        case "cyan": self = .cyan
-        case "blue": self = .blue
-        case "indigo": self = .indigo
-        case "purple": self = .purple
-        default: return nil
+        if let color = Self.colorMap[string] {
+            self = color
+        } else {
+            return nil
         }
     }
 }

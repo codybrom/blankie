@@ -26,16 +26,8 @@ struct PresetPicker: View {
               ? (presetManager.currentPreset?.name ?? "Default") : "Presets"
           )
           .fontWeight(.bold)
-          if presetManager.currentPreset != nil && presetManager.hasCustomPresets
-            && checkIfPresetHasChanged()
-          {
-            Image(systemName: "exclamationmark.triangle.fill")
-              .imageScale(.small)
-              .foregroundColor(.yellow)
-          } else {
-            Image(systemName: "chevron.down")
-              .imageScale(.small)
-          }
+          Image(systemName: "chevron.down")
+            .imageScale(.small)
         }
       }
       .buttonStyle(.plain)
@@ -80,31 +72,7 @@ struct PresetPicker: View {
     }
   }
 
-  //Helper function to help display yellow triangle when Preset has been modified
-  private func checkIfPresetHasChanged() -> Bool {
-
-    if presetManager.currentPreset == nil || presetManager.currentPreset?.isDefault == true {
-      return false
-    }
-
-    if presetManager.currentPreset?.soundStates.count != AudioManager.shared.sounds.count {
-      return true
-    }
-
-    for index in 0..<presetManager.currentPreset!.soundStates.count {
-      let presetState = presetManager.currentPreset!.soundStates[index]
-      let audioManagerSound = AudioManager.shared.sounds.first {
-        $0.fileName == presetState.fileName
-      }
-      if (audioManagerSound?.isSelected != presetState.isSelected)
-        || (audioManagerSound?.volume != presetState.volume)
-      {
-        return true
-      }
-    }
-
-    return false
-  }
+  // Removed the helper function completely
 }
 
 private struct PresetList: View {
@@ -142,7 +110,6 @@ private struct PresetList: View {
     }
   }
 }
-
 private struct PresetRow: View {
   let preset: Preset
   @Binding var isPresented: Bool
@@ -187,7 +154,6 @@ private struct PresetRow: View {
         }
         .buttonStyle(.plain)
         .help("Rename Preset")
-
         Button(action: {
           presetManager.deletePreset(preset)
         }) {

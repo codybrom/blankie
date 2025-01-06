@@ -76,7 +76,8 @@ let soundCredits: [SoundCredit] = [
     SoundCredit(name: "Waves", author: "Luftrum", license: .ccBy, editor: "Porrumentzio",
                 soundUrl: URL(string: "https://freesound.org/people/Luftrum/sounds/48412/")),
     SoundCredit(name: "White noise", author: "Jorge Stolfi", license: .ccBySa, editor: nil,
-                soundUrl: URL(string: "https://commons.wikimedia.org/w/index.php?title=File%3AWhite-noise-sound-20sec-mono-44100Hz.ogg")),
+                soundUrl: URL(string:
+                "https://commons.wikimedia.org/w/index.php?title=File%3AWhite-noise-sound-20sec-mono-44100Hz.ogg")),
     SoundCredit(name: "Wind", author: "felix.blume", license: .cc0, editor: "Porrumentzio",
                 soundUrl: URL(string: "https://freesound.org/people/felix.blume/sounds/217506/"))
 ]

@@ -43,7 +43,25 @@
 		F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowObserver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F90B44812D2AF01A0073B78E /* Exceptions for "Utils" folder in "Blankie" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Extensions/View+ErrorHandling.swift",
+			);
+			target = F913505E2D233A43003C85BE /* Blankie */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		F90B44762D2AEFD00073B78E /* Utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F90B44812D2AF01A0073B78E /* Exceptions for "Utils" folder in "Blankie" target */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		F97369002D27A6F8006AF32C /* Models */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Models;
@@ -62,11 +80,6 @@
 		F97369082D27A767006AF32C /* Resources */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		F97369262D27A78D006AF32C /* Extensions */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -106,8 +119,8 @@
 				F97369002D27A6F8006AF32C /* Models */,
 				F97369012D27A709006AF32C /* Managers */,
 				F97369022D27A71F006AF32C /* UI */,
+				F90B44762D2AEFD00073B78E /* Utils */,
 				F97369082D27A767006AF32C /* Resources */,
-				F97369262D27A78D006AF32C /* Extensions */,
 				F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */,
 				F93A3B0E2D26E93600EFC1C9 /* AppState.swift */,
 				F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */,
@@ -147,11 +160,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				F90B44762D2AEFD00073B78E /* Utils */,
 				F97369002D27A6F8006AF32C /* Models */,
 				F97369012D27A709006AF32C /* Managers */,
 				F97369022D27A71F006AF32C /* UI */,
 				F97369082D27A767006AF32C /* Resources */,
-				F97369262D27A78D006AF32C /* Extensions */,
 			);
 			name = Blankie;
 			packageProductDependencies = (
@@ -233,6 +246,8 @@
 			);
 			mainGroup = F91350562D233A43003C85BE;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F91350602D233A43003C85BE /* Products */;
 			projectDirPath = "";

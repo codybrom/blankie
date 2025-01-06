@@ -23,10 +23,10 @@ struct NewPresetSheet: View {
 
         .onSubmit {
           if !presetName.isEmpty {
-             Task {
+            Task {
               await presetManager.saveNewPreset(name: presetName)
-               isPresented = false
-              }
+              isPresented = false
+            }
           }
         }
 
@@ -37,19 +37,19 @@ struct NewPresetSheet: View {
 
         Button("Save") {
           if !presetName.isEmpty {
-                Task {
-                  await presetManager.saveNewPreset(name: presetName)
-                    isPresented = false
-                    }
+            Task {
+              await presetManager.saveNewPreset(name: presetName)
+              isPresented = false
+            }
           }
         }
         .buttonStyle(.borderedProminent)
         .disabled(presetName.isEmpty)
       }
     }
-      .padding()
-      .frame(width: 300)
-      .fixedSize()
+    .padding()
+    .frame(width: 300)
+    .fixedSize()
   }
 }
 
@@ -73,20 +73,20 @@ struct EditPresetSheet: View {
         TextField("Preset Name", text: $presetName)
           .textFieldStyle(.roundedBorder)
           .frame(width: 200)
-            .onSubmit { // Handle enter key here
-                if !presetName.isEmpty {
-                  Task {
-                    await presetManager.updatePreset(preset, newName: presetName)
-                    isPresented = nil
-                  }
-                  } else {
-                  error = "Preset name cannot be empty"
-                }
-             }
+          .onSubmit {
+            if !presetName.isEmpty {
+              Task {
+                await presetManager.updatePreset(preset, newName: presetName)
+                isPresented = nil
+              }
+            } else {
+              error = "Preset name cannot be empty"
+            }
+          }
 
         if let error = error {
           Text(error)
-             .foregroundStyle(.red)
+            .foregroundStyle(.red)
             .font(.caption)
         }
 
@@ -96,22 +96,22 @@ struct EditPresetSheet: View {
           }
 
           Button("Save") {
-                if !presetName.isEmpty {
-                  Task {
-                      await presetManager.updatePreset(preset, newName: presetName)
-                       isPresented = nil
-                    }
-                  } else {
-                error = "Preset name cannot be empty"
+            if !presetName.isEmpty {
+              Task {
+                await presetManager.updatePreset(preset, newName: presetName)
+                isPresented = nil
               }
+            } else {
+              error = "Preset name cannot be empty"
+            }
           }
-            .buttonStyle(.borderedProminent)
-            .disabled(presetName.isEmpty)
+          .buttonStyle(.borderedProminent)
+          .disabled(presetName.isEmpty)
         }
       }
     }
-      .padding()
-      .frame(width: 300)
-      .fixedSize()
+    .padding()
+    .frame(width: 300)
+    .fixedSize()
   }
 }

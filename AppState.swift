@@ -8,9 +8,9 @@
 import SwiftUI
 
 class AppState: ObservableObject {
-    static let shared = AppState()
+  static let shared = AppState()
 
-    @Published var isAboutViewPresented = false
+  @Published var isAboutViewPresented = false
 
-    private init() {}
+  private init() {}
 }

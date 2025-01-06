@@ -8,7 +8,7 @@
 import SwiftUI
 
 extension View {
-    func handleAudioErrors() -> some View {
-        self.modifier(AudioErrorHandler())
-    }
+  func handleAudioErrors() -> some View {
+    self.modifier(AudioErrorHandler())
+  }
 }

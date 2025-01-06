@@ -8,24 +8,24 @@
 import SwiftUI
 
 enum AudioError: Error, LocalizedError {
-    case fileNotFound
-    case loadFailed(Error)
-    case playbackFailed(Error)
-    case invalidVolume
-    case systemAudioError(String)
+  case fileNotFound
+  case loadFailed(Error)
+  case playbackFailed(Error)
+  case invalidVolume
+  case systemAudioError(String)
 
-    var errorDescription: String? {
-        switch self {
-        case .fileNotFound:
-            return "Audio file could not be found"
-        case .loadFailed(let error):
-            return "Failed to load audio: \(error.localizedDescription)"
-        case .playbackFailed(let error):
-            return "Playback failed: \(error.localizedDescription)"
-        case .invalidVolume:
-            return "Invalid volume level specified"
-        case .systemAudioError(let message):
-            return "System audio error: \(message)"
-        }
+  var errorDescription: String? {
+    switch self {
+    case .fileNotFound:
+      return "Audio file could not be found"
+    case .loadFailed(let error):
+      return "Failed to load audio: \(error.localizedDescription)"
+    case .playbackFailed(let error):
+      return "Playback failed: \(error.localizedDescription)"
+    case .invalidVolume:
+      return "Invalid volume level specified"
+    case .systemAudioError(let message):
+      return "System audio error: \(message)"
     }
+  }
 }

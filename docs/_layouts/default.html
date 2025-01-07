@@ -226,32 +226,42 @@
     <footer
       class="bg-gray-100 dark:bg-gray-800 py-10 text-gray-500 dark:text-gray-400 text-center"
     >
-      <div class="flex justify-center gap-x-5 mb-5">
-        <p>
+      <div
+        class="flex flex-col sm:flex-row justify-center gap-x-5 gap-y-2 mb-5"
+      >
+        <p class="order-first sm:order-last">
+          Created by
+          <a
+            href="https://github.com/codybrom"
+            class="hover:text-primary-blue transition-colors duration-300 font-bold underline"
+            >Cody Bromley</a
+          >
+        </p>
+        <p class="hidden sm:inline">•</p>
+        <p class="order-last sm:order-first">
           Inspired by
           <a
             href="https://apps.gnome.org/Blanket/"
-            class="hover:text-primary-blue transition-colors duration-300"
+            class="hover:text-primary-blue transition-colors duration-300 font-bold underline"
             >Blanket</a
           >
           for Linux
         </p>
-        <p>
-          <a
-            href="https://github.com/codybrom"
-            class="hover:text-primary-blue transition-colors duration-300"
-            >Created by Cody Bromley</a
-          >
-        </p>
       </div>
-      <p>© 2025 Blankie. All rights reserved.</p>
-      <p>
-        Completely free and open source on
+      <p class="mb-4">
         <a
           href="https://github.com/codybrom/blankie"
-          class="hover:text-primary-blue transition-colors duration-300"
-          >Github</a
+          class="hover:text-primary-blue transition-colors duration-300 underline"
+          >Completely free and open source on Github</a
         >
+      </p>
+      <p>
+        © 2025 Cody Bromley. All rights reserved.
+        <a
+          class="hover:text-primary-blue transition-colors duration-300 underline"
+          href="https://opensource.org/license/mit"
+          >MIT License</a
+        >.
       </p>
     </footer>
     <script>

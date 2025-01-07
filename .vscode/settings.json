@@ -9,7 +9,10 @@
     "swift",
     "plist",
     "pbxproj",
-    "entitlements"
+    "entitlements",
+    "md",
+    "yml",
+    "html"
   ],
   "markdownlint.config": {
     "default": true,

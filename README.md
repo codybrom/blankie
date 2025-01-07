@@ -1,4 +1,4 @@
-<img src="brand/icon.png" alt="Blankie logo" width="128" height="128" align="left"/>
+<img src="docs/assets/icon.png" alt="Blankie logo" width="128" height="128" align="left"/>
 
 ### Blankie
 
@@ -9,7 +9,7 @@
 [![SwiftUI](https://img.shields.io/badge/Swift%20UI-0071e3.svg?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
 [![Xcode](https://img.shields.io/badge/XCode%2016-007ACC?logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)
 [![GitHub](https://img.shields.io/github/license/codybrom/blankie.svg)](https://github.com/codybrom/blankie/blob/master/LICENSE)
-![Screenshot](brand/screenshot.png)
+![Screenshot](docs/assets/screenshot.png)
 
 ## Description
 

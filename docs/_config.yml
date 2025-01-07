@@ -1,11 +1,26 @@
-# _config.yml — Just the Docs configuration
+# Site Settings
+title: Blankie
+description: >-
+  Ambient sound mixer for macOS
 
-title: "Blankie"
-description: "Documentation for Blankie"
-markdown: kramdown
-plugins:
-  - jekyll-remote-theme
+# Build settings
+permalink: pretty
 
-remote_theme: just-the-docs/just-the-docs
+# Collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
 
-logo: /brand/icon.png
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Exclude files from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor

@@ -51,7 +51,7 @@ Note: `Configuration.xcconfig` is ignored by git to keep your personal developme
 
 ## Sound Credits
 
-All sounds are used under various open licenses. Full attribution information about sounds licensing is visible in the About screen in the app.
+All sounds are used under various open licenses. Full attribution information about sounds licensing available at [Blankie.rest/credits](https://blankie.rest/credits) or on the About screen of the app.
 
 ## Credits
 

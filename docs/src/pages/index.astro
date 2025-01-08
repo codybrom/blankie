@@ -1,0 +1,139 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "Ambient sound mixer for macOS";
+---
+
+<Layout title={title}>
+  <!-- Hero Section -->
+  <section
+    class="relative overflow-hidden bg-black text-white min-h-screen flex items-center justify-center"
+  >
+    <div class="absolute top-0 left-0 right-0 bottom-0 bg-black/80 opacity-90">
+      <video
+        autoplay
+        loop
+        muted
+        playsinline
+        class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-40"
+      >
+        <source src="waves.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-16">
+      <h1
+        class="text-5xl md:text-6xl font-semibold leading-tight tracking-tighter my-6"
+      >
+        Ambient sounds&nbsp;for your&nbsp;flow&nbsp;state.
+      </h1>
+      <h2
+        class="text-2xl md:text-3xl font-normal leading-normal tracking-tight mb-6"
+      >
+        <div class="flex justify-center flex-row space-x-2">
+          <span class="hidden sm:inline">Focus better.</span>
+          <span class="hidden sm:inline">Work smarter.</span>
+          <span class="hidden sm:inline">Rest deeper.</span>
+
+          <span class="sm:hidden">Rest.</span>
+          <span class="sm:hidden">Focus.</span>
+          <span class="sm:hidden">Flow.</span>
+        </div>
+      </h2>
+      <img
+        src="screenshot.png"
+        alt="Screenshot of the Blankie app"
+        class="rounded-lg mx-auto max-w-full block transition duration-300 hover:scale-102"
+      />
+      <div
+        id="download"
+        class="flex flex-col items-center max-w-fit mx-auto gap-y-5 mt-4"
+      >
+        <a
+          href="https://testflight.apple.com/join/XgpBpWv8"
+          class="bg-blue-500 text-white py-3 px-8 rounded-full text-lg font-normal cursor-pointer no-underline hover:bg-blue-900 transition-all duration-300 flex items-center gap-x-2"
+        >
+          Join the TestFlight Public Beta</a
+        >
+        <a
+          href="https://github.com/codybrom/blankie/releases/latest"
+          class="text-gray-400 hover:text-gray-300 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
+        >
+          or download directly from GitHub
+        </a>
+      </div>
+      <p
+        class="text-lg mt-12 flex items-center justify-center gap-2 text-gray-300"
+      >
+        <span>Forever Free</span>
+        <span class="text-gray-500">•</span>
+        <span>100% Offline</span>
+        <span class="text-gray-500">•</span>
+        <span>Private</span>
+        <span class="text-gray-500">•</span>
+        <span>Open Source</span>
+      </p>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="max-w-5xl mx-auto px-5 py-10" id="features">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+      >
+        <div class="text-3xl mb-5">🔊</div>
+        <h3 class="text-xl font-semibold mb-2">Dulcet Tones</h3>
+        <p class="text-skin-muted text-base">
+          Built-in collection of high-quality ambient soundscapes.
+        </p>
+      </div>
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+      >
+        <div class="text-3xl mb-5">🎚️</div>
+        <h3 class="text-xl font-semibold mb-2">Mixed by You</h3>
+        <p class="text-skin-muted text-base">
+          Fine-tune with individual and global volume controls.
+        </p>
+      </div>
+
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+      >
+        <div class="text-3xl mb-5">💾</div>
+        <h3 class="text-xl font-semibold mb-2">Preset Perfection</h3>
+        <p class="text-skin-muted text-base">
+          Quick access to your favorite ambient blends.
+        </p>
+      </div>
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+      >
+        <div class="text-3xl mb-5"></div>
+        <h3 class="text-xl font-semibold mb-2">Made for macOS</h3>
+        <p class="text-skin-muted text-base">
+          <i class="font-semibold">It just works</i> with media keys, Control Center
+          & AirPod controls.
+        </p>
+      </div>
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+      >
+        <div class="text-3xl mb-5">♾️</div>
+        <h3 class="text-xl font-semibold mb-2">Open-Source & Free</h3>
+        <p class="text-skin-muted text-base">
+          No in-app purchases or subscriptions. Ever.
+        </p>
+      </div>
+      <div
+        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 coming-soon-card relative"
+      >
+        <div class="text-3xl mb-5">📁</div>
+        <h3 class="text-xl font-semibold mb-2">Custom Sounds</h3>
+        <p class="text-skin-muted text-base">
+          Soon, you'll be able to add your own sounds for a truly custom mix.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -31,28 +31,25 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          ruby-version: "3.3.0"
-          bundler-cache: true
-          working-directory: ./docs
+          node-version: 22
+          cache: "npm"
+          cache-dependency-path: "./docs/package-lock.json"
 
-      - name: Build with Jekyll
-        uses: actions/jekyll-build-pages@v1
-        with:
-          source: ./docs
-          destination: ./_site
-          verbose: true
-        env:
-          JEKYLL_ENV: production
-          VERBOSE: true
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./docs
+
+      - name: Build site
+        run: npm run build
+        working-directory: ./docs
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./docs/dist"
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,7 +57,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - name: Deploy to GitHub Pages
         id: deployment

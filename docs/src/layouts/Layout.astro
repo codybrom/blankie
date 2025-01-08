@@ -1,0 +1,63 @@
+---
+import { SEO } from "astro-seo";
+import Nav from "@/components/Nav.astro";
+import Footer from "@/components/Footer.astro";
+import "@/styles/global.scss";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+const siteUrl = "https://blankie.rest";
+const description = "Ambient sound mixer for macOS.";
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+
+    <SEO
+      title={`Blankie - ${title}`}
+      description={description}
+      openGraph={{
+        basic: {
+          title: `Blankie - ${title}`,
+          type: "website",
+          image: `${siteUrl}/social.png`,
+          url: `${siteUrl}${Astro.url.pathname}`,
+        },
+        image: {
+          alt: "Blankie Social Preview",
+          width: 1280,
+          height: 640,
+          type: "image/png",
+        },
+        optional: {
+          siteName: "Blankie",
+          locale: "en_US",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@blankie",
+        title: `Blankie - ${title}`,
+        description: description,
+        image: `${siteUrl}/social.png`,
+      }}
+    />
+  </head>
+  <body class="bg-skin-fill text-skin-base overflow-x-hidden">
+    <Nav />
+    <slot />
+    <Footer />
+  </body>
+</html>
+
+<script src="../scripts/nav.ts"></script>

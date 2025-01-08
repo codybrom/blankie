@@ -23,6 +23,38 @@
       href="/assets/favicon-48.png"
     />
     <title>Blankie - {{ page.title }}</title>
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Blankie - {{ page.title }}" />
+    <meta name="description" content="Ambient sound mixer for macOS." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://blankie.rest{{ page.url }}" />
+    <meta property="og:title" content="Blankie - {{ page.title }}" />
+    <meta property="og:description" content="Ambient sound mixer for macOS." />
+    <meta
+      property="og:image"
+      content="https://blankie.rest/assets/social.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:site_name" content="Blankie" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://blankie.rest{{ page.url }}" />
+    <meta property="twitter:title" content="Blankie - {{ page.title }}" />
+    <meta
+      property="twitter:description"
+      content="Ambient sound mixer for macOS."
+    />
+    <meta
+      property="twitter:image"
+      content="https://blankie.rest/assets/social.png"
+    />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {

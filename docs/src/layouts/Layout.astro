@@ -1,12 +1,16 @@
 ---
+import { SEO } from "astro-seo";
 import Nav from "@/components/Nav.astro";
 import Footer from "@/components/Footer.astro";
-
-const { title } = Astro.props;
+import "@/styles/global.scss";
 
 interface Props {
   title: string;
 }
+
+const { title } = Astro.props;
+const siteUrl = "https://blankie.rest";
+const description = "Ambient sound mixer for macOS.";
 ---
 
 <!doctype html>
@@ -14,132 +18,40 @@ interface Props {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/assets/favicon-16.png"
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="favicon-48.png" />
+
+    <SEO
+      title={`Blankie - ${title}`}
+      description={description}
+      openGraph={{
+        basic: {
+          title: `Blankie - ${title}`,
+          type: "website",
+          image: `${siteUrl}/social.png`,
+          url: `${siteUrl}${Astro.url.pathname}`,
+        },
+        image: {
+          alt: "Blankie Social Preview",
+          width: 1280,
+          height: 640,
+          type: "image/png",
+        },
+        optional: {
+          siteName: "Blankie",
+          locale: "en_US",
+        },
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@blankie",
+        title: `Blankie - ${title}`,
+        description: description,
+        image: `${siteUrl}/social.png`,
+      }}
     />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/assets/favicon-32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="48x48"
-      href="/assets/favicon-48.png"
-    />
-    <title>Blankie - {title}</title>
-    <!-- Primary Meta Tags -->
-    <meta name="title" content={`Blankie - ${title}`} />
-    <meta name="description" content="Ambient sound mixer for macOS." />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta
-      property="og:url"
-      content={`https://blankie.rest${Astro.url.pathname}`}
-    />
-    <meta property="og:title" content={`Blankie - ${title}`} />
-    <meta property="og:description" content="Ambient sound mixer for macOS." />
-    <meta
-      property="og:image"
-      content="https://blankie.rest/assets/social.png"
-    />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1280" />
-    <meta property="og:image:height" content="640" />
-    <meta property="og:site_name" content="Blankie" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta
-      property="twitter:url"
-      content={`https://blankie.rest${Astro.url.pathname}`}
-    />
-    <meta property="twitter:title" content={`Blankie - ${title}`} />
-    <meta
-      property="twitter:description"
-      content="Ambient sound mixer for macOS."
-    />
-    <meta
-      property="twitter:image"
-      content="https://blankie.rest/assets/social.png"
-    />
-
-    <style>
-      :root {
-        --color-text-base: #333333;
-        --color-text-muted: #555555;
-        --color-text-inverted: #ffffff;
-        --color-bg-fill: white;
-        --color-bg-card: rgba(255, 255, 255, 0.8);
-      }
-
-      .dark {
-        --color-text-base: #e0e0e0;
-        --color-text-muted: #a0a0a0;
-        --color-text-inverted: #333333;
-        --color-bg-fill: #0a0a0a;
-        --color-bg-card: rgba(255, 255, 255, 0.1);
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
-          "SF Pro Icons", "Helvetica Neue", Helvetica, Arial, sans-serif;
-        line-height: 1.47059;
-        font-weight: 400;
-        letter-spacing: -0.022em;
-      }
-
-      .coming-soon-card {
-        opacity: 0.6;
-        filter: grayscale(40%) saturate(60%);
-        pointer-events: none;
-      }
-
-      .coming-soon-card::before {
-        content: "Coming Soon";
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background-color: #2997ff;
-        color: white;
-        padding: 0.3rem 0.6rem;
-        font-size: 0.8rem;
-        border-radius: 0.3rem;
-        font-weight: bold;
-        pointer-events: none;
-        opacity: 1;
-      }
-
-      .open-source-badge {
-        position: absolute;
-        top: 0.75rem;
-        left: 0.75rem;
-        background-color: #22c55e;
-        padding: 0.25rem 0.5rem;
-        color: white;
-        border-radius: 0.25rem;
-        font-size: 0.75rem;
-        font-weight: bold;
-        pointer-events: none;
-      }
-    </style>
   </head>
   <body class="bg-skin-fill text-skin-base overflow-x-hidden">
     <Nav />
@@ -148,130 +60,4 @@ interface Props {
   </body>
 </html>
 
-<script>
-  // Handle both download and logo links
-  // Handle download links
-  document.querySelectorAll('a[href*="section=download"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (this: HTMLAnchorElement, e) {
-      const href = this.getAttribute("href");
-      const isIndexPage =
-        window.location.pathname === "/" ||
-        window.location.pathname.endsWith("index.html");
-
-      // Always prevent default if we're already on index page
-      if (isIndexPage) {
-        e.preventDefault();
-        const target = document.querySelector("#download");
-
-        if (target) {
-          const headerHeight = 80;
-          const additionalOffset = 200;
-          const totalOffset = headerHeight + additionalOffset;
-
-          const elementPosition = target.getBoundingClientRect().top;
-          const offsetPosition =
-            elementPosition + window.pageYOffset - totalOffset;
-
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-
-          // Update URL without reload
-          history.pushState(null, "", href);
-        }
-        return;
-      }
-    });
-  });
-
-  // Handle logo click
-  const logoLink = document.getElementById("logo-link");
-  if (logoLink) {
-    logoLink.addEventListener("click", function (e) {
-      const isIndexPage =
-        window.location.pathname === "/" ||
-        window.location.pathname.endsWith("index.html");
-      if (isIndexPage) {
-        e.preventDefault();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-        history.pushState(null, "", "/"); // Fixed null parameter
-      }
-      // If not on index page, let the normal navigation happen
-    });
-  }
-
-  // Handle initial load with query param
-  window.addEventListener("load", function () {
-    const params = new URLSearchParams(window.location.search);
-    const section = params.get("section");
-    if (section === "download") {
-      const target = document.querySelector("#download");
-      if (target) {
-        const headerHeight = 80;
-        const additionalOffset = 200;
-        const totalOffset = headerHeight + additionalOffset;
-        requestAnimationFrame(() => {
-          const elementPosition = target.getBoundingClientRect().top;
-          const offsetPosition =
-            elementPosition + window.pageYOffset - totalOffset;
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth",
-          });
-        });
-      }
-    }
-  });
-
-  // Mobile menu functionality
-  const mobileMenuButton = document.getElementById("mobile-menu-button");
-  const mobileMenu = document.getElementById("mobile-menu");
-
-  if (mobileMenuButton && mobileMenu) {
-    mobileMenuButton.addEventListener("click", () => {
-      // Toggle menu visibility
-      if (mobileMenu.classList.contains("hidden")) {
-        mobileMenu.classList.remove("hidden");
-        mobileMenu.classList.add("block");
-      } else {
-        mobileMenu.classList.add("hidden");
-        mobileMenu.classList.remove("block");
-      }
-    });
-  } // Close mobile menu when clicking outside
-  document.addEventListener("click", (e: MouseEvent) => {
-    const target = e.target as Node;
-    if (
-      mobileMenu &&
-      !mobileMenu.contains(target) &&
-      mobileMenuButton &&
-      !mobileMenuButton.contains(target)
-    ) {
-      mobileMenu.classList.add("hidden");
-      mobileMenu.classList.remove("block");
-    }
-  });
-
-  // Close mobile menu when window is resized to desktop size
-  window.addEventListener("resize", () => {
-    if (window.innerWidth >= 768 && mobileMenu) {
-      // 768px is the md breakpoint in Tailwind
-      mobileMenu.classList.add("hidden");
-      mobileMenu.classList.remove("block");
-    }
-  });
-
-  // Close mobile menu when clicking a link
-  if (mobileMenu) {
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-      link.addEventListener("click", () => {
-        mobileMenu.classList.add("hidden");
-        mobileMenu.classList.remove("block");
-      });
-    });
-  }
-</script>
+<script src="../scripts/nav.ts"></script>

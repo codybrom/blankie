@@ -1,0 +1,6 @@
+# Certain social media sites are whitelisted to allow crawlers to access page markup when links to /assets are shared. 
+User-agent: Twitterbot
+Allow: /assets
+
+User-agent: facebookexternalhit
+Allow: /assets

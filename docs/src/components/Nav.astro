@@ -1,0 +1,118 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<header
+  class="bg-black/80 backdrop-blur-md border-b border-white/10 fixed w-full top-0 z-50"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+    <!-- Main nav wrapper -->
+    <nav class="flex justify-between items-center">
+      <!-- Logo - left side -->
+      <a
+        href="/"
+        class="flex items-center gap-x-3 text-white no-underline"
+        id="logo-link"
+      >
+        <img src="/assets/icon.png" alt="Blankie" class="h-10 w-10" />
+        <span class="text-2xl font-semibold tracking-tight">Blankie</span>
+      </a>
+
+      <!-- Mobile menu button with hamburger icon -->
+      <button
+        id="mobile-menu-button"
+        class="md:hidden text-white hover:text-primary-blue transition-colors duration-200 p-2"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center gap-x-10">
+        <a
+          href="/usage"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/usage" },
+          ]}
+        >
+          How to Use
+        </a>
+        <a
+          href="/privacy"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/privacy" },
+          ]}
+        >
+          Privacy
+        </a>
+        <a
+          href="/credits"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/credits" },
+          ]}
+        >
+          Credits
+        </a>
+        <a
+          href="/?section=download"
+          class="bg-primary-blue text-white py-2 px-6 rounded-full text-sm font-normal transition-all duration-300 hover:bg-deep-blue no-underline"
+        >
+          Download
+        </a>
+      </div>
+    </nav>
+
+    <!-- Mobile Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden">
+      <div class="flex flex-col gap-y-4 pt-4 pb-6">
+        <a
+          href="/usage"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/usage" },
+          ]}
+        >
+          How to Use
+        </a>
+        <a
+          href="/privacy"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/privacy" },
+          ]}
+        >
+          Privacy
+        </a>
+        <a
+          href="/credits"
+          class:list={[
+            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
+            { "text-primary-blue": currentPath === "/credits" },
+          ]}
+        >
+          Credits
+        </a>
+        <a
+          href="/?section=download"
+          class="bg-primary-blue text-white py-2 px-6 rounded-full text-sm font-normal transition-all duration-300 hover:bg-deep-blue no-underline inline-block text-center"
+        >
+          Download
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

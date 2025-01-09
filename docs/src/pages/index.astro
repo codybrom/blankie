@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import screenshot from "../assets/screenshot.png";
 
 const title = "Ambient sound mixer for macOS";
 ---
@@ -39,10 +41,14 @@ const title = "Ambient sound mixer for macOS";
           <span class="sm:hidden">Flow.</span>
         </div>
       </h2>
-      <img
-        src="screenshot.png"
+      <Image
+        src={screenshot}
         alt="Screenshot of the Blankie app"
-        class="rounded-lg mx-auto max-w-full block transition duration-300 hover:scale-102"
+        width={730}
+        height={1017}
+        class="rounded-lg mx-auto max-w-full block transition duration-300 hover:scale-102 w-full md:w-[600px]"
+        quality={90}
+        style={{ aspectRatio: "730/1017" }}
       />
       <div
         id="download"
@@ -50,13 +56,13 @@ const title = "Ambient sound mixer for macOS";
       >
         <a
           href="https://testflight.apple.com/join/XgpBpWv8"
-          class="bg-blue-500 text-white py-3 px-8 rounded-full text-lg font-normal cursor-pointer no-underline hover:bg-blue-900 transition-all duration-300 flex items-center gap-x-2"
+          class="bg-primary-blue hover:bg-deep-blue text-white py-3 px-8 rounded-full text-lg font-normal cursor-pointer no-underline transition-all duration-300 flex items-center gap-x-2"
         >
           Join the TestFlight Public Beta</a
         >
         <a
           href="https://github.com/codybrom/blankie/releases/latest"
-          class="text-gray-400 hover:text-gray-300 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
+          class="text-gray-300 hover:text-gray-200 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
         >
           or download directly from GitHub
         </a>

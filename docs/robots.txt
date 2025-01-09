@@ -1,6 +1,20 @@
+User-agent: *
+Allow: /
+
 # Certain social media sites are whitelisted to allow crawlers to access page markup when links to /assets are shared. 
 User-agent: Twitterbot
 Allow: /assets
+Allow: /_astro
 
 User-agent: facebookexternalhit
 Allow: /assets
+Allow: /_astro
+
+# Optimize for social sharing
+User-agent: LinkedInBot
+Allow: /assets
+Allow: /_astro
+
+User-agent: WhatsApp
+Allow: /assets
+Allow: /_astro

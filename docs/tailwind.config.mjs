@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        "primary-blue": "#2997ff",
-        "deep-blue": "#0066cc",
+        "primary-blue": "#0071e3",
+        "deep-blue": "#004cc2",
         "dark-gray": "#1a1a1a",
         "light-gray": "#f0f0f0",
         "coming-soon": "#71717a",

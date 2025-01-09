@@ -1,4 +1,6 @@
+// CSS Custom Properties
 :root {
+  // Colors
   --color-text-base: #333333;
   --color-text-muted: #555555;
   --color-text-inverted: #ffffff;
@@ -6,6 +8,7 @@
   --color-bg-card: rgba(255, 255, 255, 0.8);
 }
 
+// Dark theme
 .dark {
   --color-text-base: #e0e0e0;
   --color-text-muted: #a0a0a0;
@@ -14,8 +17,12 @@
   --color-bg-card: rgba(255, 255, 255, 0.1);
 }
 
+// Reset & Base Styles
 html {
   scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
 }
 
 * {
@@ -37,11 +44,14 @@ body {
   line-height: 1.47059;
   font-weight: 400;
   letter-spacing: -0.022em;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-bg-fill);
+  color: var(--color-text-base);
 }
 
 .coming-soon-card {
-  opacity: 0.6;
-  filter: grayscale(40%) saturate(60%);
+  opacity: 0.75; // Increased from 0.6 for better visibility
+  filter: grayscale(30%); // Reduced grayscale for better appearance
   pointer-events: none;
 
   &::before {
@@ -49,14 +59,28 @@ body {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #2997ff;
-    color: white;
+    background-color: var(
+      --color-text-muted
+    ); // Using theme color for better consistency
+    color: var(--color-bg-fill);
     padding: 0.3rem 0.6rem;
     font-size: 0.8rem;
     border-radius: 0.3rem;
     font-weight: bold;
     pointer-events: none;
     opacity: 1;
+    z-index: 10; // Ensure badge is always visible
+  }
+
+  // Add a subtle overlay to enhance the "disabled" appearance
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-bg-fill);
+    opacity: 0.1;
+    border-radius: 0.75rem;
+    pointer-events: none;
   }
 }
 
@@ -71,4 +95,42 @@ body {
   font-size: 0.75rem;
   font-weight: bold;
   pointer-events: none;
+
+  @media (hover: hover) {
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Focus Styles
+:focus-visible {
+  outline: 2px solid var(--color-text-base);
+  outline-offset: 2px;
+}
+
+// Selection Styles
+::selection {
+  background-color: var(--color-text-base);
+  color: var(--color-bg-fill);
+}
+
+// Scrollbar Styles
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--color-bg-fill);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-text-muted);
+    border-radius: 5px;
+
+    &:hover {
+      background: var(--color-text-base);
+    }
+  }
 }

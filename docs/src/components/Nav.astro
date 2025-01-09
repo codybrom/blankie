@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+import icon from "../assets/icon.png";
 const currentPath = Astro.url.pathname;
 ---
 
@@ -6,22 +8,29 @@ const currentPath = Astro.url.pathname;
   class="bg-black/80 backdrop-blur-md border-b border-white/10 fixed w-full top-0 z-50"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-    <!-- Main nav wrapper -->
     <nav class="flex justify-between items-center">
-      <!-- Logo - left side -->
       <a
         href="/"
         class="flex items-center gap-x-3 text-white no-underline"
         id="logo-link"
       >
-        <!-- Changed from relative to absolute path -->
-        <img src="/icon.png" alt="Blankie" class="h-10 w-10" />
+        <Image
+          src={icon}
+          alt="The Blankie app icon, which looks like a folded yellow blanket with one corner flipped over"
+          width={40}
+          height={33}
+          class="h-10 w-10 object-contain"
+          style={{ aspectRatio: "802/666" }}
+        />
         <span class="text-2xl font-semibold tracking-tight">Blankie</span>
       </a>
 
       <!-- Mobile menu button with hamburger icon -->
       <button
         id="mobile-menu-button"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
         class="md:hidden text-white hover:text-primary-blue transition-colors duration-200 p-2"
       >
         <svg
@@ -30,13 +39,17 @@ const currentPath = Astro.url.pathname;
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
+          aria-hidden="true"
+          role="img"
         >
+          <title>Menu icon</title>
           <path
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
             d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
+        <span class="sr-only">Toggle menu</span>
       </button>
 
       <!-- Desktop Navigation -->

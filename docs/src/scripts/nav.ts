@@ -1,122 +1,155 @@
-// Handle both download and logo links
-document.querySelectorAll('a[href*="section=download"]').forEach((anchor) => {
-  anchor.addEventListener("click", function (this: HTMLAnchorElement, e) {
-    const href = this.getAttribute("href");
-    const isIndexPage =
+class SiteNavigation {
+  private mobileButton: HTMLElement | null;
+  private mobileMenu: HTMLElement | null;
+  private logoLink: HTMLElement | null;
+  private mediaQuery: MediaQueryList;
+  private readonly HEADER_HEIGHT = 80;
+  private readonly ADDITIONAL_OFFSET = 200;
+
+  constructor() {
+    this.mobileButton = document.getElementById("mobile-menu-button");
+    this.mobileMenu = document.getElementById("mobile-menu");
+    this.logoLink = document.getElementById("logo-link");
+    this.mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    this.init();
+  }
+
+  private init(): void {
+    this.setupDownloadLinks();
+    this.setupLogoLink();
+    this.setupMobileMenu();
+    this.handleInitialLoad();
+  }
+
+  private isIndexPage(): boolean {
+    return (
       window.location.pathname === "/" ||
-      window.location.pathname.endsWith("index.html");
+      window.location.pathname.endsWith("index.html")
+    );
+  }
 
-    // Always prevent default if we're already on index page
-    if (isIndexPage) {
-      e.preventDefault();
-      const target = document.querySelector("#download");
+  private setupDownloadLinks(): void {
+    document
+      .querySelectorAll('a[href*="section=download"]')
+      .forEach((anchor) => {
+        anchor.addEventListener("click", (e: Event) => {
+          const link = e.currentTarget as HTMLAnchorElement; // Use currentTarget instead of casting anchor
+          const href = link.getAttribute("href");
 
-      if (target) {
-        const headerHeight = 80;
-        const additionalOffset = 200;
-        const totalOffset = headerHeight + additionalOffset;
-
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - totalOffset;
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
+          if (this.isIndexPage() && href) {
+            e.preventDefault();
+            this.scrollToDownload();
+            history.pushState(null, "", href);
+          }
         });
+      });
+  }
 
-        // Update URL without reload
-        history.pushState(null, "", href);
+  private setupLogoLink(): void {
+    this.logoLink?.addEventListener("click", (e: Event) => {
+      // Changed from MouseEvent to Event
+      if (this.isIndexPage()) {
+        e.preventDefault();
+        this.scrollToTop();
+        history.pushState(null, "", "/");
       }
-      return;
-    }
-  });
-});
+    });
+  }
 
-// Handle logo click
-const logoLink = document.getElementById("logo-link");
-if (logoLink) {
-  logoLink.addEventListener("click", function (e) {
-    const isIndexPage =
-      window.location.pathname === "/" ||
-      window.location.pathname.endsWith("index.html");
-    if (isIndexPage) {
-      e.preventDefault();
+  private scrollToElement(element: Element, offset = 0): void {
+    requestAnimationFrame(() => {
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.scrollY - offset;
+
       window.scrollTo({
-        top: 0,
+        top: offsetPosition,
         behavior: "smooth",
       });
-      history.pushState(null, "", "/"); // Fixed null parameter
-    }
-    // If not on index page, let the normal navigation happen
-  });
-}
+    });
+  }
 
-// Handle initial load with query param
-window.addEventListener("load", function () {
-  const params = new URLSearchParams(window.location.search);
-  const section = params.get("section");
-  if (section === "download") {
+  private scrollToDownload(): void {
     const target = document.querySelector("#download");
     if (target) {
-      const headerHeight = 80;
-      const additionalOffset = 200;
-      const totalOffset = headerHeight + additionalOffset;
-      requestAnimationFrame(() => {
-        const elementPosition = target.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - totalOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth",
-        });
-      });
+      const totalOffset = this.HEADER_HEIGHT + this.ADDITIONAL_OFFSET;
+      this.scrollToElement(target, totalOffset);
     }
   }
-});
 
-// Mobile menu functionality
-const mobileMenuButton = document.getElementById("mobile-menu-button");
-const mobileMenu = document.getElementById("mobile-menu");
-
-if (mobileMenuButton && mobileMenu) {
-  mobileMenuButton.addEventListener("click", () => {
-    // Toggle menu visibility
-    if (mobileMenu.classList.contains("hidden")) {
-      mobileMenu.classList.remove("hidden");
-      mobileMenu.classList.add("block");
-    } else {
-      mobileMenu.classList.add("hidden");
-      mobileMenu.classList.remove("block");
-    }
-  });
-} // Close mobile menu when clicking outside
-document.addEventListener("click", (e: MouseEvent) => {
-  const target = e.target as Node;
-  if (
-    mobileMenu &&
-    !mobileMenu.contains(target) &&
-    mobileMenuButton &&
-    !mobileMenuButton.contains(target)
-  ) {
-    mobileMenu.classList.add("hidden");
-    mobileMenu.classList.remove("block");
-  }
-});
-
-// Close mobile menu when window is resized to desktop size
-window.addEventListener("resize", () => {
-  if (window.innerWidth >= 768 && mobileMenu) {
-    // 768px is the md breakpoint in Tailwind
-    mobileMenu.classList.add("hidden");
-    mobileMenu.classList.remove("block");
-  }
-});
-
-// Close mobile menu when clicking a link
-if (mobileMenu) {
-  mobileMenu.querySelectorAll("a").forEach((link) => {
-    link.addEventListener("click", () => {
-      mobileMenu.classList.add("hidden");
-      mobileMenu.classList.remove("block");
+  private scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
     });
-  });
+  }
+
+  private handleInitialLoad(): void {
+    window.addEventListener("load", () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("section") === "download") {
+        this.scrollToDownload();
+      }
+    });
+  }
+
+  private setupMobileMenu(): void {
+    if (!this.mobileButton || !this.mobileMenu) return;
+
+    // Toggle menu
+    this.mobileButton.addEventListener("click", () => {
+      const isExpanded = !this.mobileMenu?.classList.contains("hidden");
+      this.setMenuState(!isExpanded);
+    });
+
+    // Close on outside click
+    document.addEventListener("click", this.handleClickOutside.bind(this));
+
+    // Handle screen resize
+    this.mediaQuery.addEventListener("change", this.handleResize.bind(this));
+
+    // Close on link click
+    this.mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => this.setMenuState(false));
+    });
+  }
+
+  private setMenuState(isOpen: boolean): void {
+    if (!this.mobileMenu || !this.mobileButton) return;
+
+    this.mobileMenu.classList.toggle("hidden", !isOpen);
+    this.mobileMenu.classList.toggle("block", isOpen);
+    this.mobileButton.setAttribute("aria-expanded", isOpen.toString());
+
+    if (isOpen) {
+      this.mobileMenu.focus();
+    }
+  }
+
+  private handleClickOutside(event: Event): void {
+    const target = event.target as Node;
+
+    if (
+      !this.mobileMenu?.contains(target) &&
+      !this.mobileButton?.contains(target)
+    ) {
+      this.setMenuState(false);
+    }
+  }
+
+  private handleResize(event: MediaQueryListEvent): void {
+    if (event.matches) {
+      this.setMenuState(false);
+    }
+  }
+
+  public destroy(): void {
+    this.mediaQuery.removeEventListener("change", this.handleResize.bind(this));
+    document.removeEventListener("click", this.handleClickOutside.bind(this));
+  }
 }
+
+// Initialize when DOM is ready
+document.addEventListener("DOMContentLoaded", () => {
+  new SiteNavigation();
+});

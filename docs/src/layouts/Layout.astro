@@ -4,6 +4,12 @@ import Nav from "@/components/Nav.astro";
 import Footer from "@/components/Footer.astro";
 import "@/styles/global.scss";
 
+import favicon from "../assets/favicon.ico";
+import favicon16 from "../assets/favicon-16.png";
+import favicon32 from "../assets/favicon-32.png";
+import favicon48 from "../assets/favicon-48.png";
+import socialImage from "../assets/social.png";
+
 interface Props {
   title: string;
 }
@@ -24,10 +30,10 @@ const description = "Ambient sound mixer for macOS.";
       content="default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline';"
     />
 
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png" />
+    <link rel="icon" type="image/x-icon" href={favicon} />
+    <link rel="icon" type="image/png" sizes="16x16" href={favicon16.src} />
+    <link rel="icon" type="image/png" sizes="32x32" href={favicon32.src} />
+    <link rel="icon" type="image/png" sizes="48x48" href={favicon48.src} />
 
     <SEO
       title={`Blankie - ${title}`}
@@ -36,7 +42,7 @@ const description = "Ambient sound mixer for macOS.";
         basic: {
           title: `Blankie - ${title}`,
           type: "website",
-          image: `${siteUrl}/social.png`,
+          image: socialImage.src,
           url: `${siteUrl}${Astro.url.pathname}`,
         },
         image: {
@@ -55,7 +61,7 @@ const description = "Ambient sound mixer for macOS.";
         site: "@blankie",
         title: `Blankie - ${title}`,
         description: description,
-        image: `${siteUrl}/social.png`,
+        image: socialImage.src,
       }}
     />
   </head>

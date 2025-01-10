@@ -50,6 +50,17 @@ If you'd like to help out with the source code, follow these guidelines:
 5. **Commit Your Changes:** Write a clear commit messages explaining the reason and context for your changes, this will facilitate for other collaborators to understand the scope of your contributions.
 6. **Create a Pull Request:** Submit a pull request from your branch with a clear explanation of the changes that you've made to the original project repository, along with the links to issues referenced (`Closes #123`, `Fixes #345`) .
 
+## Contributing to the Blankie Website
+
+The Blankie website (https://blankie.rest) currently maintains a perfect 100 score across all Google Lighthouse categories:
+
+* Performance
+* Accessibility
+* Best Practices
+* SEO
+
+Any contributions to the website should attempt maintain these scores. Please test your changes using Lighthouse before submitting a pull request. You can run Lighthouse tests using Chrome DevTools.
+
 ## Other Contributions
 
 For now we are not accepting contributions in the following areas, but we hope to in the future:

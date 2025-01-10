@@ -1,0 +1,172 @@
+{
+  "sounds": [
+    {
+      "defaultOrder": 0,
+      "title": "Rain",
+      "systemIconName": "cloud.rain",
+      "fileName": "rain",
+      "author": "alex36917",
+      "authorUrl": "https://freesound.org/people/alex36917/",
+      "license": "ccBy",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/alex36917/sounds/524605/"
+    },
+    {
+      "defaultOrder": 1,
+      "title": "Storm",
+      "systemIconName": "cloud.bolt.rain",
+      "fileName": "storm",
+      "author": "Digifish music",
+      "authorUrl": "https://freesound.org/people/digifishmusic/",
+      "license": "ccBy",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/digifishmusic/sounds/41739/"
+    },
+    {
+      "defaultOrder": 2,
+      "title": "Wind",
+      "systemIconName": "wind",
+      "fileName": "wind",
+      "author": "felix.blume",
+      "authorUrl": "https://freesound.org/people/felix.blume/",
+      "license": "cc0",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/felix.blume/sounds/217506/"
+    },
+    {
+      "defaultOrder": 3,
+      "title": "Waves",
+      "systemIconName": "water.waves",
+      "fileName": "waves",
+      "author": "Luftrum",
+      "authorUrl": "https://freesound.org/people/Luftrum/",
+      "license": "ccBy",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/Luftrum/sounds/48412/"
+    },
+    {
+      "defaultOrder": 4,
+      "title": "Stream",
+      "systemIconName": "humidity",
+      "fileName": "stream",
+      "author": "gluckose",
+      "authorUrl": "https://freesound.org/people/gluckose/",
+      "license": "cc0",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://freesound.org/people/gluckose/sounds/333987/"
+    },
+    {
+      "defaultOrder": 5,
+      "title": "Birds",
+      "systemIconName": "bird",
+      "fileName": "birds",
+      "author": "kvgarlic",
+      "authorUrl": "https://freesound.org/people/kvgarlic/",
+      "license": "cc0",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/kvgarlic/sounds/156826/"
+    },
+    {
+      "defaultOrder": 6,
+      "title": "Summer Night",
+      "systemIconName": "moon.stars.fill",
+      "fileName": "summer-night",
+      "author": "Lisa Redfern",
+      "authorUrl": null,
+      "license": "publicDomain",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://soundbible.com/2083-Crickets-Chirping-At-Night.html"
+    },
+    {
+      "defaultOrder": 7,
+      "title": "Train",
+      "systemIconName": "tram.fill",
+      "fileName": "train",
+      "author": "SDLx",
+      "authorUrl": "https://freesound.org/people/SDLx/",
+      "license": "ccBy3",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://freesound.org/people/SDLx/sounds/259988/"
+    },
+    {
+      "defaultOrder": 8,
+      "title": "Boat",
+      "systemIconName": "sailboat.fill",
+      "fileName": "boat",
+      "author": "Falcet",
+      "authorUrl": "https://freesound.org/people/Falcet/",
+      "license": "cc0",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/Falcet/sounds/439365/"
+    },
+    {
+      "defaultOrder": 9,
+      "title": "City",
+      "systemIconName": "building.2",
+      "fileName": "city",
+      "author": "gezortenplotz",
+      "authorUrl": "https://freesound.org/people/gezortenplotz/",
+      "license": "ccBy",
+      "editor": "Porrumentzio",
+      "editorUrl": "https://github.com/Porrumentzio",
+      "soundUrl": "https://freesound.org/people/gezortenplotz/sounds/44796/"
+    },
+    {
+      "defaultOrder": 10,
+      "title": "Coffee Shop",
+      "systemIconName": "cup.and.saucer.fill",
+      "fileName": "coffee-shop",
+      "author": "stephan",
+      "authorUrl": null,
+      "license": "publicDomain",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://soundbible.com/1664-Restaurant-Ambiance.html"
+    },
+    {
+      "defaultOrder": 11,
+      "title": "Fireplace",
+      "systemIconName": "fireplace",
+      "fileName": "fireplace",
+      "author": "ezwa",
+      "authorUrl": null,
+      "license": "publicDomain",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://soundbible.com/1543-Fireplace.html"
+    },
+    {
+      "defaultOrder": 12,
+      "title": "Pink Noise",
+      "systemIconName": "waveform.path",
+      "fileName": "pink-noise",
+      "author": "Omegatron",
+      "authorUrl": "https://en.wikipedia.org/wiki/User:Omegatron",
+      "license": "ccBySa",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://commons.wikimedia.org/wiki/File:Pink_noise.ogg"
+    },
+    {
+      "defaultOrder": 13,
+      "title": "White Noise",
+      "systemIconName": "waveform",
+      "fileName": "white-noise",
+      "author": "Jorge Stolfi",
+      "authorUrl": "https://en.wikipedia.org/wiki/User:Jorge_Stolfi",
+      "license": "ccBySa",
+      "editor": null,
+      "editorUrl": null,
+      "soundUrl": "https://commons.wikimedia.org/w/index.php?title=File%3AWhite-noise-sound-20sec-mono-44100Hz.ogg"
+    }
+  ]
+}

@@ -1,10 +1,5 @@
 {
   "gpt-context-generator.detectedFileExtensions": [
-    "js",
-    "jsx",
-    "ts",
-    "tsx",
-    "mdx",
     "json",
     "swift",
     "plist",
@@ -12,7 +7,13 @@
     "entitlements",
     "md",
     "yml",
-    "html"
+    "html",
+    "astro",
+    "ts",
+    "mjs",
+    "scss",
+    "CNAME",
+    "Dockerfile"
   ],
   "markdownlint.config": {
     "default": true,

@@ -1,6 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import icon from "../assets/icon.png";
+import GithubStars from "./GithubStars.astro";
 const currentPath = Astro.url.pathname;
 ---
 
@@ -82,6 +83,7 @@ const currentPath = Astro.url.pathname;
         >
           Credits
         </a>
+        <GithubStars />
         <a
           href="/?section=download"
           class="bg-primary-blue text-white py-2 px-6 rounded-full text-sm font-normal transition-all duration-300 hover:bg-deep-blue no-underline"
@@ -121,6 +123,7 @@ const currentPath = Astro.url.pathname;
         >
           Credits
         </a>
+        <GithubStars />
         <a
           href="/?section=download"
           class="bg-primary-blue text-white py-2 px-6 rounded-full text-sm font-normal transition-all duration-300 hover:bg-deep-blue no-underline inline-block text-center"

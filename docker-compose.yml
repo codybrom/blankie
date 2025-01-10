@@ -1,9 +1,14 @@
 services:
-  jekyll:
-    image: jekyll/jekyll:4.2.0
-    command: jekyll serve --force_polling --livereload
+  astro:
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
     ports:
-      - "4000:4000"
-      - "35729:35729"
+      - "4321:4321"
     volumes:
-      - "./docs:/srv/jekyll"
+      - "./docs:/app"
+      - "/app/node_modules"
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=4321

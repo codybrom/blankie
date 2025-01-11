@@ -13,7 +13,11 @@ class PresetManager: ObservableObject {
   static let shared = PresetManager()
 
   @Published private(set) var presets: [Preset] = []
-  @Published private(set) var currentPreset: Preset?
+  @Published private(set) var currentPreset: Preset? {
+    didSet {
+      AudioManager.shared.updateNowPlayingInfo(presetName: currentPreset?.name)
+    }
+  }
   @Published private(set) var hasCustomPresets: Bool = false
   @Published private(set) var isLoading: Bool = true
   @Published private(set) var error: Error?

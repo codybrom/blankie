@@ -190,15 +190,15 @@ class AudioManager: ObservableObject {
     updatePlaybackState()
   }
 
-  private func updateNowPlayingInfo() {
+  public func updateNowPlayingInfo(presetName: String? = nil) {
     var nowPlayingInfo = [String: Any]()
 
     // Get the current preset name for the title
     let displayTitle: String
-    if let currentPreset = PresetManager.shared.currentPreset {
+    if let name = presetName {
       // Only use preset name if it's not "Default" or doesn't start with "Preset "
-      if !currentPreset.isDefault && !currentPreset.name.starts(with: "Preset ") {
-        displayTitle = currentPreset.name
+      if name != "Default" && !name.starts(with: "Preset ") {
+        displayTitle = name
       } else {
         displayTitle = "Ambient Sounds"
       }

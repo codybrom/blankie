@@ -175,7 +175,6 @@ class AudioManager: ObservableObject {
 
   private func setupNowPlaying() {
     print("🎵 AudioManager: Setting up Now Playing info")
-    // Set up now playing info
     nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
 
@@ -194,7 +193,20 @@ class AudioManager: ObservableObject {
   private func updateNowPlayingInfo() {
     var nowPlayingInfo = [String: Any]()
 
-    nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
+    // Get the current preset name for the title
+    let displayTitle: String
+    if let currentPreset = PresetManager.shared.currentPreset {
+      // Only use preset name if it's not "Default" or doesn't start with "Preset "
+      if !currentPreset.isDefault && !currentPreset.name.starts(with: "Preset ") {
+        displayTitle = currentPreset.name
+      } else {
+        displayTitle = "Ambient Sounds"
+      }
+    } else {
+      displayTitle = "Ambient Sounds"
+    }
+
+    nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
 

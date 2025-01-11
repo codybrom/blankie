@@ -179,8 +179,8 @@ class AudioManager: ObservableObject {
     nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
 
-    // Optional: Add artwork
-    if let image = NSImage(named: "AppIcon"),
+    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+      let image = NSImage(contentsOf: url),
       let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
     {
       let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
@@ -190,6 +190,7 @@ class AudioManager: ObservableObject {
     }
     updatePlaybackState()
   }
+
   private func updateNowPlayingInfo() {
     var nowPlayingInfo = [String: Any]()
 
@@ -197,8 +198,8 @@ class AudioManager: ObservableObject {
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
 
-    // Add app icon as artwork
-    if let image = NSImage(named: "AppIcon"),
+    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+      let image = NSImage(contentsOf: url),
       let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
     {
       let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in

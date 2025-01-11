@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F93A3B332D26E93600EFC1C9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B0E2D26E93600EFC1C9 /* AppState.swift */; };
-		F93A3B342D26E93600EFC1C9 /* WindowObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */; };
 		F93A3B372D26E93600EFC1C9 /* AppCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */; };
 		F93A3B3F2D26E93600EFC1C9 /* BlankieApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */; };
 /* End PBXBuildFile section */
@@ -51,7 +50,6 @@
 		F93A3B112D26E93600EFC1C9 /* Blankie.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Blankie.entitlements; sourceTree = "<group>"; };
 		F93A3B122D26E93600EFC1C9 /* Blankie.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = Blankie.xcodeproj; sourceTree = "<group>"; };
 		F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlankieApp.swift; sourceTree = "<group>"; };
-		F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowObserver.swift; sourceTree = "<group>"; };
 		F9ED65FE2D321AF800240F13 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		F9ED66022D321B7D00240F13 /* Blankie.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Blankie.xctestplan; sourceTree = "<group>"; };
 		F9ED6BAA2D321D3300240F13 /* BlankieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlankieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -152,7 +150,6 @@
 				F93A3B0D2D26E93600EFC1C9 /* AppCommands.swift */,
 				F93A3B0E2D26E93600EFC1C9 /* AppState.swift */,
 				F93A3B132D26E93600EFC1C9 /* BlankieApp.swift */,
-				F93A3B302D26E93600EFC1C9 /* WindowObserver.swift */,
 				F9ED65FD2D321AF800240F13 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -364,7 +361,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F93A3B332D26E93600EFC1C9 /* AppState.swift in Sources */,
-				F93A3B342D26E93600EFC1C9 /* WindowObserver.swift in Sources */,
 				F93A3B372D26E93600EFC1C9 /* AppCommands.swift in Sources */,
 				F93A3B3F2D26E93600EFC1C9 /* BlankieApp.swift in Sources */,
 			);

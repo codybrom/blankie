@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AboutView: View {
+  @ObservedObject private var creditsManager = SoundCreditsManager.shared
   @Environment(\.dismiss) private var dismiss
   private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -129,7 +130,7 @@ struct AboutView: View {
         .font(.system(size: 13, weight: .bold))
 
       VStack(alignment: .leading, spacing: 4) {
-        ForEach(soundCredits, id: \.name) { credit in
+        ForEach(creditsManager.credits, id: \.name) { credit in
           CreditRow(credit: credit)
         }
       }

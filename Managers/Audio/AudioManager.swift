@@ -85,23 +85,46 @@ class AudioManager: ObservableObject {
     }
   }
   private func loadSounds() {
-    sounds = [
-      Sound(title: "Rain", systemIconName: "cloud.rain", fileName: "rain"),
-      Sound(title: "Storm", systemIconName: "cloud.bolt.rain", fileName: "storm"),
-      Sound(title: "Wind", systemIconName: "wind", fileName: "wind"),
-      Sound(title: "Waves", systemIconName: "water.waves", fileName: "waves"),
-      Sound(title: "Stream", systemIconName: "humidity", fileName: "stream"),
-      Sound(title: "Birds", systemIconName: "bird", fileName: "birds"),
-      Sound(title: "Summer Night", systemIconName: "moon.stars.fill", fileName: "summer-night"),
-      Sound(title: "Train", systemIconName: "tram.fill", fileName: "train"),
-      Sound(title: "Boat", systemIconName: "sailboat.fill", fileName: "boat"),
-      Sound(title: "City", systemIconName: "building.2", fileName: "city"),
-      Sound(title: "Coffee Shop", systemIconName: "cup.and.saucer.fill", fileName: "coffee-shop"),
-      Sound(title: "Fireplace", systemIconName: "fireplace", fileName: "fireplace"),
-      Sound(title: "Pink Noise", systemIconName: "waveform.path", fileName: "pink-noise"),
-      Sound(title: "White Noise", systemIconName: "waveform", fileName: "white-noise"),
-    ]
+    print("🎵 AudioManager: Loading sounds from JSON")
+    let bundlePath = Bundle.main.bundlePath
+    print("📦 Bundle path: \(bundlePath)")
+
+    if let resourcePath = Bundle.main.resourcePath {
+      print("📂 Resource path: \(resourcePath)")
+      do {
+        let resources = try FileManager.default.contentsOfDirectory(atPath: resourcePath)
+        print("📑 Resources in bundle: \(resources)")
+      } catch {
+        print("❌ Error listing resources: \(error)")
+      }
+    }
+
+    guard let url = Bundle.main.url(forResource: "sounds", withExtension: "json") else {
+      print("❌ AudioManager: sounds.json file not found in Resources folder")
+      ErrorReporter.shared.report(AudioError.fileNotFound)
+      return
+    }
+
+    do {
+      let data = try Data(contentsOf: url)
+      let decoder = JSONDecoder()
+      let soundsContainer = try decoder.decode(SoundsContainer.self, from: data)
+
+      self.sounds = soundsContainer.sounds
+        .sorted(by: { $0.defaultOrder < $1.defaultOrder })
+        .map { soundData in
+          Sound(
+            title: soundData.title,
+            systemIconName: soundData.systemIconName,
+            fileName: soundData.fileName
+          )
+        }
+    } catch {
+      print("❌ AudioManager: Failed to parse sounds.json: \(error)")
+      ErrorReporter.shared.report(error)
+    }
   }
+
   private func setupMediaControls() {
     print("🎵 AudioManager: Setting up media controls")
     // Remove all previous handlers

@@ -9,18 +9,24 @@ import SwiftUI
 
 struct ContentView: View {
   @Binding var showingAbout: Bool
+  @ObservedObject private var appState = AppState.shared
   @ObservedObject var audioManager = AudioManager.shared
   @ObservedObject var globalSettings = GlobalSettings.shared
-  @ObservedObject private var appState = AppState.shared
   @StateObject private var presetManager = PresetManager.shared
 
   @State private var showingVolumePopover = false
   @State private var showingColorPicker = false
   @State private var showingShortcuts = false
   @State private var showingPreferences = false
-  @State private var hideInactiveSounds = false
   @State private var presetName = ""
   @State private var showingNewPresetPopover = false
+
+  // Use appState.hideInactiveSounds instead of the binding
+  private var filteredSounds: [Sound] {
+    audioManager.sounds.filter { sound in
+      !appState.hideInactiveSounds || sound.isSelected
+    }
+  }
 
   var textColor: Color {
     audioManager.isGloballyPlaying ? .primary : .secondary
@@ -52,7 +58,7 @@ struct ContentView: View {
           ) {
             ForEach(
               audioManager.sounds.filter { sound in
-                !hideInactiveSounds || sound.isSelected
+                !appState.hideInactiveSounds || sound.isSelected
               }
             ) { sound in
               SoundIcon(sound: sound, maxWidth: itemWidth)
@@ -108,12 +114,14 @@ struct ContentView: View {
             Menu {
               Button {
                 withAnimation {
-                  hideInactiveSounds.toggle()
+                  appState.hideInactiveSounds.toggle()
+                  UserDefaults.standard.set(
+                    appState.hideInactiveSounds, forKey: "hideInactiveSounds")
                 }
               } label: {
                 HStack {
                   Text("Hide Inactive Sounds")
-                  if hideInactiveSounds {
+                  if appState.hideInactiveSounds {
                     Spacer()
                     Image(systemName: "checkmark")
                   }
@@ -211,12 +219,6 @@ struct ContentView: View {
     }
   }
 
-  // helper function to make the LazyGrid more readable and perform a filter prior
-  private var filteredSounds: [Sound] {
-    audioManager.sounds.filter { sound in
-      !hideInactiveSounds || sound.isSelected
-    }
-  }
 }
 
 // MARK: - Toolbar Items Extraction

@@ -11,6 +11,9 @@ class AppState: ObservableObject {
   static let shared = AppState()
 
   @Published var isAboutViewPresented = false
+  @Published var hideInactiveSounds = false
 
-  private init() {}
+  private init() {
+    hideInactiveSounds = UserDefaults.standard.bool(forKey: "hideInactiveSounds")
+  }
 }

@@ -176,17 +176,35 @@ open class Sound: ObservableObject, Identifiable {
       }
     }
   }
+
   func toggle() {
-    print("🔊 Sound: Sound '\(fileName)' - toggle called, currenly selected \(isSelected)")
-    isSelected.toggle()
-    // Handle the playback externally
+    print("🔊 Sound: Sound '\(fileName)' - toggle called, currently selected \(isSelected)")
+
+    let wasSelected = isSelected
+
+    // If audio is globally paused and we're clicking an icon
+    if !AudioManager.shared.isGloballyPlaying {
+      // Don't unselect if already selected
+      if !wasSelected {
+        isSelected = true
+      }
+      // Resume global playback
+      AudioManager.shared.setPlaybackState(true)
+    } else {
+      // Normal toggle behavior when playing
+      isSelected.toggle()
+    }
+
+    // Handle the playback
     if isSelected {
       play()
     } else {
       pause()
     }
-    print("🔊 Sound:  Sound '\(fileName)' -  toggled to \(isSelected)")
+
+    print("🔊 Sound: Sound '\(fileName)' - toggled to \(isSelected)")
   }
+
   deinit {
     fadeTimer?.invalidate()
     player?.stop()

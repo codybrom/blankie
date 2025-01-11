@@ -19,7 +19,6 @@ struct ContentView: View {
   @State private var showingShortcuts = false
   @State private var showingPreferences = false
   @State private var hideInactiveSounds = false
-  @State private var showingNewPresetSheet = false
   @State private var presetName = ""
   @State private var showingNewPresetPopover = false
 
@@ -142,10 +141,6 @@ struct ContentView: View {
             }
             .buttonStyle(.borderless)
             .menuIndicator(.hidden)
-            .popover(isPresented: $showingNewPresetPopover, arrowEdge: .top) {
-
-              NewPresetSheet(presetName: $presetName, isPresented: $showingNewPresetPopover)
-            }
 
             // Removed in favor of Preference Pane
             // Color picker menu

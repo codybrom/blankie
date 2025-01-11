@@ -7,52 +7,6 @@
 
 import SwiftUI
 
-struct NewPresetSheet: View {
-  @Binding var presetName: String
-  @Binding var isPresented: Bool
-  @ObservedObject private var presetManager = PresetManager.shared
-
-  var body: some View {
-    VStack(spacing: 16) {
-      Text("New Preset")
-        .font(.headline)
-
-      TextField("Preset Name", text: $presetName)
-        .textFieldStyle(.roundedBorder)
-        .frame(width: 200)
-
-        .onSubmit {
-          if !presetName.isEmpty {
-            Task {
-              presetManager.saveNewPreset(name: presetName)
-              isPresented = false
-            }
-          }
-        }
-
-      HStack(spacing: 16) {
-        Button("Cancel") {
-          isPresented = false
-        }
-
-        Button("Save") {
-          if !presetName.isEmpty {
-            Task {
-              presetManager.saveNewPreset(name: presetName)
-              isPresented = false
-            }
-          }
-        }
-        .buttonStyle(.borderedProminent)
-        .disabled(presetName.isEmpty)
-      }
-    }
-    .padding()
-    .frame(width: 300)
-    .fixedSize()
-  }
-}
-
 struct EditPresetSheet: View {
   let preset: Preset
   @Binding var presetName: String

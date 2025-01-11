@@ -12,7 +12,6 @@ struct PresetPicker: View {
   @State private var showingPresetPopover = false
   @State private var newPresetName = ""
   @State private var error: Error?
-  @State private var showingNewPresetSheet = false
   @State private var selectedPresetForEdit: Preset?
 
   var body: some View {
@@ -38,16 +37,23 @@ struct PresetPicker: View {
         } else {
           VStack(spacing: 0) {
             PresetList(
-              presetManager: presetManager, isPresented: $showingPresetPopover,
+              presetManager: presetManager,
+              isPresented: $showingPresetPopover,
               selectedPresetForEdit: $selectedPresetForEdit
             )
             .frame(maxWidth: 300)
             Divider()
 
             Button(action: {
-              showingPresetPopover = false
-              showingNewPresetSheet = true
+              // Count existing custom presets
+              let customPresetCount = presetManager.presets.filter { !$0.isDefault }.count
+              // Create name like "Preset 1", "Preset 2", etc.
+              let newPresetName = "Preset \(customPresetCount + 1)"
 
+              Task {
+                presetManager.saveNewPreset(name: newPresetName)
+                showingPresetPopover = false
+              }
             }) {
               Label("New Preset", systemImage: "plus")
             }
@@ -56,12 +62,6 @@ struct PresetPicker: View {
           }
         }
       }
-    }
-    .sheet(isPresented: $showingNewPresetSheet) {
-      NewPresetSheet(
-        presetName: $newPresetName,
-        isPresented: $showingNewPresetSheet
-      )
     }
     .sheet(item: $selectedPresetForEdit) { preset in
       EditPresetSheet(
@@ -116,7 +116,6 @@ private struct PresetRow: View {
   @Binding var selectedPresetForEdit: Preset?
   @ObservedObject private var presetManager = PresetManager.shared
   @State private var showingEditSheet = false
-  @State private var presetName: String = ""
   @State private var error: Error?
 
   var body: some View {

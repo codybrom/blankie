@@ -24,6 +24,9 @@ open class Sound: ObservableObject, Identifiable {
     }
   }
 
+  private var volumeDebounceTimer: Timer?
+  private var updateVolumeLogTimer: Timer?
+
   @Published var volume: Float = 1.0 {
     didSet {
       guard volume >= 0 && volume <= 1 else {
@@ -36,8 +39,15 @@ open class Sound: ObservableObject, Identifiable {
       if player?.isPlaying == true {
         updateVolume()
       }
-      UserDefaults.standard.set(volume, forKey: "\(fileName)_volume")
-      print("🔊 Sound: \(fileName) volume changed to \(volume)")
+
+      // Debounce the save to UserDefaults
+      volumeDebounceTimer?.invalidate()
+      volumeDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
+        [weak self] _ in
+        guard let self = self else { return }
+        UserDefaults.standard.set(self.volume, forKey: "\(self.fileName)_volume")
+        print("🔊 Sound: \(self.fileName) final volume saved as \(self.volume)")
+      }
     }
   }
 
@@ -77,12 +87,20 @@ open class Sound: ObservableObject, Identifiable {
     let scaledVol = scaledVolume(volume)
     let effectiveVolume = scaledVol * Float(GlobalSettings.shared.volume)
 
-    // Only log if volume actually changed
+    // Update volume immediately
     if player?.volume != effectiveVolume {
       player?.volume = effectiveVolume
-      print("🔊 Sound: Updated '\(fileName)' volume to \(effectiveVolume)")
+
+      // Debounce just the print statement
+      updateVolumeLogTimer?.invalidate()
+      updateVolumeLogTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
+        [weak self] _ in
+        guard let self = self else { return }
+        print("🔊 Sound: Updated '\(self.fileName)' volume to \(effectiveVolume)")
+      }
     }
   }
+
   private func updatePresetState() {
     Task { @MainActor in
       PresetManager.shared.updateCurrentPresetState()
@@ -207,6 +225,8 @@ open class Sound: ObservableObject, Identifiable {
 
   deinit {
     fadeTimer?.invalidate()
+    volumeDebounceTimer?.invalidate()
+    updateVolumeLogTimer?.invalidate()  // Add this line
     player?.stop()
     player = nil
     globalSettingsObserver?.cancel()

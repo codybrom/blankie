@@ -150,22 +150,21 @@ struct ContentView: View {
             .buttonStyle(.borderless)
             .menuIndicator(.hidden)
 
-            // Removed in favor of Preference Pane
-            // Color picker menu
-            //                        Button(action: {
-            //                            showingColorPicker.toggle()
-            //                        }) {
-            //                            Image(systemName: "paintpalette.fill")
-            //                                .resizable()
-            //                                .aspectRatio(contentMode: .fit)
-            //                                .frame(width: 20, height: 20)
-            //                                .foregroundColor(.primary)
-            //                        }
-            //                        .buttonStyle(.borderless)
-            //                        .popover(isPresented: $showingColorPicker) {
-            //                            ColorPickerView()
-            //                                .padding()
-            //                        }
+            // Color picker menu -- Removed in favor of Preference Pane
+            // Button(action: {
+            //   showingColorPicker.toggle()
+            // }) {
+            //   Image(systemName: "paintpalette.fill")
+            //     .resizable()
+            //     .aspectRatio(contentMode: .fit)
+            //     .frame(width: 20, height: 20)
+            //     .foregroundColor(.primary)
+            // }
+            // .buttonStyle(.borderless)
+            // .popover(isPresented: $showingColorPicker) {
+            //   ColorPickerView()
+            //     .padding()
+            // }
           }
           .padding(.vertical, 12)
           .padding(.horizontal, 16)
@@ -177,9 +176,6 @@ struct ContentView: View {
     }
 
     .ignoresSafeArea(.container, edges: .horizontal)
-    .toolbar {
-      toolbarItems()
-    }
     .animation(.easeInOut(duration: 0.2), value: audioManager.isGloballyPlaying)
     .sheet(isPresented: $showingShortcuts) {
       ShortcutsView()
@@ -197,8 +193,8 @@ struct ContentView: View {
         NSApp.dockTile.badgeLabel = nil
       }
     }
-    .onChange(of: audioManager.isGloballyPlaying) { isPlaying in
-      if !isPlaying {
+    .onChange(of: audioManager.isGloballyPlaying) {
+      if !audioManager.isGloballyPlaying {
         NSApp.dockTile.badgeLabel = "⏸"
       } else {
         NSApp.dockTile.badgeLabel = nil
@@ -219,57 +215,6 @@ struct ContentView: View {
     }
   }
 
-}
-
-// MARK: - Toolbar Items Extraction
-
-extension ContentView {
-  @ToolbarContentBuilder
-  private func toolbarItems() -> some ToolbarContent {
-    ToolbarItem(placement: .primaryAction) {
-      if !presetManager.presets.isEmpty {
-        PresetPicker()
-      }
-    }
-
-    // Right-side menu icon only
-    ToolbarItem(placement: .primaryAction) {
-      Menu {
-        if #available(macOS 14.0, *) {
-          SettingsLink {
-            Text("Preferences...")
-          }
-          .keyboardShortcut(",", modifiers: .command)
-        } else {
-          Button("Preferences...") {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-          }
-          .keyboardShortcut(",", modifiers: .command)
-        }
-
-        Button("Keyboard Shortcuts") {
-          showingShortcuts.toggle()
-        }
-        .keyboardShortcut("?", modifiers: [.command, .shift])
-
-        Button("About Blankie") {
-          showingAbout = true
-        }
-
-        Divider()
-
-        Button("Quit Blankie") {
-          audioManager.pauseAll()
-          exit(0)
-        }
-        .keyboardShortcut("q", modifiers: .command)
-      } label: {
-        Image(systemName: "line.3.horizontal")
-      }
-      .menuIndicator(.hidden)
-      .menuStyle(.borderlessButton)
-    }
-  }
 }
 
 struct ContentView_Previews: PreviewProvider {

@@ -23,6 +23,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var alwaysStartPaused: Bool
 
   private var observers = Set<AnyCancellable>()
+  private var volumeDebounceTimer: Timer?
 
   private init() {
     // Initialize properties directly
@@ -54,10 +55,6 @@ class GlobalSettings: ObservableObject {
   }
 
   private func setupObservers() {
-    _volume.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: "globalVolume")
-    }.store(in: &observers)
-
     _appearance.projectedValue.sink { [weak self] newValue in
       UserDefaults.standard.setValue(newValue.rawValue, forKey: "appearanceMode")
       self?.updateAppAppearance()
@@ -89,10 +86,24 @@ class GlobalSettings: ObservableObject {
     }
   }
 
-  // Public methods to update values
+  private func debouncedSaveVolume(_ newVolume: Double) {
+    volumeDebounceTimer?.invalidate()
+    volumeDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
+      [weak self] _ in
+      self?.saveVolume(newVolume)
+    }
+  }
+
+  private func saveVolume(_ newVolume: Double) {
+    let validatedVolume = validateVolume(newVolume)
+    UserDefaults.standard.set(validatedVolume, forKey: "globalVolume")
+    print("⚙️ GlobalSettings: Saved volume: \(validatedVolume)")
+  }
+
   @MainActor
   func setVolume(_ newVolume: Double) {
-    volume = newVolume
+    volume = validateVolume(newVolume)
+    debouncedSaveVolume(volume)
     logCurrentSettings()
   }
 

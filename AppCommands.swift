@@ -24,17 +24,26 @@ struct AppCommands: Commands {
         if !hasWindow {
           let controller = NSWindowController(
             window: NSWindow(
-              contentRect: NSRect(x: 0, y: 0, width: 600, height: 800),
-              styleMask: [.titled, .closable, .miniaturizable, .resizable],
+              contentRect: WindowDefaults.defaultFrame,
+              styleMask: WindowDefaults.styleMask,
               backing: .buffered,
               defer: false
             )
           )
-          controller.window?.center()
-          let hostingView = NSHostingView(rootView: ContentView(showingAbout: $showingAbout))
-          controller.window?.contentView = hostingView
-          controller.showWindow(nil)
-          hasWindow = true
+
+          if let window = controller.window {
+            WindowDefaults.configureWindow(window)
+
+            let contentView = WindowDefaults.defaultContentView(
+              showingAbout: $showingAbout,
+              showingShortcuts: .constant(false)
+            )
+
+            let hostingView = NSHostingView(rootView: contentView)
+            window.contentView = hostingView
+            controller.showWindow(nil)
+            hasWindow = true
+          }
         }
       }
       .disabled(hasWindow)

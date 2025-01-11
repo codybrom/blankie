@@ -59,8 +59,8 @@ class AudioManager: ObservableObject {
         .store(in: &cancellables)
     }
   }
-  func setPlaybackState(_ playing: Bool) {
-    guard !isInitializing else {
+  func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
+    guard !isInitializing || forceUpdate else {
       print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
       return
     }
@@ -210,6 +210,16 @@ class AudioManager: ObservableObject {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
 
+  func updateNowPlayingState() async {
+    let playbackRate: Double = isGloballyPlaying ? 1.0 : 0.0
+    print(
+      "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), playbackRate: \(playbackRate)"
+    )
+
+    // Update volume through GlobalSettings
+    await GlobalSettings.shared.setVolume(isGloballyPlaying ? 1.0 : 0.0)
+  }
+
   private func updatePlaybackState() {
     // Update playback state
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
@@ -273,6 +283,7 @@ class AudioManager: ObservableObject {
     print("  - New state (post-toggle): \(isGloballyPlaying)")
   }
 
+  @MainActor
   func resetSounds() {
     print("🎵 AudioManager: Resetting all sounds")
 

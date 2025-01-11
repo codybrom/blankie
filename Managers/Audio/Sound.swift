@@ -10,9 +10,9 @@ import Combine
 import SwiftUI
 
 /// Represents a single sound with its associated properties and playback controls.
-class Sound: ObservableObject, Identifiable {
+open class Sound: ObservableObject, Identifiable {
 
-  let id = UUID()
+  public let id = UUID()
   let title: String
   let systemIconName: String
   let fileName: String
@@ -94,7 +94,7 @@ class Sound: ObservableObject, Identifiable {
     }
     return player
   }
-  private func loadSound() {
+  open func loadSound() {
     guard let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) else {
       print("❌ Sound: File not found for '\(fileName)'")
       ErrorReporter.shared.report(AudioError.fileNotFound)

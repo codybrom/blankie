@@ -1,0 +1,30 @@
+{
+  "configurations" : [
+    {
+      "id" : "9B22136B-03AA-4556-A3CA-6156C33341BF",
+      "name" : "Test Scheme Action",
+      "options" : {
+        "defaultTestExecutionTimeAllowance" : 60,
+        "testTimeoutsEnabled" : true
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Blankie.xcodeproj",
+      "identifier" : "F913505E2D233A43003C85BE",
+      "name" : "Blankie"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Blankie.xcodeproj",
+        "identifier" : "F9ED6BA92D321D3300240F13",
+        "name" : "BlankieTests"
+      }
+    }
+  ],
+  "version" : 1
+}

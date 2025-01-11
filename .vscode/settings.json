@@ -13,7 +13,9 @@
     "mjs",
     "scss",
     "CNAME",
-    "Dockerfile"
+    "Dockerfile",
+    "xcconfig",
+    "xctestplan"
   ],
   "markdownlint.config": {
     "default": true,

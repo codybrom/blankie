@@ -90,25 +90,26 @@ class GlobalSettings: ObservableObject {
   }
 
   // Public methods to update values
+  @MainActor
   func setVolume(_ newVolume: Double) {
     volume = newVolume
     logCurrentSettings()
   }
 
+  @MainActor
   func setAppearance(_ newAppearance: AppearanceMode) {
-    DispatchQueue.main.async { [weak self] in
-      self?.appearance = newAppearance
-      self?.updateAppAppearance()
-      self?.logCurrentSettings()
-    }
-
+    appearance = newAppearance
+    updateAppAppearance()
+    logCurrentSettings()
   }
 
+  @MainActor
   func setAccentColor(_ newColor: Color?) {
     customAccentColor = newColor
     logCurrentSettings()
   }
 
+  @MainActor
   func setAlwaysStartPaused(_ value: Bool) {
     alwaysStartPaused = value
     logCurrentSettings()

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WindowDefaults {
   static let title = "Blankie"
-  static let minWidth: CGFloat = 400
+  static let minWidth: CGFloat = 428
   static let minHeight: CGFloat = 275
   static let defaultWidth: CGFloat = 600
   static let defaultHeight: CGFloat = 800
@@ -46,16 +46,26 @@ struct WindowDefaults {
     }
   }
 
-  static func defaultContentView(showingAbout: Binding<Bool>, showingShortcuts: Binding<Bool>)
-    -> some View
-  {
-    ContentView(showingAbout: showingAbout)
-      .frame(minWidth: minWidth, minHeight: minHeight)
-      .toolbar {
-        BlankieToolbar(
-          showingAbout: showingAbout,
-          showingShortcuts: showingShortcuts
-        )
-      }
+  static func defaultContentView(
+    showingAbout: Binding<Bool>,
+    showingShortcuts: Binding<Bool>,
+    showingNewPresetPopover: Binding<Bool>,
+    presetName: Binding<String>
+  ) -> some View {
+    ContentView(
+      showingAbout: showingAbout,
+      showingNewPresetPopover: showingNewPresetPopover,
+      presetName: presetName,
+      showingShortcuts: showingShortcuts
+    )
+    .frame(minWidth: minWidth, minHeight: minHeight)
+    .toolbar {
+      BlankieToolbar(
+        showingAbout: showingAbout,
+        showingShortcuts: showingShortcuts,
+        showingNewPresetPopover: showingNewPresetPopover,
+        presetName: presetName
+      )
+    }
   }
 }

@@ -14,18 +14,41 @@ struct BlankieApp: App {
   @StateObject private var windowObserver = WindowObserver.shared
   @State private var showingAbout = false
   @State private var showingShortcuts = false
+  @State private var showingNewPresetPopover = false
+  @State private var presetName = ""
 
   var body: some Scene {
     WindowGroup {
       WindowDefaults.defaultContentView(
         showingAbout: $showingAbout,
-        showingShortcuts: $showingShortcuts
+        showingShortcuts: $showingShortcuts,
+        showingNewPresetPopover: $showingNewPresetPopover,
+        presetName: $presetName
       )
     }
     .defaultSize(width: WindowDefaults.defaultWidth, height: WindowDefaults.defaultHeight)
     .windowToolbarStyle(.unified)
     .commands {
       AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
+    }
+
+    MenuBarExtra("Blankie", systemImage: "waveform") {
+      Button("Show Main Window") {
+        NSApp.activate(ignoringOtherApps: true)
+      }
+
+      Divider()
+
+      Button("About Blankie") {
+        NSApp.activate(ignoringOtherApps: true)
+        showingAbout = true
+      }
+
+      Divider()
+
+      Button("Quit Blankie") {
+        NSApplication.shared.terminate(nil)
+      }
     }
 
     Settings {
@@ -37,15 +60,20 @@ struct BlankieApp: App {
 #if DEBUG
   struct BlankieApp_Previews: PreviewProvider {
     static var previews: some View {
-      ContentView(showingAbout: .constant(false))
-        .frame(minWidth: 400, minHeight: 275)
-        .toolbar {
-          ToolbarItem(placement: .principal) {
-            Text("Blankie")
-              .font(.system(size: 15, weight: .medium, design: .rounded))
-              .foregroundStyle(.primary)
-          }
+      Group {
+        ForEach(["Light Mode", "Dark Mode"], id: \.self) { scheme in
+          WindowDefaults.defaultContentView(
+            showingAbout: .constant(false),
+            showingShortcuts: .constant(false),
+            showingNewPresetPopover: .constant(false),
+            presetName: .constant("")
+          )
+          .frame(width: 450, height: 450)
+          .preferredColorScheme(scheme == "Dark Mode" ? .dark : .light)
+          .previewDisplayName(scheme)
         }
+      }
+      .previewLayout(.sizeThatFits)
     }
   }
 #endif

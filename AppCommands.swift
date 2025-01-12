@@ -36,7 +36,9 @@ struct AppCommands: Commands {
 
             let contentView = WindowDefaults.defaultContentView(
               showingAbout: $showingAbout,
-              showingShortcuts: .constant(false)
+              showingShortcuts: .constant(false),
+              showingNewPresetPopover: .constant(false),
+              presetName: .constant("")
             )
 
             let hostingView = NSHostingView(rootView: contentView)

@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
   @Binding var showingAbout: Bool
+  @Binding var showingNewPresetPopover: Bool
+  @Binding var presetName: String
+  @Binding var showingShortcuts: Bool
+
   @ObservedObject private var appState = AppState.shared
   @ObservedObject var audioManager = AudioManager.shared
   @ObservedObject var globalSettings = GlobalSettings.shared
@@ -16,10 +20,17 @@ struct ContentView: View {
 
   @State private var showingVolumePopover = false
   @State private var showingColorPicker = false
-  @State private var showingShortcuts = false
   @State private var showingPreferences = false
-  @State private var presetName = ""
-  @State private var showingNewPresetPopover = false
+
+  private var aboutBinding: Binding<Bool> {
+    Binding(
+      get: { appState.isAboutViewPresented },
+      set: {
+        appState.isAboutViewPresented = $0
+        showingAbout = $0
+      }
+    )
+  }
 
   // Use appState.hideInactiveSounds instead of the binding
   private var filteredSounds: [Sound] {
@@ -111,60 +122,21 @@ struct ContentView: View {
             }
             .buttonStyle(.borderless)
 
-            Menu {
-              Button {
-                withAnimation {
-                  appState.hideInactiveSounds.toggle()
-                  UserDefaults.standard.set(
-                    appState.hideInactiveSounds, forKey: "hideInactiveSounds")
-                }
-              } label: {
-                HStack {
-                  Text("Hide Inactive Sounds")
-                  if appState.hideInactiveSounds {
-                    Spacer()
-                    Image(systemName: "checkmark")
-                  }
-                }
-              }
-              .keyboardShortcut("h", modifiers: [.control, .command])
-
-              Divider()
-
-              Button("Save as New Preset...") {
-                presetName = ""  // Reset preset name
-                showingNewPresetPopover.toggle()
-              }
-
-              Button("Add Sound (Coming Soon!)") {
-                // Implement add sound functionality
-              }
-              .keyboardShortcut("o", modifiers: .command)
-              .disabled(true)
-
-            } label: {
-              Text("⋮")  // vertical ellipsis
-                .font(.system(size: 20))
+            // Color picker menu
+            Button(action: {
+              showingColorPicker.toggle()
+            }) {
+              Image(systemName: "paintpalette.fill")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 20, height: 20)
                 .foregroundColor(.primary)
             }
             .buttonStyle(.borderless)
-            .menuIndicator(.hidden)
-
-            // Color picker menu -- Removed in favor of Preference Pane
-            // Button(action: {
-            //   showingColorPicker.toggle()
-            // }) {
-            //   Image(systemName: "paintpalette.fill")
-            //     .resizable()
-            //     .aspectRatio(contentMode: .fit)
-            //     .frame(width: 20, height: 20)
-            //     .foregroundColor(.primary)
-            // }
-            // .buttonStyle(.borderless)
-            // .popover(isPresented: $showingColorPicker) {
-            //   ColorPickerView()
-            //     .padding()
-            // }
+            .popover(isPresented: $showingColorPicker) {
+              ColorPickerView()
+                .padding()
+            }
           }
           .padding(.vertical, 12)
           .padding(.horizontal, 16)
@@ -182,7 +154,7 @@ struct ContentView: View {
         .background(.ultraThinMaterial)
         .presentationBackground(.ultraThinMaterial)
     }
-    .sheet(isPresented: $appState.isAboutViewPresented) {
+    .sheet(isPresented: aboutBinding) {
       AboutView()
     }
     .onAppear {
@@ -220,8 +192,13 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
   static var previews: some View {
     Group {
-      ContentView(showingAbout: .constant(false))
-        .frame(width: 600, height: 400)
+      ContentView(
+        showingAbout: .constant(false),
+        showingNewPresetPopover: .constant(false),
+        presetName: .constant(""),
+        showingShortcuts: .constant(false)
+      )
+      .frame(width: 600, height: 400)
     }
     .previewDisplayName("Blankie")
   }

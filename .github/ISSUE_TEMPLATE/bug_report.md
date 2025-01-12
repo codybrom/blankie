@@ -23,7 +23,7 @@ A clear and concise description of what you expected to happen.
 
 **System Information:**
 
-- macOS Version: [e.g. 13.5, 14.0]
+- macOS Version: [e.g. 14.5, 15.2]
 - Blankie Version: [e.g. 1.0.1 (256)]
 - Installation Source: [TestFlight Beta / GitHub Release / Mac App Store]
 

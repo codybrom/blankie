@@ -113,10 +113,17 @@ class AudioManager: ObservableObject {
       self.sounds = soundsContainer.sounds
         .sorted(by: { $0.defaultOrder < $1.defaultOrder })
         .map { soundData in
-          Sound(
+          let supportedExtensions = ["wav", "m4a", "mp3", "aiff"]
+          let fileExtension =
+            supportedExtensions.first { soundData.fileName.hasSuffix(".\($0)") } ?? "mp3"
+          let cleanedFileName = soundData.fileName.replacingOccurrences(
+            of: ".\(fileExtension)", with: "")
+
+          return Sound(
             title: soundData.title,
             systemIconName: soundData.systemIconName,
-            fileName: soundData.fileName
+            fileName: cleanedFileName,
+            fileExtension: fileExtension
           )
         }
     } catch {

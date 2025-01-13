@@ -9,9 +9,12 @@ interface Sound {
   author: string;
   authorUrl: string | null;
   license: string;
-  editor: string | null;
-  editorUrl: string | null;
+  editor?: string | null;
+  editorUrl?: string | null;
   soundUrl: string | null;
+  soundName?: string;
+  description?: string;
+  note?: string;
 }
 
 let sounds: Sound[] = [];
@@ -26,12 +29,10 @@ function getLicenseText(license: string) {
   switch (license) {
     case "cc0":
       return "CC0";
-    case "ccBy":
-      return "CC BY";
-    case "ccBySa":
-      return "CC BY-SA";
     case "ccBy3":
       return "CC BY 3.0";
+    case "ccBy4":
+      return "CC BY 4.0";
     case "publicDomain":
       return "Public Domain";
     default:
@@ -43,14 +44,12 @@ function getLicenseURL(license: string) {
   switch (license) {
     case "cc0":
       return "https://creativecommons.org/publicdomain/zero/1.0/";
-    case "ccBy":
-      return "https://creativecommons.org/licenses/by/4.0/";
-    case "ccBySa":
-      return "https://creativecommons.org/licenses/by-sa/4.0/";
     case "ccBy3":
       return "https://creativecommons.org/licenses/by/3.0/";
+    case "ccBy4":
+      return "https://creativecommons.org/licenses/by/4.0/";
     case "publicDomain":
-      return "https://wiki.creativecommons.org/wiki/Public_domain";
+      return "https://creativecommons.org/publicdomain/mark/1.0/";
     default:
       return null;
   }

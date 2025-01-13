@@ -7,10 +7,12 @@
       "fileName": "rain",
       "author": "alex36917",
       "authorUrl": "https://freesound.org/people/alex36917/",
-      "license": "ccBy",
+      "license": "ccBy4",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/alex36917/sounds/524605/"
+      "soundUrl": "https://freesound.org/s/524605/",
+      "soundName": "rain ambience",
+      "description": "This is a light to medium rain storm. A little thunder may be heard. Towards the end of the sound, there is a train horn in the distance."
     },
     {
       "defaultOrder": 1,
@@ -19,10 +21,13 @@
       "fileName": "storm",
       "author": "Digifish music",
       "authorUrl": "https://freesound.org/people/digifishmusic/",
-      "license": "ccBy",
+      "license": "ccBy4",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/digifishmusic/sounds/41739/"
+      "soundUrl": "https://freesound.org/s/41739",
+      "soundName": "Infinite Storm.wav",
+      "description": "A storm with thunder and rain.",
+      "note": "This is a remix (crossfade loop) of 16707donder 02.mp3 by Charel Sytze -- https://freesound.org/s/37608/ -- License: Attribution 3.0"
     },
     {
       "defaultOrder": 2,
@@ -34,7 +39,9 @@
       "license": "cc0",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/felix.blume/sounds/217506/"
+      "soundUrl": "https://freesound.org/s/217506/",
+      "soundName": "Wind blowing in a field in Texas, USA",
+      "description": "Wind whistling with some squalls in a field in Texas."
     },
     {
       "defaultOrder": 3,
@@ -43,10 +50,12 @@
       "fileName": "waves",
       "author": "Luftrum",
       "authorUrl": "https://freesound.org/people/Luftrum/",
-      "license": "ccBy",
+      "license": "ccBy4",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/Luftrum/sounds/48412/"
+      "soundUrl": "https://freesound.org/s/48412/",
+      "soundName": "oceanwavescrushing.wav",
+      "description": "Close field recording of medium ambient waves crushing on the shore of Kalundborg Fjord at Røsnæs. Water cascading through small stones as it pulls back into the ocean."
     },
     {
       "defaultOrder": 4,
@@ -58,7 +67,9 @@
       "license": "cc0",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://freesound.org/people/gluckose/sounds/333987/"
+      "soundUrl": "https://freesound.org/s/333987/",
+      "soundName": "stream2.wav",
+      "description": "A small meandering stream in the woods."
     },
     {
       "defaultOrder": 5,
@@ -70,7 +81,9 @@
       "license": "cc0",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/kvgarlic/sounds/156826/"
+      "soundUrl": "https://freesound.org/s/156826/",
+      "soundName": "WoodThrushinMorningShawneeForestMay272012.wav",
+      "description": "This wood thrush was recorded around 7:30 in the morning in heavy woods in deep southern Illinois."
     },
     {
       "defaultOrder": 6,
@@ -82,7 +95,9 @@
       "license": "publicDomain",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://soundbible.com/2083-Crickets-Chirping-At-Night.html"
+      "soundUrl": "https://soundbible.com/2083-Crickets-Chirping-At-Night.html",
+      "soundName": "",
+      "description": "Crickets chirping in the night."
     },
     {
       "defaultOrder": 7,
@@ -94,7 +109,10 @@
       "license": "ccBy3",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://freesound.org/people/SDLx/sounds/259988/"
+      "soundUrl": "https://freesound.org/s/259988/",
+      "soundName": "Trains of the Yamanote Line",
+      "description": "JR Yamanote Line trains near Okachimachi station, Tokyo. Recorded December 2013.",
+      "note": "This item has been cut to a short loop."
     },
     {
       "defaultOrder": 8,
@@ -106,7 +124,9 @@
       "license": "cc0",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/Falcet/sounds/439365/"
+      "soundUrl": "https://freesound.org/s/439365/",
+      "soundName": "Ambience_Sea_Boat_Night_Ropes_4.wav",
+      "description": "Rope squeaks on boat."
     },
     {
       "defaultOrder": 9,
@@ -115,10 +135,12 @@
       "fileName": "city",
       "author": "gezortenplotz",
       "authorUrl": "https://freesound.org/people/gezortenplotz/",
-      "license": "ccBy",
+      "license": "ccBy3",
       "editor": "Porrumentzio",
       "editorUrl": "https://github.com/Porrumentzio",
-      "soundUrl": "https://freesound.org/people/gezortenplotz/sounds/44796/"
+      "soundUrl": "https://freesound.org/s/44796/",
+      "soundName": "NYC_street leve02l.wav",
+      "description": "Street level in New York."
     },
     {
       "defaultOrder": 10,
@@ -130,7 +152,9 @@
       "license": "publicDomain",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://soundbible.com/1664-Restaurant-Ambiance.html"
+      "soundUrl": "https://soundbible.com/1664-Restaurant-Ambiance.html",
+      "soundName": "Restaurant Ambiance",
+      "description": "Contains persons talking and other sounds, none of the words are discernible."
     },
     {
       "defaultOrder": 11,
@@ -142,31 +166,37 @@
       "license": "publicDomain",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://soundbible.com/1543-Fireplace.html"
+      "soundUrl": "https://soundbible.com/1543-Fireplace.html",
+      "soundName": "Fireplace",
+      "description": "Very small crackles and sizzle burn sound effects along with air movement."
     },
     {
       "defaultOrder": 12,
       "title": "Pink Noise",
       "systemIconName": "waveform.path",
-      "fileName": "pink-noise",
-      "author": "Omegatron",
-      "authorUrl": "https://en.wikipedia.org/wiki/User:Omegatron",
-      "license": "ccBySa",
+      "fileName": "PinkNoise-Stereo-20Seconds.m4a",
+      "author": "The Blankie Project",
+      "authorUrl": "https://blankie.rest",
+      "license": "cc0",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://commons.wikimedia.org/wiki/File:Pink_noise.ogg"
+      "soundUrl": "https://blankie.rest/credits",
+      "soundName": "Pink Noise, 20 seconds (stereo)",
+      "description": "Generated in Python using numpy"
     },
     {
       "defaultOrder": 13,
       "title": "White Noise",
       "systemIconName": "waveform",
-      "fileName": "white-noise",
-      "author": "Jorge Stolfi",
-      "authorUrl": "https://en.wikipedia.org/wiki/User:Jorge_Stolfi",
-      "license": "ccBySa",
+      "fileName": "WhiteNoise-Stereo-20Seconds.m4a",
+      "author": "The Blankie Project",
+      "authorUrl": "https://blankie.rest",
+      "license": "cc0",
       "editor": null,
       "editorUrl": null,
-      "soundUrl": "https://commons.wikimedia.org/w/index.php?title=File%3AWhite-noise-sound-20sec-mono-44100Hz.ogg"
+      "soundUrl": "https://blankie.rest/credits",
+      "soundName": "White Noise, 20 seconds (stereo)",
+      "description": "Generated in Python using numpy"
     }
   ]
 }

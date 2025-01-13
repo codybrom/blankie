@@ -16,6 +16,7 @@ open class Sound: ObservableObject, Identifiable {
   let title: String
   let systemIconName: String
   let fileName: String
+  let fileExtension: String
 
   @Published var isSelected = false {
     didSet {
@@ -52,7 +53,6 @@ open class Sound: ObservableObject, Identifiable {
   }
 
   var player: AVAudioPlayer?
-  private let fileExtension = "mp3"
   private let fadeDuration: TimeInterval = 0.1
   private var fadeTimer: Timer?
   private var fadeStartVolume: Float = 0
@@ -60,16 +60,18 @@ open class Sound: ObservableObject, Identifiable {
   private var globalSettingsObserver: AnyCancellable?
   private var isResetting = false
 
-  init(title: String, systemIconName: String, fileName: String) {
+  init(title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3") {
     self.title = title
     self.systemIconName = systemIconName
     self.fileName = fileName
+    self.fileExtension = fileExtension
 
     // Restore saved volume
     self.volume = UserDefaults.standard.float(forKey: "\(fileName)_volume")
     if self.volume == 0 {
       self.volume = 1.0
     }
+
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
     // Observe global volume changes
@@ -79,6 +81,7 @@ open class Sound: ObservableObject, Identifiable {
       }
     loadSound()
   }
+
   private func scaledVolume(_ linear: Float) -> Float {
     return pow(linear, 3)
   }
@@ -112,9 +115,10 @@ open class Sound: ObservableObject, Identifiable {
     }
     return player
   }
+
   open func loadSound() {
     guard let url = Bundle.main.url(forResource: fileName, withExtension: fileExtension) else {
-      print("❌ Sound: File not found for '\(fileName)'")
+      print("❌ Sound: File not found for '\(fileName).\(fileExtension)'")
       ErrorReporter.shared.report(AudioError.fileNotFound)
       return
     }
@@ -125,12 +129,13 @@ open class Sound: ObservableObject, Identifiable {
       player?.numberOfLoops = -1
       player?.enableRate = false  // Disable rate/pitch adjustment
       player?.prepareToPlay()
-      print("🔊 Sound: Loaded sound '\(fileName)'")
+      print("🔊 Sound: Loaded sound '\(fileName).\(fileExtension)'")
     } catch {
-      print("❌ Sound: Failed to load '\(fileName)': \(error)")
+      print("❌ Sound: Failed to load '\(fileName).\(fileExtension)': \(error)")
       ErrorReporter.shared.report(AudioError.loadFailed(error))
     }
   }
+
   func play(completion: ((Result<Void, AudioError>) -> Void)? = nil) {
     print("🔊 Sound: Attempting to play '\(fileName)'")
     updateVolume()

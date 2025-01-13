@@ -33,12 +33,14 @@ If you'd like to help out with the source code, follow these guidelines:
 5. **Commit Your Changes:** With each commit, write clear commit messages explaining the reason and context for your changes. This will help other collaborators understand the scope of your contributions.
 6. **Create a Pull Request:** Submit a pull request from your branch with a clear explanation of the changes that you've made to the original project repository, along with the links to issues referenced (`Closes #123`, `Fixes #345`) .
 
-### Important Code Considerations
+### Code Considerations
 
 > [!IMPORTANT]
 > Please exercise extreme caution when modifying **sound configurations**, **naming conventions** or **preset functionality**.
+>
+>These components directly affect user settings and preferences and even small changes in these areas can significantly impact user experience and existing configurations.
 
-These components directly affect user settings and preferences and even small changes in these areas can significantly impact user experience and existing configurations. Before implementing changes:
+Before implementing changes that might alter core functionality in serious ways:
 
 1. **Discuss First**
    * Open an issue to propose and discuss changes and gather feedback from maintainers and the community

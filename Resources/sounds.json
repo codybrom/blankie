@@ -96,7 +96,7 @@
       "editor": null,
       "editorUrl": null,
       "soundUrl": "https://soundbible.com/2083-Crickets-Chirping-At-Night.html",
-      "soundName": "",
+      "soundName": "Crickets Chirping At Night",
       "description": "Crickets chirping in the night."
     },
     {
@@ -175,28 +175,28 @@
       "title": "Pink Noise",
       "systemIconName": "waveform.path",
       "fileName": "pink-noise.m4a",
-      "author": "The Blankie Project",
+      "author": "Blankie",
       "authorUrl": "https://blankie.rest",
       "license": "cc0",
       "editor": null,
       "editorUrl": null,
       "soundUrl": "https://blankie.rest/credits",
-      "soundName": "Pink Noise, 20 seconds (stereo)",
-      "description": "Generated in Python using numpy"
+      "soundName": "Pink Noise (Stereo)",
+      "description": "20 seconds of pure pink noise generated in Python using numpy"
     },
     {
       "defaultOrder": 13,
       "title": "White Noise",
       "systemIconName": "waveform",
       "fileName": "white-noise.m4a",
-      "author": "The Blankie Project",
+      "author": "Blankie",
       "authorUrl": "https://blankie.rest",
       "license": "cc0",
       "editor": null,
       "editorUrl": null,
       "soundUrl": "https://blankie.rest/credits",
-      "soundName": "White Noise, 20 seconds (stereo)",
-      "description": "Generated in Python using numpy"
+      "soundName": "White Noise (Stereo)",
+      "description": "20 seconds of pure white noise generated in Python using numpy"
     }
   ]
 }

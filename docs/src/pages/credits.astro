@@ -102,12 +102,12 @@ function getLicenseURL(license: string) {
               sounds.map((sound) => (
                 <div class="p-3 border border-skin-muted rounded-lg">
                   <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-medium text-base">
+                    <h3 class="font-medium text-base max-w-[63%]">
                       <a
                         href={sound.soundUrl}
-                        class="text-primary-blue hover:text-deep-blue hover:underline "
+                        class="text-primary-blue hover:text-deep-blue hover:underline break-words"
                       >
-                        {sound.title}
+                        {sound.soundName}
                       </a>
                     </h3>
                     <a
@@ -119,7 +119,7 @@ function getLicenseURL(license: string) {
                   </div>
                   <dl class="text-xs space-y-1">
                     <div>
-                      <dt class="inline text-zinc-400">By:</dt>
+                      <dt class="inline text-zinc-400">by:</dt>
                       <dd class="inline ml-1">
                         {sound.authorUrl ? (
                           <a href={sound.authorUrl} class="hover:underline">

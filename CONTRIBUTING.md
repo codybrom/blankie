@@ -95,8 +95,8 @@ When we have a foundation set for translations, we will be looking for contribut
 At this time, we're not seeking new sound contributions to Blankie. However, if you have suggestions for sound effects, you are welcomed to post in the [_"What Sounds Would You Add to Blankie?"_ discussion thread](https://github.com/codybrom/blankie/discussions/13).
 
 ## Other Contributions
-There are undoubtedly other ways to contribute to Blankie that aren't covered above. If you have an idea for a new way to contribute, please open an issue to discuss it!
 
+There are undoubtedly other ways to contribute to Blankie that aren't covered above. If you have an idea for a new way to contribute, please open an issue to discuss it!
 
 ## Licensing
 

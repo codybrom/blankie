@@ -13,6 +13,7 @@
     "@playform/compress": "^0.1.7",
     "astro": "^5.1.5",
     "astro-seo": "^0.8.4",
+    "marked": "^15.0.6",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {

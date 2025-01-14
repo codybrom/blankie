@@ -24,16 +24,19 @@ const currentPath = Astro.url.pathname;
           class="h-10 w-10 object-contain"
           style={{ aspectRatio: "802/666" }}
         />
-        <span class="text-2xl font-semibold tracking-tight">Blankie</span>
+        <div class="flex items-baseline">
+          <span class="text-2xl font-semibold tracking-tight">Blankie</span>
+          <span class="ml-3 text-xs tracking-tight">for macOS</span>
+        </div>
       </a>
-
       <!-- Mobile menu button with hamburger icon -->
       <button
-        id="mobile-menu-button"
+        id="
+          mobile-menu-button"
         aria-label="Toggle navigation menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
-        class="md:hidden text-white hover:text-primary-blue transition-colors duration-200 p-2"
+        class="md:hidden text-white hover:text-yellow-500 transition-colors duration-200 p-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -57,19 +60,19 @@ const currentPath = Astro.url.pathname;
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center gap-x-10">
         <a
-          href="/usage"
+          href="/faq"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/usage" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/faq" },
           ]}
         >
-          How to Use
+          FAQ
         </a>
         <a
           href="/privacy"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/privacy" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/privacy" },
           ]}
         >
           Privacy
@@ -77,8 +80,8 @@ const currentPath = Astro.url.pathname;
         <a
           href="/credits"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/credits" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/credits" },
           ]}
         >
           Credits
@@ -97,19 +100,19 @@ const currentPath = Astro.url.pathname;
     <div id="mobile-menu" class="hidden md:hidden">
       <div class="flex flex-col gap-y-4 pt-4 pb-6">
         <a
-          href="/usage"
+          href="/faq"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/usage" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/faq" },
           ]}
         >
-          How to Use
+          FAQ
         </a>
         <a
           href="/privacy"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/privacy" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/privacy" },
           ]}
         >
           Privacy
@@ -117,8 +120,8 @@ const currentPath = Astro.url.pathname;
         <a
           href="/credits"
           class:list={[
-            "text-white text-sm hover:text-primary-blue transition-colors duration-200",
-            { "text-primary-blue": currentPath === "/credits" },
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/credits" },
           ]}
         >
           Credits

@@ -65,7 +65,7 @@ struct AppCommands: Commands {
     // Add Help menu command
     CommandGroup(replacing: .help) {
       Button("Blankie Help") {
-        if let url = URL(string: "https://blankie.rest/usage") {
+        if let url = URL(string: "https://blankie.rest/faq") {
           NSWorkspace.shared.open(url)
         }
       }

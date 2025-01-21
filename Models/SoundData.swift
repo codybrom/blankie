@@ -16,6 +16,7 @@ struct SoundData: Codable {
   let editor: String?
   let editorUrl: String?
   let soundUrl: String
+  let soundName: String
 }
 
 struct SoundsContainer: Codable {

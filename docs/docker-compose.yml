@@ -1,12 +1,12 @@
 services:
   astro:
     build:
-      context: ./docs
+      context: .
       dockerfile: Dockerfile
     ports:
       - "4321:4321"
     volumes:
-      - "./docs:/app"
+      - ".:/app"
       - "/app/node_modules"
     environment:
       - NODE_ENV=development

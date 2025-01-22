@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ContentView: View {
   @Binding var showingAbout: Bool
+  @Binding var showingShortcuts: Bool
   @Binding var showingNewPresetPopover: Bool
   @Binding var presetName: String
-  @Binding var showingShortcuts: Bool
 
   @ObservedObject private var appState = AppState.shared
   @ObservedObject var audioManager = AudioManager.shared
@@ -21,16 +21,6 @@ struct ContentView: View {
   @State private var showingVolumePopover = false
   @State private var showingColorPicker = false
   @State private var showingPreferences = false
-
-  private var aboutBinding: Binding<Bool> {
-    Binding(
-      get: { appState.isAboutViewPresented },
-      set: {
-        appState.isAboutViewPresented = $0
-        showingAbout = $0
-      }
-    )
-  }
 
   // Use appState.hideInactiveSounds instead of the binding
   private var filteredSounds: [Sound] {
@@ -154,7 +144,7 @@ struct ContentView: View {
         .background(.ultraThinMaterial)
         .presentationBackground(.ultraThinMaterial)
     }
-    .sheet(isPresented: aboutBinding) {
+    .sheet(isPresented: $showingAbout) {
       AboutView()
     }
     .onAppear {
@@ -194,9 +184,9 @@ struct ContentView_Previews: PreviewProvider {
     Group {
       ContentView(
         showingAbout: .constant(false),
+        showingShortcuts: .constant(false),
         showingNewPresetPopover: .constant(false),
-        presetName: .constant(""),
-        showingShortcuts: .constant(false)
+        presetName: .constant("")
       )
       .frame(width: 600, height: 400)
     }

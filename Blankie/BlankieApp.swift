@@ -32,25 +32,6 @@ struct BlankieApp: App {
       AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
     }
 
-    MenuBarExtra("Blankie", systemImage: "waveform") {
-      Button("Show Main Window") {
-        NSApp.activate(ignoringOtherApps: true)
-      }
-
-      Divider()
-
-      Button("About Blankie") {
-        NSApp.activate(ignoringOtherApps: true)
-        showingAbout = true
-      }
-
-      Divider()
-
-      Button("Quit Blankie") {
-        NSApplication.shared.terminate(nil)
-      }
-    }
-
     //
     //
     // MenuBarExtra("Blankie", systemImage: "waveform") {

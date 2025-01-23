@@ -1,0 +1,218 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { marked } from "marked";
+
+const title = "Contributing";
+const introText =
+  "Thanks for your interest in contributing to Blankie! Whether you're looking to fix bugs, add features, improve documentation, or help in other ways, this guide will help you get started. We appreciate all contributions that help make Blankie better for everyone.";
+
+// Import the markdown file directly
+const { rawContent } = await import("../../../CONTRIBUTING.md");
+
+// Function to create a slug from text
+function slugify(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+// Function to rewrite relative GitHub links
+function rewriteGitHubLinks(content: string) {
+  return content.replace(
+    /(\[.*?\])\(((?!http|#).*?)\)/g,
+    (match, text, link) => {
+      if (link.startsWith("./") || link.startsWith("../")) {
+        link = link.replace(/^\.\.?\//, "");
+      }
+      return `${text}(https://github.com/codybrom/blankie/blob/main/${link})`;
+    }
+  );
+}
+
+// Get only the content starting from the first h2
+const firstH2Index = rawContent().indexOf("## ");
+const contentAfterFirstH2 = rawContent().slice(firstH2Index);
+
+// Split into sections and process
+const mainSections = contentAfterFirstH2
+  .split(/^## /m)
+  .filter((section) => section.trim())
+  .map((section) => `## ${section}`);
+
+// Configure marked to add IDs to headers
+marked.use({
+  walkTokens: (token) => {
+    if (token.type === "heading" && token.tokens) {
+      token.tokens.forEach((t) => {
+        if (t.type === "text") {
+          t.text = t.text.replace(/\{#[\w-]+\}/, ""); // Remove any existing IDs
+        }
+      });
+    }
+  },
+});
+
+// Process each section
+const processedSections = mainSections.map((section) => {
+  // Extract the h2 title if present
+  const titleMatch = section.match(/^## ([^\n]+)/);
+  const title = titleMatch ? titleMatch[1].trim() : "";
+  const titleId = slugify(title);
+
+  // Get content after the title
+  let sectionContent = titleMatch
+    ? section.slice(titleMatch[0].length).trim()
+    : section.trim();
+
+  // Process content
+  sectionContent = rewriteGitHubLinks(sectionContent);
+
+  // Convert to HTML
+  let htmlContent = marked(sectionContent) as string;
+
+  // Convert alerts
+  htmlContent = htmlContent.replace(
+    /<blockquote>[\s\n]*<p>\[!(IMPORTANT|NOTE|WARNING|CAUTION)\][\s\n]*(.*?)(<\/p>.*?)<\/blockquote>/gs,
+    (_match, alertType, alertTitle, alertContent) => `
+      <div class="my-6 p-4 rounded-lg border-l-4 bg-yellow-500/10 border-yellow-500">
+        <div class="font-semibold mb-2 text-lg">${alertType}</div>
+        <p>${alertTitle.trim()}</p>
+        ${alertContent.replace("</p>", "")}
+      </div>
+    `
+  );
+
+  return { title, titleId, content: htmlContent };
+});
+
+// Generate TOC data with nested structure
+const tocItems = processedSections
+  .filter((section) => section.title)
+  .map(({ title, titleId, content }) => {
+    // Find all h3s in the content
+    const h3Matches = [...content.matchAll(/<h3 id="([^"]+)">(.*?)<\/h3>/g)];
+    const subItems = h3Matches.map((match) => ({
+      title: match[2].replace(/<[^>]*>/g, ""), // Remove any HTML tags from title
+      titleId: match[1],
+    }));
+
+    return {
+      title,
+      titleId,
+      subItems,
+    };
+  });
+---
+
+<Layout title={title}>
+  <main class="max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <h1 class="text-4xl font-semibold mb-6">Contributing to Blankie</h1>
+
+    <div
+      class="border border-gray-700 bg-gray-900/50 rounded-lg p-6 mb-8 text-gray-300"
+    >
+      <p class="text-md leading-relaxed">
+        {introText}
+      </p>
+    </div>
+
+    <!-- Table of Contents -->
+    <div class="bg-dark-gray rounded-lg p-6 mb-8">
+      <h2 class="text-2xl font-semibold mb-4 text-gray-100">
+        Table of Contents
+      </h2>
+      <nav>
+        <ul class="list-disc list-inside space-y-2">
+          {
+            tocItems.map(({ title, titleId, subItems }) => (
+              <li>
+                <a
+                  href={`#${titleId}`}
+                  class="text-gray-300 hover:text-yellow-500"
+                >
+                  {title}
+                </a>
+                {subItems.length > 0 && (
+                  <ul class="list-disc list-inside ml-4 mt-2 space-y-2">
+                    {subItems.map((item) => (
+                      <li>
+                        <a
+                          href={`#${item.titleId}`}
+                          class="text-gray-300 hover:text-yellow-500"
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+    </div>
+
+    <!-- Content Sections -->
+    <div class="space-y-4">
+      {
+        processedSections.map(({ title, titleId, content }) =>
+          title ? (
+            <div class="bg-dark-gray rounded-lg p-6">
+              <h2
+                id={titleId}
+                class="group text-2xl font-semibold mb-4 text-gray-100"
+              >
+                {title}
+                <a
+                  href={`#${titleId}`}
+                  class="ml-2 opacity-0 group-hover:opacity-100 text-yellow-500"
+                >
+                  #
+                </a>
+              </h2>
+              <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-100">
+                <Fragment set:html={content} />
+              </div>
+            </div>
+          ) : (
+            <div class="prose prose-lg dark:prose-invert max-w-none">
+              <Fragment set:html={content} />
+            </div>
+          )
+        )
+      }
+    </div>
+  </main>
+</Layout>
+
+<style>
+  /* Style nested headings */
+  :global(.prose h3) {
+    @apply text-xl font-semibold mt-6 mb-4;
+  }
+
+  :global(.prose h4) {
+    @apply text-lg font-medium mt-4 mb-2;
+  }
+
+  :global(.prose ul) {
+    @apply my-4;
+  }
+
+  /* Style header links */
+  :global(.prose h3 a),
+  :global(.prose h4 a) {
+    @apply ml-2 opacity-0 group-hover:opacity-100 text-yellow-500 no-underline;
+  }
+
+  /* Smooth scroll behavior and margin for fixed header */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  :global([id]) {
+    scroll-margin-top: 100px;
+  }
+</style>

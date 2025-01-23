@@ -69,6 +69,15 @@ const currentPath = Astro.url.pathname;
           FAQ
         </a>
         <a
+          href="/contributing"
+          class:list={[
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/contributing" },
+          ]}
+        >
+          Contribute
+        </a>
+        <a
           href="/privacy"
           class:list={[
             "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
@@ -107,6 +116,15 @@ const currentPath = Astro.url.pathname;
           ]}
         >
           FAQ
+        </a>
+        <a
+          href="/contributing"
+          class:list={[
+            "text-white text-sm hover:text-yellow-500 transition-colors duration-200",
+            { "text-yellow-500": currentPath === "/contributing" },
+          ]}
+        >
+          Contribute
         </a>
         <a
           href="/privacy"

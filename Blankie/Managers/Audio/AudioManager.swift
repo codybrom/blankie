@@ -30,19 +30,38 @@ class AudioManager: ObservableObject {
     setupMediaControls()
     setupNotificationObservers()
     setupSoundObservers()
+
     // Handle autoplay behavior after a slight delay to ensure proper initialization
-    DispatchQueue.main.async { [weak self] in
-      guard let self = self else { return }
+    Task { @MainActor in
+      // Short delay to allow everything to initialize
+      try? await Task.sleep(nanoseconds: 100_000_000)  // 0.1 seconds
+
       self.isInitializing = false
 
       if !GlobalSettings.shared.alwaysStartPaused {
         let hasSelectedSounds = self.sounds.contains { $0.isSelected }
         if hasSelectedSounds {
-          self.setPlaybackState(true)
+          // Set initial state
+          self.isGloballyPlaying = true
+
+          // Start playback
+          self.playSelected()
+
+          // Update Now Playing info with preset name
+          if let currentPreset = PresetManager.shared.currentPreset {
+            self.updateNowPlayingInfo(presetName: currentPreset.name)
+          } else {
+            self.updateNowPlayingInfo()
+          }
         }
+      } else {
+        // Ensure we're in a paused state
+        self.isGloballyPlaying = false
+        self.updateNowPlayingInfo()
       }
     }
   }
+
   private func setupSoundObservers() {
     // Clear any existing observers
     cancellables.removeAll()
@@ -142,29 +161,48 @@ class AudioManager: ObservableObject {
     // Add handlers
     commandCenter.playCommand.addTarget { [weak self] _ in
       print("🎵 AudioManager: Media key play command received")
-      self?.togglePlayback()
+      Task { @MainActor in
+        self?.togglePlayback()
+      }
       return .success
     }
     commandCenter.pauseCommand.addTarget { [weak self] _ in
       print("🎵 AudioManager: Media key pause command received")
-      self?.togglePlayback()
+      Task { @MainActor in
+        self?.togglePlayback()
+      }
       return .success
     }
     commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
       print("🎵 AudioManager: Media key toggle command received")
-      self?.togglePlayback()
+      Task { @MainActor in
+        self?.togglePlayback()
+      }
       return .success
     }
   }
 
+  // Update playSelected to check global state
   private func playSelected() {
     print("🎵 AudioManager: Playing selected sounds")
+    guard isGloballyPlaying else {
+      print("🎵 AudioManager: Not playing sounds because global playback is disabled")
+      return
+    }
+
     for sound in sounds where sound.isSelected {
       print("  - Playing '\(sound.fileName)'")
       sound.play()
     }
-    updateNowPlayingInfo()
+
+    // Update Now Playing info with current preset name
+    if let currentPreset = PresetManager.shared.currentPreset {
+      self.updateNowPlayingInfo(presetName: currentPreset.name)
+    } else {
+      self.updateNowPlayingInfo()
+    }
   }
+
   private func loadSavedState() {
     guard let state = UserDefaults.standard.array(forKey: "soundState") as? [[String: Any]] else {
       return
@@ -212,6 +250,8 @@ class AudioManager: ObservableObject {
     } else {
       displayTitle = "Ambient Sounds"
     }
+
+    print("🎵 AudioManager: Updating Now Playing info with title: \(displayTitle)")
 
     nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
@@ -296,10 +336,10 @@ class AudioManager: ObservableObject {
     UserDefaults.standard.set(state, forKey: "soundState")
   }
   /// Toggles the playback state of all selected sounds
-  func togglePlayback() {
+  @MainActor func togglePlayback() {
     print("🎵 AudioManager: Toggling playback")
     print("  - Current state (pre-toggle): \(isGloballyPlaying)")
-    setPlaybackState(!isGloballyPlaying)
+    setGlobalPlaybackState(!isGloballyPlaying)
     print("  - New state (post-toggle): \(isGloballyPlaying)")
   }
 
@@ -328,18 +368,31 @@ class AudioManager: ObservableObject {
 
   // Public method for changing playback state
   @MainActor
-  public func setGlobalPlaybackState(_ playing: Bool) {
-    print("🎵 AudioManager: Setting playback state to \(playing)")
-    isGloballyPlaying = playing
+  public func setGlobalPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
+    guard !isInitializing || forceUpdate else {
+      print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
+      return
+    }
 
+    print(
+      "🎵 AudioManager: Setting playback state to \(playing) - Current global state: \(self.isGloballyPlaying)"
+    )
+
+    // Update state first
+    self.isGloballyPlaying = playing
+
+    // Then handle playback
     if playing {
-      print("🎵 AudioManager: Playing selected sounds")
-      sounds.filter { $0.isSelected }.forEach { sound in
-        print("  - Playing '\(sound.fileName)'")
-        sound.play()
-      }
+      self.playSelected()
     } else {
-      pauseAll()
+      self.pauseAll()
+    }
+
+    // Always update Now Playing info with current preset name
+    if let currentPreset = PresetManager.shared.currentPreset {
+      self.updateNowPlayingInfo(presetName: currentPreset.name)
+    } else {
+      self.updateNowPlayingInfo()
     }
   }
 

@@ -10,12 +10,13 @@ import SwiftUI
 struct AppCommands: Commands {
   @Binding var showingAbout: Bool
   @Binding var hasWindow: Bool
-  @ObservedObject private var appState = AppState.shared
+  @StateObject private var appState = AppState.shared
 
   var body: some Commands {
     CommandGroup(replacing: .appInfo) {
       Button("About Blankie") {
         showingAbout = true
+        appState.isAboutViewPresented = true
       }
     }
 

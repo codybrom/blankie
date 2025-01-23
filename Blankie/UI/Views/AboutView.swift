@@ -269,43 +269,50 @@ struct AboutView: View {
     let credit: SoundCredit
 
     var body: some View {
-      HStack(alignment: .top, spacing: 0) {
-        Text("• ")
-        Group {
+      VStack(alignment: .leading, spacing: 4) {
+        HStack(spacing: 4) {
+
+          Text(credit.name)
+            .fontWeight(.bold)
+          Text("—")
+            .foregroundStyle(.secondary)
           if let soundUrl = credit.soundUrl {
-            HStack(spacing: 2) {
-              LinkWithTooltip(
-                title: credit.name,
-                destination: soundUrl
-              )
-              .foregroundColor(.accentColor)
-            }
+            LinkWithTooltip(
+              title: credit.soundName,
+              destination: soundUrl
+            )
             .foregroundColor(.accentColor)
           } else {
-            Text(credit.name)
+            Text(credit.soundName)
+              .foregroundStyle(.secondary)
           }
         }
-        Text(" by ")
-        Text(credit.author)
-        if let editor = credit.editor {
-          Text(", edited by ")
-          Text(editor)
-        }
-        Text(" (")
-        if let url = credit.license.url {
-          HStack(spacing: 2) {
+
+        // Attribution line
+        HStack(spacing: 4) {
+          Text("By")
+            .foregroundStyle(.secondary)
+          Text(credit.author)
+          if let editor = credit.editor {
+            Text("•")
+              .foregroundStyle(.secondary)
+            Text("Edited by")
+              .foregroundStyle(.secondary)
+            Text(editor)
+          }
+          if let licenseUrl = credit.license.url {
+            Text("•")
+              .foregroundStyle(.secondary)
             LinkWithTooltip(
               title: credit.license.linkText,
-              destination: url
+              destination: licenseUrl
             )
+            .foregroundColor(.accentColor)
           }
-          .foregroundColor(.accentColor)
-        } else {
-          Text(credit.license.linkText)
         }
-        Text(")")
       }
       .font(.system(size: 12))
+      .padding(.vertical, 4)
     }
   }
 }

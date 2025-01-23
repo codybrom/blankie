@@ -54,9 +54,9 @@ struct WindowDefaults {
   ) -> some View {
     ContentView(
       showingAbout: showingAbout,
+      showingShortcuts: showingShortcuts,
       showingNewPresetPopover: showingNewPresetPopover,
-      presetName: presetName,
-      showingShortcuts: showingShortcuts
+      presetName: presetName
     )
     .frame(minWidth: minWidth, minHeight: minHeight)
     .toolbar {

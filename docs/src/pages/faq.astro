@@ -39,8 +39,10 @@ const questionContent = Object.fromEntries(
           {
             questions.map((question) => (
               <details class="group bg-dark-gray rounded-lg">
-                <summary class="flex cursor-pointer items-center justify-between gap-1.5 p-4 text-gray-900">
-                  <h2 class="font-medium text-gray-100">{question.text}</h2>
+                <summary class="flex cursor-pointer items-center gap-1.5 p-4 text-gray-900 text-left">
+                  <h2 class="font-medium text-gray-100 flex-grow">
+                    {question.text}
+                  </h2>
                   <svg
                     class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 stroke-gray-100"
                     xmlns="http://www.w3.org/2000/svg"
@@ -103,5 +105,14 @@ const questionContent = Object.fromEntries(
 
   details :global(strong) {
     font-weight: 600;
+  }
+
+  /* Remove default blue caret */
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
   }
 </style>

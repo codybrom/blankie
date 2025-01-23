@@ -30,7 +30,29 @@ export default {
           card: "var(--color-bg-card)",
         },
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            a: {
+              color: theme("colors.yellow.500"),
+              "&:hover": {
+                color: theme("colors.yellow.700"),
+              },
+            },
+          },
+        },
+        invert: {
+          css: {
+            a: {
+              color: theme("colors.yellow.500"),
+              "&:hover": {
+                color: theme("colors.yellow.700"),
+              },
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

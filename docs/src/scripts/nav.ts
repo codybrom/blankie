@@ -11,6 +11,8 @@ class SiteNavigation {
     this.mobileMenu = document.getElementById("mobile-menu");
     this.logoLink = document.getElementById("logo-link");
     this.mediaQuery = window.matchMedia("(min-width: 768px)");
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.handleResize = this.handleResize.bind(this);
 
     this.init();
   }
@@ -103,10 +105,10 @@ class SiteNavigation {
     });
 
     // Close on outside click
-    document.addEventListener("click", this.handleClickOutside.bind(this));
+    document.addEventListener("click", this.handleClickOutside);
 
     // Handle screen resize
-    this.mediaQuery.addEventListener("change", this.handleResize.bind(this));
+    this.mediaQuery.addEventListener("change", this.handleResize);
 
     // Close on link click
     this.mobileMenu.querySelectorAll("a").forEach((link) => {
@@ -144,8 +146,8 @@ class SiteNavigation {
   }
 
   public destroy(): void {
-    this.mediaQuery.removeEventListener("change", this.handleResize.bind(this));
-    document.removeEventListener("click", this.handleClickOutside.bind(this));
+    this.mediaQuery.removeEventListener("change", this.handleResize);
+    document.removeEventListener("click", this.handleClickOutside);
   }
 }
 

@@ -2,13 +2,13 @@
 import { SEO } from "astro-seo";
 import Nav from "@/components/Nav.astro";
 import Footer from "@/components/Footer.astro";
-import "@/styles/global.scss";
+import "../styles/global.css";
 
 import favicon from "../assets/favicon.ico";
 import favicon16 from "../assets/favicon-16.png";
 import favicon32 from "../assets/favicon-32.png";
 import favicon48 from "../assets/favicon-48.png";
-import socialImage from "../assets/social.png";
+import socialImage from "../assets/social.jpg";
 
 interface Props {
   title: string;
@@ -16,7 +16,8 @@ interface Props {
 
 const { title } = Astro.props;
 const siteUrl = "https://blankie.rest";
-const description = "Ambient sound mixer for macOS.";
+const description =
+  "Blankie is a free and open-source ambient sound mixer for macOS that helps you focus, work, and relax with customizable soundscapes";
 ---
 
 <!doctype html>
@@ -63,7 +64,6 @@ const description = "Ambient sound mixer for macOS.";
         card: "summary_large_image",
         site: "@blankie",
         title: `Blankie - ${title}`,
-        description: description,
         image: socialImage.src,
       }}
     />

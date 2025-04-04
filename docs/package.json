@@ -9,16 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/tailwind": "^5.1.4",
-    "@playform/compress": "^0.1.7",
-    "astro": "^5.5.6",
+    "@playform/compress": "^0.1.9",
+    "@tailwindcss/vite": "^4.1.2",
+    "astro": "^5.6.1",
     "astro-seo": "^0.8.4",
-    "marked": "^15.0.6",
-    "tailwindcss": "^3.4.17"
+    "marked": "^15.0.7",
+    "tailwindcss": "^4.1.2"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16",
-    "sass": "^1.83.1"
+    "@playform/build": "^0.2.2",
+    "@tailwindcss/typography": "^0.5.16"
   },
   "engines": {
     "node": ">=22"

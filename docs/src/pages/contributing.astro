@@ -186,33 +186,3 @@ const tocItems = processedSections
     </div>
   </main>
 </Layout>
-
-<style>
-  /* Style nested headings */
-  :global(.prose h3) {
-    @apply text-xl font-semibold mt-6 mb-4;
-  }
-
-  :global(.prose h4) {
-    @apply text-lg font-medium mt-4 mb-2;
-  }
-
-  :global(.prose ul) {
-    @apply my-4;
-  }
-
-  /* Style header links */
-  :global(.prose h3 a),
-  :global(.prose h4 a) {
-    @apply ml-2 opacity-0 group-hover:opacity-100 text-yellow-500 no-underline;
-  }
-
-  /* Smooth scroll behavior and margin for fixed header */
-  :global(html) {
-    scroll-behavior: smooth;
-  }
-
-  :global([id]) {
-    scroll-margin-top: 100px;
-  }
-</style>

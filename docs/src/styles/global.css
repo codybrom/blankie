@@ -1,0 +1,271 @@
+@import "tailwindcss";
+
+/* Base theme definition */
+@theme {
+  /* Core colors - preserving your original palette */
+  --color-primary-blue: #0071e3;
+  --color-deep-blue: #004cc2;
+  --color-dark-gray: #1a1a1a;
+  --color-light-gray: #f0f0f0;
+  --color-coming-soon: #71717a;
+
+  /* Theme variables for light mode */
+  --color-text-base: #333333;
+  --color-text-muted: #555555;
+  --color-text-inverted: #ffffff;
+  --color-bg-fill: white;
+  --color-bg-muted: #f5f5f5;
+  --color-bg-card: rgba(255, 255, 255, 0.8);
+  --color-border: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-text-base: #e0e0e0;
+  --color-text-muted: #a0a0a0;
+  --color-text-inverted: #333333;
+  --color-bg-fill: #0a0a0a;
+  --color-bg-muted: #1a1a1a;
+  --color-bg-card: rgba(255, 255, 255, 0.1);
+  --color-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Focus and selection states */
+:focus-visible {
+  outline: 2px solid var(--color-text-base);
+  outline-offset: 2px;
+}
+
+::selection {
+  background-color: var(--color-text-base);
+  color: var(--color-bg-fill);
+}
+
+/* Base HTML styles */
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+
+  & [id] {
+    scroll-margin-top: 100px;
+  }
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Icons",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 1.47059;
+  font-weight: 400;
+  letter-spacing: -0.022em;
+  text-rendering: optimizeLegibility;
+  background-color: var(--color-bg-fill);
+  color: var(--color-text-base);
+}
+
+/* Custom scrollbar (desktop only) */
+@media (min-width: 768px) {
+  ::-webkit-scrollbar {
+    width: 10px;
+
+    &-track {
+      background: var(--color-bg-fill);
+    }
+
+    &-thumb {
+      background: var(--color-text-muted);
+      border-radius: 5px;
+
+      &:hover {
+        background: var(--color-text-base);
+      }
+    }
+  }
+}
+
+/* Custom utilities */
+@utility bg-gradient-light {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-light-gray) 0%,
+    #ffffff 100%
+  );
+}
+
+@utility bg-gradient-dark {
+  background-image: linear-gradient(
+    180deg,
+    var(--color-dark-gray) 0%,
+    #0a0a0a 100%
+  );
+}
+
+@utility text-skin-base {
+  color: var(--color-text-base);
+}
+
+@utility text-skin-muted {
+  color: var(--color-text-muted);
+}
+
+@utility text-skin-inverted {
+  color: var(--color-text-inverted);
+}
+
+@utility bg-skin-fill {
+  background-color: var(--color-bg-fill);
+}
+
+@utility bg-skin-card {
+  background-color: var(--color-bg-card);
+}
+
+/* Prose typography styles */
+.prose {
+  & a {
+    color: #eab308; /* yellow-500 */
+
+    &:hover {
+      color: #a16207; /* yellow-700 */
+    }
+  }
+
+  & h3 {
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+
+    & a {
+      margin-left: 0.5rem;
+      opacity: 0;
+    }
+  }
+
+  & h4 {
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+
+    & a {
+      margin-left: 0.5rem;
+      opacity: 0;
+    }
+  }
+
+  & ul,
+  & ol {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.group:hover {
+  & .prose h3 a,
+  & .prose h4 a {
+    opacity: 100;
+    color: #eab308;
+    text-decoration: none;
+  }
+}
+
+/* FAQ Styles */
+.faq-details {
+  & a {
+    color: rgb(234 179 8);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: rgb(161 98 7);
+    }
+  }
+
+  & ul,
+  & ol {
+    list-style-position: outside;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  & ul {
+    list-style-type: disc;
+  }
+
+  & ol {
+    list-style-type: decimal;
+  }
+
+  & li {
+    margin-bottom: 0.5rem;
+    display: list-item;
+  }
+
+  & p {
+    margin-bottom: 1rem;
+  }
+
+  & strong {
+    font-weight: 600;
+  }
+
+  & summary {
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+/* Mobile menu management */
+.mobile-menu-open {
+  overflow: hidden;
+}
+
+#mobile-menu {
+  &.hidden {
+    display: none;
+  }
+
+  &.block {
+    display: block;
+  }
+}
+
+/* Coming soon component */
+.coming-soon-card {
+  opacity: 0.75;
+  filter: grayscale(30%);
+  pointer-events: none;
+  position: relative;
+
+  &::before {
+    content: "Coming Soon";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-coming-soon);
+    color: var(--color-bg-fill);
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+    border-radius: 0.3rem;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--color-bg-fill);
+    opacity: 0.1;
+    border-radius: 0.75rem;
+    pointer-events: none;
+  }
+}
+
+/* Apply Tailwind plugins */
+@plugin "@tailwindcss/typography";

@@ -38,9 +38,9 @@ const questionContent = Object.fromEntries(
         <div class="space-y-4">
           {
             questions.map((question) => (
-              <details class="group bg-dark-gray rounded-lg">
+              <details class="group bg-dark-gray rounded-lg faq-details">
                 <summary class="flex cursor-pointer items-center gap-1.5 p-4 text-gray-900 text-left">
-                  <h2 class="font-medium text-gray-100 flex-grow">
+                  <h2 class="font-medium text-gray-100 grow">
                     {question.text}
                   </h2>
                   <svg
@@ -68,51 +68,3 @@ const questionContent = Object.fromEntries(
     </section>
   </main>
 </Layout>
-
-<style>
-  /* Preserve markdown styling inside details */
-  details :global(a) {
-    color: rgb(234 179 8);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  details :global(a:hover) {
-    color: rgb(161 98 7);
-  }
-
-  details :global(ul),
-  details :global(ol) {
-    list-style-type: disc; /* Add this for unordered lists */
-    list-style-position: outside; /* Change to outside */
-    padding-left: 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  details :global(ol) {
-    list-style-type: decimal; /* Add this for ordered lists */
-  }
-
-  details :global(li) {
-    margin-bottom: 0.5rem;
-    display: list-item; /* Add this to ensure proper list rendering */
-  }
-
-  details :global(p) {
-    margin-bottom: 1rem;
-  }
-
-  details :global(strong) {
-    font-weight: 600;
-  }
-
-  /* Remove default blue caret */
-  summary {
-    list-style: none;
-  }
-
-  summary::-webkit-details-marker {
-    display: none;
-  }
-</style>

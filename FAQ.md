@@ -103,7 +103,7 @@ Blankie is a native macOS app inspired by Blanket, but it's completely separate 
 
 ## Does Blankie collect any data?
 
-No. Blankie doesn't collect any data or connect to the internet. When distributed through Apple's platforms, Apple provides basic anonymous statistics about downloads and crashes, but the app itself never collects or transmits any data. See our [Privacy Policy](/privacy) for more details.
+No. Blankie doesn't collect any data or connect to the internet. When distributed through Apple's platforms, Apple provides basic anonymous statistics about downloads and crashes, but the app itself never collects or transmits any data. See our [Privacy Policy](https://blankie.rest/privacy) for more details.
 
 ## I found a bug. How do I report it?
 

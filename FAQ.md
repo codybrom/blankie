@@ -2,28 +2,53 @@
 
 ## How do I get started with Blankie?
 
-There's currently two ways to get started:
+There's three ways to get started:
 
-1. **TestFlight**
+1. **Mac App Store**
 
-   Get early access to new features by joining our [TestFlight Public Beta](https://testflight.apple.com/join/XgpBpWv8)
+   - Download the latest stable version of Blankie on the  [Mac App Store](https://apps.apple.com/us/app/blankie/id6740096581) and receive automatic updates.
+   - _This is the recommended way to install Blankie._
 
 2. **Direct Download**
    - Download the latest .zip from the [Releases](https://github.com/codybrom/blankie/releases) on GitHub
    - Copy the app to your Applications folder
    - Open Blankie and click a sound to start!
 
+3. **TestFlight (Beta Versions)**
+
+   Get early access to new features by joining our [TestFlight Public Beta](https://testflight.apple.com/join/XgpBpWv8)
+
 ## Is Blankie free?
 
-Yes! Blankie is completely free (and open source!). You can download and use Blankie at no cost, forever.
+Yes! Blankie is completely free (and open source). You can download and use Blankie at no cost, forever.
 
 We believe everyone should have access to tools that help them focus, relax, and be productive. Blankie is developed and maintained as a passion project supported by an amazing open source community.
 
 While Blankie will always remain free, if you'd like to support development you can:
 
 - Star and contribute to the project on [GitHub](https://github.com/codybrom/blankie)
-- Help test new features through TestFlight
+- Help test new features through [TestFlight](https://testflight.apple.com/join/XgpBpWv8)
 - Share Blankie with others who might find it useful
+
+## What does open source mean?
+
+Open source means that Blankie's source code (the raw programming instructions that make the app and this website work) is publicly available for anyone to view, modify, and even contribute to.
+
+_**Why does this matter if you're not a programmer?**_
+
+Even if you don't write code, Blankie being open source benefits you in several important ways:
+
+- **Transparency:** You can trust Blankie because nothing is hidden. Anyone can verify exactly how it works, what data it collects (or doesn't collect), and help identify and fix problems. Blankie can also be downloaded for use seperate of the Mac App Store in an official version that is still scanned and signed by Apple to safely run as a trusted app.
+
+- **Community:** Blankie exists thanks to a collaborative ecosystem. From sounds, to icons, to developer resources and inspirations, Blankie builds upon contributions from creators around the world who've shared their work openly. By also being open source, Blankie honors this tradition and ensures it can continue to evolve even if the original developer moves on.
+
+- **Freedom:** The open source MIT license means Blankie is free to use without cost or restrictions, today and in the future. It also means you can make your own version of Blankie or reuse portions of its code in your own projects (as long as you follow the license terms).
+
+Blankie's complete source code, including both the macOS app and this entire website, is available on [GitHub](https://github.com/codybrom/blankie) for anyone to explore, use, or contribute to.
+
+## How can I contribute to Blankie?
+
+Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how to get involved
 
 ## How do I control playback and volume?
 

@@ -7,11 +7,11 @@
   --color-deep-blue: #004cc2;
   --color-dark-gray: #1a1a1a;
   --color-light-gray: #f0f0f0;
-  --color-coming-soon: #71717a;
+  --color-coming-soon: #606080;
 
   /* Theme variables for light mode */
   --color-text-base: #333333;
-  --color-text-muted: #555555;
+  --color-text-muted: #777777;
   --color-text-inverted: #ffffff;
   --color-bg-fill: white;
   --color-bg-muted: #f5f5f5;
@@ -23,7 +23,7 @@
 .dark {
   --color-text-base: #e0e0e0;
   --color-text-muted: #a0a0a0;
-  --color-text-inverted: #333333;
+  --color-text-inverted: #070707;
   --color-bg-fill: #0a0a0a;
   --color-bg-muted: #1a1a1a;
   --color-bg-card: rgba(255, 255, 255, 0.1);

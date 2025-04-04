@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import soundsJSON from "../../../Blankie/Resources/sounds.json";
+import ccSvg from "../assets/cc.svg";
+import bySvg from "../assets/by.svg";
 
 const title = "Credits";
 
@@ -202,49 +204,66 @@ function getLicenseURL(license: string) {
       <!-- Assets & Other Credits -->
       <section class="mb-12">
         <h2 class="text-2xl font-semibold mb-4">Assets & Other Credits</h2>
-        <div class="bg-dark-gray rounded-lg p-6 shadow-sm space-y-8">
+        <div class="bg-dark-gray rounded-lg p-6 shadow-sm space-y-8 not-prose">
           <!-- App Icon subsection -->
           <div>
             <h3 class="text-xl font-medium mb-3">App Icon & Logo</h3>
-            <p class="mb-4">
-              The Blankie logo and app icon were created by <a
+            <p>
+              The Blankie logo and app icon were created by
+              <a
                 href="https://github.com/codybrom"
                 class="text-yellow-500 hover:text-yellow-700 transition-colors"
-                >Cody Bromley</a
-              > and are licensed under <a
+              >
+                Cody Bromley
+              </a>
+              and used under the
+              <a
                 href="https://creativecommons.org/licenses/by/4.0/"
                 class="text-yellow-500 hover:text-yellow-700 transition-colors"
-                >Creative Commons Attribution 4.0 International License</a
               >
-              <img
-                class="h-[22px] inline"
-                src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"
-                alt="Creative Commons"
-              />
-              <img
-                class="h-[22px] inline"
-                src="https://mirrors.creativecommons.org/presskit/icons/by.svg"
-                alt="Attribution"
-              />
+                Creative Commons Attribution 4.0 International License
+                <img
+                  class="h-[22px] inline-block"
+                  src={ccSvg.src}
+                  alt="Creative Commons"
+                  aria-label="Creative Commons License"
+                />
+                <img
+                  class="h-[22px] inline-block"
+                  src={bySvg.src}
+                  alt="Attribution"
+                  aria-label="Attribution Required"
+                />
+              </a>
             </p>
+            <h3 class="text-lg mt-4 mb-2 font-bold">
+              Exceptions for Attribution
+            </h3>
             <p>
-              You may share, copy, and adapt the Blankie logo/icon, but you must
-              give appropriate credit, link to the license, and indicate if
-              changes were made.
-
-              <h4 class="mt-4 mb-2 font-bold font-heading">Media Exception</h4>
-              If you would like to write about Blankie for a website or blog, you
-              are are permitted to use the Blankie icon without attribution as long
-              as all of the following conditions are met:
-              <ul class="list-disc my-2 pl-5">
-                <li>
-                  the icon is not cropped, distorted, recolored or otherwise
-                  altered in any way
-                </li>
-                <li>and it is used in reference to the Blankie app</li>
-                <li>and a link to this website is provided.</li>
-              </ul>
+              If you would like to write about Blankie on your website or blog,
+              the icon's creator officially permits you to use the official
+              Blankie icon without attribution when <u
+                ><b>all of the following conditions</b></u
+              >
+              are met:
             </p>
+            <ul class="list-disc my-2 pl-5">
+              <li>
+                the icon is not cropped, distorted, recolored or otherwise
+                altered in any way
+              </li>
+              <li>the icon is used in reference to the Blankie app</li>
+              <li>
+                the icon is used on the same page as a link to the Blankie
+                <a href="https://blankie.rest">website</a>, <a
+                  href="https://github.com/codybrom/blankie"
+                  >GitHub repository</a
+                >, or <a
+                  href="https://apps.apple.com/us/app/blankie/id6740096581"
+                  >Mac App Store listing</a
+                >.
+              </li>
+            </ul>
           </div>
 
           <!-- Sound Icons subsection -->
@@ -258,9 +277,14 @@ function getLicenseURL(license: string) {
               > for sound icons. SF Symbols are provided by Apple as a system resource,
               with usage governed by the <a
                 href="https://www.apple.com/legal/sla/docs/xcode.pdf"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-                >Xcode and Apple SDKs Agreement</a
-              >.
+                class="text-yellow-500 hover:text-yellow-700 transition-colors inline-flex items-center gap-1"
+              >
+                Xcode and Apple SDKs Agreement
+                <span
+                  class="text-xs px-1.5 py-0.5 bg-zinc-700 rounded-md"
+                  aria-label="PDF file">PDF</span
+                >
+              </a>.
             </p>
           </div>
 

@@ -37,12 +37,12 @@ const formattedInitialStars =
   href={`https://github.com/${REPO}`}
   target="_blank"
   rel="noopener noreferrer"
-  class="inline-flex items-center text-sm group"
+  class="inline-flex items-center text-sm group hover:bg-[#30363d] transition-colors duration-200 rounded-md border border-mid-gray"
   title="Star us on GitHub"
   id="github-stars-link"
 >
   <span
-    class="inline-flex items-center gap-1.5 px-3 py-1 font-medium border rounded-l-md bg-card border-mid-gray text-light-gray hover:bg-[#30363d] transition-colors duration-200"
+    class="inline-flex items-center gap-1.5 px-3 py-1 font-medium bg-card text-light-gray"
   >
     <svg
       viewBox="0 0 16 16"
@@ -58,7 +58,7 @@ const formattedInitialStars =
     <span>GitHub Stars</span>
   </span>
   <span
-    class="inline-flex items-center px-3 py-1 font-medium border border-l-0 rounded-r-md bg-card border-mid-gray text-light-gray hover:bg-[#30363d] transition-colors duration-200"
+    class="inline-flex items-center px-3 py-1 font-medium bg-card text-light-gray border-l border-mid-gray"
     id="github-stars-count"
   >
     {formattedInitialStars}

@@ -11,10 +11,10 @@
 [![GitHub](https://img.shields.io/github/license/codybrom/blankie.svg)](https://github.com/codybrom/blankie/blob/master/LICENSE)
 
 <div align="center">
-  <p><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie"></p>
-    <p><a href="https://apps.apple.com/us/app/blankie/id6740096581">
-    <img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="200">
-  </a></p>
+  <a href="https://apps.apple.com/us/app/blankie/id6740096581">
+    <p><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie"></p>
+    <p><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="200"></p>
+  </a>
 </div>
 
 ## Description

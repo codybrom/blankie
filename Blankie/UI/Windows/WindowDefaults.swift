@@ -32,6 +32,8 @@ struct WindowDefaults {
     window.title = title
     window.toolbarStyle = .unified
     window.minSize = NSSize(width: minWidth, height: minHeight)
+    window.isExcludedFromWindowsMenu = true
+    window.tabbingMode = .disallowed
 
     // Get saved frame
     let savedFrame = WindowObserver.shared.getLastWindowFrame()

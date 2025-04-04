@@ -59,10 +59,8 @@ function getLicenseURL(license: string) {
 ---
 
 <Layout title={title}>
-  <main
-    class="prose prose-lg dark:prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10"
-  >
-    <div class="prose prose-lg dark:prose-invert max-w-none">
+  <main class="prose prose-lg prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <div class="prose prose-lg prose-invert max-w-none">
       <h1 class="text-4xl font-bold mb-8">Credits</h1>
 
       <!-- Development & License -->
@@ -97,7 +95,7 @@ function getLicenseURL(license: string) {
               are reserved.
             </p>
 
-            <p class="text-skin-muted text-sm my-2">
+            <p class="text-mid-gray text-sm my-2">
               <i>
                 Blankie is an independent macOS application built without
                 re-using any code from the Blanket project, but it does use some
@@ -165,7 +163,7 @@ function getLicenseURL(license: string) {
           <div class="grid gap-6 sm:grid-cols-2">
             {
               sounds.map((sound) => (
-                <div class="px-4 border border-skin-muted rounded-lg w-full overflow-hidden">
+                <div class="px-4 border border-mid-gray rounded-lg w-full overflow-hidden">
                   <p class="text-md text-zinc-300 font-semibold my-1">
                     {sound.title}
                   </p>

@@ -19,15 +19,12 @@ function slugify(text: string) {
 
 // Function to rewrite relative GitHub links
 function rewriteGitHubLinks(content: string) {
-  return content.replace(
-    /(\[.*?\])\(((?!http|#).*?)\)/g,
-    (match, text, link) => {
-      if (link.startsWith("./") || link.startsWith("../")) {
-        link = link.replace(/^\.\.?\//, "");
-      }
-      return `${text}(https://github.com/codybrom/blankie/blob/main/${link})`;
+  return content.replace(/(\[.*?\])\(((?!http|#).*?)\)/g, (text, link) => {
+    if (link.startsWith("./") || link.startsWith("../")) {
+      link = link.replace(/^\.\.?\//, "");
     }
-  );
+    return `${text}(https://github.com/codybrom/blankie/blob/main/${link})`;
+  });
 }
 
 // Get only the content starting from the first h2
@@ -109,28 +106,21 @@ const tocItems = processedSections
   <main class="max-w-5xl mx-auto px-5 pt-28 pb-10">
     <h1 class="text-4xl font-semibold mb-6">Contributing to Blankie</h1>
 
-    <div
-      class="border border-gray-700 bg-gray-900/50 rounded-lg p-6 mb-8 text-gray-300"
-    >
+    <div class="border border-gray-700 bg-card rounded-lg p-6 mb-8 text-base">
       <p class="text-md leading-relaxed">
         {introText}
       </p>
     </div>
 
     <!-- Table of Contents -->
-    <div class="bg-dark-gray rounded-lg p-6 mb-8">
-      <h2 class="text-2xl font-semibold mb-4 text-gray-100">
-        Table of Contents
-      </h2>
+    <div class="bg-card rounded-lg p-6 mb-8">
+      <h2 class="text-2xl font-semibold mb-4 text-base">Table of Contents</h2>
       <nav>
         <ul class="list-disc list-inside space-y-2">
           {
             tocItems.map(({ title, titleId, subItems }) => (
               <li>
-                <a
-                  href={`#${titleId}`}
-                  class="text-gray-300 hover:text-yellow-500"
-                >
+                <a href={`#${titleId}`} class="text-base hover:text-yellow-500">
                   {title}
                 </a>
                 {subItems.length > 0 && (
@@ -139,7 +129,7 @@ const tocItems = processedSections
                       <li>
                         <a
                           href={`#${item.titleId}`}
-                          class="text-gray-300 hover:text-yellow-500"
+                          class="text-base hover:text-yellow-500"
                         >
                           {item.title}
                         </a>
@@ -159,10 +149,10 @@ const tocItems = processedSections
       {
         processedSections.map(({ title, titleId, content }) =>
           title ? (
-            <div class="bg-dark-gray rounded-lg p-6">
+            <div class="bg-card rounded-lg p-6">
               <h2
                 id={titleId}
-                class="group text-2xl font-semibold mb-4 text-gray-100"
+                class="group text-2xl font-semibold mb-4 text-base"
               >
                 {title}
                 <a
@@ -172,12 +162,12 @@ const tocItems = processedSections
                   #
                 </a>
               </h2>
-              <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-gray-100">
+              <div class="prose prose-lg prose-invert max-w-none prose-headings:text-base">
                 <Fragment set:html={content} />
               </div>
             </div>
           ) : (
-            <div class="prose prose-lg dark:prose-invert max-w-none">
+            <div class="prose prose-lg prose-invert max-w-none">
               <Fragment set:html={content} />
             </div>
           )

@@ -92,7 +92,7 @@ Open Preferences through either:
 - The Settings menu in your Mac's menubar under Blankie
 - The titlebar menu
 
-## What's the difference between Blankie and Blanket?
+## What is the difference between Blankie and Blanket?
 
 Blankie is a native macOS app inspired by Blanket, but it's completely separate and independently developed:
 

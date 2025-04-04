@@ -5,8 +5,8 @@ import { marked } from "marked";
 const title = "FAQ";
 
 // Import the markdown file directly
-const { Content, getHeadings, rawContent } = await import("../../../FAQ.md");
-const headings = await getHeadings();
+const { getHeadings, rawContent } = await import("../../../FAQ.md");
+const headings = getHeadings();
 
 // Filter out the main h1 title, we only want the questions
 const questions = headings.filter((h) => h.depth === 2);
@@ -28,10 +28,8 @@ const questionContent = Object.fromEntries(
 ---
 
 <Layout title={title}>
-  <main
-    class="prose prose-lg dark:prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10"
-  >
-    <section class="text-skin-base bg-skin-fill">
+  <main class="prose prose-lg prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <section class="text-base bg-black">
       <h1 class="text-4xl font-semibold mb-6">Frequently Asked Questions</h1>
 
       <div class="not-prose">

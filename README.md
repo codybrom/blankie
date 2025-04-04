@@ -10,15 +10,12 @@
 [![Xcode](https://img.shields.io/badge/XCode%2016-007ACC?logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)
 [![GitHub](https://img.shields.io/github/license/codybrom/blankie.svg)](https://github.com/codybrom/blankie/blob/master/LICENSE)
 
-<p align="center">
-
-  <a href="https://apps.apple.com/us/app/blankie/id6740096581">
+<div align="center">
+  <p><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie"></p>
+    <p><a href="https://apps.apple.com/us/app/blankie/id6740096581">
     <img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="200">
-  </a>
-
-![Screenshot](docs/src/assets/screenshot.png)
-
-</p>
+  </a></p>
+</div>
 
 ## Description
 

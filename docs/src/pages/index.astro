@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
 import screenshot from "../assets/screenshot.png";
+import macAppStoreBadge from "../assets/download-on-mac-app-store.svg";
 import wavesVideo from "../assets/waves.mp4";
 
 const title = "Ambient sound mixer for macOS";
@@ -57,17 +58,26 @@ const title = "Ambient sound mixer for macOS";
         class="flex flex-col items-center max-w-fit mx-auto gap-y-5 mt-4"
       >
         <a
-          href="https://testflight.apple.com/join/XgpBpWv8"
-          class="bg-primary-blue hover:bg-deep-blue text-white py-3 px-8 rounded-full text-lg font-normal cursor-pointer no-underline transition-all duration-300 flex items-center gap-x-2"
+          href="https://apps.apple.com/us/app/blankie/id6740096581"
+          class="hover:opacity-80 transition-opacity duration-300"
         >
-          Join the TestFlight Public Beta</a
-        >
-        <a
-          href="https://github.com/codybrom/blankie/releases/latest"
-          class="text-gray-200 hover:text-yellow-500 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
-        >
-          or download directly from GitHub
+          <Image
+            src={macAppStoreBadge}
+            alt="Download on the Mac App Store"
+            width={240}
+            height={80}
+            loading="eager"
+          />
         </a>
+
+        <div class="flex flex-col sm:flex-row gap-4 items-center">
+          <a
+            href="https://github.com/codybrom/blankie/releases/latest"
+            class="text-gray-200 hover:text-yellow-500 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
+          >
+            or download directly from GitHub
+          </a>
+        </div>
       </div>
       <p
         class="text-lg mt-12 flex items-center justify-center gap-2 text-gray-100"

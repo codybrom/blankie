@@ -134,3 +134,17 @@ body {
     }
   }
 }
+
+.mobile-menu-open {
+  overflow: hidden;
+}
+
+#mobile-menu {
+  &.hidden {
+    display: none;
+  }
+  
+  &.block {
+    display: block;
+  }
+}

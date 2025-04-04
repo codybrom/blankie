@@ -19,10 +19,15 @@ const title = "Ambient sound mixer for macOS";
         loop
         muted
         playsinline
+        aria-hidden="true"
         class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-40"
       >
         <source src={wavesVideo} type="video/mp4" />
       </video>
+      <span class="sr-only">
+        Background video showing gentle ocean waves flowing, creating a calm
+        ambient atmosphere.
+      </span>
     </div>
     <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-16">
       <h1
@@ -102,58 +107,58 @@ const title = "Ambient sound mixer for macOS";
   <section class="max-w-5xl mx-auto px-5 py-10" id="features">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
       >
         <div class="text-3xl mb-5">🔊</div>
         <h3 class="text-xl font-semibold mb-2">Dulcet Tones</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           Built-in collection of high-quality ambient soundscapes.
         </p>
       </div>
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
       >
         <div class="text-3xl mb-5">🎚️</div>
         <h3 class="text-xl font-semibold mb-2">Mixed by You</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           Fine-tune with individual and global volume controls.
         </p>
       </div>
 
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
       >
         <div class="text-3xl mb-5">💾</div>
         <h3 class="text-xl font-semibold mb-2">Preset Perfection</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           Quick access to your favorite ambient blends.
         </p>
       </div>
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
       >
         <div class="text-3xl mb-5"></div>
         <h3 class="text-xl font-semibold mb-2">Made for macOS</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           <i class="font-semibold">It just works</i> with media keys, Control Center
           & AirPod controls.
         </p>
       </div>
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
       >
         <div class="text-3xl mb-5">♾️</div>
         <h3 class="text-xl font-semibold mb-2">Open-Source & Free</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           No in-app purchases or subscriptions. Ever.
         </p>
       </div>
       <div
-        class="feature-card bg-skin-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 coming-soon-card relative"
+        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 coming-soon-card relative"
       >
         <div class="text-3xl mb-5">📁</div>
         <h3 class="text-xl font-semibold mb-2">Custom Sounds</h3>
-        <p class="text-skin-muted text-base">
+        <p class="text-mid-gray base">
           Soon, you'll be able to add your own sounds for a truly custom mix.
         </p>
       </div>

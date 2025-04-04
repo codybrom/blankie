@@ -5,11 +5,37 @@ import { marked } from "marked";
 const title = "FAQ";
 
 // Import the markdown file directly
-const { Content, getHeadings, rawContent } = await import("../../../FAQ.md");
-const headings = await getHeadings();
+const { getHeadings, rawContent } = await import("../../../FAQ.md");
+const headings = getHeadings();
 
 // Filter out the main h1 title, we only want the questions
 const questions = headings.filter((h) => h.depth === 2);
+
+// Function to rewrite relative GitHub links
+function rewriteGitHubLinks(content: string): string {
+  return content.replace(
+    /(\[.*?\])\(((?!http|#).*?)\)/g,
+    (match, linkText, linkPath) => {
+      // Skip links that are already absolute or anchors
+      if (linkPath.startsWith("http") || linkPath.startsWith("#")) {
+        return match;
+      }
+
+      // Special case for CONTRIBUTING.md - link to website page
+      if (linkPath.match(/CONTRIBUTING\.md$/i)) {
+        return `${linkText}(/contributing)`;
+      }
+
+      // Remove leading ./ or ../ if present
+      if (linkPath.startsWith("./") || linkPath.startsWith("../")) {
+        linkPath = linkPath.replace(/^\.\.?\//, "");
+      }
+
+      // Return the formatted GitHub link
+      return `${linkText}(https://github.com/codybrom/blankie/blob/main/${linkPath})`;
+    }
+  );
+}
 
 // Split content by headings and parse to HTML
 const content = rawContent();
@@ -19,8 +45,30 @@ const questionContent = Object.fromEntries(
     .slice(1) // Skip the first section (before first ##)
     .map((section) => {
       const title = section.match(/## (.*)\n/)?.[1] || "";
-      const content = section.replace(/## .*\n/, "").trim();
-      return [title, marked(content)]; // Parse markdown to HTML
+      let content = section.replace(/## .*\n/, "").trim();
+
+      // Process content to handle GitHub links
+      content = rewriteGitHubLinks(content);
+
+      // Convert alerts/notes similar to the contributing page
+      const htmlContent = marked(content) as string;
+      const processedContent = htmlContent.replace(
+        /<blockquote>[\s\n]*<p>\[!(IMPORTANT|NOTE|WARNING|CAUTION)\][\s\n]*(.*?)(<\/p>.*?)<\/blockquote>/gs,
+        (
+          _match: string,
+          alertType: string,
+          alertTitle: string,
+          alertContent: string
+        ) => `
+          <div class="my-6 p-4 rounded-lg border-l-4 bg-yellow-500/10 border-yellow-500">
+            <div class="font-semibold mb-2 text-lg">${alertType}</div>
+            <p>${alertTitle.trim()}</p>
+            ${alertContent.replace("</p>", "")}
+          </div>
+        `
+      );
+
+      return [title, processedContent];
     })
 );
 
@@ -28,10 +76,8 @@ const questionContent = Object.fromEntries(
 ---
 
 <Layout title={title}>
-  <main
-    class="prose prose-lg dark:prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10"
-  >
-    <section class="text-skin-base bg-skin-fill">
+  <main class="prose prose-lg prose-invert max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <section class="text-base bg-black">
       <h1 class="text-4xl font-semibold mb-6">Frequently Asked Questions</h1>
 
       <div class="not-prose">

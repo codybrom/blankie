@@ -10,6 +10,8 @@ import SwiftUI
 
 @main
 struct BlankieApp: App {
+  @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
+
   @StateObject private var audioManager = AudioManager.shared
   @StateObject private var windowObserver = WindowObserver.shared
   @State private var showingAbout = false
@@ -18,7 +20,7 @@ struct BlankieApp: App {
   @State private var presetName = ""
 
   var body: some Scene {
-    WindowGroup {
+    Window("Blankie", id: "main") {
       WindowDefaults.defaultContentView(
         showingAbout: $showingAbout,
         showingShortcuts: $showingShortcuts,
@@ -26,30 +28,35 @@ struct BlankieApp: App {
         presetName: $presetName
       )
     }
+    .defaultPosition(.center)
+    .windowResizability(.contentSize)
+    .windowStyle(.automatic)
     .defaultSize(width: WindowDefaults.defaultWidth, height: WindowDefaults.defaultHeight)
     .windowToolbarStyle(.unified)
-    .commands {
+    .commandsReplaced {
       AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
     }
 
-    MenuBarExtra("Blankie", systemImage: "waveform") {
-      Button("Show Main Window") {
-        NSApp.activate(ignoringOtherApps: true)
-      }
-
-      Divider()
-
-      Button("About Blankie") {
-        NSApp.activate(ignoringOtherApps: true)
-        showingAbout = true
-      }
-
-      Divider()
-
-      Button("Quit Blankie") {
-        NSApplication.shared.terminate(nil)
-      }
-    }
+    //
+    //
+    // MenuBarExtra("Blankie", systemImage: "waveform") {
+    //   Button("Show Main Window") {
+    //     NSApp.activate(ignoringOtherApps: true)
+    //   }
+    //
+    //   Divider()
+    //
+    //   Button("About Blankie") {
+    //     NSApp.activate(ignoringOtherApps: true)
+    //     showingAbout = true
+    //   }
+    //
+    //   Divider()
+    //
+    //   Button("Quit Blankie") {
+    //     NSApplication.shared.terminate(nil)
+    //   }
+    // }
 
     Settings {
       PreferencesView()

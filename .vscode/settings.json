@@ -1,22 +1,4 @@
 {
-  "gpt-context-generator.detectedFileExtensions": [
-    "json",
-    "swift",
-    "plist",
-    "pbxproj",
-    "entitlements",
-    "md",
-    "yml",
-    "html",
-    "astro",
-    "ts",
-    "mjs",
-    "scss",
-    "CNAME",
-    "Dockerfile",
-    "xcconfig",
-    "xctestplan"
-  ],
   "markdownlint.config": {
     "default": true,
     "MD013": false,

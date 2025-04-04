@@ -32,6 +32,8 @@ struct WindowDefaults {
     window.title = title
     window.toolbarStyle = .unified
     window.minSize = NSSize(width: minWidth, height: minHeight)
+    window.isExcludedFromWindowsMenu = true
+    window.tabbingMode = .disallowed
 
     // Get saved frame
     let savedFrame = WindowObserver.shared.getLastWindowFrame()
@@ -54,9 +56,9 @@ struct WindowDefaults {
   ) -> some View {
     ContentView(
       showingAbout: showingAbout,
+      showingShortcuts: showingShortcuts,
       showingNewPresetPopover: showingNewPresetPopover,
-      presetName: presetName,
-      showingShortcuts: showingShortcuts
+      presetName: presetName
     )
     .frame(minWidth: minWidth, minHeight: minHeight)
     .toolbar {

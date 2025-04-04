@@ -223,6 +223,9 @@ class PresetManager: ObservableObject {
     currentPreset = preset
     PresetStorage.saveLastActivePresetID(preset.id)
 
+    // Explicitly update Now Playing info with preset name
+    AudioManager.shared.updateNowPlayingInfo(presetName: preset.name)
+
     Task {
       if wasPlaying {
         AudioManager.shared.pauseAll()

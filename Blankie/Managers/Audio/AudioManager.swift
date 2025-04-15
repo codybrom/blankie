@@ -118,6 +118,11 @@ class AudioManager: ObservableObject {
       }
     }
 
+    guard Bundle.main.url(forResource: "sounds", withExtension: "json") != nil else {
+      print("❌ AudioManager: sounds.json file not found in Resources folder")
+      ErrorReporter.shared.report(AudioError.fileNotFound)
+      return
+    }
     guard let url = Bundle.main.url(forResource: "sounds", withExtension: "json") else {
       print("❌ AudioManager: sounds.json file not found in Resources folder")
       ErrorReporter.shared.report(AudioError.fileNotFound)
@@ -223,19 +228,36 @@ class AudioManager: ObservableObject {
     nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
 
-    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-      let image = NSImage(contentsOf: url),
-      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-    {
-      let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
-        NSImage(cgImage: cgImage, size: size)
+    #if os(iOS) || os(visionOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = UIImage(data: imageData)
+      {
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+          return image
+        }
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
       }
-      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-    }
+    #elseif os(macOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = NSImage(data: imageData)
+      {
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+          return image
+        }
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+      }
+    #endif
+
     updatePlaybackState()
   }
 
-  public func updateNowPlayingInfo(presetName: String? = nil) {
+  public func updateNowPlayingInfoForPreset(presetName: String? = nil) {
+    updateNowPlayingInfo(presetName: presetName)
+  }
+
+  private func updateNowPlayingInfo(presetName: String? = nil) {
     var nowPlayingInfo = [String: Any]()
 
     // Get the current preset name for the title
@@ -257,15 +279,27 @@ class AudioManager: ObservableObject {
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
 
-    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-      let image = NSImage(contentsOf: url),
-      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-    {
-      let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
-        NSImage(cgImage: cgImage, size: size)
+    #if os(iOS) || os(visionOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = UIImage(data: imageData)
+      {
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+          return image
+        }
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
       }
-      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-    }
+    #elseif os(macOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = NSImage(data: imageData)
+      {
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+          return image
+        }
+        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+      }
+    #endif
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
@@ -277,7 +311,8 @@ class AudioManager: ObservableObject {
     )
 
     // Update volume through GlobalSettings
-    await GlobalSettings.shared.setVolume(isGloballyPlaying ? 1.0 : 0.0)
+    let newVolume = isGloballyPlaying ? 1.0 : 0.0
+    await GlobalSettings.shared.setVolume(newVolume)
   }
 
   private func updatePlaybackState() {
@@ -287,28 +322,65 @@ class AudioManager: ObservableObject {
     nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 0  // Infinite for ambient sounds
     // Update the now playing info
     print(
-      "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), "
-        + "playbackRate: \(nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? -1)"
+      "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), playbackRate: \(nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? -1)"
     )
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
 
   private func setupNotificationObservers() {
-    NotificationCenter.default.addObserver(
-      forName: NSApplication.willTerminateNotification,
-      object: nil,
-      queue: .main
-    ) { [weak self] _ in
-      self?.handleAppTermination()
-    }
+    #if os(iOS) || os(visionOS)
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.willTerminateNotification,
+        object: nil,
+        queue: .main
+      ) { _ in
+        self.handleAppTermination()
+      }
+
+      // Background/foreground handling
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.didEnterBackgroundNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        self?.saveState()
+      }
+
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.willEnterForegroundNotification,
+        object: nil,
+        queue: .main
+      ) { _ in
+        // Ensure audio session is active
+        do {
+          try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+          print("Failed to reactivate audio session: \(error)")
+        }
+      }
+    #elseif os(macOS)
+      NotificationCenter.default.addObserver(
+        forName: NSApplication.willTerminateNotification,
+        object: nil,
+        queue: .main
+      ) { _ in
+        self.handleAppTermination()
+      }
+
+      // On macOS, save state periodically since there's no direct background notification
+      Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+        self?.saveState()
+      }
+    #endif
   }
+
   private func handleAppTermination() {
     print("🎵 AudioManager: App is terminating, cleaning up")
     cleanup()
   }
 
   private func cleanup() {
-    pauseAll()
+    saveState()
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     print("🎵 AudioManager: Cleanup complete")
   }

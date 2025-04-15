@@ -71,8 +71,6 @@ struct PresetPicker: View {
       )
     }
   }
-
-  // Removed the helper function completely
 }
 
 private struct PresetList: View {
@@ -80,6 +78,14 @@ private struct PresetList: View {
   @Binding var isPresented: Bool
   @Binding var selectedPresetForEdit: Preset?
   @State private var error: Error?
+
+  var backgroundColorForPlatform: Color {
+    #if os(macOS)
+      return Color(NSColor.controlBackgroundColor)
+    #else
+      return Color(UIColor.secondarySystemBackground)
+    #endif
+  }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -100,7 +106,7 @@ private struct PresetList: View {
         }
       }
     }
-    .background(Color(NSColor.controlBackgroundColor))
+    .background(backgroundColorForPlatform)
     .alert("Error", isPresented: .constant(error != nil)) {
       Button("OK") { error = nil }
     } message: {
@@ -152,7 +158,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Rename Preset")
+        #if os(macOS)
+          .help("Rename Preset")
+        #endif
         Button(action: {
           presetManager.deletePreset(preset)
         }) {
@@ -160,7 +168,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Delete Preset")
+        #if os(macOS)
+          .help("Delete Preset")
+        #endif
       }
     }
     .padding(.horizontal, 12)

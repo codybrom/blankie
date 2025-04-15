@@ -16,13 +16,27 @@ struct PreferencesView: View {
   }
 
   var textColorForAccent: Color {
-    if let nsColor = NSColor(accentColorForUI).usingColorSpace(.sRGB) {
-      let brightness =
-        (0.299 * nsColor.redComponent) + (0.587 * nsColor.greenComponent)
-        + (0.114 * nsColor.blueComponent)
+    #if os(macOS)
+      if let nsColor = NSColor(accentColorForUI).usingColorSpace(.sRGB) {
+        let brightness =
+          (0.299 * nsColor.redComponent) + (0.587 * nsColor.greenComponent)
+          + (0.114 * nsColor.blueComponent)
+        return brightness > 0.5 ? .black : .white
+      }
+      return .white
+    #elseif os(iOS) || os(visionOS)
+      let uiColor = UIColor(accentColorForUI)
+      var red: CGFloat = 0
+      var green: CGFloat = 0
+      var blue: CGFloat = 0
+      var alpha: CGFloat = 0
+
+      uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+      let brightness = (0.299 * red) + (0.587 * green) + (0.114 * blue)
       return brightness > 0.5 ? .black : .white
-    }
-    return .white
+    #else
+      return .white
+    #endif
   }
 
   var appearanceButtons: some View {
@@ -107,7 +121,9 @@ struct PreferencesView: View {
             set: { globalSettings.setAlwaysStartPaused($0) }
           )
         )
-        .help("Wait for play button before starting sounds")
+        #if os(macOS)
+          .help("Wait for play button before starting sounds")
+        #endif
         .tint(accentColorForUI)
       }
 

@@ -18,27 +18,61 @@ struct AboutView: View {
   private let buildNumber = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
 
   var body: some View {
+    Group {
+      #if os(iOS)
+        NavigationView {
+          aboutContent
+            .navigationTitle("About Blankie")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+              ToolbarItem(placement: .primaryAction) {
+                Button("Done") { dismiss() }
+              }
+            }
+        }
+      #else
+        aboutContent
+          .frame(width: 480, height: 650)
+      #endif
+    }
+  }
+
+  private var aboutContent: some View {
     ScrollView {
       VStack(spacing: 20) {
-        // Header with Close button
-        HStack {
-          Spacer()
-          Button(action: { dismiss() }) {
-            Image(systemName: "xmark.circle.fill")
-              .foregroundColor(.secondary)
-              .imageScale(.large)
+        // Header with Close button (macOS only)
+        #if os(macOS)
+          HStack {
+            Spacer()
+            Button(action: { dismiss() }) {
+              Image(systemName: "xmark.circle.fill")
+                .foregroundColor(.secondary)
+                .imageScale(.large)
+            }
+            .buttonStyle(.plain)
+            .help("Close")
+            .keyboardShortcut(.defaultAction)
           }
-          .buttonStyle(.plain)
-          .help("Close")
-          .keyboardShortcut(.defaultAction)
-        }
-        .padding(.bottom, -8)
+          .padding(.bottom, -8)
+        #endif
 
         // App Icon
-        if let appIcon = NSApplication.shared.applicationIconImage {
-          Image(nsImage: appIcon)
-            .resizable()
-            .frame(width: 128, height: 128)
+        Group {
+          #if os(iOS)
+            if let aboutIcon = UIImage(named: "AboutIcon") {
+              Image(uiImage: aboutIcon)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100)
+                .cornerRadius(20)
+            }
+          #else
+            if let appIcon = NSApplication.shared.applicationIconImage {
+              Image(nsImage: appIcon)
+                .resizable()
+                .frame(width: 128, height: 128)
+            }
+          #endif
         }
 
         // App Info Section
@@ -125,7 +159,6 @@ struct AboutView: View {
       }
       .padding(20)
     }
-    .frame(width: 480, height: 650)
   }
 
   private var developerSection: some View {
@@ -176,19 +209,6 @@ struct AboutView: View {
     }
     .font(.system(size: 12))
     .italic()
-  }
-
-  private var soundCreditsSection: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Sound Credits")
-        .font(.system(size: 13, weight: .bold))
-
-      VStack(alignment: .leading, spacing: 4) {
-        ForEach(creditsManager.credits, id: \.name) { credit in
-          CreditRow(credit: credit)
-        }
-      }
-    }
   }
 
   struct ExpandableSection<Content: View>: View {
@@ -244,11 +264,13 @@ struct AboutView: View {
           .buttonStyle(.plain)
           .onHover { hovering in
             isHovering = hovering
-            if hovering {
-              NSCursor.pointingHand.push()
-            } else {
-              NSCursor.pop()
-            }
+            #if os(macOS)
+              if hovering {
+                NSCursor.pointingHand.push()
+              } else {
+                NSCursor.pop()
+              }
+            #endif
           }
 
           // Expanded Content
@@ -328,7 +350,7 @@ private var softwareLicenseSection: some View {
     )
     .font(.system(size: 12))
     Text(
-      "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+      "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
     )
     .font(.system(size: 12))
     Link(

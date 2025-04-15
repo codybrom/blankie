@@ -19,6 +19,14 @@ struct ShortcutsView: View {
     ("⌘ Q", "Quit"),
   ]
 
+  var backgroundColorForPlatform: Color {
+    #if os(macOS)
+      return Color(NSColor.windowBackgroundColor)
+    #else
+      return Color(UIColor.systemBackground)
+    #endif
+  }
+
   var body: some View {
     VStack(alignment: .leading, spacing: 16) {
       // Header with close button
@@ -61,7 +69,7 @@ struct ShortcutsView: View {
     }
     .padding()
     .frame(width: 300)
-    .background(Color(NSColor.windowBackgroundColor))
+    .background(backgroundColorForPlatform)
     .cornerRadius(12)
   }
 }

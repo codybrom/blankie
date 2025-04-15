@@ -13,6 +13,7 @@ struct EditPresetSheet: View {
   @Binding var isPresented: Preset?
   @ObservedObject private var presetManager = PresetManager.shared
   @State private var error: String?
+  @Environment(\.dismiss) private var dismiss
 
   var body: some View {
     VStack(spacing: 16) {
@@ -36,6 +37,9 @@ struct EditPresetSheet: View {
             } else {
               error = "Preset name cannot be empty"
             }
+          }
+          .onAppear {
+            presetName = preset.name
           }
 
         if let error = error {

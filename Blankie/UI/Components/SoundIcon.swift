@@ -85,51 +85,9 @@ struct SoundIcon: View {
     .frame(width: maxWidth)
   }
 }
-#Preview("Selected") {
-  SoundIcon(
-    sound: Sound(
-      title: "Rain",
-      systemIconName: "cloud.rain",
-      fileName: "rain"
-    ),
-    maxWidth: 150
-  )
-  .onAppear {
-    // Set up preview state using setter methods
-    GlobalSettings.shared.setAccentColor(.blue)
-    GlobalSettings.shared.setVolume(0.7)
-  }
-}
 
-#Preview("Not Selected") {
-  SoundIcon(
-    sound: Sound(
-      title: "Storm",
-      systemIconName: "cloud.bolt.rain",
-      fileName: "storm"
-    ),
-    maxWidth: 150
-  )
-}
-
-#Preview("Long Title") {
-  SoundIcon(
-    sound: Sound(
-      title: "Very Long Sound Name That Should Truncate",
-      systemIconName: "speaker.wave.3.fill",
-      fileName: "test"
-    ),
-    maxWidth: 150
-  )
-}
-
-#Preview("Grid Layout") {
-  LazyVGrid(
-    columns: [
-      GridItem(.fixed(150)),
-      GridItem(.fixed(150)),
-    ], spacing: 20
-  ) {
+#if DEBUG
+  #Preview("Selected") {
     SoundIcon(
       sound: Sound(
         title: "Rain",
@@ -138,6 +96,14 @@ struct SoundIcon: View {
       ),
       maxWidth: 150
     )
+    .onAppear {
+      // Set up preview state using setter methods
+      GlobalSettings.shared.setAccentColor(.blue)
+      GlobalSettings.shared.setVolume(0.7)
+    }
+  }
+
+  #Preview("Not Selected") {
     SoundIcon(
       sound: Sound(
         title: "Storm",
@@ -146,22 +112,59 @@ struct SoundIcon: View {
       ),
       maxWidth: 150
     )
+  }
+
+  #Preview("Long Title") {
     SoundIcon(
       sound: Sound(
-        title: "Wind",
-        systemIconName: "wind",
-        fileName: "wind"
-      ),
-      maxWidth: 150
-    )
-    SoundIcon(
-      sound: Sound(
-        title: "Waves",
-        systemIconName: "water.waves",
-        fileName: "waves"
+        title: "Very Long Sound Name That Should Truncate",
+        systemIconName: "speaker.wave.3.fill",
+        fileName: "test"
       ),
       maxWidth: 150
     )
   }
-  .padding()
-}
+
+  #Preview("Grid Layout") {
+    LazyVGrid(
+      columns: [
+        GridItem(.fixed(150)),
+        GridItem(.fixed(150)),
+      ], spacing: 20
+    ) {
+      SoundIcon(
+        sound: Sound(
+          title: "Rain",
+          systemIconName: "cloud.rain",
+          fileName: "rain"
+        ),
+        maxWidth: 150
+      )
+      SoundIcon(
+        sound: Sound(
+          title: "Storm",
+          systemIconName: "cloud.bolt.rain",
+          fileName: "storm"
+        ),
+        maxWidth: 150
+      )
+      SoundIcon(
+        sound: Sound(
+          title: "Wind",
+          systemIconName: "wind",
+          fileName: "wind"
+        ),
+        maxWidth: 150
+      )
+      SoundIcon(
+        sound: Sound(
+          title: "Waves",
+          systemIconName: "water.waves",
+          fileName: "waves"
+        ),
+        maxWidth: 150
+      )
+    }
+    .padding()
+  }
+#endif

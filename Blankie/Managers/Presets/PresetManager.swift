@@ -8,6 +8,10 @@
 import Combine
 import SwiftUI
 
+#if os(iOS)
+  import UIKit
+#endif
+
 class PresetManager: ObservableObject {
   private var isInitializing = true
   static let shared = PresetManager()
@@ -15,7 +19,7 @@ class PresetManager: ObservableObject {
   @Published private(set) var presets: [Preset] = []
   @Published private(set) var currentPreset: Preset? {
     didSet {
-      AudioManager.shared.updateNowPlayingInfo(presetName: currentPreset?.name)
+      AudioManager.shared.updateNowPlayingInfoForPreset(presetName: currentPreset?.name)
     }
   }
   @Published private(set) var hasCustomPresets: Bool = false
@@ -46,13 +50,27 @@ class PresetManager: ObservableObject {
   }
 
   private func setupObservers() {
-    // Observe audio manager for state changes that might affect presets
-    NotificationCenter.default
-      .publisher(for: NSApplication.willTerminateNotification)
-      .sink { [weak self] _ in
-        self?.saveState()
-      }
-      .store(in: &cancellables)
+    // Observe app lifecycle for state changes that might affect presets
+    #if os(iOS)
+      NotificationCenter.default
+        .publisher(for: UIApplication.willTerminateNotification)
+        .sink { [weak self] _ in
+          Task { @MainActor in
+            self?.savePresets()
+          }
+        }
+        .store(in: &cancellables)
+
+      // Observe audio manager for state changes that might affect presets
+      NotificationCenter.default
+        .publisher(for: UIApplication.didEnterBackgroundNotification)
+        .sink { [weak self] _ in
+          Task { @MainActor in
+            self?.savePresets()
+          }
+        }
+        .store(in: &cancellables)
+    #endif
   }
 
   // MARK: - Public Methods
@@ -224,7 +242,7 @@ class PresetManager: ObservableObject {
     PresetStorage.saveLastActivePresetID(preset.id)
 
     // Explicitly update Now Playing info with preset name
-    AudioManager.shared.updateNowPlayingInfo(presetName: preset.name)
+    AudioManager.shared.updateNowPlayingInfoForPreset(presetName: preset.name)
 
     Task {
       if wasPlaying {
@@ -316,7 +334,7 @@ class PresetManager: ObservableObject {
   }
 
   @MainActor
-  private func savePresets() {
+  func savePresets() {
     print("\n🎛️ PresetManager: --- Begin Saving Presets ---")
 
     // Update current preset's state before saving
@@ -351,13 +369,6 @@ class PresetManager: ObservableObject {
     }
     PresetStorage.saveCustomPresets(customPresets)
     print("🎛️ PresetManager: --- End Saving Presets ---\n")
-  }
-
-  private func saveState() {
-    print("🎛️ PresetManager: Saving state before termination")
-    Task { @MainActor in
-      self.savePresets()
-    }
   }
 
   private func createDefaultPreset() -> Preset {

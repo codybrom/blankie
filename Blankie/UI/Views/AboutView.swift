@@ -66,7 +66,7 @@ struct AboutView: View {
                 .frame(width: 100, height: 100)
                 .cornerRadius(20)
             }
-          #else
+          #elseif os(macOS)
             if let appIcon = NSApplication.shared.applicationIconImage {
               Image(nsImage: appIcon)
                 .resizable()

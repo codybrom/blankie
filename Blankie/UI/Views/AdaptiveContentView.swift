@@ -33,6 +33,27 @@ struct AdaptiveContentView: View {
     horizontalSizeClass == .regular
   }
 
+  // Computed properties for columns and columnWidth
+  private var columns: [GridItem] {
+    if isLargeDevice {
+      return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 16)]
+    } else {
+      return Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
+    }
+  }
+
+  private var columnWidth: CGFloat {
+    if isLargeDevice {
+      return 150
+    } else {
+      #if os(iOS)
+      return (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
+      #else
+      return 100 // Fallback for other platforms
+      #endif
+    }
+  }
+
   var body: some View {
     Group {
       if isLargeDevice {
@@ -232,24 +253,7 @@ struct AdaptiveContentView: View {
 
   // Main sound grid that's shared between layouts
   private var mainSoundGridView: some View {
-    // For large devices, use adaptive grid
-    // For iPhone, use fixed 3-column layout
-    let columns: [GridItem]
-    let columnWidth: CGFloat
-
-    if isLargeDevice {
-      // iPad/Mac: adaptive columns that size based on available space
-      columns = [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 16)]
-      columnWidth = 150
-    } else {
-      // iPhone: fixed 3-column layout
-      columns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
-      #if os(iOS)
-        columnWidth = (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
-      #endif
-    }
-
-    return ScrollView {
+    ScrollView {
       LazyVGrid(columns: columns, spacing: 20) {
         ForEach(filteredSounds) { sound in
           SoundIcon(sound: sound, maxWidth: columnWidth)

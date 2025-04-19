@@ -88,8 +88,8 @@ import SwiftUI
                   .foregroundColor(.primary)
               }
               .buttonStyle(.borderless)
-              .popover(isPresented: $showingVolumePopover, arrowEdge: .top) {
-                VolumePopoverView()
+              .popover(isPresented: $showingVolumePopover) {
+                VolumeControlsView(style: .popover)
               }
 
               // Play/Pause button

@@ -63,7 +63,7 @@ struct AdaptiveContentView: View {
       }
     }
     .sheet(isPresented: $showingVolumeControls) {
-      VolumeControlsView()
+      VolumeControlsView(style: .sheet)
         .presentationDetents([.medium, .large])
     }
     .sheet(isPresented: $showingSettings) {

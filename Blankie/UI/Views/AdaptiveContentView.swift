@@ -11,7 +11,7 @@ struct AdaptiveContentView: View {
   @State private var showingVolumeControls = false
   @State private var showingPresetPicker = false
   @State private var hideInactiveSounds = false
-  @State private var columnVisibility: NavigationSplitViewVisibility = .automatic  // Correct type
+  @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
 
   @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
@@ -47,9 +47,9 @@ struct AdaptiveContentView: View {
       return 150
     } else {
       #if os(iOS)
-      return (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
+        return (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
       #else
-      return 100 // Fallback for other platforms
+        return 100  // Fallback for other platforms
       #endif
     }
   }

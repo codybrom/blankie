@@ -33,7 +33,7 @@ struct PreferencesView: View {
         }) {
           HStack(spacing: 4) {
             Image(systemName: mode.icon)
-            Text(mode == .system ? "System" : mode.rawValue)
+            Text(mode.localizedName)
           }
           .padding(.horizontal, 8)
           .padding(.vertical, 4)
@@ -54,7 +54,7 @@ struct PreferencesView: View {
         Button(action: {
           globalSettings.setAccentColor(nil)
         }) {
-          Text("System")
+          Text(NSLocalizedString("System", comment: "System accent color option"))
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(
@@ -85,29 +85,29 @@ struct PreferencesView: View {
 
   var body: some View {
     Form {
-      Section("Appearance") {
+      Section(NSLocalizedString("Appearance", comment: "Preferences appearance section")) {
         HStack(spacing: 16) {
-          Text("Appearance")
+          Text(NSLocalizedString("Appearance", comment: "Preferences appearance label"))
             .frame(width: 100, alignment: .leading)
           appearanceButtons
         }
 
         HStack(alignment: .top, spacing: 16) {
-          Text("Accent Color")
+          Text(NSLocalizedString("Accent Color", comment: "Preferences accent color label"))
             .frame(width: 100, alignment: .leading)
           colorButtons
         }
       }
 
-      Section("Behavior") {
+      Section(NSLocalizedString("Behavior", comment: "Preferences behavior section")) {
         Toggle(
-          "Always Start Paused",
+          NSLocalizedString("Always Start Paused", comment: "Always Start Paused toggle label"),
           isOn: Binding(
             get: { globalSettings.alwaysStartPaused },
             set: { globalSettings.setAlwaysStartPaused($0) }
           )
         )
-        .help("Wait for play button before starting sounds")
+        .help(NSLocalizedString("Wait for play button before starting sounds", comment: "Help for always start paused"))
         .tint(accentColorForUI)
       }
 

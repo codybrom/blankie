@@ -22,7 +22,9 @@ struct PresetPicker: View {
         HStack(spacing: 4) {
           Text(
             presetManager.hasCustomPresets
-              ? (presetManager.currentPreset?.name ?? "Default") : "Presets"
+              ? (presetManager.currentPreset?.name
+                ?? NSLocalizedString("Default", comment: "Default preset name"))
+              : NSLocalizedString("Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)
           Image(systemName: "chevron.down")
@@ -55,7 +57,9 @@ struct PresetPicker: View {
                 showingPresetPopover = false
               }
             }) {
-              Label("New Preset", systemImage: "plus")
+              Label(
+                NSLocalizedString("New Preset", comment: "New preset button label"),
+                systemImage: "plus")
             }
             .buttonStyle(.plain)
             .padding(8)
@@ -101,8 +105,10 @@ private struct PresetList: View {
       }
     }
     .background(Color(NSColor.controlBackgroundColor))
-    .alert("Error", isPresented: .constant(error != nil)) {
-      Button("OK") { error = nil }
+    .alert(
+      NSLocalizedString("Error", comment: "Error alert title"), isPresented: .constant(error != nil)
+    ) {
+      Button(NSLocalizedString("OK", comment: "OK button label")) { error = nil }
     } message: {
       if let error = error {
         Text(error.localizedDescription)
@@ -152,7 +158,7 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Rename Preset")
+        .help(NSLocalizedString("Rename Preset", comment: "Tooltip for rename preset button"))
         Button(action: {
           presetManager.deletePreset(preset)
         }) {
@@ -160,13 +166,15 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Delete Preset")
+        .help(NSLocalizedString("Delete Preset", comment: "Tooltip for delete preset button"))
       }
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 6)
-    .alert("Error", isPresented: .constant(error != nil)) {
-      Button("OK") { error = nil }
+    .alert(
+      NSLocalizedString("Error", comment: "Error alert title"), isPresented: .constant(error != nil)
+    ) {
+      Button(NSLocalizedString("OK", comment: "OK button label")) { error = nil }
     } message: {
       if let error = error {
         Text(error.localizedDescription)

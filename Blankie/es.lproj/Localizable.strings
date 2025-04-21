@@ -1,0 +1,102 @@
+// General
+"Blankie" = "Blankie";
+"Playback Paused" = "Reproducción en pausa";
+
+// Sounds
+"Rain" = "Lluvia";
+"Storm" = "Tormenta";
+"Wind" = "Viento";
+"Waves" = "Olas";
+"Stream" = "Arroyo";
+"Birds" = "Pájaros";
+"Summer Night" = "Noche de verano";
+"Train" = "Tren";
+"Boat" = "Barco";
+"City" = "Ciudad";
+"Coffee Shop" = "Cafetería";
+"Fireplace" = "Chimenea";
+"Pink Noise" = "Ruido rosa";
+"White Noise" = "Ruido blanco";
+
+// App Toolbar Menu
+"Add Sound (Coming Soon!)" = "Agregar sonido (¡Próximamente!)";
+"Hide Inactive Sounds" = "Ocultar sonidos inactivos";
+"About Blankie" = "Acerca de Blankie";
+"Keyboard Shortcuts" = "Atajos de teclado";
+"Preferences..." = "Ajustes...";
+"Quit Blankie" = "Salir de Blankie";
+
+// Menubar Menu
+"New Window" = "Nueva ventana"; // File Menu
+"Close" = "Cerrar"; // File Menu
+"Show All Sounds" = "Mostrar todos los sonidos"; // View Menu
+"Blankie Help" = "Ayuda de Blankie"; // Help Menu
+
+// Colors
+"Red" = "Rojo";
+"Pink" = "Rosa";
+"Orange" = "Naranja";
+"Brown" = "Marrón";
+"Yellow" = "Amarillo";
+"Green" = "Verde";
+"Mint" = "Menta";
+"Teal" = "Verde azulado";
+"Cyan" = "Cian";
+"Blue" = "Azul";
+"Indigo" = "Índigo";
+"Purple" = "Púrpura";
+"Light" = "Claro";
+"Dark" = "Oscuro";
+
+// Volume Popover
+"All Sounds" = "Todas las sonidos";
+"Reset Sounds" = "Reiniciar sonidos";
+
+// Presets
+"Presets" = "Ajustes preestablecidos";
+"New Preset" = "Nuevo ajuste";
+"Delete" = "Eliminar";
+"Delete Preset" = "Eliminar ajuste";
+"Rename Preset" = "Renombrar ajuste";
+"Edit Preset" = "Editar ajuste";
+"The default preset cannot be renamed" = "El ajuste predeterminado no se puede renombrar";
+"Preset Name" = "Nombre del ajuste";
+"Preset name cannot be empty" = "El nombre del ajuste no puede estar vacío";
+"No Custom Presets" = "No hay ajustes personalizados";
+"Save your current sound configuration as a preset to quickly access it later." = "Guarda tu configuración de sonido actual como un ajuste para acceder rápidamente después.";
+"Are you sure you want to delete '%@'? This action cannot be undone." = "¿Seguro que quieres eliminar '%@'? Esta acción no se puede deshacer.";
+"Default" = "Predeterminado";
+"OK" = "OK";
+"Save" = "Guardar";
+"Cancel" = "Cancelar";
+"Error" = "Error";
+
+// Preferences
+"Blankie Settings" = "Ajustes de Blankie";
+"Appearance" = "Apariencia";
+"System" = "Sistema";
+"Accent Color" = "Color de acento";
+"Behavior" = "Interacción";
+"Always Start Paused" = "Siempre iniciar en pausa";
+
+// Shortcuts View
+"Play/Pause Sounds" = "Reproducir/Pausar sonidos";
+"Close Window" = "Cerrar ventana";
+"Preferences" = "Ajustes";
+"Quit" = "Salir";
+
+// About Blankie
+"Version %@ (%@)" = "Versión %@ (%@)";
+"Star on GitHub" = "Dale una estrella en GitHub";
+"Report an Issue" = "Reportar un problema";
+"Inspired by %@ by %@" = "Inspirado por %@ de %@";
+"Inspired by <project> by %@" = "Inspirado por <project> de %@";
+"By" = "Por";
+"Developed By" = "Desarrollado por";
+"Website" = "Sitio web";
+"GitHub" = "GitHub";
+"Cody Bromley and contributors. All rights reserved." = "Cody Bromley y colaboradores. Todos los derechos reservados.";
+"Sound Credits" = "Créditos de sonido";
+"Edited by" = "Editado por";
+"Public Domain" = "Dominio público";
+"Software License" = "Licencia de software";

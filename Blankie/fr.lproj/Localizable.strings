@@ -1,0 +1,103 @@
+// Général
+"Blankie" = "Blankie";
+"Playback Paused" = "Lecture en pause";
+
+// Sons
+"Rain" = "Pluie";
+"Storm" = "Orage";
+"Wind" = "Vent";
+"Waves" = "Vagues";
+"Stream" = "Ruisseau";
+"Birds" = "Oiseaux";
+"Summer Night" = "Nuit d'été";
+"Train" = "Train";
+"Boat" = "Bateau";
+"City" = "Ville";
+"Coffee Shop" = "Café";
+"Fireplace" = "Cheminée";
+"Pink Noise" = "Bruit rose";
+"White Noise" = "Bruit blanc";
+
+// Barre d'outils de l'application
+"Add Sound (Coming Soon!)" = "Ajouter un son (bientôt disponible !)";
+"Hide Inactive Sounds" = "Masquer les sons inactifs";
+"About Blankie" = "À propos de Blankie";
+"Keyboard Shortcuts" = "Raccourcis clavier";
+"Preferences..." = "Préférences...";
+"Quit Blankie" = "Quitter Blankie";
+
+// Menu de la barre de menus
+"New Window" = "Nouvelle fenêtre"; // Menu Fichier
+"Close" = "Fermer"; // Menu Fichier
+"Show All Sounds" = "Afficher tous les sons"; // Menu Affichage
+"Blankie Help" = "Aide Blankie"; // Menu Aide
+
+// Couleurs
+"Red" = "Rouge";
+"Pink" = "Rose";
+"Orange" = "Orange";
+"Brown" = "Marron";
+"Yellow" = "Jaune";
+"Green" = "Vert";
+"Mint" = "Menthe";
+"Teal" = "Sarcelle";
+"Cyan" = "Cyan";
+"Blue" = "Bleu";
+"Indigo" = "Indigo";
+"Purple" = "Violet";
+"Light" = "Clair";
+"Dark" = "Sombre";
+
+// Volume Popover
+"All Sounds" = "Tous les sons";
+"Reset Sounds" = "Réinitialiser les sons";
+
+// Préréglages
+"Presets" = "Préréglages";
+"New Preset" = "Nouveau préréglage";
+"Delete" = "Supprimer";
+"Delete Preset" = "Supprimer le préréglage";
+"Rename Preset" = "Renommer le préréglage";
+"Edit Preset" = "Modifier le préréglage";
+"No Custom Presets" = "Aucun préréglage personnalisé";
+"The default preset cannot be renamed" = "Le préréglage par défaut ne peut pas être renommé";
+"Preset Name" = "Nom du préréglage";
+"Preset name cannot be empty" = "Le nom du préréglage ne peut pas être vide";
+"Save your current sound configuration as a preset to quickly access it later." = "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard.";
+"Are you sure you want to delete '%@'? This action cannot be undone." = "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible.";
+"Default" = "Par défaut";
+"OK" = "OK";
+"Save" = "Enregistrer";
+"Cancel" = "Annuler";
+"Error" = "Erreur";
+
+// Préférences
+"Blankie Settings" = "Paramètres Blankie";
+"Appearance" = "Apparence";
+"System" = "Système";
+"Accent Color" = "Couleur d'accent";
+"Behavior" = "Comportement";
+"Always Start Paused" = "Toujours démarrer en pause";
+
+// Vue des raccourcis
+"Play/Pause Sounds" = "Lire/Pause les sons";
+"Close Window" = "Fermer la fenêtre";
+"Preferences" = "Préférences";
+"Quit" = "Quitter";
+
+// À propos de Blankie
+"Version %@ (%@)" = "Version %@ (%@)";
+"Star on GitHub" = "Mettre une étoile sur GitHub";
+"Report an Issue" = "Signaler un problème";
+"Inspired by <project> by %@" = "Inspiré par <project> de %@";
+"Inspired by %@ by %@" = "Inspiré par %@ de %@";
+"By" = "Par";
+"Developed By" = "Développé par";
+"Website" = "Site web";
+"GitHub" = "GitHub";
+"Cody Bromley and contributors. All rights reserved." = "Cody Bromley et les contributeurs. Tous droits réservés.";
+"Sound Credits" = "Crédits sonores";
+"Edited by" = "Édité par";
+"Public Domain" = "Domaine public";
+"Software License" = "Licence logicielle";
+"2025 Cody Bromley. All rights reserved." = "2025 Cody Bromley. Tous droits réservés.";

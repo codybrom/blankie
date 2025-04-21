@@ -43,8 +43,11 @@ struct ContentView: View {
         if !audioManager.isGloballyPlaying {
           HStack {
             Image(systemName: "pause.circle.fill")
-            Text("Playback Paused")
-              .font(.system(.subheadline, design: .rounded))
+            Text(NSLocalizedString("Playback Paused", comment: "Playback paused banner"))
+              .font(
+                Locale.current.identifier.hasPrefix("zh")
+                  ? .system(size: 16, weight: .medium, design: .rounded)
+                  : .system(.subheadline, design: .rounded))
           }
           .frame(maxWidth: .infinity)
           .padding(.vertical, 6)

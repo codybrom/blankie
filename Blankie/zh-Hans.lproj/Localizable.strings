@@ -1,0 +1,103 @@
+// 通用
+"Blankie" = "Blankie";
+"Playback Paused" = "播放已暂停";
+
+// 声音
+"Rain" = "雨";
+"Storm" = "风暴";
+"Wind" = "风";
+"Waves" = "海浪";
+"Stream" = "溪流";
+"Birds" = "鸟鸣";
+"Summer Night" = "夏夜";
+"Train" = "火车";
+"Boat" = "船";
+"City" = "城市";
+"Coffee Shop" = "咖啡馆";
+"Fireplace" = "壁炉";
+"Pink Noise" = "粉噪音";
+"White Noise" = "白噪音";
+
+// 应用工具栏菜单
+"Add Sound (Coming Soon!)" = "添加声音（即将推出！）";
+"Hide Inactive Sounds" = "隐藏未激活声音";
+"About Blankie" = "关于 Blankie";
+"Keyboard Shortcuts" = "键盘快捷键";
+"Preferences..." = "偏好设置...";
+"Quit Blankie" = "退出 Blankie";
+
+// 菜单栏菜单
+"New Window" = "新窗口"; // 文件菜单
+"Close" = "关闭"; // 文件菜单
+"Show All Sounds" = "显示所有声音"; // 视图菜单
+"Blankie Help" = "Blankie 帮助"; // 帮助菜单
+
+// 颜色
+"Red" = "红色";
+"Pink" = "粉色";
+"Orange" = "橙色";
+"Brown" = "棕色";
+"Yellow" = "黄色";
+"Green" = "绿色";
+"Mint" = "薄荷色";
+"Teal" = "青色";
+"Cyan" = "青蓝色";
+"Blue" = "蓝色";
+"Indigo" = "靛蓝色";
+"Purple" = "紫色";
+"Light" = "浅色";
+"Dark" = "深色";
+
+// Volume Popover
+"All Sounds" = "所有声音";
+"Reset Sounds" = "重置声音";
+
+// 预设
+"Presets" = "预设";
+"New Preset" = "新预设";
+"Delete" = "删除";
+"Delete Preset" = "删除预设";
+"Rename Preset" = "重命名预设";
+"Edit Preset" = "编辑预设";
+"The default preset cannot be renamed" = "默认预设无法重命名";
+"Preset Name" = "预设名称";
+"Preset name cannot be empty" = "预设名称不能为空";
+"No Custom Presets" = "没有自定义预设";
+"Save your current sound configuration as a preset to quickly access it later." = "将您当前的声音配置保存为预设，以便之后快速访问。";
+"Are you sure you want to delete '%@'? This action cannot be undone." = "您确定要删除“%@”吗？此操作无法撤销。";
+"Default" = "默认";
+"OK" = "确定";
+"Save" = "保存";
+"Cancel" = "取消";
+"Error" = "错误";
+
+// 偏好设置
+"Blankie Settings" = "Blankie 设置";
+"Appearance" = "外观";
+"System" = "系统";
+"Accent Color" = "强调色";
+"Behavior" = "行为";
+"Always Start Paused" = "总是以暂停状态启动";
+
+// 快捷视图
+"Play/Pause Sounds" = "播放/暂停声音";
+"Close Window" = "关闭窗口";
+"Preferences" = "偏好设置";
+"Quit" = "退出";
+
+// 关于 Blankie
+"Version %@ (%@)" = "版本 %@（%@）";
+"Star on GitHub" = "GitHub 收藏";
+"Report an Issue" = "报告问题";
+"Inspired by <project> by %@" = "受<project>（%@）启发";
+"Inspired by %@ by %@" = "受 %@（%@）启发";
+"By" = "作者";
+"Developed By" = "开发者";
+"Website" = "网站";
+"GitHub" = "GitHub";
+"Cody Bromley and contributors. All rights reserved." = "Cody Bromley 和贡献者。保留所有权利。";
+"Sound Credits" = "声音致谢";
+"Edited by" = "编辑";
+"Public Domain" = "公有领域";
+"Software License" = "软件许可";
+"2025 Cody Bromley. All rights reserved." = "2025 Cody Bromley. 版权所有。";

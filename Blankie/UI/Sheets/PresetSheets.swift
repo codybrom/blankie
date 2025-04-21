@@ -16,27 +16,33 @@ struct EditPresetSheet: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      Text("Edit Preset")
+      Text(NSLocalizedString("Edit Preset", comment: "Edit preset sheet title"))
         .font(.headline)
 
       if preset.isDefault {
-        Text("The default preset cannot be renamed")
-          .foregroundStyle(.secondary)
-          .font(.caption)
+        Text(
+          NSLocalizedString(
+            "The default preset cannot be renamed", comment: "Default preset rename warning")
+        )
+        .foregroundStyle(.secondary)
+        .font(.caption)
       } else {
-        TextField("Preset Name", text: $presetName)
-          .textFieldStyle(.roundedBorder)
-          .frame(width: 200)
-          .onSubmit {
-            if !presetName.isEmpty {
-              Task {
-                presetManager.updatePreset(preset, newName: presetName)
-                isPresented = nil
-              }
-            } else {
-              error = "Preset name cannot be empty"
+        TextField(
+          NSLocalizedString("Preset Name", comment: "Preset name text field"), text: $presetName
+        )
+        .textFieldStyle(.roundedBorder)
+        .frame(width: 200)
+        .onSubmit {
+          if !presetName.isEmpty {
+            Task {
+              presetManager.updatePreset(preset, newName: presetName)
+              isPresented = nil
             }
+          } else {
+            error = NSLocalizedString(
+              "Preset name cannot be empty", comment: "Empty preset name error")
           }
+        }
 
         if let error = error {
           Text(error)
@@ -45,18 +51,19 @@ struct EditPresetSheet: View {
         }
 
         HStack(spacing: 16) {
-          Button("Cancel") {
+          Button(NSLocalizedString("Cancel", comment: "Cancel button")) {
             isPresented = nil
           }
 
-          Button("Save") {
+          Button(NSLocalizedString("Save", comment: "Save button")) {
             if !presetName.isEmpty {
               Task {
                 presetManager.updatePreset(preset, newName: presetName)
                 isPresented = nil
               }
             } else {
-              error = "Preset name cannot be empty"
+              error = NSLocalizedString(
+                "Preset name cannot be empty", comment: "Empty preset name error")
             }
           }
           .buttonStyle(.borderedProminent)

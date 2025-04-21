@@ -29,7 +29,7 @@ struct AboutView: View {
               .imageScale(.large)
           }
           .buttonStyle(.plain)
-          .help("Close")
+          .help(NSLocalizedString("Close", comment: "Close about window button"))
           .keyboardShortcut(.defaultAction)
         }
         .padding(.bottom, -8)
@@ -43,12 +43,16 @@ struct AboutView: View {
 
         // App Info Section
         VStack(spacing: 8) {
-          Text("Blankie")
+          Text(NSLocalizedString("Blankie", comment: "App name"))
             .font(.system(size: 24, weight: .medium, design: .rounded))
 
-          Text("Version \(appVersion) (\(buildNumber))")
-            .font(.system(size: 12))
-            .foregroundStyle(.secondary)
+          Text(
+            String(
+              format: NSLocalizedString("Version %@ (%@)", comment: "Version string"), appVersion,
+              buildNumber)
+          )
+          .font(.system(size: 12))
+          .foregroundStyle(.secondary)
         }
 
         // Links Section
@@ -67,14 +71,14 @@ struct AboutView: View {
             HStack(spacing: 4) {
               Image(systemName: "star.fill")
                 .foregroundStyle(.yellow)
-              Text("Star on GitHub")
+              Text(NSLocalizedString("Star on GitHub", comment: "Star on GitHub label"))
             }
           }
           HStack(spacing: 4) {
             Image(systemName: "exclamationmark.triangle.fill")
               .foregroundStyle(.orange)
             LinkWithTooltip(
-              title: "Report an Issue",
+              title: NSLocalizedString("Report an Issue", comment: "Report an issue label"),
               destination: URL(string: "https://github.com/codybrom/blankie/issues")!
             )
           }
@@ -91,13 +95,19 @@ struct AboutView: View {
           developerSection
         }
 
-        Text("© 2025 Cody Bromley. All rights reserved.")
+        Text("© 2025 ")
+          .font(.caption)
+          + Text(
+            NSLocalizedString(
+              "Cody Bromley and contributors. All rights reserved.", comment: "Copyright notice")
+          )
           .font(.caption)
 
         // Credits and License Section
         VStack(spacing: 12) {
           ExpandableSection(
-            title: "Sound Credits",
+            title: NSLocalizedString(
+              "Sound Credits", comment: "Expandable section title: Sound Credits"),
             isExpanded: $isSoundCreditsExpanded,
             onExpand: {
               // Close other section when this one opens
@@ -112,7 +122,8 @@ struct AboutView: View {
           }
 
           ExpandableSection(
-            title: "Software License",
+            title: NSLocalizedString(
+              "Software License", comment: "Expandable section title: Software License"),
             isExpanded: $isLicenseExpanded,
             onExpand: {
               // Close other section when this one opens
@@ -130,17 +141,17 @@ struct AboutView: View {
 
   private var developerSection: some View {
     VStack(spacing: 4) {
-      Text("Developed By")
+      Text(NSLocalizedString("Developed By", comment: "Developed by label"))
         .font(.system(size: 13, weight: .bold))
 
       VStack(spacing: 8) {
-        Text("Cody Bromley")
+        Text(NSLocalizedString("Cody Bromley", comment: "Developer name"))
           .font(.system(size: 13))
 
         HStack(spacing: 8) {
 
           LinkWithTooltip(
-            title: "Website",
+            title: NSLocalizedString("Website", comment: "Website link label"),
             destination: URL(string: "https://www.codybrom.com")!
           )
 
@@ -148,7 +159,7 @@ struct AboutView: View {
             .foregroundStyle(.secondary)
 
           LinkWithTooltip(
-            title: "GitHub",
+            title: NSLocalizedString("GitHub", comment: "GitHub link label"),
             destination: URL(string: "https://github.com/codybrom")!
           )
 
@@ -162,17 +173,37 @@ struct AboutView: View {
   }
 
   private var inspirationSection: some View {
-    HStack(spacing: 4) {
-      Text("Inspired by")
+    let author = "Rafael Mardojai CM"
+    let formatString = NSLocalizedString(
+      "Inspired by <project> by %@", comment: "Inspired by <project> by <author>")
+    let parts = formatString.components(separatedBy: "<project>")
+    return HStack(spacing: 4) {
+      if parts.count == 2 {
+        Text(parts[0])
+          .font(.system(size: 12))
+          .italic()
+          .foregroundColor(.primary)
+        LinkWithTooltip(
+          title: "Blanket",
+          destination: URL(string: "https://github.com/rafaelmardojai/blanket")!
+        )
+        .foregroundColor(.accentColor)
+        Text(String(format: parts[1], author))
+          .font(.system(size: 12))
+          .italic()
+          .foregroundColor(.primary)
+      } else {
+        // Fallback for unexpected localization format
+        Text(
+          String(
+            format: NSLocalizedString(
+              "Inspired by %@ by %@", comment: "Inspired by <project> by <author>"),
+            "Blanket", author)
+        )
         .font(.system(size: 12))
         .italic()
-
-      LinkWithTooltip(
-        title: "Blanket",
-        destination: URL(string: "https://github.com/rafaelmardojai/blanket")!
-      )
-      .foregroundColor(.accentColor)
-      Text("by Rafael Mardojai CM")
+        .foregroundColor(.primary)
+      }
     }
     .font(.system(size: 12))
     .italic()
@@ -180,7 +211,7 @@ struct AboutView: View {
 
   private var soundCreditsSection: some View {
     VStack(alignment: .leading, spacing: 8) {
-      Text("Sound Credits")
+      Text(NSLocalizedString("Sound Credits", comment: "Sound credits section title"))
         .font(.system(size: 13, weight: .bold))
 
       VStack(alignment: .leading, spacing: 4) {
@@ -290,13 +321,13 @@ struct AboutView: View {
 
         // Attribution line
         HStack(spacing: 4) {
-          Text("By")
+          Text(NSLocalizedString("By", comment: "Attribution by label"))
             .foregroundStyle(.secondary)
           Text(credit.author)
           if let editor = credit.editor {
             Text("•")
               .foregroundStyle(.secondary)
-            Text("Edited by")
+            Text(NSLocalizedString("Edited by", comment: "Attribution edited by label"))
               .foregroundStyle(.secondary)
             Text(editor)
           }

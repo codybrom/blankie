@@ -1,0 +1,97 @@
+// General
+"Blankie" = "Blankie";
+"Playback Paused" = "Playback Paused";
+
+// Sounds
+"Rain" = "Rain";
+"Storm" = "Storm";
+"Wind" = "Wind";
+"Waves" = "Waves";
+"Stream" = "Stream";
+"Birds" = "Birds";
+"Summer Night" = "Summer Night";
+"Train" = "Train";
+"Boat" = "Boat";
+"City" = "City";
+"Coffee Shop" = "Coffee Shop";
+"Fireplace" = "Fireplace";
+"Pink Noise" = "Pink Noise";
+"White Noise" = "White Noise";
+
+// App Toolbar Menu
+"Add Sound (Coming Soon!)" = "Add Sound (Coming Soon!)";
+"Hide Inactive Sounds" = "Hide Inactive Sounds";
+"About Blankie" = "About Blankie";
+"Keyboard Shortcuts" = "Keyboard Shortcuts";
+"Preferences..." = "Preferences...";
+"Quit Blankie" = "Quit Blankie";
+
+// Menubar Menu
+"New Window" = "New Window"; // File Menu
+"Close" = "Close"; // File Menu
+"Show All Sounds" = "Show All Sounds"; // View Menu
+"Blankie Help" = "Blankie Help"; // Help Menu
+
+// Colours (UK spelling)
+"Red" = "Red";
+"Pink" = "Pink";
+"Orange" = "Orange";
+"Brown" = "Brown";
+"Yellow" = "Yellow";
+"Green" = "Green";
+"Mint" = "Mint";
+"Teal" = "Teal";
+"Cyan" = "Cyan";
+"Blue" = "Blue";
+"Indigo" = "Indigo";
+"Purple" = "Purple";
+"Light" = "Light";
+"Dark" = "Dark";
+
+// Volume Popover
+"All Sounds" = "All Sounds";
+"Reset Sounds" = "Reset Sounds";
+
+// Presets
+"Presets" = "Presets";
+"New Preset" = "New Preset";
+"Delete" = "Delete";
+"Delete Preset" = "Delete Preset";
+"Rename Preset" = "Rename Preset";
+"No Custom Presets" = "No Custom Presets";
+"Save your current sound configuration as a preset to quickly access it later." = "Save your current sound configuration as a preset to quickly access it later.";
+"Are you sure you want to delete '%@'? This action cannot be undone." = "Are you sure you want to delete '%@'? This action cannot be undone.";
+"Default" = "Default";
+"OK" = "OK";
+"Save" = "Save";
+"Cancel" = "Cancel";
+"Error" = "Error";
+
+// Preferences
+"Blankie Settings" = "Blankie Settings";
+"Appearance" = "Appearance";
+"System" = "System";
+"Accent Color" = "Accent Colour";
+"Behavior" = "Behaviour";
+"Always Start Paused" = "Always Start Paused";
+
+// Shortcuts View
+"Play/Pause Sounds" = "Play/Pause Sounds";
+"Close Window" = "Close Window";
+"Preferences" = "Preferences";
+"Quit" = "Quit";
+
+// About Blankie
+"Version %@ (%@)" = "Version %@ (%@)";
+"Star on GitHub" = "Star on GitHub";
+"Report an Issue" = "Report an Issue";
+"Inspired by %@ by %@" = "Inspired by %@ by %@";
+"By" = "By";
+"Developed By" = "Developed By";
+"Website" = "Website";
+"GitHub" = "GitHub";
+"2025 Cody Bromley. All rights reserved." = "2025 Cody Bromley. All rights reserved.";
+"Sound Credits" = "Sound Credits";
+"Edited by" = "Edited by";
+"Public Domain" = "Public Domain";
+"Software License" = "Software Licence";

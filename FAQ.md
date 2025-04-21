@@ -61,7 +61,7 @@ Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how
 **Volume:**
 
 - Use individual sliders for each sound
-- Access the global volume slider from the controls bar (speaker icon) to blend with other apps
+- Access the "All Sounds" volume slider from the controls bar (speaker icon) to blend with other apps
 
 ## Can I save my favorite sound combinations?
 

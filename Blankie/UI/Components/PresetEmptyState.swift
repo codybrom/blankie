@@ -16,14 +16,18 @@ struct PresetEmptyState: View {
         .font(.system(size: 48))
         .foregroundStyle(.secondary)
 
-      Text("No Custom Presets")
+      Text(NSLocalizedString("No Custom Presets", comment: "Empty state title"))
         .font(.headline)
 
-      Text("Save your current sound configuration as a preset to quickly access it later.")
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .lineLimit(nil)
+      Text(
+        NSLocalizedString(
+          "Save your current sound configuration as a preset to quickly access it later.",
+          comment: "Empty state subtitle")
+      )
+      .font(.caption)
+      .foregroundStyle(.secondary)
+      .multilineTextAlignment(.center)
+      .lineLimit(nil)
     }
     .padding()
     .frame(idealWidth: 250, maxWidth: 250, minHeight: 100)

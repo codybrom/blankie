@@ -1,15 +1,15 @@
 // General
 "Blankie" = "Blankie";
-"Playback Paused" = "Reproducción en pausa";
+"Playback Paused" = "Reproducción pausada";
 
 // Sounds
 "Rain" = "Lluvia";
 "Storm" = "Tormenta";
 "Wind" = "Viento";
 "Waves" = "Olas";
-"Stream" = "Arroyo";
+"Stream" = "Riachuelo";
 "Birds" = "Pájaros";
-"Summer Night" = "Noche de verano";
+"Summer Night" = "Noche veraniega";
 "Train" = "Tren";
 "Boat" = "Barco";
 "City" = "Ciudad";
@@ -40,31 +40,31 @@
 "Yellow" = "Amarillo";
 "Green" = "Verde";
 "Mint" = "Menta";
-"Teal" = "Verde azulado";
+"Teal" = "Turquesa";
 "Cyan" = "Cian";
 "Blue" = "Azul";
-"Indigo" = "Índigo";
-"Purple" = "Púrpura";
+"Indigo" = "Añil";
+"Purple" = "Morado";
 "Light" = "Claro";
 "Dark" = "Oscuro";
 
 // Volume Popover
-"All Sounds" = "Todas las sonidos";
-"Reset Sounds" = "Reiniciar sonidos";
+"All Sounds" = "Todos los sonidos";
+"Reset Sounds" = "Resetear sonidos";
 
 // Presets
-"Presets" = "Ajustes preestablecidos";
-"New Preset" = "Nuevo ajuste";
+"Presets" = "Sonidos prediseñados";
+"New Preset" = "Nuevo sonido";
 "Delete" = "Eliminar";
-"Delete Preset" = "Eliminar ajuste";
-"Rename Preset" = "Renombrar ajuste";
-"Edit Preset" = "Editar ajuste";
-"The default preset cannot be renamed" = "El ajuste predeterminado no se puede renombrar";
-"Preset Name" = "Nombre del ajuste";
-"Preset name cannot be empty" = "El nombre del ajuste no puede estar vacío";
-"No Custom Presets" = "No hay ajustes personalizados";
-"Save your current sound configuration as a preset to quickly access it later." = "Guarda tu configuración de sonido actual como un ajuste para acceder rápidamente después.";
-"Are you sure you want to delete '%@'? This action cannot be undone." = "¿Seguro que quieres eliminar '%@'? Esta acción no se puede deshacer.";
+"Delete Preset" = "Eliminar sonido";
+"Rename Preset" = "Renombrar sonido";
+"Edit Preset" = "Editar sonido";
+"The default preset cannot be renamed" = "El sonido prediseñado no se puede renombrar";
+"Preset Name" = "Nombre del sonido";
+"Preset name cannot be empty" = "El nombre no puede estar vacío";
+"No Custom Presets" = "No hay sonidos prediseñados";
+"Save your current sound configuration as a preset to quickly access it later." = "Guarda la configuración del sonido actual como un ajuste prediseñado para acceder a él más rápidamente.";
+"Are you sure you want to delete '%@'? This action cannot be undone." = "¿Seguro que deseas borrar '%@'? Esta acción no puede deshacerse.";
 "Default" = "Predeterminado";
 "OK" = "OK";
 "Save" = "Guardar";
@@ -76,8 +76,8 @@
 "Appearance" = "Apariencia";
 "System" = "Sistema";
 "Accent Color" = "Color de acento";
-"Behavior" = "Interacción";
-"Always Start Paused" = "Siempre iniciar en pausa";
+"Behavior" = "Opciones";
+"Always Start Paused" = "Iniciar siempre pausado";
 
 // Shortcuts View
 "Play/Pause Sounds" = "Reproducir/Pausar sonidos";
@@ -87,10 +87,10 @@
 
 // About Blankie
 "Version %@ (%@)" = "Versión %@ (%@)";
-"Star on GitHub" = "Dale una estrella en GitHub";
+"Star on GitHub" = "Valora la app en GitHub";
 "Report an Issue" = "Reportar un problema";
-"Inspired by %@ by %@" = "Inspirado por %@ de %@";
-"Inspired by <project> by %@" = "Inspirado por <project> de %@";
+"Inspired by %@ by %@" = "Inspirado en %@ de %@";
+"Inspired by <project> by %@" = "Inspirado en <project> de %@";
 "By" = "Por";
 "Developed By" = "Desarrollado por";
 "Website" = "Sitio web";

@@ -12,6 +12,8 @@ struct AboutView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var isSoundCreditsExpanded = false
   @State private var isLicenseExpanded = false
+  @State private var contributors: [String] = []
+  @State private var translators: [String: [String]] = [:]
 
   private let appVersion =
     Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -90,10 +92,25 @@ struct AboutView: View {
         Divider()
           .padding(.horizontal, 40)
 
-        // Developer Section with Report Issue
-        VStack(spacing: 16) {
-          developerSection
+        // Developer Section
+        developerSection
+
+        // Contributor Section (when needed)
+        if !contributors.isEmpty {
+          Divider()
+            .padding(.horizontal, 40)
+          contributorSection
         }
+
+        // Translator Section (if available)
+        if !translators.isEmpty {
+          Divider()
+            .padding(.horizontal, 40)
+          translatorSection
+        }
+
+        Divider()
+          .padding(.horizontal, 40)
 
         Text("© 2025 ")
           .font(.caption)
@@ -137,6 +154,9 @@ struct AboutView: View {
       .padding(20)
     }
     .frame(width: 480, height: 650)
+    .onAppear {
+      loadCredits()
+    }
   }
 
   private var developerSection: some View {
@@ -170,6 +190,81 @@ struct AboutView: View {
 
     }
     .frame(maxWidth: .infinity)
+  }
+
+  struct Credits: Codable {
+    let contributors: [String]
+    let translators: [String: [String]]
+  }
+
+  private func loadCredits() {
+    guard let url = Bundle.main.url(forResource: "credits", withExtension: "json") else {
+      print("Unable to find credits.json in bundle")
+      return
+    }
+
+    do {
+      let data = try Data(contentsOf: url)
+      let decoder = JSONDecoder()
+      let credits = try decoder.decode(Credits.self, from: data)
+      self.contributors = credits.contributors
+      self.translators = credits.translators
+    } catch {
+      print("Error loading credits: \(error)")
+    }
+  }
+
+  private var contributorSection: some View {
+    VStack(spacing: 8) {  // Standardized spacing
+      Text(NSLocalizedString("Contributors", comment: "Contributors section title"))
+        .font(.system(size: 13, weight: .bold))
+        .padding(.bottom, 4)  // Add some space between title and content
+
+      HStack(spacing: 0) {
+        ForEach(contributors.indices, id: \.self) { index in
+          Text(contributors[index])
+            .font(.system(size: 13))
+
+          if index < contributors.count - 1 {
+            Text(", ")
+              .font(.system(size: 13))
+          }
+        }
+      }
+      .frame(maxWidth: .infinity, alignment: .center)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.bottom, 4)  // Consistent bottom padding
+  }
+
+  private var translatorSection: some View {
+    VStack(spacing: 8) {  // Standardized spacing
+      Text(NSLocalizedString("Translations", comment: "Translations section title"))
+        .font(.system(size: 13, weight: .bold))
+        .padding(.bottom, 4)  // Same spacing after title
+
+      ForEach(translators.keys.sorted(), id: \.self) { language in
+        // Only show languages with at least one translator
+        if let translatorList = translators[language], !translatorList.isEmpty {
+          VStack(spacing: 4) {
+            Text(language)
+              .font(.system(size: 12, weight: .medium))
+              .italic()
+              .foregroundStyle(.secondary)
+
+            Text(translatorList.joined(separator: ", "))
+              .font(.system(size: 13))
+              .multilineTextAlignment(.center)
+              .lineLimit(3)
+              .fixedSize(horizontal: false, vertical: true)
+          }
+          .frame(maxWidth: .infinity, alignment: .center)
+          .padding(.vertical, 2)  // Slightly reduced vertical padding
+        }
+      }
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.bottom, 4)  // Consistent bottom padding
   }
 
   private var inspirationSection: some View {

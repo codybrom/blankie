@@ -11,18 +11,6 @@
             "value": "© 2025 Cody Bromley and contributors"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "© 2025 Cody Bromley and contributors"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "© 2025 Cody Bromley and contributors"
-          }
-        },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
@@ -40,6 +28,30 @@
             "state": "needs_review",
             "value": "© 2025 Cody Bromley and contributors"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
         }
       }
     },
@@ -50,18 +62,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": " — "
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": " — "
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": " — "
           }
         },
@@ -78,6 +78,30 @@
           }
         },
         "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "en-GB": {
           "stringUnit": {
             "state": "needs_review",
             "value": " — "
@@ -95,18 +119,6 @@
             "value": ", "
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ", "
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": ", "
-          }
-        },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
@@ -124,6 +136,30 @@
             "state": "needs_review",
             "value": ", "
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
         }
       }
     },
@@ -132,18 +168,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "About Blankie"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "关于 Blankie"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "About Blankie"
@@ -166,6 +190,30 @@
             "state": "translated",
             "value": "Acerca de Blankie"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "About Blankie"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关于 Blankie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "About Blankie"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About Blankie"
+          }
         }
       }
     },
@@ -177,18 +225,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accent Color"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "强调色"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Accent Colour"
           }
         },
         "fr": {
@@ -208,6 +244,30 @@
             "state": "translated",
             "value": "Color de acento"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Accent Color"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "强调色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Accent Color"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accent Colour"
+          }
         }
       }
     },
@@ -216,18 +276,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Add Sound (Coming Soon!)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "添加声音（即将推出！）"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Add Sound (Coming Soon!)"
@@ -250,6 +298,30 @@
             "state": "translated",
             "value": "Agregar sonido (¡Próximamente!)"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add Sound (Coming Soon!)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "添加声音（即将推出！）"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Add Sound (Coming Soon!)"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Sound (Coming Soon!)"
+          }
         }
       }
     },
@@ -258,18 +330,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "All Sounds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "所有声音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "All Sounds"
@@ -292,6 +352,30 @@
             "state": "translated",
             "value": "Todos los sonidos"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "All Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "所有声音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "All Sounds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Sounds"
+          }
         }
       }
     },
@@ -300,18 +384,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Always Start Paused"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "总是以暂停状态启动"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Always Start Paused"
@@ -334,6 +406,30 @@
             "state": "translated",
             "value": "Iniciar siempre pausado"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Always Start Paused"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "总是以暂停状态启动"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Always Start Paused"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Always Start Paused"
+          }
         }
       }
     },
@@ -342,18 +438,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Appearance"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "外观"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Appearance"
@@ -376,6 +460,30 @@
             "state": "translated",
             "value": "Apariencia"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Appearance"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "外观"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Appearance"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
         }
       }
     },
@@ -384,18 +492,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "您确定要删除“%@”吗？此操作无法撤销。"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Are you sure you want to delete '%@'? This action cannot be undone."
@@ -418,6 +514,30 @@
             "state": "translated",
             "value": "¿Seguro que deseas borrar '%@'? Esta acción no puede deshacerse."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "您确定要删除“%@”吗？此操作无法撤销。"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
+          }
         }
       }
     },
@@ -429,18 +549,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Behavior"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "行为"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Behaviour"
           }
         },
         "fr": {
@@ -460,6 +568,30 @@
             "state": "translated",
             "value": "Opciones"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Behavior"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "行为"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Behavior"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behaviour"
+          }
         }
       }
     },
@@ -468,18 +600,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Birds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "鸟鸣"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Birds"
@@ -502,6 +622,30 @@
             "state": "translated",
             "value": "Pájaros"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Birds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "鸟鸣"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Birds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birds"
+          }
         }
       }
     },
@@ -512,18 +656,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Blankie"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Blankie"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "Blankie"
           }
         },
@@ -544,6 +676,30 @@
             "state": "needs_review",
             "value": "Blankie"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
+          }
         }
       }
     },
@@ -552,18 +708,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Blankie Help"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Blankie 帮助"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Blankie Help"
@@ -586,6 +730,30 @@
             "state": "translated",
             "value": "Ayuda de Blankie"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie Help"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie 帮助"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie Help"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Help"
+          }
         }
       }
     },
@@ -594,18 +762,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Blankie Settings"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Blankie 设置"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Blankie Settings"
@@ -628,6 +784,30 @@
             "state": "translated",
             "value": "Ajustes de Blankie"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie 设置"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie Settings"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Settings"
+          }
         }
       }
     },
@@ -636,18 +816,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Blue"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "蓝色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Blue"
@@ -670,6 +838,30 @@
             "state": "translated",
             "value": "Azul"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blue"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "蓝色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blue"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blue"
+          }
         }
       }
     },
@@ -678,18 +870,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Boat"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "船"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Boat"
@@ -712,6 +892,30 @@
             "state": "translated",
             "value": "Barco"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "船"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boat"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boat"
+          }
         }
       }
     },
@@ -720,18 +924,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Brown"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "棕色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Brown"
@@ -754,6 +946,30 @@
             "state": "translated",
             "value": "Marrón"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brown"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "棕色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brown"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brown"
+          }
         }
       }
     },
@@ -762,18 +978,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "By"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "作者"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "By"
@@ -796,6 +1000,30 @@
             "state": "translated",
             "value": "Por"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "By"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "作者"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "By"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By"
+          }
         }
       }
     },
@@ -804,18 +1032,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cancel"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "取消"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Cancel"
@@ -838,6 +1054,30 @@
             "state": "translated",
             "value": "Cancelar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cancel"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "取消"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cancel"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
         }
       }
     },
@@ -846,18 +1086,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "City"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "城市"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "City"
@@ -880,6 +1108,30 @@
             "state": "translated",
             "value": "Ciudad"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "City"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "城市"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "City"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City"
+          }
         }
       }
     },
@@ -888,18 +1140,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "关闭"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Close"
@@ -922,6 +1162,30 @@
             "state": "translated",
             "value": "Cerrar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Close"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关闭"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Close"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
         }
       }
     },
@@ -930,18 +1194,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close Window"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "关闭窗口"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Close Window"
@@ -964,6 +1216,30 @@
             "state": "translated",
             "value": "Cerrar ventana"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Close Window"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关闭窗口"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Close Window"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Window"
+          }
         }
       }
     },
@@ -974,18 +1250,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cody Bromley"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Cody Bromley"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "Cody Bromley"
           }
         },
@@ -1006,6 +1270,30 @@
             "state": "needs_review",
             "value": "Cody Bromley"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
+          }
         }
       }
     },
@@ -1014,18 +1302,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cody Bromley and contributors. All rights reserved."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Cody Bromley 和贡献者。保留所有权利。"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Cody Bromley and contributors. All rights reserved."
@@ -1048,6 +1324,30 @@
             "state": "translated",
             "value": "Cody Bromley y colaboradores. Todos los derechos reservados."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley and contributors. All rights reserved."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley 和贡献者。保留所有权利。"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley and contributors. All rights reserved."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cody Bromley and contributors. All rights reserved."
+          }
         }
       }
     },
@@ -1056,18 +1356,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Coffee Shop"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "咖啡馆"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Coffee Shop"
@@ -1090,6 +1378,30 @@
             "state": "translated",
             "value": "Cafetería"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coffee Shop"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "咖啡馆"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coffee Shop"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coffee Shop"
+          }
         }
       }
     },
@@ -1098,18 +1410,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Contributors"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "贡献者"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Contributors"
@@ -1132,6 +1432,30 @@
             "state": "translated",
             "value": "Colaboradores"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Contributors"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "贡献者"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Contributors"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contributors"
+          }
         }
       }
     },
@@ -1140,18 +1464,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cyan"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "青蓝色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Cyan"
@@ -1174,6 +1486,30 @@
             "state": "translated",
             "value": "Cian"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cyan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "青蓝色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cyan"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan"
+          }
         }
       }
     },
@@ -1182,18 +1518,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Dark"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "深色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Dark"
@@ -1216,6 +1540,30 @@
             "state": "translated",
             "value": "Oscuro"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dark"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "深色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dark"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
+          }
         }
       }
     },
@@ -1224,18 +1572,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Default"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "默认"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Default"
@@ -1258,6 +1594,30 @@
             "state": "translated",
             "value": "Predeterminado"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Default"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "默认"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Default"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
         }
       }
     },
@@ -1266,18 +1626,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "删除"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Delete"
@@ -1300,6 +1648,30 @@
             "state": "translated",
             "value": "Eliminar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "删除"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
+          }
         }
       }
     },
@@ -1308,18 +1680,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Delete Preset"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "删除预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Delete Preset"
@@ -1342,6 +1702,30 @@
             "state": "translated",
             "value": "Eliminar sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "删除预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Delete Preset"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Preset"
+          }
         }
       }
     },
@@ -1350,18 +1734,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Developed By"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "开发者"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Developed By"
@@ -1384,6 +1756,30 @@
             "state": "translated",
             "value": "Desarrollado por"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Developed By"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "开发者"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Developed By"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developed By"
+          }
         }
       }
     },
@@ -1392,18 +1788,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edit Preset"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "编辑预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Edit Preset"
@@ -1426,6 +1810,30 @@
             "state": "translated",
             "value": "Editar sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edit Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "编辑预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edit Preset"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Preset"
+          }
         }
       }
     },
@@ -1434,18 +1842,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Edited by"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "编辑"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Edited by"
@@ -1468,6 +1864,30 @@
             "state": "translated",
             "value": "Editado por"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edited by"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "编辑"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edited by"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edited by"
+          }
         }
       }
     },
@@ -1476,18 +1896,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Error"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "错误"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Error"
@@ -1510,6 +1918,30 @@
             "state": "translated",
             "value": "Error"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Error"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "错误"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Error"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
         }
       }
     },
@@ -1518,18 +1950,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fireplace"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "壁炉"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Fireplace"
@@ -1552,6 +1972,30 @@
             "state": "translated",
             "value": "Chimenea"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fireplace"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "壁炉"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fireplace"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fireplace"
+          }
         }
       }
     },
@@ -1562,18 +2006,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "GitHub"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "GitHub"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "GitHub"
           }
         },
@@ -1594,6 +2026,30 @@
             "state": "needs_review",
             "value": "GitHub"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
+          }
         }
       }
     },
@@ -1602,18 +2058,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Green"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "绿色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Green"
@@ -1636,6 +2080,30 @@
             "state": "translated",
             "value": "Verde"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Green"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "绿色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Green"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
+          }
         }
       }
     },
@@ -1644,18 +2112,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Hide Inactive Sounds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "隐藏未激活声音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Hide Inactive Sounds"
@@ -1678,6 +2134,30 @@
             "state": "translated",
             "value": "Ocultar sonidos inactivos"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hide Inactive Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "隐藏未激活声音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hide Inactive Sounds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Inactive Sounds"
+          }
         }
       }
     },
@@ -1686,18 +2166,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Indigo"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "靛蓝色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Indigo"
@@ -1720,6 +2188,30 @@
             "state": "translated",
             "value": "Añil"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Indigo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "靛蓝色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Indigo"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indigo"
+          }
         }
       }
     },
@@ -1728,18 +2220,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "受到[^[%1$@](%2$@)] %3$@ 的激励"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
@@ -1762,6 +2242,30 @@
             "state": "translated",
             "value": "Inspirado por [Blanket](https://github.com/rafaelmardojai/blanket) de %@"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "受到[^[%1$@](%2$@)] %3$@ 的激励"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
+          }
         }
       }
     },
@@ -1770,18 +2274,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Keyboard Shortcuts"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "键盘快捷键"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Keyboard Shortcuts"
@@ -1804,6 +2296,30 @@
             "state": "translated",
             "value": "Atajos de teclado"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Keyboard Shortcuts"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "键盘快捷键"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Keyboard Shortcuts"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard Shortcuts"
+          }
         }
       }
     },
@@ -1815,18 +2331,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Learn more about the MIT License"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "了解更多关于 MIT许可协议"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Learn more about the MIT Licence"
           }
         },
         "fr": {
@@ -1846,6 +2350,30 @@
             "state": "needs_review",
             "value": "Más información sobre la licencia MIT"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Learn more about the MIT License"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "了解更多关于 MIT许可协议"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Learn more about the MIT License"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn more about the MIT Licence"
+          }
         }
       }
     },
@@ -1854,18 +2382,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Light"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "浅色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Light"
@@ -1888,6 +2404,30 @@
             "state": "translated",
             "value": "Claro"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Light"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "浅色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Light"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
         }
       }
     },
@@ -1896,18 +2436,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Loading Presets..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "加载预先设置中……"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Loading Presets..."
@@ -1930,6 +2458,30 @@
             "state": "needs_review",
             "value": "Cargando predefinidos..."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Loading Presets..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "加载预先设置中……"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Loading Presets..."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading Presets..."
+          }
         }
       }
     },
@@ -1938,18 +2490,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mint"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "薄荷色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Mint"
@@ -1972,6 +2512,30 @@
             "state": "translated",
             "value": "Menta"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mint"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "薄荷色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mint"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mint"
+          }
         }
       }
     },
@@ -1980,18 +2544,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Preset"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "新预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "New Preset"
@@ -2014,6 +2566,30 @@
             "state": "translated",
             "value": "Nuevo sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "New Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "新预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "New Preset"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Preset"
+          }
         }
       }
     },
@@ -2022,18 +2598,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New Window"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "新窗口"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "New Window"
@@ -2056,6 +2620,30 @@
             "state": "translated",
             "value": "Nueva ventana"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "New Window"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "新窗口"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "New Window"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Window"
+          }
         }
       }
     },
@@ -2064,18 +2652,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "No Custom Presets"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "没有自定义预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "No Custom Presets"
@@ -2098,6 +2674,30 @@
             "state": "translated",
             "value": "No hay sonidos prediseñados"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No Custom Presets"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "没有自定义预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No Custom Presets"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Custom Presets"
+          }
         }
       }
     },
@@ -2106,18 +2706,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "OK"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "确定"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "OK"
@@ -2140,6 +2728,30 @@
             "state": "translated",
             "value": "Aceptar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "OK"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "确定"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "OK"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
         }
       }
     },
@@ -2148,18 +2760,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Orange"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "橙色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Orange"
@@ -2182,6 +2782,30 @@
             "state": "translated",
             "value": "Naranja"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orange"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "橙色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orange"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange"
+          }
         }
       }
     },
@@ -2192,18 +2816,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
         },
@@ -2224,6 +2836,30 @@
             "state": "needs_review",
             "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+          }
         }
       }
     },
@@ -2232,18 +2868,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pink"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "粉色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Pink"
@@ -2266,6 +2890,30 @@
             "state": "translated",
             "value": "Rosa"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pink"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "粉色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pink"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink"
+          }
         }
       }
     },
@@ -2274,18 +2922,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pink Noise"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "粉噪音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Pink Noise"
@@ -2308,6 +2944,30 @@
             "state": "translated",
             "value": "Ruido rosa"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pink Noise"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "粉噪音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pink Noise"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink Noise"
+          }
         }
       }
     },
@@ -2316,18 +2976,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Play/Pause Sounds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "播放/暂停声音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Play/Pause Sounds"
@@ -2350,6 +2998,30 @@
             "state": "translated",
             "value": "Reproducir/Pausar sonidos"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Play/Pause Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "播放/暂停声音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Play/Pause Sounds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play/Pause Sounds"
+          }
         }
       }
     },
@@ -2358,18 +3030,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Playback Paused"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "播放已暂停"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Playback Paused"
@@ -2392,6 +3052,30 @@
             "state": "translated",
             "value": "Reproducción pausada"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Playback Paused"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "播放已暂停"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Playback Paused"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Playback Paused"
+          }
         }
       }
     },
@@ -2400,18 +3084,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferences"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "偏好设置"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Preferences"
@@ -2434,6 +3106,30 @@
             "state": "translated",
             "value": "Ajustes"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preferences"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "偏好设置"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preferences"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
+          }
         }
       }
     },
@@ -2442,18 +3138,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preferences..."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "偏好设置……"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Preferences..."
@@ -2476,6 +3160,30 @@
             "state": "translated",
             "value": "Ajustes..."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preferences..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "偏好设置……"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preferences..."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences..."
+          }
         }
       }
     },
@@ -2484,18 +3192,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preset Name"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "预设名称"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Preset Name"
@@ -2518,6 +3214,30 @@
             "state": "translated",
             "value": "Nombre del sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preset Name"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设名称"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preset Name"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset Name"
+          }
         }
       }
     },
@@ -2526,18 +3246,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Preset name cannot be empty"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "预设名称不能为空"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Preset name cannot be empty"
@@ -2560,6 +3268,30 @@
             "state": "translated",
             "value": "El nombre no puede estar vacío"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preset name cannot be empty"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设名称不能为空"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Preset name cannot be empty"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset name cannot be empty"
+          }
         }
       }
     },
@@ -2568,18 +3300,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Presets"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Presets"
@@ -2602,6 +3322,30 @@
             "state": "translated",
             "value": "Sonidos prediseñados"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Presets"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Presets"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presets"
+          }
         }
       }
     },
@@ -2610,18 +3354,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Public Domain"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "公有领域"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Public Domain"
@@ -2644,6 +3376,30 @@
             "state": "translated",
             "value": "Dominio público"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Public Domain"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "公有领域"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Public Domain"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Public Domain"
+          }
         }
       }
     },
@@ -2652,18 +3408,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Purple"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "紫色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Purple"
@@ -2686,6 +3430,30 @@
             "state": "translated",
             "value": "Morado"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Purple"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "紫色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Purple"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purple"
+          }
         }
       }
     },
@@ -2694,18 +3462,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quit"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "退出"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Quit"
@@ -2728,6 +3484,30 @@
             "state": "translated",
             "value": "Salir"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quit"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "退出"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quit"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
         }
       }
     },
@@ -2736,18 +3516,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Quit Blankie"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "退出 Blankie"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Quit Blankie"
@@ -2770,6 +3538,30 @@
             "state": "translated",
             "value": "Salir de Blankie"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quit Blankie"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "退出 Blankie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quit Blankie"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit Blankie"
+          }
         }
       }
     },
@@ -2778,18 +3570,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rain"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "雨"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Rain"
@@ -2812,6 +3592,30 @@
             "state": "translated",
             "value": "Lluvia"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rain"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "雨"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rain"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain"
+          }
         }
       }
     },
@@ -2820,18 +3624,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Red"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "红色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Red"
@@ -2854,6 +3646,30 @@
             "state": "translated",
             "value": "Rojo"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Red"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "红色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Red"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
+          }
         }
       }
     },
@@ -2862,18 +3678,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rename Preset"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "重命名预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Rename Preset"
@@ -2896,6 +3700,30 @@
             "state": "translated",
             "value": "Renombrar sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rename Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "重命名预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rename Preset"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename Preset"
+          }
         }
       }
     },
@@ -2904,18 +3732,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Report an Issue"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "报告问题"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Report an Issue"
@@ -2938,6 +3754,30 @@
             "state": "translated",
             "value": "Reportar un problema"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Report an Issue"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "报告问题"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Report an Issue"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report an Issue"
+          }
         }
       }
     },
@@ -2946,18 +3786,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reset Sounds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "重置声音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Reset Sounds"
@@ -2980,6 +3808,30 @@
             "state": "translated",
             "value": "Resetear sonidos"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Reset Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "重置声音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Reset Sounds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Sounds"
+          }
         }
       }
     },
@@ -2988,18 +3840,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "保存"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Save"
@@ -3022,6 +3862,30 @@
             "state": "translated",
             "value": "Guardar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Save"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "保存"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Save"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
         }
       }
     },
@@ -3030,18 +3894,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Save your current sound configuration as a preset to quickly access it later."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "将您当前的声音配置保存为预设，以便之后快速访问。"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Save your current sound configuration as a preset to quickly access it later."
@@ -3064,6 +3916,30 @@
             "state": "translated",
             "value": "Guarda la configuración del sonido actual como un ajuste prediseñado para acceder a él más rápidamente."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Save your current sound configuration as a preset to quickly access it later."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "将您当前的声音配置保存为预设，以便之后快速访问。"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Save your current sound configuration as a preset to quickly access it later."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save your current sound configuration as a preset to quickly access it later."
+          }
         }
       }
     },
@@ -3072,18 +3948,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Show All Sounds"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "显示所有声音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Show All Sounds"
@@ -3106,6 +3970,30 @@
             "state": "translated",
             "value": "Mostrar todos los sonidos"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Show All Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "显示所有声音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Show All Sounds"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All Sounds"
+          }
         }
       }
     },
@@ -3117,18 +4005,6 @@
           "stringUnit": {
             "state": "translated",
             "value": "Software License"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "软件许可"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Software Licence"
           }
         },
         "fr": {
@@ -3148,6 +4024,30 @@
             "state": "translated",
             "value": "Licencia de software"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Software License"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "软件许可"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Software License"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Software Licence"
+          }
         }
       }
     },
@@ -3156,18 +4056,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sound Credits"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "声音致谢"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Sound Credits"
@@ -3190,6 +4078,30 @@
             "state": "translated",
             "value": "Créditos de sonido"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sound Credits"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "声音致谢"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sound Credits"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound Credits"
+          }
         }
       }
     },
@@ -3198,18 +4110,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Star on GitHub"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "GitHub 收藏"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Star on GitHub"
@@ -3232,6 +4132,30 @@
             "state": "translated",
             "value": "Valora la app en GitHub"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Star on GitHub"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub 收藏"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Star on GitHub"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Star on GitHub"
+          }
         }
       }
     },
@@ -3240,18 +4164,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Storm"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "风暴"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Storm"
@@ -3274,6 +4186,30 @@
             "state": "translated",
             "value": "Tormenta"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Storm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "风暴"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Storm"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storm"
+          }
         }
       }
     },
@@ -3282,18 +4218,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Stream"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "溪流"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Stream"
@@ -3316,6 +4240,30 @@
             "state": "translated",
             "value": "Riachuelo"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stream"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "溪流"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stream"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stream"
+          }
         }
       }
     },
@@ -3324,18 +4272,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Summer Night"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "夏夜"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Summer Night"
@@ -3358,6 +4294,30 @@
             "state": "translated",
             "value": "Noche veraniega"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Summer Night"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "夏夜"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Summer Night"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summer Night"
+          }
         }
       }
     },
@@ -3366,18 +4326,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "System"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "系统"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "System"
@@ -3400,6 +4348,30 @@
             "state": "translated",
             "value": "Sistema"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "System"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "系统"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "System"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
         }
       }
     },
@@ -3410,18 +4382,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         },
@@ -3442,6 +4402,30 @@
             "state": "needs_review",
             "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+          }
         }
       }
     },
@@ -3450,18 +4434,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Teal"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "青色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Teal"
@@ -3484,6 +4456,30 @@
             "state": "translated",
             "value": "Turquesa"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Teal"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "青色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Teal"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teal"
+          }
         }
       }
     },
@@ -3494,18 +4490,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         },
@@ -3526,6 +4510,30 @@
             "state": "needs_review",
             "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+          }
         }
       }
     },
@@ -3534,18 +4542,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "The default preset cannot be renamed"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "默认预设无法重命名"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "The default preset cannot be renamed"
@@ -3568,6 +4564,30 @@
             "state": "translated",
             "value": "El sonido prediseñado no se puede renombrar"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The default preset cannot be renamed"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "默认预设无法重命名"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The default preset cannot be renamed"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The default preset cannot be renamed"
+          }
         }
       }
     },
@@ -3578,18 +4598,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
           }
         },
@@ -3610,6 +4618,30 @@
             "state": "needs_review",
             "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
         }
       }
     },
@@ -3618,18 +4650,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Train"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "火车"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Train"
@@ -3652,6 +4672,30 @@
             "state": "translated",
             "value": "Tren"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Train"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "火车"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Train"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train"
+          }
         }
       }
     },
@@ -3660,18 +4704,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Translations"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "翻译"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Translations"
@@ -3694,6 +4726,30 @@
             "state": "translated",
             "value": "Traducciones"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Translations"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "翻译"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Translations"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translations"
+          }
         }
       }
     },
@@ -3702,18 +4758,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Version %@ (%@)"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "版本 %@（%@）"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Version %@ (%@)"
@@ -3736,6 +4780,30 @@
             "state": "translated",
             "value": "Versión %@ (%@)"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "版本 %@（%@）"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ (%@)"
+          }
         }
       }
     },
@@ -3744,18 +4812,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Waves"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "海浪"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Waves"
@@ -3778,6 +4834,30 @@
             "state": "translated",
             "value": "Olas"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Waves"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "海浪"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Waves"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waves"
+          }
         }
       }
     },
@@ -3786,18 +4866,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Website"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "网站"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Website"
@@ -3820,6 +4888,30 @@
             "state": "translated",
             "value": "Sitio web"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Website"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "网站"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Website"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Website"
+          }
         }
       }
     },
@@ -3828,18 +4920,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "White Noise"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "白噪音"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "White Noise"
@@ -3862,6 +4942,30 @@
             "state": "translated",
             "value": "Ruido blanco"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "White Noise"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "白噪音"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "White Noise"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White Noise"
+          }
         }
       }
     },
@@ -3870,18 +4974,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Wind"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "风"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Wind"
@@ -3904,6 +4996,30 @@
             "state": "translated",
             "value": "Viento"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wind"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "风"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wind"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wind"
+          }
         }
       }
     },
@@ -3912,18 +5028,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Yellow"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "黄色"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "Yellow"
@@ -3946,6 +5050,30 @@
             "state": "translated",
             "value": "Amarillo"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yellow"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "黄色"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yellow"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
+          }
         }
       }
     },
@@ -3956,18 +5084,6 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "blankie.rest"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "blankie.rest"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
             "value": "blankie.rest"
           }
         },
@@ -3984,6 +5100,30 @@
           }
         },
         "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
+          }
+        },
+        "en-GB": {
           "stringUnit": {
             "state": "needs_review",
             "value": "blankie.rest"
@@ -4001,18 +5141,6 @@
             "value": "© 2025 "
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "© 2025 "
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "© 2025 "
-          }
-        },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
@@ -4026,6 +5154,30 @@
           }
         },
         "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
+          }
+        },
+        "en-GB": {
           "stringUnit": {
             "state": "needs_review",
             "value": "© 2025 "
@@ -4043,18 +5195,6 @@
             "value": "•"
           }
         },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "•"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "•"
-          }
-        },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
@@ -4072,6 +5212,30 @@
             "state": "needs_review",
             "value": "•"
           }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
+          }
         }
       }
     },
@@ -4080,18 +5244,6 @@
       "extractionState": "manual",
       "localizations": {
         "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "如果禁用，Blankie 将在启动时立即播放您最近的预设"
-          }
-        },
-        "en-GB": {
           "stringUnit": {
             "state": "translated",
             "value": "If disabled, Blankie will immediately play your most recent preset on launch"
@@ -4113,6 +5265,30 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Si está deshabilitado, Blankie reproducirá inmediatamente su configuración predeterminada más reciente al lanzar"
+          }
+        },
+        "ru": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "如果禁用，Blankie 将在启动时立即播放您最近的预设"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
           }
         }
       }

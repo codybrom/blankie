@@ -61,6 +61,7 @@ struct AboutView: View {
           HStack(spacing: 4) {
             Image(systemName: "globe")
             Link("blankie.rest", destination: URL(string: "https://blankie.rest")!)
+                  .handCursor()
           }
 
           Link(destination: URL(string: "https://github.com/codybrom/blankie")!) {
@@ -70,6 +71,7 @@ struct AboutView: View {
               Text("Star on GitHub", comment: "Star on GitHub label")
             }
           }
+          .handCursor()
 
           HStack(spacing: 4) {
             Link(destination: URL(string: "https://github.com/codybrom/blankie/issues")!) {
@@ -81,6 +83,8 @@ struct AboutView: View {
             }
 
           }
+          .handCursor()
+            
         }
         .font(.system(size: 12))
 
@@ -170,7 +174,8 @@ struct AboutView: View {
             Text("Website", comment: "Website link label")
           }
           .foregroundColor(.accentColor)
-
+          .handCursor()
+            
           Text("•")
             .foregroundStyle(.secondary)
 
@@ -178,6 +183,7 @@ struct AboutView: View {
             Text("GitHub", comment: "GitHub link label")
           }
           .foregroundColor(.accentColor)
+          .handCursor()
 
         }
         .foregroundColor(.accentColor)
@@ -264,18 +270,15 @@ struct AboutView: View {
   }
 
   private var inspirationSection: some View {
-    let author = "Rafael Mardojai CM"
-    let projectName = "Blanket"
-    let projectURL = "https://github.com/rafaelmardojai/blanket"
+    let projectURL = URL(string: "https://github.com/rafaelmardojai/blanket")!
 
-    return Text(
-      LocalizedStringKey("Inspired by [^[\(projectName)](\(projectURL))] by \(author)"),
-      comment: "Citation crediting the inspiration for this app with a link to the original project"
-    )
-    .font(.system(size: 12))
-    .italic()
-    .foregroundColor(.primary)
-    .tint(.accentColor)
+    return Link(destination: projectURL) {
+      Text(LocalizedStringKey("Inspired by Blanket by Rafael Mardojai CM"))
+        .font(.system(size: 12))
+        .italic()
+        .tint(.accentColor)
+        .handCursor()
+    }
   }
 
   private var soundCreditsSection: some View {
@@ -319,6 +322,7 @@ struct AboutView: View {
       )
       .foregroundColor(.accentColor)
       .font(.system(size: 12))
+      .handCursor()
       .onHover { hovering in
         hovering ? NSCursor.pointingHand.push() : NSCursor.pop()
       }
@@ -434,6 +438,7 @@ struct AboutView: View {
             .onTapGesture {
               NSWorkspace.shared.open(soundUrl)
             }
+            .handCursor() 
         } else {
           // Without link case
           Text(credit.soundName)
@@ -461,9 +466,29 @@ struct AboutView: View {
           Link(credit.license.linkText, destination: licenseUrl)
             .help(licenseUrl.absoluteString)
             .foregroundColor(.accentColor)
+            .handCursor()
         }
       }
     }
+  }
+}
+
+struct HandCursorOnHover: ViewModifier {
+  func body(content: Content) -> some View {
+    #if os(macOS)
+    content.onHover { hovering in
+      if hovering { NSCursor.pointingHand.push() }
+      else        { NSCursor.pop() }
+    }
+    #else
+    content
+    #endif
+  }
+}
+
+extension View {
+  func handCursor() -> some View {
+    self.modifier(HandCursorOnHover())
   }
 }
 

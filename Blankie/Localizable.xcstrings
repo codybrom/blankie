@@ -1857,44 +1857,37 @@
         }
       }
     },
-    "Inspired by [^[%@](%@)] by %@" : {
-      "comment" : "Citation crediting the inspiration for this app with a link to the original project",
-      "extractionState" : "manual",
+    "Inspired by Blanket by Rafael Mardojai CM" : {
+      "comment" : "Citation crediting the inspiration for this app",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Inspiriert von [^[%1$@](%2$@)] von %3$@"
+            "value" : "Inspiriert von Blanket von Rafael Mardojai CM"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inspired by [^[%1$@](%2$@)] by %3$@"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inspired by [^[%1$@](%2$@)] by %3$@"
+            "value" : "Inspired by Blanket by Rafael Mardojai CM"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Inspirado por [Blanket](https://github.com/rafaelmardojai/blanket) de %@"
+            "value" : "Inspirado por Blanket de Rafael Mardojai CM"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Inspiré par [^[%1$@](%2$@)] par %3$@"
+            "value" : "Inspiré par Blanket par Rafael Mardojai CM"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "受到[^[%1$@](%2$@)] %3$@ 的激励"
+            "value" : "受到 Blanket Rafael Mardojai CM 的激励"
           }
         }
       }
@@ -3909,7 +3902,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Version %1$@ (%2$@)"
+            "value" : "Version %@ (%@)"
           }
         },
         "zh-Hans" : {

@@ -1,2927 +1,4122 @@
 {
-  "sourceLanguage" : "en",
-  "strings" : {
-    " — " : {
-      "shouldTranslate" : false
+  "sourceLanguage": "en",
+  "strings": {
+    "NSHumanReadableCopyright": {
+      "comment": "Human readable copyright string",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "©️ 2025 Cody Bromley und Mitwirkende"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 Cody Bromley and contributors"
+          }
+        }
+      }
+    },
+    " — ": {
+      "comment": "Text separator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": " — "
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " — "
+          }
+        }
+      }
     },
-    ", " : {
-      "shouldTranslate" : false
+    ", ": {
+      "comment": "Text separator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": ", "
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ", "
+          }
+        }
+      }
     },
-    "•" : {
-      "shouldTranslate" : false
+    "About Blankie": {
+      "comment": "About section title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About Blankie"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关于 Blankie"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "About Blankie"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "À propos de Blankie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Über Blankie"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Acerca de Blankie"
+          }
+        }
+      }
     },
-    "© 2025 " : {
-      "shouldTranslate" : false
+    "Accent Color": {
+      "comment": "Preferences accent color label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accent Color"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "强调色"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Accent Colour"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Couleur d'accent"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Akzentfarbe"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Color de acento"
+          }
+        }
+      }
     },
-    "About Blankie" : {
-      "comment" : "About menu item",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Über Blankie"
+    "Add Sound (Coming Soon!)": {
+      "comment": "Add sound menu item",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Sound (Coming Soon!)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "添加声音（即将推出！）"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "About Blankie"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Add Sound (Coming Soon!)"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acerca de Blankie"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ajouter un son (bientôt disponible !)"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "À propos de Blankie"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ton hinzufügen (Kommt bald!)"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "关于 Blankie"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Agregar sonido (¡Próximamente!)"
           }
         }
       }
     },
-    "Accent Color" : {
-      "comment" : "Preferences accent color label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Akzentfarbe"
+    "All Sounds": {
+      "comment": "All sounds label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Sounds"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Accent Colour"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "所有声音"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Color de acento"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "All Sounds"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Couleur d'accent"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tous les sons"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "强调色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alle Klänge"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Todos los sonidos"
+          }
         }
       }
     },
-    "Add Sound (Coming Soon!)" : {
-      "comment" : "Add sound menu item",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sound hinzufügen (Demnächst!)"
+    "Always Start Paused": {
+      "comment": "Preference toggle label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Always Start Paused"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "总是以暂停状态启动"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add Sound (Coming Soon!)"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Always Start Paused"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Agregar sonido (¡Próximamente!)"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Toujours démarrer en pause"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ajouter un son (bientôt disponible !)"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Immer angehalten starten"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "添加声音（即将推出！）"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Iniciar siempre pausado"
           }
         }
       }
     },
-    "All Sounds" : {
-      "comment" : "All sounds label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Alle Sounds"
+    "Appearance": {
+      "comment": "Preferences appearance label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "外观"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "All Sounds"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Appearance"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todos los sonidos"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Apparence"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Tous les sons"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aussehen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "所有声音"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apariencia"
           }
         }
       }
     },
-    "Always Start Paused" : {
-      "comment" : "Preference toggle label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Immer pausiert starten"
+    "Are you sure you want to delete '%@'? This action cannot be undone.": {
+      "comment": "Delete preset confirmation message",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Always Start Paused"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "您确定要删除“%@”吗？此操作无法撤销。"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Iniciar siempre pausado"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Are you sure you want to delete '%@'? This action cannot be undone."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Toujours démarrer en pause"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "总是以暂停状态启动"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sicher, dass Sie %@ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Seguro que deseas borrar '%@'? Esta acción no puede deshacerse."
+          }
         }
       }
     },
-    "Appearance" : {
-      "comment" : "Preferences appearance label\nPreferences appearance section",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Erscheinungsbild"
+    "Behavior": {
+      "comment": "Preferences section",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behavior"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "行为"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Appearance"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Behaviour"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apariencia"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comportement"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Apparence"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Interaktion"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "外观"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Opciones"
           }
         }
       }
     },
-    "Are you sure you want to delete '%@'? This action cannot be undone." : {
-      "comment" : "Delete preset confirmation message",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Möchtest du '%@' wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden."
+    "Birds": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "鸟鸣"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Are you sure you want to delete '%@'? This action cannot be undone."
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Birds"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Seguro que deseas borrar '%@'? Esta acción no puede deshacerse."
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oiseaux"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vögel"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "您确定要删除“%@”吗？此操作无法撤销。"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pájaros"
           }
         }
       }
     },
-    "Behavior" : {
-      "comment" : "Preferences behavior section",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Verhalten"
+    "Blankie": {
+      "comment": "App name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Behaviour"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Opciones"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Comportement"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "行为"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie"
+          }
         }
       }
     },
-    "Birds" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vögel"
+    "Blankie Help": {
+      "comment": "Help menu label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Help"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie 帮助"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Birds"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Help"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pájaros"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aide Blankie"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Oiseaux"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie-Hilfe"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "鸟鸣"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ayuda de Blankie"
           }
         }
       }
     },
-    "Blankie" : {
-      "comment" : "App name",
-      "shouldTranslate" : false
+    "Blankie Settings": {
+      "comment": "Preferences menu label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Settings"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie 设置"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blankie Settings"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Paramètres Blankie"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blankie-Einstellungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes de Blankie"
+          }
+        }
+      }
     },
-    "Blankie Help" : {
-      "comment" : "Help Menu",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie Hilfe"
+    "Blue": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blue"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blankie Help"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "蓝色"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ayuda de Blankie"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Blue"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aide Blankie"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bleu"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie 帮助"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blau"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Azul"
+          }
         }
       }
     },
-    "Blankie Settings" : {
-      "comment" : "Preferences",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie-Einstellungen"
+    "Boat": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boat"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "船"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blankie Settings"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Boat"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajustes de Blankie"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bateau"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Paramètres Blankie"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boot"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie 设置"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Barco"
           }
         }
       }
     },
-    "blankie.rest" : {
-      "shouldTranslate" : false
+    "Brown": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brown"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "棕色"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Brown"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Marron"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Braun"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Marrón"
+          }
+        }
+      }
     },
-    "Blue" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blau"
+    "By": {
+      "comment": "Attribution label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "作者"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blue"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "By"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Azul"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Par"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bleu"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Von"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "蓝色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Por"
           }
         }
       }
     },
-    "Boat" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Boot"
+    "Cancel": {
+      "comment": "Cancel delete preset",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "取消"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Boat"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancel"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Barco"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Annuler"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bateau"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Abbrechen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "船"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cancelar"
           }
         }
       }
     },
-    "Brown" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Braun"
+    "City": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Brown"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "城市"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Marrón"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "City"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Marron"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ville"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "棕色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stadt"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ciudad"
+          }
         }
       }
     },
-    "By" : {
-      "comment" : "Attribution by label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Von"
+    "Close": {
+      "comment": "File menu option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关闭"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "By"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fermer"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Par"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Schließen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "作者"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar"
           }
         }
       }
     },
-    "Cancel" : {
-      "comment" : "Cancel button\nCancel delete preset",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Abbrechen"
+    "Close Window": {
+      "comment": "Menu option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Window"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "关闭窗口"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancel"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Close Window"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cancelar"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fermer la fenêtre"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Annuler"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fenster Schließen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "取消"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cerrar ventana"
           }
         }
       }
     },
-    "City" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Stadt"
+    "Cody Bromley": {
+      "comment": "Developer name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cody Bromley"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "City"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ciudad"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ville"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "城市"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley"
+          }
         }
       }
     },
-    "Close" : {
-      "comment" : "File Menu",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Schließen"
+    "Cody Bromley and contributors. All rights reserved.": {
+      "comment": "Copyright notice",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cody Bromley and contributors. All rights reserved."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley 和贡献者。保留所有权利。"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cody Bromley and contributors. All rights reserved."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerrar"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley et les contributeurs. Tous droits réservés."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Fermer"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cody Bromley und Mitwirkende. Alle Rechte vorbehalten."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "关闭"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cody Bromley y colaboradores. Todos los derechos reservados."
           }
         }
       }
     },
-    "Close Window" : {
-      "comment" : "Menu option",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Fenster schließen"
+    "Coffee Shop": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coffee Shop"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "咖啡馆"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Close Window"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coffee Shop"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cerrar ventana"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Café"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Fermer la fenêtre"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Café"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "关闭窗口"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cafetería"
           }
         }
       }
     },
-    "Cody Bromley" : {
-      "comment" : "Developer name",
-      "shouldTranslate" : false
+    "Contributors": {
+      "comment": "About section title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contributors"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "贡献者"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Contributors"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Contributeurs"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mitwirkende"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Colaboradores"
+          }
+        }
+      }
     },
-    "Cody Bromley and contributors. All rights reserved." : {
-      "comment" : "Copyright notice",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley und Mitwirkende. Alle Rechte vorbehalten."
+    "Cyan": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "青蓝色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cody Bromley and contributors. All rights reserved."
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cyan"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cody Bromley y colaboradores. Todos los derechos reservados."
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cyan"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley et les contributeurs. Tous droits réservés."
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cyan"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley 和贡献者。保留所有权利。"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cian"
           }
         }
       }
     },
-    "Coffee Shop" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Café"
+    "Dark": {
+      "comment": "Appearance mode",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Coffee Shop"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "深色"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cafetería"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dark"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Café"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sombre"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "咖啡馆"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dunkel"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Oscuro"
+          }
         }
       }
     },
-    "Contributors" : {
-      "comment" : "Contributors section title",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contributors"
+    "Default": {
+      "comment": "Default preset name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "默认"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Default"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Par défaut"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Standard"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Predeterminado"
           }
         }
       }
     },
-    "Cyan" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cyan"
+    "Delete": {
+      "comment": "Delete preset confirm button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cyan"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "删除"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cian"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cyan"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Supprimer"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "青蓝色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Löschen"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar"
+          }
         }
       }
     },
-    "Dark" : {
-      "comment" : "Appearance mode",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Dunkel"
+    "Delete Preset": {
+      "comment": "Tooltip for delete preset button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "删除预设"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dark"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Delete Preset"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Oscuro"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Supprimer le préréglage"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sombre"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellung löschen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "深色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Eliminar sonido"
           }
         }
       }
     },
-    "Default" : {
-      "comment" : "Default preset name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Standard"
+    "Developed By": {
+      "comment": "Developed by label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developed By"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "开发者"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Default"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Developed By"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Predeterminado"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Développé par"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Par défaut"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Entwickelt von"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "默认"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Desarrollado por"
           }
         }
       }
     },
-    "Delete" : {
-      "comment" : "Delete preset button\nDelete preset confirm button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Löschen"
+    "Edit Preset": {
+      "comment": "Edit preset sheet title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Preset"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "编辑预设"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edit Preset"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Supprimer"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Modifier le préréglage"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "删除"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellung bearbeiten"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editar sonido"
+          }
         }
       }
     },
-    "Delete Preset" : {
-      "comment" : "Delete preset alert title\nTooltip for delete preset button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellung löschen"
+    "Edited by": {
+      "comment": "Attribution edited by label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edited by"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "编辑"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Delete Preset"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Edited by"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminar sonido"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Édité par"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Supprimer le préréglage"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bearbeitet von"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "删除预设"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Editado por"
           }
         }
       }
     },
-    "Developed By" : {
-      "comment" : "Developed by label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Entwickelt von"
+    "Error": {
+      "comment": "Error alert title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "错误"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Developed By"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Desarrollado por"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Erreur"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Développé par"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fehler"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "开发者"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Error"
           }
         }
       }
     },
-    "Edit Preset" : {
-      "comment" : "Edit preset sheet title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellung bearbeiten"
+    "Fireplace": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fireplace"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edit Preset"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "壁炉"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editar sonido"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fireplace"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Modifier le préréglage"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cheminée"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "编辑预设"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kamin"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Chimenea"
+          }
         }
       }
     },
-    "Edited by" : {
-      "comment" : "Attribution edited by label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bearbeitet von"
+    "GitHub": {
+      "comment": "GitHub link label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "GitHub"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Edited by"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Editado por"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Édité par"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "编辑"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub"
           }
         }
       }
     },
-    "Error" : {
-      "comment" : "Error alert title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Fehler"
+    "Green": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "绿色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Error"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Green"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Error"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vert"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Erreur"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Grün"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "错误"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Verde"
           }
         }
       }
     },
-    "Fireplace" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Kamin"
+    "Hide Inactive Sounds": {
+      "comment": "Hide inactive sounds menu item",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Inactive Sounds"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fireplace"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "隐藏未激活声音"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chimenea"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hide Inactive Sounds"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cheminée"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Masquer les sons inactifs"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "壁炉"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inaktive Töne ausblenden"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ocultar sonidos inactivos"
+          }
         }
       }
     },
-    "GitHub" : {
-      "comment" : "GitHub link label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub"
+    "Indigo": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indigo"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "靛蓝色"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Indigo"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Indigo"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Indigo"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Añil"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
-    "Green" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Grün"
+    "Inspired by [^[%@](%@)] by %@": {
+      "comment": "Citation crediting the inspiration for this app with a link to the original project",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "受到[^[%1$@](%2$@)] %3$@ 的激励"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Green"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspired by [^[%1$@](%2$@)] by %3$@"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verde"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inspiré par [^[%1$@](%2$@)] par %3$@"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vert"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inspiriert von [^[%1$@](%2$@)] von %3$@"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "绿色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Inspirado por [Blanket](https://github.com/rafaelmardojai/blanket) de %@"
           }
         }
       }
     },
-    "Hide Inactive Sounds" : {
-      "comment" : "Hide inactive sounds menu item",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Inaktive Sounds ausblenden"
+    "Keyboard Shortcuts": {
+      "comment": "Shortcuts view title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard Shortcuts"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Hide Inactive Sounds"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "键盘快捷键"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ocultar sonidos inactivos"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keyboard Shortcuts"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Masquer les sons inactifs"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Raccourcis clavier"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "隐藏未激活声音"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tastaturbefehle"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atajos de teclado"
+          }
         }
       }
     },
-    "Indigo" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Indigo"
+    "Learn more about the MIT License": {
+      "comment": "MIT License Section 4",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn more about the MIT License"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "了解更多关于 MIT许可协议"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Indigo"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Learn more about the MIT Licence"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Añil"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En savoir plus sur la Licence MIT"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Indigo"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Erfahren Sie mehr über die MIT-Lizenz"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "靛蓝色"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Más información sobre la licencia MIT"
           }
         }
       }
     },
-    "Inspired by [Blanket](https://github.com/rafaelmardojai/blanket) by %@" : {
-      "comment" : "Citation crediting the inspiration for this app with a link to the original project",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inspired by [Blanket](https://github.com/rafaelmardojai/blanket) by %@"
+    "Light": {
+      "comment": "Appearance mode",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "浅色"
           }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Light"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clair"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hell"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Claro"
+          }
         }
       }
     },
-    "Keyboard Shortcuts" : {
-      "comment" : "Keyboard shortcuts menu item\nShortcuts view title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Tastenkürzel"
+    "Loading Presets...": {
+      "comment": "Preset loading indicator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading Presets..."
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Keyboard Shortcuts"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "加载预先设置中……"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Atajos de teclado"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Loading Presets..."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Raccourcis clavier"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chargement des préréglages..."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "键盘快捷键"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellungen laden ..."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cargando predefinidos..."
+          }
         }
       }
     },
-    "Learn more about the MIT License" : {
-      "comment" : "MIT License Section 4",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Learn more about the MIT License"
+    "Mint": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mint"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "薄荷色"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mint"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Menthe"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Minze"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Menta"
           }
         }
       }
     },
-    "Light" : {
-      "comment" : "Appearance mode",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Hell"
+    "New Preset": {
+      "comment": "New preset button label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Preset"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Light"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "新预设"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Claro"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Preset"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Clair"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nouveau préréglage"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "浅色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Neue Voreinstellung"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nuevo sonido"
+          }
         }
       }
     },
-    "Loading Presets..." : {
-      "comment" : "Preset loading indicator",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Loading Presets..."
+    "New Window": {
+      "comment": "Menubar Menu & File Menu",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Window"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "新窗口"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New Window"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nouvelle fenêtre"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Neues Fenster"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nueva ventana"
           }
         }
       }
     },
-    "Mint" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Minze"
+    "No Custom Presets": {
+      "comment": "Empty state title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Custom Presets"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mint"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "没有自定义预设"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Menta"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No Custom Presets"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Menthe"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aucun préréglage personnalisé"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "薄荷色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Keine eigenen Voreinstellungen"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No hay sonidos prediseñados"
+          }
         }
       }
     },
-    "New Preset" : {
-      "comment" : "New preset button label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Neue Voreinstellung"
+    "OK": {
+      "comment": "OK button label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "确定"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Preset"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OK"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nuevo sonido"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ok"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nouveau préréglage"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "OK"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "新预设"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aceptar"
           }
         }
       }
     },
-    "New Window" : {
-      "comment" : "Menubar Menu & File Menu",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Neues Fenster"
+    "Orange": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "橙色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "New Window"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Orange"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nueva ventana"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orange"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nouvelle fenêtre"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orange"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "新窗口"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Naranja"
           }
         }
       }
     },
-    "No Custom Presets" : {
-      "comment" : "Empty state title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Keine benutzerdefinierten Voreinstellungen"
+    "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:": {
+      "comment": "MIT License Section 1",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No Custom Presets"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "No hay sonidos prediseñados"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aucun préréglage personnalisé"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "没有自定义预设"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
+          }
         }
       }
     },
-    "OK" : {
-      "comment" : "OK button label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "OK"
+    "Pink": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "粉色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "OK"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rose"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "OK"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rosa"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "确定"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rosa"
           }
         }
       }
     },
-    "Orange" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Orange"
+    "Pink Noise": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink Noise"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "粉噪音"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Orange"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pink Noise"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Naranja"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bruit rose"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Orange"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rosa Rauschen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "橙色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruido rosa"
           }
         }
       }
     },
-    "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" : {
-      "comment" : "MIT License Section 1",
-      "shouldTranslate" : false
+    "Play/Pause Sounds": {
+      "comment": "Shortcuts view",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play/Pause Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "播放/暂停声音"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play/Pause Sounds"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lire/Pause les sons"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sounds Abspielen/Pausieren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproducir/Pausar sonidos"
+          }
+        }
+      }
     },
-    "Pink" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Pink"
+    "Playback Paused": {
+      "comment": "Playback paused banner",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Playback Paused"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "播放已暂停"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pink"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Playback Paused"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rosa"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lecture en pause"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rose"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wiedergabe Pausiert"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "粉色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproducción pausada"
           }
         }
       }
     },
-    "Pink Noise" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rosa Rauschen"
+    "Preferences": {
+      "comment": "Menu option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pink Noise"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "偏好设置"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ruido rosa"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bruit rose"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Préférences"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "粉噪音"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Einstellungen"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes"
+          }
         }
       }
     },
-    "Play/Pause Sounds" : {
-      "comment" : "Shortcuts View",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sounds abspielen/pausieren"
+    "Preferences...": {
+      "comment": "Preferences menu item",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences..."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "偏好设置……"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Play/Pause Sounds"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preferences..."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reproducir/Pausar sonidos"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Préférences..."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Lire/Pause les sons"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Einstellungen..."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "播放/暂停声音"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ajustes..."
           }
         }
       }
     },
-    "Playback Paused" : {
-      "comment" : "Playback paused banner",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Wiedergabe pausiert"
+    "Preset Name": {
+      "comment": "Preset name text field",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset Name"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设名称"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Playback Paused"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset Name"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reproducción pausada"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nom du préréglage"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Lecture en pause"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreingestellter Name"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "播放已暂停"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nombre del sonido"
           }
         }
       }
     },
-    "Preferences" : {
-      "comment" : "Menu option",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Einstellungen"
+    "Preset name cannot be empty": {
+      "comment": "Empty preset name error",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset name cannot be empty"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preferences"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设名称不能为空"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajustes"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preset name cannot be empty"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Préférences"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Le nom du préréglage ne peut pas être vide"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "偏好设置"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellung Name darf nicht leer sein"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El nombre no puede estar vacío"
+          }
         }
       }
     },
-    "Preferences..." : {
-      "comment" : "Preferences menu item",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Einstellungen..."
+    "Presets": {
+      "comment": "Presets menu title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presets"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "预设"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preferences..."
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Presets"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ajustes..."
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Préréglages"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Préférences..."
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellungen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "偏好设置..."
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonidos prediseñados"
           }
         }
       }
     },
-    "Preset Name" : {
-      "comment" : "Preset name text field",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellungsname"
+    "Public Domain": {
+      "comment": "Audio license type",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Public Domain"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "公有领域"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preset Name"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Public Domain"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nombre del sonido"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Domaine public"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nom du préréglage"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Public Domain"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "预设名称"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dominio público"
           }
         }
       }
     },
-    "Preset name cannot be empty" : {
-      "comment" : "Empty preset name error",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellungsname darf nicht leer sein"
+    "Purple": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purple"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Preset name cannot be empty"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "紫色"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El nombre no puede estar vacío"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Purple"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Le nom du préréglage ne peut pas être vide"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Violet"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "预设名称不能为空"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lila"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Morado"
+          }
         }
       }
     },
-    "Presets" : {
-      "comment" : "Presets menu title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellungen"
+    "Quit": {
+      "comment": "Menu option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "退出"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Presets"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sonidos prediseñados"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quitter"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Préréglages"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Beenden"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "预设"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir"
           }
         }
       }
     },
-    "Public Domain" : {
-      "comment" : "Audio license type",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Gemeinfrei"
+    "Quit Blankie": {
+      "comment": "Quit menu item",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit Blankie"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "退出 Blankie"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Public Domain"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quit Blankie"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dominio público"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quitter Blankie"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Domaine public"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quit Blankie"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "公有领域"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Salir de Blankie"
           }
         }
       }
     },
-    "Purple" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Lila"
+    "Rain": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Purple"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "雨"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Morado"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rain"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Violet"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pluie"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "紫色"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Regen"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lluvia"
+          }
         }
       }
     },
-    "Quit" : {
-      "comment" : "Menu option",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Beenden"
+    "Red": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "红色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quit"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Red"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salir"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rouge"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quitter"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rot"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "退出"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rojo"
           }
         }
       }
     },
-    "Quit Blankie" : {
-      "comment" : "Quit menu item",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie beenden"
+    "Rename Preset": {
+      "comment": "Tooltip for rename preset button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename Preset"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "重命名预设"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quit Blankie"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rename Preset"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Salir de Blankie"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Renommer le préréglage"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Quitter Blankie"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voreinstellung Umbenennen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "退出 Blankie"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Renombrar sonido"
           }
         }
       }
     },
-    "Rain" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Regen"
+    "Report an Issue": {
+      "comment": "Report an issue label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report an Issue"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rain"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "报告问题"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Lluvia"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Report an Issue"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Pluie"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Signaler un problème"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "雨"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ein Problem Melden"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reportar un problema"
+          }
         }
       }
     },
-    "Red" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rot"
+    "Reset Sounds": {
+      "comment": "Reset sounds button label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "重置声音"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Red"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reset Sounds"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rojo"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Réinitialiser les sons"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Rouge"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Töne zurücksetzen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "红色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Resetear sonidos"
           }
         }
       }
     },
-    "Rename Preset" : {
-      "comment" : "Tooltip for rename preset button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Voreinstellung umbenennen"
+    "Save": {
+      "comment": "Save button",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "保存"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rename Preset"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Renombrar sonido"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Enregistrer"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Renommer le préréglage"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Speichern"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "重命名预设"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guardar"
           }
         }
       }
     },
-    "Report an Issue" : {
-      "comment" : "Report an issue label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Problem melden"
+    "Save your current sound configuration as a preset to quickly access it later.": {
+      "comment": "Empty state subtitle",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save your current sound configuration as a preset to quickly access it later."
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Report an Issue"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "将您当前的声音配置保存为预设，以便之后快速访问。"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reportar un problema"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Save your current sound configuration as a preset to quickly access it later."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Signaler un problème"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "报告问题"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Speichern Sie Ihre aktuelle Soundkonfiguration als Voreinstellung, um später schnell darauf zugreifen zu können."
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Guarda la configuración del sonido actual como un ajuste prediseñado para acceder a él más rápidamente."
+          }
         }
       }
     },
-    "Reset Sounds" : {
-      "comment" : "Reset sounds button label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sounds zurücksetzen"
+    "Show All Sounds": {
+      "comment": "View menu item",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All Sounds"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "显示所有声音"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Reset Sounds"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Show All Sounds"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Resetear sonidos"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Afficher tous les sons"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Réinitialiser les sons"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alle Töne anzeigen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "重置声音"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mostrar todos los sonidos"
           }
         }
       }
     },
-    "Save" : {
-      "comment" : "Save button",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Speichern"
+    "Software License": {
+      "comment": "About section title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Software License"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "软件许可"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Software Licence"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guardar"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Licence logicielle"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Enregistrer"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lizenz"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "保存"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Licencia de software"
           }
         }
       }
     },
-    "Save your current sound configuration as a preset to quickly access it later." : {
-      "comment" : "Empty state subtitle",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Speichere deine aktuelle Sound-Konfiguration als Voreinstellung, um später schnell darauf zuzugreifen."
+    "Sound Credits": {
+      "comment": "About section title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound Credits"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Save your current sound configuration as a preset to quickly access it later."
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "声音致谢"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Guarda la configuración del sonido actual como un ajuste prediseñado para acceder a él más rápidamente."
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sound Credits"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Crédits sonores"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "将您当前的声音配置保存为预设，以便之后快速访问。"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sound-Credits"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Créditos de sonido"
+          }
         }
       }
     },
-    "Show All Sounds" : {
-      "comment" : "View Menu",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Alle Sounds anzeigen"
+    "Star on GitHub": {
+      "comment": "Link label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Star on GitHub"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Show All Sounds"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GitHub 收藏"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mostrar todos los sonidos"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Star on GitHub"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Afficher tous les sons"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mettre une étoile sur GitHub"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "显示所有声音"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Star auf GitHub"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Valora la app en GitHub"
+          }
         }
       }
     },
-    "Software License" : {
-      "comment" : "About panel heading",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Softwarelizenz"
+    "Storm": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storm"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "风暴"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Software Licence"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Storm"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Licencia de software"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orage"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Licence logicielle"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sturm"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "软件许可"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tormenta"
           }
         }
       }
     },
-    "Sound Credits" : {
-      "comment" : "Sound credits section title",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Soundnachweise"
+    "Stream": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stream"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "溪流"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sound Credits"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stream"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Créditos de sonido"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ruisseau"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Crédits sonores"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bach"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "声音致谢"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Riachuelo"
           }
         }
       }
     },
-    "Star on GitHub" : {
-      "comment" : "Star on GitHub label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Auf GitHub markieren"
+    "Summer Night": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summer Night"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Star on GitHub"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "夏夜"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Valora la app en GitHub"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Summer Night"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Mettre une étoile sur GitHub"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nuit d'été"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub 收藏"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sommernacht"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Noche veraniega"
+          }
         }
       }
     },
-    "Storm" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sturm"
+    "System": {
+      "comment": "System accent color option",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "系统"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Storm"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "System"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tormenta"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Système"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Orage"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "System"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "风暴"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sistema"
           }
         }
       }
     },
-    "Stream" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bach"
+    "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.": {
+      "comment": "MIT License Section 3",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Stream"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Riachuelo"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Ruisseau"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "溪流"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
           }
         }
       }
     },
-    "Summer Night" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sommernacht"
+    "Teal": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teal"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Summer Night"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "青色"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Noche veraniega"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Teal"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Nuit d'été"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sarcelle"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "夏夜"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Blaugrün"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Turquesa"
+          }
         }
       }
     },
-    "System" : {
-      "comment" : "Accent color name\nAppearance mode\nSystem accent color option",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "System"
+    "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.": {
+      "comment": "MIT License Section 2",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "System"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sistema"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Système"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "系统"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
           }
         }
       }
     },
-    "Teal" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blaugrün"
+    "The default preset cannot be renamed": {
+      "comment": "Default preset rename warning",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The default preset cannot be renamed"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "默认预设无法重命名"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Teal"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The default preset cannot be renamed"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Turquesa"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Le préréglage par défaut ne peut pas être renommé"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sarcelle"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Die Standardvorgabe kann nicht umbenannt werden"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "青色"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El sonido prediseñado no se puede renombrar"
           }
         }
       }
     },
-    "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." : {
-      "comment" : "MIT License Section 2",
-      "shouldTranslate" : false
+    "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.": {
+      "comment": "Blankie/Localizable.xcstrings\nThis application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.\r\nLicense and warranty explainer text",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
+          }
+        }
+      }
     },
-    "The default preset cannot be renamed" : {
-      "comment" : "Default preset rename warning",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Die Standardvoreinstellung kann nicht umbenannt werden"
+    "Train": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "火车"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The default preset cannot be renamed"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Train"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "El sonido prediseñado no se puede renombrar"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Former"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Le préréglage par défaut ne peut pas être renommé"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zug"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "默认预设无法重命名"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tren"
           }
         }
       }
     },
-    "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." : {
-      "comment" : "MIT License Section 3",
-      "shouldTranslate" : false
+    "Translations": {
+      "comment": "Translations section title",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translations"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "翻译"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Translations"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Traductions"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Übersetzungen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Traducciones"
+          }
+        }
+      }
     },
-    "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License." : {
-      "comment" : "License and warranty explainer text",
-      "shouldTranslate" : false
+    "Version %@ (%@)": {
+      "comment": "Version string",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "版本 %@（%@）"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Version %1$@ (%2$@)"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Version %@ (%@)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Versión %@ (%@)"
+          }
+        }
+      }
     },
-    "Train" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Zug"
+    "Waves": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waves"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "海浪"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Train"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Waves"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tren"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vagues"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Train"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wellen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "火车"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Olas"
           }
         }
       }
     },
-    "Translations" : {
-      "comment" : "Translations section title",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Translations"
+    "Website": {
+      "comment": "Website link label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Website"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "网站"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Website"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Site web"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Webseite"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sitio web"
+          }
         }
       }
     },
-    "Version %@ (%@)" : {
-      "comment" : "Version string",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Version %@ (%@)"
+    "White Noise": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White Noise"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "白噪音"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version %@ (%@)"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "White Noise"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Versión %@ (%@)"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bruit blanc"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Version %@ (%@)"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Weißes Rauschen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "版本 %@（%@）"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ruido blanco"
           }
         }
       }
     },
-    "Wait for play button before starting sounds" : {
-      "comment" : "Help for always start paused",
-      "localizations" : {
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wait for play button before starting sounds"
+    "Wind": {
+      "comment": "Sound name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wind"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "风"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wind"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vent"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wind"
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Viento"
+          }
         }
       }
     },
-    "Waves" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Wellen"
+    "Yellow": {
+      "comment": "Accent color name",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "黄色"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Waves"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Yellow"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Olas"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jaune"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vagues"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gelb"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "海浪"
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Amarillo"
           }
         }
       }
     },
-    "Website" : {
-      "comment" : "Website link label",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Webseite"
+    "blankie.rest": {
+      "comment": "Web address label",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "blankie.rest"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Website"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sitio web"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Site web"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "网站"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "blankie.rest"
           }
         }
       }
     },
-    "White Noise" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Weißes Rauschen"
+    "© 2025 ": {
+      "comment": "Copyright symbol and year",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "© 2025 "
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "White Noise"
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ruido blanco"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bruit blanc"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "白噪音"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
           }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "© 2025 "
+          }
         }
       }
     },
-    "Wind" : {
-      "comment" : "Sound name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Wind"
+    "•": {
+      "comment": "Text separator",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "•"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wind"
+        "en-GB": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Viento"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Vent"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "风"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "•"
           }
         }
       }
     },
-    "Yellow" : {
-      "comment" : "Accent color name",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Gelb"
+    "If disabled, Blankie will immediately play your most recent preset on launch": {
+      "comment": "Help for \"Always start paused\" toggle",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "如果禁用，Blankie 将在启动时立即播放您最近的预设"
           }
         },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Yellow"
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "If disabled, Blankie will immediately play your most recent preset on launch"
           }
         },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Amarillo"
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Si désactivé, Blankie jouera immédiatement votre préréglage le plus récent au lancement"
           }
         },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Jaune"
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wenn deaktiviert, wird Blankie Ihre letzte Voreinstellung beim Start sofort abspielen"
           }
         },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "黄色"
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Si está deshabilitado, Blankie reproducirá inmediatamente su configuración predeterminada más reciente al lanzar"
           }
         }
       }
     }
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

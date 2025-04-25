@@ -107,7 +107,7 @@ struct PreferencesView: View {
             set: { globalSettings.setAlwaysStartPaused($0) }
           )
         )
-        .help(NSLocalizedString("Wait for play button before starting sounds", comment: "Help for always start paused"))
+        .help(NSLocalizedString("If disabled, Blankie will immediately play your most recent preset on launch", comment: "Help for always start paused"))
         .tint(accentColorForUI)
       }
 

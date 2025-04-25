@@ -265,9 +265,11 @@ struct AboutView: View {
 
   private var inspirationSection: some View {
     let author = "Rafael Mardojai CM"
+    let projectName = "Blanket"
+    let projectURL = "https://github.com/rafaelmardojai/blanket"
 
     return Text(
-      "Inspired by [Blanket](https://github.com/rafaelmardojai/blanket) by \(author)",
+      LocalizedStringKey("Inspired by [^[\(projectName)](\(projectURL))] by \(author)"),
       comment: "Citation crediting the inspiration for this app with a link to the original project"
     )
     .font(.system(size: 12))

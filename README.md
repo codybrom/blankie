@@ -123,7 +123,7 @@ Blankie uses [SF Symbols](https://developer.apple.com/sf-symbols/) for sound ico
 
 ## License & Copyright
 
-© 2024 Cody Bromley. All rights reserved.
+© 2025 Cody Bromley and contributors. All rights reserved.
 
 The Blankie name and trademark rights are reserved. The Blankie logo and app icon are licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 

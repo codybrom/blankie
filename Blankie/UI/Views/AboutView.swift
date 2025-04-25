@@ -31,7 +31,7 @@ struct AboutView: View {
               .imageScale(.large)
           }
           .buttonStyle(.plain)
-          .help(NSLocalizedString("Close", comment: "Close about window button"))
+          .help("Close")
           .keyboardShortcut(.defaultAction)
         }
         .padding(.bottom, -8)
@@ -45,13 +45,12 @@ struct AboutView: View {
 
         // App Info Section
         VStack(spacing: 8) {
-          Text(NSLocalizedString("Blankie", comment: "App name"))
+          Text("Blankie", comment: "App name")
             .font(.system(size: 24, weight: .medium, design: .rounded))
 
           Text(
-            String(
-              format: NSLocalizedString("Version %@ (%@)", comment: "Version string"), appVersion,
-              buildNumber)
+            LocalizedStringKey("Version \(appVersion) (\(buildNumber))"),
+            comment: "Version string"
           )
           .font(.system(size: 12))
           .foregroundStyle(.secondary)
@@ -61,28 +60,26 @@ struct AboutView: View {
         HStack(spacing: 16) {
           HStack(spacing: 4) {
             Image(systemName: "globe")
-            LinkWithTooltip(
-              title: "blankie.rest",
-              destination: URL(string: "https://blankie.rest")!
-            )
+            Link("blankie.rest", destination: URL(string: "https://blankie.rest")!)
           }
 
-          LinkWithTooltip(
-            destination: URL(string: "https://github.com/codybrom/blankie")!
-          ) {
+          Link(destination: URL(string: "https://github.com/codybrom/blankie")!) {
             HStack(spacing: 4) {
               Image(systemName: "star.fill")
                 .foregroundStyle(.yellow)
-              Text(NSLocalizedString("Star on GitHub", comment: "Star on GitHub label"))
+              Text("Star on GitHub", comment: "Star on GitHub label")
             }
           }
+
           HStack(spacing: 4) {
-            Image(systemName: "exclamationmark.triangle.fill")
-              .foregroundStyle(.orange)
-            LinkWithTooltip(
-              title: NSLocalizedString("Report an Issue", comment: "Report an issue label"),
-              destination: URL(string: "https://github.com/codybrom/blankie/issues")!
-            )
+            Link(destination: URL(string: "https://github.com/codybrom/blankie/issues")!) {
+              HStack(spacing: 4) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                  .foregroundStyle(.orange)
+                Text("Report an Issue", comment: "Report an issue label")
+              }
+            }
+
           }
         }
         .font(.system(size: 12))
@@ -115,16 +112,15 @@ struct AboutView: View {
         Text("© 2025 ")
           .font(.caption)
           + Text(
-            NSLocalizedString(
-              "Cody Bromley and contributors. All rights reserved.", comment: "Copyright notice")
+            "Cody Bromley and contributors. All rights reserved.", comment: "Copyright notice"
           )
           .font(.caption)
 
         // Credits and License Section
         VStack(spacing: 12) {
           ExpandableSection(
-            title: NSLocalizedString(
-              "Sound Credits", comment: "Expandable section title: Sound Credits"),
+            title: "Sound Credits",
+            comment: "Expandable section title: Sound Credits",
             isExpanded: $isSoundCreditsExpanded,
             onExpand: {
               // Close other section when this one opens
@@ -139,8 +135,8 @@ struct AboutView: View {
           }
 
           ExpandableSection(
-            title: NSLocalizedString(
-              "Software License", comment: "Expandable section title: Software License"),
+            title: "Software License",
+            comment: "Expandable section title: Software License",
             isExpanded: $isLicenseExpanded,
             onExpand: {
               // Close other section when this one opens
@@ -161,27 +157,27 @@ struct AboutView: View {
 
   private var developerSection: some View {
     VStack(spacing: 4) {
-      Text(NSLocalizedString("Developed By", comment: "Developed by label"))
+      Text("Developed By", comment: "Developed by label")
         .font(.system(size: 13, weight: .bold))
 
       VStack(spacing: 8) {
-        Text(NSLocalizedString("Cody Bromley", comment: "Developer name"))
+        Text("Cody Bromley", comment: "Developer name")
           .font(.system(size: 13))
 
         HStack(spacing: 8) {
 
-          LinkWithTooltip(
-            title: NSLocalizedString("Website", comment: "Website link label"),
-            destination: URL(string: "https://www.codybrom.com")!
-          )
+          Link(destination: URL(string: "https://www.codybrom.com")!) {
+            Text("Website", comment: "Website link label")
+          }
+          .foregroundColor(.accentColor)
 
           Text("•")
             .foregroundStyle(.secondary)
 
-          LinkWithTooltip(
-            title: NSLocalizedString("GitHub", comment: "GitHub link label"),
-            destination: URL(string: "https://github.com/codybrom")!
-          )
+          Link(destination: URL(string: "https://github.com/codybrom")!) {
+            Text("GitHub", comment: "GitHub link label")
+          }
+          .foregroundColor(.accentColor)
 
         }
         .foregroundColor(.accentColor)
@@ -216,7 +212,7 @@ struct AboutView: View {
 
   private var contributorSection: some View {
     VStack(spacing: 8) {  // Standardized spacing
-      Text(NSLocalizedString("Contributors", comment: "Contributors section title"))
+      Text("Contributors", comment: "Contributors section title")
         .font(.system(size: 13, weight: .bold))
         .padding(.bottom, 4)  // Add some space between title and content
 
@@ -239,7 +235,7 @@ struct AboutView: View {
 
   private var translatorSection: some View {
     VStack(spacing: 8) {  // Standardized spacing
-      Text(NSLocalizedString("Translations", comment: "Translations section title"))
+      Text("Translations", comment: "Translations section title")
         .font(.system(size: 13, weight: .bold))
         .padding(.bottom, 4)  // Same spacing after title
 
@@ -269,44 +265,20 @@ struct AboutView: View {
 
   private var inspirationSection: some View {
     let author = "Rafael Mardojai CM"
-    let formatString = NSLocalizedString(
-      "Inspired by <project> by %@", comment: "Inspired by <project> by <author>")
-    let parts = formatString.components(separatedBy: "<project>")
-    return HStack(spacing: 4) {
-      if parts.count == 2 {
-        Text(parts[0])
-          .font(.system(size: 12))
-          .italic()
-          .foregroundColor(.primary)
-        LinkWithTooltip(
-          title: "Blanket",
-          destination: URL(string: "https://github.com/rafaelmardojai/blanket")!
-        )
-        .foregroundColor(.accentColor)
-        Text(String(format: parts[1], author))
-          .font(.system(size: 12))
-          .italic()
-          .foregroundColor(.primary)
-      } else {
-        // Fallback for unexpected localization format
-        Text(
-          String(
-            format: NSLocalizedString(
-              "Inspired by %@ by %@", comment: "Inspired by <project> by <author>"),
-            "Blanket", author)
-        )
-        .font(.system(size: 12))
-        .italic()
-        .foregroundColor(.primary)
-      }
-    }
+
+    return Text(
+      "Inspired by [Blanket](https://github.com/rafaelmardojai/blanket) by \(author)",
+      comment: "Citation crediting the inspiration for this app with a link to the original project"
+    )
     .font(.system(size: 12))
     .italic()
+    .foregroundColor(.primary)
+    .tint(.accentColor)
   }
 
   private var soundCreditsSection: some View {
     VStack(alignment: .leading, spacing: 8) {
-      Text(NSLocalizedString("Sound Credits", comment: "Sound credits section title"))
+      Text("Sound Credits", comment: "Sound credits section title")
         .font(.system(size: 13, weight: .bold))
 
       VStack(alignment: .leading, spacing: 4) {
@@ -317,8 +289,43 @@ struct AboutView: View {
     }
   }
 
+  private var softwareLicenseSection: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      Text(
+        "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.",
+        comment: "License and warranty explainer text"
+      )
+      .font(.system(size: 12))
+      Text(
+        "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:",
+        comment: "MIT License Section 1"
+      )
+      .font(.system(size: 12))
+      Text(
+        "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.",
+        comment: "MIT License Section 2"
+      )
+      .font(.system(size: 12))
+      Text(
+        "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
+        comment: "MIT License Section 3"
+      )
+      .font(.system(size: 12))
+      Link(
+        "Learn more about the MIT License",
+        destination: URL(string: "https://opensource.org/licenses/MIT")!
+      )
+      .foregroundColor(.accentColor)
+      .font(.system(size: 12))
+      .onHover { hovering in
+        hovering ? NSCursor.pointingHand.push() : NSCursor.pop()
+      }
+    }
+  }
+
   struct ExpandableSection<Content: View>: View {
     let title: String
+    let comment: String
     @Binding var isExpanded: Bool
     let onExpand: () -> Void
     let content: Content
@@ -326,11 +333,13 @@ struct AboutView: View {
 
     init(
       title: String,
+      comment: String,
       isExpanded: Binding<Bool>,
       onExpand: @escaping () -> Void,
       @ViewBuilder content: () -> Content
     ) {
       self.title = title
+      self.comment = comment
       self._isExpanded = isExpanded
       self.onExpand = onExpand
       self.content = content()
@@ -396,98 +405,63 @@ struct AboutView: View {
 
     var body: some View {
       VStack(alignment: .leading, spacing: 4) {
-        HStack(spacing: 4) {
-
-          Text(credit.name)
-            .fontWeight(.bold)
-          Text("—")
-            .foregroundStyle(.secondary)
-          if let soundUrl = credit.soundUrl {
-            LinkWithTooltip(
-              title: credit.soundName,
-              destination: soundUrl
-            )
-            .foregroundColor(.accentColor)
-          } else {
-            Text(credit.soundName)
-              .foregroundStyle(.secondary)
-          }
-        }
+        // First row with name and sound name
+        soundNameView
 
         // Attribution line
-        HStack(spacing: 4) {
-          Text(NSLocalizedString("By", comment: "Attribution by label"))
-            .foregroundStyle(.secondary)
-          Text(credit.author)
-          if let editor = credit.editor {
-            Text("•")
-              .foregroundStyle(.secondary)
-            Text(NSLocalizedString("Edited by", comment: "Attribution edited by label"))
-              .foregroundStyle(.secondary)
-            Text(editor)
-          }
-          if let licenseUrl = credit.license.url {
-            Text("•")
-              .foregroundStyle(.secondary)
-            LinkWithTooltip(
-              title: credit.license.linkText,
-              destination: licenseUrl
-            )
-            .foregroundColor(.accentColor)
-          }
-        }
+        attributionView
       }
       .font(.system(size: 12))
       .padding(.vertical, 4)
     }
-  }
-}
 
-private var softwareLicenseSection: some View {
-  VStack(alignment: .leading, spacing: 8) {
-    Text(
-      "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-    )
-    .font(.system(size: 12))
-    Text(
-      "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-    )
-    .font(.system(size: 12))
-    Text(
-      "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-    )
-    .font(.system(size: 12))
-    Link(
-      "See the MIT License for details.",
-      destination: URL(string: "https://opensource.org/licenses/MIT")!
-    )
-    .pointingHandCursor()
-    .foregroundColor(.accentColor)
-    .font(.system(size: 12))
-  }
-}
+    // Extracted view for the sound name line
+    private var soundNameView: some View {
+      HStack(spacing: 4) {
+        Text(credit.name)
+          .fontWeight(.bold)
 
-struct LinkWithTooltip<Label: View>: View {
-  let destination: URL
-  let label: Label
+        Text(" — ")
+          .foregroundStyle(.secondary)
 
-  init(destination: URL, @ViewBuilder label: () -> Label) {
-    self.destination = destination
-    self.label = label()
-  }
-
-  // Convenience init for simple text links
-  init(title: String, destination: URL) where Label == Text {
-    self.destination = destination
-    self.label = Text(title)
-  }
-
-  var body: some View {
-    Link(destination: destination) {
-      label
+        if let soundUrl = credit.soundUrl {
+          // With link case
+          Text(credit.soundName)
+            .foregroundColor(.accentColor)
+            .underline()
+            .onTapGesture {
+              NSWorkspace.shared.open(soundUrl)
+            }
+        } else {
+          // Without link case
+          Text(credit.soundName)
+            .foregroundStyle(.secondary)
+        }
+      }
     }
-    .pointingHandCursor()
-    .help(destination.absoluteString)
+
+    // Extracted view for the attribution line
+    private var attributionView: some View {
+      HStack(spacing: 4) {
+        Text("By", comment: "Attribution by label")
+          .foregroundStyle(.secondary)
+        Text(credit.author)
+
+        if let editor = credit.editor {
+          Text("•").foregroundStyle(.secondary)
+          Text("Edited by", comment: "Attribution edited by label")
+            .foregroundStyle(.secondary)
+          Text(editor)
+        }
+
+        if let licenseUrl = credit.license.url {
+          Text("•").foregroundStyle(.secondary)
+          Link(credit.license.linkText, destination: licenseUrl)
+            .help(licenseUrl.absoluteString)
+            .foregroundColor(.accentColor)
+        }
+      }
+    }
   }
 }
 

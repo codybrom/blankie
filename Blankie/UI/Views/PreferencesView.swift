@@ -101,7 +101,7 @@ struct PreferencesView: View {
 
       Section(NSLocalizedString("Behavior", comment: "Preferences behavior section")) {
         Toggle(
-          NSLocalizedString("Always Start Paused", comment: "Always Start Paused toggle label"),
+          NSLocalizedString("Always Start Paused", comment: "Preference toggle label"),
           isOn: Binding(
             get: { globalSettings.alwaysStartPaused },
             set: { globalSettings.setAlwaysStartPaused($0) }

@@ -11,7 +11,7 @@
   "dependencies": {
     "@playform/compress": "^0.1.9",
     "@tailwindcss/vite": "^4.1.2",
-    "astro": "^5.6.1",
+    "astro": "^5.7.5",
     "astro-seo": "^0.8.4",
     "marked": "^15.0.7",
     "tailwindcss": "^4.1.2"

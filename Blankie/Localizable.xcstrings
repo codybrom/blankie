@@ -1858,7 +1858,7 @@
       }
     },
     "Inspired by Blanket by Rafael Mardojai CM" : {
-      "comment" : "Citation crediting the inspiration for this app with a link to the original project",
+      "comment" : "Citation crediting the inspiration for this app",
       "extractionState" : "manual",
       "localizations" : {
         "de" : {
@@ -1868,12 +1868,6 @@
           }
         },
         "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inspired by Blanket by Rafael Mardojai CM"
-          }
-        },
-        "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inspired by Blanket by Rafael Mardojai CM"

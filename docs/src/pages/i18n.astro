@@ -197,52 +197,53 @@ function getStatusText(stats: StringStats): string {
                 </div>
 
                 <div class="mt-4 flex-grow">
-  <!-- Combined progress indicator -->
-  <div class="mb-1 flex justify-between text-xs text-mid-gray">
-    <span>Overall Progress:</span>
-    <span>{getCombinedProgress(stats)}%</span>
-  </div>
-  
-  <!-- Finalized translations -->
-  <div class="w-full bg-black/50 rounded-full h-4 mb-2">
-    <div 
-      class="h-4 rounded-full bg-gradient-to-r from-green-500/70 to-green-500" 
-      style={`width: ${stats.translationPercentage}%`}
-    ></div>
-  </div>
-  
-  <div class="flex justify-between text-sm">
-    <span>{stats.translationPercentage}% finalized</span>
-    <span>{stats.translatedStrings}/{stats.totalStrings} strings</span>
-  </div>
-  
-  <!-- Needs review translations -->
-  {stats.needsReviewPercentage > 0 && (
-    <div class="mt-3">
-      <div class="w-full bg-black/50 rounded-full h-4 mb-2">
-        <div 
-          class="h-4 rounded-full bg-gradient-to-r from-orange-500/70 to-orange-500" 
-          style={`width: ${stats.needsReviewPercentage}%`}
-        ></div>
-      </div>
-      
-      <div class="flex justify-between text-sm">
-        <span>{stats.needsReviewPercentage}% in review</span>
-        <span>{stats.needsReviewStrings}/{stats.totalStrings} strings</span>
-      </div>
-    </div>
-  )}
-</div>
+                  {/* Combined progress indicator */}
+                  <div class="mb-1 flex justify-between text-xs text-mid-gray">
+                    <span>Overall Progress:</span>
+                    <span>{getCombinedProgress(stats)}%</span>
+                  </div>
 
+                  {/* Finalized translations */}
+                  <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+                    <div
+                      class="h-4 rounded-full bg-gradient-to-r from-green-500/70 to-green-500"
+                      style={`width: ${stats.translationPercentage}%`}
+                    />
+                  </div>
 
+                  <div class="flex justify-between text-sm">
+                    <span>{stats.translationPercentage}% finalized</span>
+                    <span>
+                      {stats.translatedStrings}/{stats.totalStrings} strings
+                    </span>
+                  </div>
 
+                  {/* Needs review translations */}
+                  {stats.needsReviewPercentage > 0 && (
+                    <div class="mt-3">
+                      <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+                        <div
+                          class="h-4 rounded-full bg-gradient-to-r from-orange-500/70 to-orange-500"
+                          style={`width: ${stats.needsReviewPercentage}%`}
+                        />
+                      </div>
+
+                      <div class="flex justify-between text-sm">
+                        <span>{stats.needsReviewPercentage}% in review</span>
+                        <span>
+                          {stats.needsReviewStrings}/{stats.totalStrings}{" "}
+                          strings
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
 
                 <a
-                  href={`https://raw.githubusercontent.com/codybrom/blankie/refs/heads/i18n-data/${langCode}.json`}
-                  target="_blank"
-                  class="mt-4 text-sm text-yellow-500 hover:text-yellow-400 transition-colors"
+                  href={`/i18n/${langCode}`}
+                  class="text-sm bg-card px-3 py-1.5 rounded-lg hover:bg-zinc-700 transition-colors"
                 >
-                  View raw JSON data →
+                  View Details →
                 </a>
               </div>
             </div>
@@ -268,39 +269,56 @@ function getStatusText(stats: StringStats): string {
       <p class="mb-3">We track translation progress in two categories:</p>
       <ul class="space-y-2 mb-4">
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"></span>
-          <span><strong>Finalized</strong>: Translations that are ready for use</span>
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Finalized</strong>: Translations that are ready for use</span
+          >
         </li>
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"></span>
-          <span><strong>In Review</strong>: Translations that need validation</span>
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>In Review</strong>: Translations that need validation</span
+          >
         </li>
       </ul>
-      
+
       <p class="mb-3">Status labels are based on the combined progress:</p>
       <ul class="space-y-2">
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"></span>
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"
+          ></span>
           <span><strong>Complete</strong>: 90%+ strings finalized</span>
         </li>
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-blue-500 rounded-full mr-2"></span>
-          <span><strong>Well Translated/Nearly Complete</strong>: 70%+ finalized or 90%+ combined progress</span>
+          <span class="w-3 h-3 inline-block bg-blue-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Well Translated/Nearly Complete</strong>: 70%+ finalized or
+            90%+ combined progress</span
+          >
         </li>
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-yellow-500 rounded-full mr-2"></span>
+          <span class="w-3 h-3 inline-block bg-yellow-500 rounded-full mr-2"
+          ></span>
           <span><strong>In Progress</strong>: 50%+ combined progress</span>
         </li>
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"></span>
-          <span><strong>Getting Started/All Needs Review</strong>: Some strings translated or in review</span>
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Getting Started/All Needs Review</strong>: Some strings
+            translated or in review</span
+          >
         </li>
         <li class="flex items-center">
-          <span class="w-3 h-3 inline-block bg-red-500 rounded-full mr-2"></span>
+          <span class="w-3 h-3 inline-block bg-red-500 rounded-full mr-2"
+          ></span>
           <span><strong>Not Started</strong>: No translation work yet</span>
         </li>
       </ul>
-      
+
       <h3 class="text-xl font-semibold mt-6 mb-3">Needs Review</h3>
       <p>
         Strings marked as "needs review" are translations that may need

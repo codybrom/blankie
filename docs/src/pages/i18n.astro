@@ -1,0 +1,316 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const title = "Translation Status";
+
+// Define types for the language data structure
+interface StringStats {
+  totalStrings: number;
+  translatedStrings: number;
+  needsReviewStrings: number;
+  translationPercentage: number;
+  needsReviewPercentage: number;
+}
+
+interface LanguageData {
+  metadata: {
+    extractedAt: string;
+    languages: string[];
+  };
+  statistics: Record<string, StringStats>;
+}
+
+// Function to fetch language data from GitHub
+async function fetchLanguageData(): Promise<LanguageData | null> {
+  try {
+    const response = await fetch(
+      "https://raw.githubusercontent.com/codybrom/blankie/refs/heads/i18n-data/languages.json"
+    );
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch language data: ${response.status}`);
+    }
+
+    return (await response.json()) as LanguageData;
+  } catch (error) {
+    console.error("Error fetching language data:", error);
+    return null;
+  }
+}
+
+// Fetch the languages.json data at build time
+const languageData = await fetchLanguageData();
+
+// Sort languages by translation percentage (descending)
+const sortedLanguages = languageData
+  ? Object.entries(languageData.statistics).sort(
+      ([, a], [, b]) => b.translationPercentage - a.translationPercentage
+    )
+  : [];
+
+// Get language names (you could expand this map as needed)
+const languageNames: Record<string, string> = {
+  en: "English (Source)",
+  de: "German",
+  es: "Spanish",
+  fr: "French",
+  it: "Italian",
+  ja: "Japanese",
+  ko: "Korean",
+  "pt-BR": "Portuguese (Brazil)",
+  ru: "Russian",
+  "zh-Hans": "Chinese (Simplified)",
+  "zh-Hant": "Chinese (Traditional)",
+  nl: "Dutch",
+  pl: "Polish",
+  sv: "Swedish",
+  tr: "Turkish",
+  uk: "Ukrainian",
+  cs: "Czech",
+  da: "Danish",
+  fi: "Finnish",
+  no: "Norwegian",
+  ro: "Romanian",
+  hu: "Hungarian",
+  el: "Greek",
+  id: "Indonesian",
+  ms: "Malay",
+  th: "Thai",
+  vi: "Vietnamese",
+  ar: "Arabic",
+  he: "Hebrew",
+  "en-GB": "English (UK)",
+  "pt-PT": "Portuguese (Portugal)",
+  ca: "Catalan",
+  hr: "Croatian",
+  sk: "Slovak",
+  sl: "Slovenian",
+  bg: "Bulgarian",
+  et: "Estonian",
+  lv: "Latvian",
+  lt: "Lithuanian",
+};
+
+// Get the extraction timestamp and format it
+const extractionDate = languageData
+  ? new Date(languageData.metadata.extractedAt).toLocaleString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    })
+  : "Unknown";
+
+// Function to calculate combined progress (translated + needs review)
+function getCombinedProgress(stats: StringStats): number {
+  return stats.translationPercentage + stats.needsReviewPercentage;
+}
+
+// Function to determine the color class based on combined progress
+function getColorClass(stats: StringStats): string {
+  const combinedProgress = getCombinedProgress(stats);
+
+  if (stats.translationPercentage >= 90)
+    return "bg-green-500/30 border-green-500";
+  if (stats.translationPercentage >= 70)
+    return "bg-blue-500/30 border-blue-500";
+  if (combinedProgress >= 90) return "bg-blue-500/30 border-blue-500"; // High combined progress
+  if (combinedProgress >= 50) return "bg-yellow-500/30 border-yellow-500"; // Moderate combined progress
+  if (combinedProgress > 0) return "bg-orange-500/30 border-orange-500"; // Some progress
+  return "bg-red-500/30 border-red-500"; // No progress at all
+}
+
+// Function to determine the status text based on combined progress
+function getStatusText(stats: StringStats): string {
+  const { translationPercentage, needsReviewPercentage } = stats;
+  const combinedProgress = translationPercentage + needsReviewPercentage;
+
+  if (translationPercentage >= 90) return "Complete";
+  if (translationPercentage >= 70) return "Well Translated";
+
+  if (combinedProgress >= 90) {
+    if (needsReviewPercentage > translationPercentage)
+      return "Mostly in Review";
+    return "Nearly Complete";
+  }
+
+  if (combinedProgress >= 50) {
+    if (needsReviewPercentage > translationPercentage)
+      return "Mainly in Review";
+    return "In Progress";
+  }
+
+  if (combinedProgress > 0) {
+    if (translationPercentage === 0) return "All Needs Review";
+    return "Getting Started";
+  }
+
+  return "Not Started";
+}
+---
+
+<Layout title={title}>
+  <main class="max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <h1 class="text-4xl font-semibold mb-6">Translation Status</h1>
+
+    <div class="border border-gray-700 bg-card rounded-lg p-6 mb-8 text-base">
+      <p class="text-md leading-relaxed">
+        This page shows the current translation status for Blankie. The data is
+        automatically updated whenever new translations are added.
+      </p>
+      <p class="mt-4 text-sm text-mid-gray">
+        Last updated: {extractionDate}
+      </p>
+    </div>
+
+    {
+      !languageData && (
+        <div class="bg-red-500/30 border border-red-500 rounded-lg p-6 mb-8">
+          <h2 class="text-xl font-semibold mb-2">
+            Error Loading Translation Data
+          </h2>
+          <p>
+            We couldn't load the latest translation statistics. Please try again
+            later.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      languageData && (
+        <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
+          {sortedLanguages.map(([langCode, stats]) => (
+            <div
+              class={`border-l-4 rounded-lg overflow-hidden bg-card ${getColorClass(stats)}`}
+            >
+              <div class="p-4 flex flex-col h-full">
+                <div class="flex justify-between items-start">
+                  <h2 class="text-xl font-semibold">
+                    {languageNames[langCode as keyof typeof languageNames] ||
+                      langCode}
+                  </h2>
+                  <span class="px-2 py-1 text-xs rounded-full bg-black/30">
+                    {getStatusText(stats)}
+                  </span>
+                </div>
+
+                <div class="mt-4 flex-grow">
+  <!-- Combined progress indicator -->
+  <div class="mb-1 flex justify-between text-xs text-mid-gray">
+    <span>Overall Progress:</span>
+    <span>{getCombinedProgress(stats)}%</span>
+  </div>
+  
+  <!-- Finalized translations -->
+  <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+    <div 
+      class="h-4 rounded-full bg-gradient-to-r from-green-500/70 to-green-500" 
+      style={`width: ${stats.translationPercentage}%`}
+    ></div>
+  </div>
+  
+  <div class="flex justify-between text-sm">
+    <span>{stats.translationPercentage}% finalized</span>
+    <span>{stats.translatedStrings}/{stats.totalStrings} strings</span>
+  </div>
+  
+  <!-- Needs review translations -->
+  {stats.needsReviewPercentage > 0 && (
+    <div class="mt-3">
+      <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+        <div 
+          class="h-4 rounded-full bg-gradient-to-r from-orange-500/70 to-orange-500" 
+          style={`width: ${stats.needsReviewPercentage}%`}
+        ></div>
+      </div>
+      
+      <div class="flex justify-between text-sm">
+        <span>{stats.needsReviewPercentage}% in review</span>
+        <span>{stats.needsReviewStrings}/{stats.totalStrings} strings</span>
+      </div>
+    </div>
+  )}
+</div>
+
+
+
+
+                <a
+                  href={`https://raw.githubusercontent.com/codybrom/blankie/refs/heads/i18n-data/${langCode}.json`}
+                  target="_blank"
+                  class="mt-4 text-sm text-yellow-500 hover:text-yellow-400 transition-colors"
+                >
+                  View raw JSON data →
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="mt-12 border border-gray-700 bg-card rounded-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">About Translations</h2>
+      <p class="mb-4">
+        Blankie is translated by volunteers. If you'd like to help translate
+        Blankie into your language, please check the
+        <a
+          href="/contributing"
+          class="text-yellow-500 hover:text-yellow-400 transition-colors"
+        >
+          contribution guidelines
+        </a>.
+      </p>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">Understanding the Status</h3>
+      <p class="mb-3">We track translation progress in two categories:</p>
+      <ul class="space-y-2 mb-4">
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"></span>
+          <span><strong>Finalized</strong>: Translations that are ready for use</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"></span>
+          <span><strong>In Review</strong>: Translations that need validation</span>
+        </li>
+      </ul>
+      
+      <p class="mb-3">Status labels are based on the combined progress:</p>
+      <ul class="space-y-2">
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"></span>
+          <span><strong>Complete</strong>: 90%+ strings finalized</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-blue-500 rounded-full mr-2"></span>
+          <span><strong>Well Translated/Nearly Complete</strong>: 70%+ finalized or 90%+ combined progress</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-yellow-500 rounded-full mr-2"></span>
+          <span><strong>In Progress</strong>: 50%+ combined progress</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"></span>
+          <span><strong>Getting Started/All Needs Review</strong>: Some strings translated or in review</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-red-500 rounded-full mr-2"></span>
+          <span><strong>Not Started</strong>: No translation work yet</span>
+        </li>
+      </ul>
+      
+      <h3 class="text-xl font-semibold mt-6 mb-3">Needs Review</h3>
+      <p>
+        Strings marked as "needs review" are translations that may need
+        attention, such as strings that:
+      </p>
+      <ul class="list-disc list-inside mt-2 space-y-1 text-mid-gray">
+        <li>Were automatically translated and need human verification</li>
+        <li>May not match the context correctly</li>
+        <li>Need updates after the source string changed</li>
+      </ul>
+    </div>
+  </main>
+</Layout>

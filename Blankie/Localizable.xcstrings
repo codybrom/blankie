@@ -1872,6 +1872,12 @@
             "value" : "Inspired by Blanket by Rafael Mardojai CM"
           }
         },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inspired by Blanket by Rafael Mardojai CM"
+          }
+        },
         "es" : {
           "stringUnit" : {
             "state" : "translated",

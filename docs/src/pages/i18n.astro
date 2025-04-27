@@ -25,10 +25,10 @@ interface LanguageData {
 // Function to fetch language data
 async function fetchLanguageData(): Promise<LanguageData | null> {
   try {
-    // For development server
+    // Use Astro's site configuration
     const baseUrl = import.meta.env.DEV
-      ? "http://localhost:4321" // Use your dev server port
-      : import.meta.env.SITE;
+      ? "http://localhost:4321" // Dev server port
+      : import.meta.env.SITE; // Use Astro's site configuration
 
     const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
     console.log("Fetching from:", languagesJsonPath); // Debug log

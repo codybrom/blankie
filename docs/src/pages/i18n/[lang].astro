@@ -25,12 +25,13 @@ interface LanguageFile {
   strings: Record<string, StringItem>;
 }
 
-// Get the language code from the URL
+// In getStaticPaths function
 export async function getStaticPaths() {
-  // Fetch the languages list first
-  const languagesJsonPath = import.meta.env.PROD
-    ? "/i18n/languages.json" // Production path (within the deployed site)
-    : "http://localhost:3000/i18n/languages.json"; // For local development
+  const baseUrl = import.meta.env.DEV
+    ? "http://localhost:4321" // Dev server port
+    : import.meta.env.SITE; // Use Astro's site configuration
+
+  const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
 
   try {
     const response = await fetch(languagesJsonPath);
@@ -130,12 +131,15 @@ function getCombinedProgress(stats: LanguageFile["statistics"]): number {
   return stats.translationPercentage + stats.needsReviewPercentage;
 }
 
-// Fetch the language data
+// Update the fetchLanguageData function
 async function fetchLanguageData(lang: string): Promise<LanguageFile | null> {
   try {
-    const langJsonPath = import.meta.env.PROD
-      ? `/i18n/${lang}.json` // Production path (within the deployed site)
-      : `http://localhost:4321/i18n/${lang}.json`; // For local development
+    const baseUrl = import.meta.env.DEV
+      ? "http://localhost:4321" // Dev server port
+      : import.meta.env.SITE; // Use Astro's site configuration
+
+    const langJsonPath = `${baseUrl}/i18n/${lang}.json`;
+    console.log("Fetching from:", langJsonPath); // Debug log
 
     const response = await fetch(langJsonPath);
 

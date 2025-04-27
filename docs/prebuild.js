@@ -101,17 +101,32 @@ try {
     }
   });
 
-  // Save the complete extraction result
+  // Create source.json with only English strings and comments
+  const sourceJson = {
+    metadata: {
+      extractedAt: result.metadata.extractedAt,
+      language: "en",
+      sourceFiles: result.metadata.files,
+    },
+    strings: {},
+  };
+
+  // Add only English strings with comments
+  Object.keys(result.strings).forEach((key) => {
+    if (result.strings[key].en) {
+      sourceJson.strings[key] = {
+        value: result.strings[key].en.value,
+        comment: result.strings[key].comment || "",
+      };
+    }
+  });
+
+  // Save source.json
   fs.writeFileSync(
-    path.join(outputDir, "extracted.json"),
-    JSON.stringify(result, null, 2)
+    path.join(outputDir, "source.json"),
+    JSON.stringify(sourceJson, null, 2)
   );
-  console.log(
-    `Extraction complete. Full data saved to ${path.join(
-      outputDir,
-      "extracted.json"
-    )}`
-  );
+  console.log(`Created source.json with English strings and comments`);
 
   // Find all languages in the data
   const languages = new Set(["en"]);
@@ -146,6 +161,8 @@ try {
     let needsReviewStrings = 0;
 
     // Format each string for this language
+    let needsTranslationStrings = 0;
+
     Object.keys(result.strings).forEach((key) => {
       // Only count strings that have an English source
       if (result.strings[key].en) {
@@ -163,6 +180,11 @@ try {
             needsReviewStrings++;
           } else if (result.strings[key][lang].state === "translated") {
             translatedStrings++;
+          } else if (
+            result.strings[key][lang].state === "needs_translation" ||
+            result.strings[key][lang].value === ""
+          ) {
+            needsTranslationStrings++;
           }
         } else {
           // Include untranslated strings with empty target
@@ -172,6 +194,7 @@ try {
             state: "needs_translation",
             comment: result.strings[key].comment || "",
           };
+          needsTranslationStrings++;
         }
       }
     });
@@ -180,11 +203,15 @@ try {
       totalStrings,
       translatedStrings,
       needsReviewStrings,
+      needsTranslationStrings,
       translationPercentage: totalStrings
         ? Math.round((translatedStrings / totalStrings) * 100)
         : 0,
       needsReviewPercentage: totalStrings
         ? Math.round((needsReviewStrings / totalStrings) * 100)
+        : 0,
+      needsTranslationPercentage: totalStrings
+        ? Math.round((needsTranslationStrings / totalStrings) * 100)
         : 0,
     };
 
@@ -215,6 +242,7 @@ try {
     let totalStrings = 0;
     let translatedStrings = 0;
     let needsReviewStrings = 0;
+    let needsTranslationStrings = 0;
 
     Object.keys(result.strings).forEach((key) => {
       if (result.strings[key].en) {
@@ -225,7 +253,14 @@ try {
             needsReviewStrings++;
           } else if (result.strings[key][lang].state === "translated") {
             translatedStrings++;
+          } else if (
+            result.strings[key][lang].state === "needs_translation" ||
+            result.strings[key][lang].value === ""
+          ) {
+            needsTranslationStrings++;
           }
+        } else {
+          needsTranslationStrings++;
         }
       }
     });
@@ -234,32 +269,33 @@ try {
       totalStrings,
       translatedStrings,
       needsReviewStrings,
+      needsTranslationStrings,
       translationPercentage: totalStrings
         ? Math.round((translatedStrings / totalStrings) * 100)
         : 0,
       needsReviewPercentage: totalStrings
         ? Math.round((needsReviewStrings / totalStrings) * 100)
         : 0,
+      needsTranslationPercentage: totalStrings
+        ? Math.round((needsTranslationStrings / totalStrings) * 100)
+        : 0,
     };
+  });
+
+  // Count strings without English translations
+  let totalStringsCount = Object.keys(result.strings).length;
+  let missingEnglishStrings = 0;
+
+  Object.keys(result.strings).forEach((key) => {
+    if (!result.strings[key].en) {
+      missingEnglishStrings++;
+    }
   });
 
   fs.writeFileSync(
     path.join(outputDir, "languages.json"),
     JSON.stringify(langIndex, null, 2)
   );
-
-  // Write a summary.txt with dynamic commit info
-  const summaryLines = Object.keys(langIndex.statistics)
-    .sort()
-    .map((lang) => {
-      const stats = langIndex.statistics[lang];
-      return `${lang} ${stats.translationPercentage}%`;
-    });
-
-  const commitSummary = `Update i18n: ${summaryLines.join(", ")} — ${new Date()
-    .toISOString()
-    .slice(0, 10)}`;
-  fs.writeFileSync(path.join(outputDir, "summary.txt"), commitSummary);
 
   // Print translation summary
   console.log("\n✨ Prebuild: Translation Progress Summary:");
@@ -269,7 +305,8 @@ try {
     .forEach((lang) => {
       const stats = langIndex.statistics[lang];
       console.log(
-        `${lang}: ${stats.translationPercentage}% translated, ${stats.needsReviewPercentage}% needs review (${stats.translatedStrings}/${stats.totalStrings} translated, ${stats.needsReviewStrings}/${stats.totalStrings} needs review)`
+        `${lang}: ${stats.translationPercentage}% translated, ${stats.needsReviewPercentage}% needs review, ${stats.needsTranslationPercentage}% needs translation ` +
+          `(${stats.translatedStrings}/${stats.totalStrings} translated, ${stats.needsReviewStrings}/${stats.totalStrings} needs review, ${stats.needsTranslationStrings}/${stats.totalStrings} needs translation)`
       );
     });
   console.log("============================");

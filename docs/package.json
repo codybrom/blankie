@@ -16,11 +16,13 @@
     "astro-seo": "^0.8.4",
     "glob": "^10.3.10",
     "marked": "^15.0.7",
+    "papaparse": "^5.5.2",
     "tailwindcss": "^4.1.2"
   },
   "devDependencies": {
     "@playform/build": "^0.2.2",
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/papaparse": "^5.3.15"
   },
   "engines": {
     "node": ">=22"

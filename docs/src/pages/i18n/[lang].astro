@@ -246,77 +246,167 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
       langData && (
         <>
           {/* Statistics Card */}
-          <div class="bg-card rounded-lg p-6 mb-8">
-            <h2 class="text-2xl font-semibold mb-4">Translation Overview</h2>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div class="bg-zinc-800/50 rounded-lg p-4">
-                <div class="text-2xl font-bold">
-                  {langData.statistics.translationPercentage}%
-                </div>
-                <div class="text-mid-gray">Finalized</div>
-                <div class="text-sm text-mid-gray">
-                  {langData.statistics.translatedStrings} strings
-                </div>
-              </div>
-
-              <div class="bg-zinc-800/50 rounded-lg p-4">
-                <div class="text-2xl font-bold">
-                  {langData.statistics.needsReviewPercentage}%
-                </div>
-                <div class="text-mid-gray">Needs Review</div>
-                <div class="text-sm text-mid-gray">
-                  {langData.statistics.needsReviewStrings} strings
-                </div>
-              </div>
-
-              <div class="bg-zinc-800/50 rounded-lg p-4">
-                <div class="text-2xl font-bold">
-                  {getCombinedProgress(langData.statistics)}%
-                </div>
-                <div class="text-mid-gray">Overall Progress</div>
-                <div class="text-sm text-mid-gray">
-                  {langData.statistics.totalStrings} total strings
-                </div>
-              </div>
-            </div>
-
-            <div class="mb-4">
-              <div class="mb-1 text-sm font-medium">Translation Progress</div>
-              <div class="w-full bg-black/50 rounded-full h-6 overflow-hidden">
-                {/* Progress bars stacked in one container */}
-                <div class="flex h-full">
-                  <div
-                    class="h-full bg-green-500"
-                    style={`width: ${langData.statistics.translationPercentage}%`}
-                  />
-                  <div
-                    class="h-full bg-orange-500"
-                    style={`width: ${langData.statistics.needsReviewPercentage}%`}
-                  />
-                </div>
-              </div>
-              <div class="flex justify-between text-xs mt-1">
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-green-500 inline-block rounded-full mr-1" />
-                  <span>Finalized</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-orange-500 inline-block rounded-full mr-1" />
-                  <span>Needs Review</span>
-                </div>
-                <div class="flex items-center">
-                  <span class="w-2 h-2 bg-red-500 inline-block rounded-full mr-1" />
-                  <span>Not Translated</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="text-sm text-mid-gray">
-              <p>
+          <div class="bg-zinc-800 rounded-lg shadow-lg overflow-hidden border border-zinc-700">
+            {/* Header */}
+            <div class="bg-zinc-900 p-5 border-b border-zinc-700">
+              <h2 class="text-2xl font-semibold text-white">
+                {langName} Translation
+              </h2>
+              <p class="text-sm text-gray-400 mt-1">
                 Last updated:{" "}
                 {new Date(langData.metadata.extractedAt).toLocaleString()}
               </p>
+            </div>
+
+            {/* Content */}
+            <div class="p-6">
+              {/* Statistics Grid */}
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Finalized</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {langData.statistics.translationPercentage}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.translatedStrings} of{" "}
+                    {langData.statistics.totalStrings} strings
+                  </div>
+                </div>
+
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-orange-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Needs Review</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {langData.statistics.needsReviewPercentage}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.needsReviewStrings} of{" "}
+                    {langData.statistics.totalStrings} strings
+                  </div>
+                </div>
+
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Overall Progress</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {getCombinedProgress(langData.statistics)}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.totalStrings} total strings
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div class="mb-6">
+                <div class="mb-2 text-sm font-medium text-gray-300">
+                  Translation Progress
+                </div>
+                <div class="w-full bg-zinc-950 rounded-full h-6 overflow-hidden shadow-inner">
+                  <div class="flex h-full">
+                    <div
+                      class="h-full bg-gradient-to-r from-green-600 to-green-500 transition-all duration-500"
+                      style={`width: ${langData.statistics.translationPercentage}%`}
+                    />
+                    <div
+                      class="h-full bg-gradient-to-r from-orange-600 to-orange-500 transition-all duration-500"
+                      style={`width: ${langData.statistics.needsReviewPercentage}%`}
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-between text-xs mt-2 text-gray-400">
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-green-500 inline-block rounded-full mr-1" />
+                    <span>Finalized</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-orange-500 inline-block rounded-full mr-1" />
+                    <span>Needs Review</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-red-500 inline-block rounded-full mr-1" />
+                    <span>Not Translated</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer with Actions */}
+            <div class="bg-zinc-900/50 p-4 border-t border-zinc-700 flex flex-col sm:flex-row gap-4 justify-between items-center">
+              <div class="flex flex-wrap gap-3">
+                <a
+                  href={`/i18n/${lang}.json`}
+                  target="_blank"
+                  class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    />
+                  </svg>
+                  View JSON
+                </a>
+
+                {/* CSV Download Button - using client-side JS now */}
+                <button
+                  id="download-csv-btn"
+                  class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+                  data-lang={lang}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
+                  </svg>
+                  Download CSV
+                </button>
+              </div>
+
+              <a
+                href="/contributing"
+                class="inline-flex items-center px-5 py-2 bg-primary-blue hover:bg-blue-700 text-white font-medium rounded-md transition-colors text-sm no-underline"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                How to Contribute
+              </a>
             </div>
           </div>
 
@@ -375,17 +465,17 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
             <div id="tab-content">
               {/* Needs Review Tab */}
               <div
-                class="block p-4 rounded-lg bg-card mt-4"
+                class="block p-4 rounded-lg bg-zinc-800 mt-4"
                 id="needs-review"
                 role="tabpanel"
                 aria-labelledby="needs-review-tab"
               >
                 {groupedStrings.needsReview.length === 0 ? (
-                  <p class="text-mid-gray italic">No strings need review.</p>
+                  <p class="text-gray-400 italic">No strings need review.</p>
                 ) : (
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
-                      <thead class="text-xs uppercase bg-zinc-800">
+                      <thead class="text-xs uppercase bg-zinc-900">
                         <tr>
                           <th scope="col" class="px-4 py-3 w-1/2">
                             Source
@@ -401,7 +491,7 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                             <td class="px-4 py-3 align-top">
                               <div class="font-mono text-yellow-500">{key}</div>
                               {item.comment && (
-                                <div class="text-mid-gray text-xs mt-1 italic">
+                                <div class="text-gray-400 text-xs mt-1 italic">
                                   {item.comment}
                                 </div>
                               )}
@@ -419,19 +509,19 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
 
               {/* Needs Translation Tab */}
               <div
-                class="hidden p-4 rounded-lg bg-card mt-4"
+                class="hidden p-4 rounded-lg bg-zinc-800 mt-4"
                 id="needs-translation"
                 role="tabpanel"
                 aria-labelledby="needs-translation-tab"
               >
                 {groupedStrings.needsTranslation.length === 0 ? (
-                  <p class="text-mid-gray italic">
+                  <p class="text-gray-400 italic">
                     All strings have translations.
                   </p>
                 ) : (
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
-                      <thead class="text-xs uppercase bg-zinc-800">
+                      <thead class="text-xs uppercase bg-zinc-900">
                         <tr>
                           <th scope="col" class="px-4 py-3 w-1/2">
                             Source
@@ -447,7 +537,7 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                             <td class="px-4 py-3 align-top">
                               <div class="font-mono text-yellow-500">{key}</div>
                               {item.comment && (
-                                <div class="text-mid-gray text-xs mt-1 italic">
+                                <div class="text-gray-400 text-xs mt-1 italic">
                                   {item.comment}
                                 </div>
                               )}
@@ -467,19 +557,19 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
 
               {/* Translated Tab */}
               <div
-                class="hidden p-4 rounded-lg bg-card mt-4"
+                class="hidden p-4 rounded-lg bg-zinc-800 mt-4"
                 id="translated"
                 role="tabpanel"
                 aria-labelledby="translated-tab"
               >
                 {groupedStrings.translated.length === 0 ? (
-                  <p class="text-mid-gray italic">
+                  <p class="text-gray-400 italic">
                     No strings have been finalized yet.
                   </p>
                 ) : (
                   <div class="overflow-x-auto">
                     <table class="w-full text-sm text-left">
-                      <thead class="text-xs uppercase bg-zinc-800">
+                      <thead class="text-xs uppercase bg-zinc-900">
                         <tr>
                           <th scope="col" class="px-4 py-3 w-1/2">
                             Source
@@ -495,7 +585,7 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                             <td class="px-4 py-3 align-top">
                               <div class="font-mono text-yellow-500">{key}</div>
                               {item.comment && (
-                                <div class="text-mid-gray text-xs mt-1 italic">
+                                <div class="text-gray-400 text-xs mt-1 italic">
                                   {item.comment}
                                 </div>
                               )}
@@ -511,24 +601,6 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                 )}
               </div>
             </div>
-          </div>
-
-          {/* Footer with actions */}
-          <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
-            <a
-              href={`/i18n/${lang}.json`}
-              target="_blank"
-              class="text-yellow-500 hover:text-yellow-400 transition-colors"
-            >
-              View Raw JSON Data
-            </a>
-
-            <a
-              href="/contributing"
-              class="bg-primary-blue text-white py-2 px-6 rounded-full text-sm font-normal transition-all duration-300 hover:bg-deep-blue no-underline"
-            >
-              Learn How to Contribute
-            </a>
           </div>
         </>
       )
@@ -612,5 +684,88 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
         setActiveTab(targetId);
       }
     }
+
+    // Handle CSV Download - Client Side
+    setupCSVDownload();
   });
+
+  // Function to handle CSV downloads
+  function setupCSVDownload() {
+    const downloadBtn = document.getElementById("download-csv-btn");
+    if (!downloadBtn) return;
+
+    downloadBtn.addEventListener("click", async () => {
+      const langCode = downloadBtn.getAttribute("data-lang");
+      if (!langCode) return;
+
+      try {
+        // Fetch the JSON data
+        const response = await fetch(`/i18n/${langCode}.json`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch language data: ${response.status}`);
+        }
+
+        const langData = await response.json();
+
+        // Generate CSV
+        const csvContent = convertToCSV(langData.strings);
+
+        // Trigger download
+        downloadCSV(csvContent, `${langCode}-translations.csv`);
+      } catch (error) {
+        console.error("Error generating CSV:", error);
+        alert("Failed to generate CSV file. Please try again later.");
+      }
+    });
+  }
+
+  // CSV Utility functions
+  function convertToCSV(strings: Record<string, any>): string {
+    // CSV headers
+    let csv = "key,source,target,state,comment\n";
+
+    // Add each string as a row
+    Object.entries(strings).forEach(([key, item]) => {
+      // Escape quotes in fields for CSV compatibility
+      const escapedKey = escapeCSVField(key);
+      const escapedSource = escapeCSVField(item.source);
+      const escapedTarget = escapeCSVField(item.target || "");
+      const escapedState = escapeCSVField(item.state);
+      const escapedComment = escapeCSVField(item.comment || "");
+
+      // Add row
+      csv += `${escapedKey},${escapedSource},${escapedTarget},${escapedState},${escapedComment}\n`;
+    });
+
+    return csv;
+  }
+
+  // Helper function to escape CSV fields properly
+  function escapeCSVField(field: string): string {
+    if (!field) return '""';
+
+    // If the field contains commas, newlines, or quotes, wrap it in quotes and escape internal quotes
+    const needsQuotes = /[,\r\n"]/g.test(field);
+
+    if (needsQuotes) {
+      // Replace double quotes with two double quotes (CSV escaping)
+      const escaped = field.replace(/"/g, '""');
+      return `"${escaped}"`;
+    }
+
+    return `"${field}"`; // Always wrap in quotes for consistency
+  }
+
+  // Helper function to trigger a download of CSV content
+  function downloadCSV(csvContent: string, filename: string): void {
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", filename);
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
 </script>

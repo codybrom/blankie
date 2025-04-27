@@ -1,0 +1,76 @@
+name: Translation Contribution
+description: Submit language translations for Blankie
+title: "[Translation]: "
+labels: ["translation-contribution"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for helping improve Blankie's translations!
+
+        This form allows you to upload CSV or JSON files containing your translation contributions.
+
+        **Instructions:**
+        1. Download a source template or current language translation from https://blankie.rest/i18n
+        2. Edit the files to add or improve translations
+        3. Upload your modified files using this form
+
+        ### File Upload
+
+        Please attach your modified translation files below. You can drag and drop files into the comment box when you submit this form.
+
+        **Important:** Make sure to reference your files in the comment when submitting.
+
+  - type: input
+    id: language
+    attributes:
+      label: Language
+      description: Which language are you contributing translations for? If you know the specific language or region code, please use it.
+      placeholder: "e.g., fr, es, de it, ja, pt-BR, zh-CN, es-419, etc."
+    validations:
+      required: true
+
+  - type: textarea
+    id: changes
+    attributes:
+      label: Summary of Changes
+      description: Please briefly describe what translations you've added or improved
+      placeholder: "e.g., Fixed the translation for 'Train', improved 5 sound-related terms, and translated 10 new strings."
+    validations:
+      required: true
+
+  - type: textarea
+    id: language_ability
+    attributes:
+      label: Language Proficiency (Optional)
+      description: (Optional) What is your background with this language? If you are a repeat contributor, you can skip this section.
+      placeholder: "e.g., native speaker living in Spain', or 'translated text for multiple projects'"
+    validations:
+      required: false
+      
+  - type: input
+    id: name
+    attributes:
+      label: Attribution (Optional)
+      description: If you'd like to be credited for your contribution, please provide how you'd like your name to be displayed in the app. If you would not like to be credited, you can leave this section blank.
+      placeholder: "e.g., Marie Dubois"
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Contribution Terms
+      description: By submitting these translations, you agree that your contribution may be included in the Blankie app and that it will be covered by the same license as the app.
+      options:
+        - label: I understand that my contribution may be used in the Blankie app and website
+          required: true
+
+  - type: textarea
+    id: comments
+    attributes:
+      label: Additional Comments & File Uploads
+      description: Use this spacee to share other information or context about your contribution. You may also upload files by dragging and dropping them into this comment box.
+      placeholder: "e.g., Some terms were difficult to translate due to lack of context. I've marked these with comments in the files."
+    validations:
+      required: false

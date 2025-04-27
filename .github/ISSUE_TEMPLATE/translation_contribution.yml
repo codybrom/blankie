@@ -15,12 +15,6 @@ body:
         2. Edit the files to add or improve translations
         3. Upload your modified files using this form
 
-        ### File Upload
-
-        Please attach your modified translation files below. You can drag and drop files into the comment box when you submit this form.
-
-        **Important:** Make sure to reference your files in the comment when submitting.
-
   - type: input
     id: language
     attributes:
@@ -47,7 +41,7 @@ body:
       placeholder: "e.g., native speaker living in Spain', or 'translated text for multiple projects'"
     validations:
       required: false
-      
+
   - type: input
     id: name
     attributes:
@@ -66,11 +60,18 @@ body:
         - label: I understand that my contribution may be used in the Blankie app and website
           required: true
 
+  - type: markdown
+    attributes:
+      value: |
+        ### File Upload
+
+        Please attach your modified translation files below. You can drag and drop files into the comment box when you submit this form.
+
   - type: textarea
     id: comments
     attributes:
-      label: Additional Comments & File Uploads
-      description: Use this spacee to share other information or context about your contribution. You may also upload files by dragging and dropping them into this comment box.
-      placeholder: "e.g., Some terms were difficult to translate due to lack of context. I've marked these with comments in the files."
+      label: File Uploads & Comments
+      description: Use this space to upload files, as well as to share other information or context about your contribution.
+      placeholder: "e.g., Some terms were difficult to translate due to lack of context."
     validations:
-      required: false
+      required: true

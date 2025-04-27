@@ -5,8 +5,10 @@ on:
     branches:
       - main
     paths:
+      - "**/*.xcstrings"
       - "docs/**"
       - ".github/workflows/pages.yml"
+      - ".github/scripts/extract-strings.js"
   workflow_dispatch:
 
 permissions:

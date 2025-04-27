@@ -11,6 +11,5 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
-  },
-  "astro.language-server.ls-path": "docs/node_modules/@astrojs/language-server/bin/nodeServer.js"
+  }
 }

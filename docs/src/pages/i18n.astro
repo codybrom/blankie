@@ -6,10 +6,12 @@ const title = "Translation Status";
 // Define types for the language data structure
 interface StringStats {
   totalStrings: number;
-  translatedStrings: number;
-  needsReviewStrings: number;
-  translationPercentage: number;
-  needsReviewPercentage: number;
+  translatedStrings: number; // Finalized/reviewed strings
+  needsReviewStrings: number; // Strings that have translations but need review
+  untranslatedStrings: number; // Strings that haven't been translated at all
+  translationPercentage: number; // Percentage of finalized strings
+  needsReviewPercentage: number; // Percentage of strings needing review
+  untranslatedPercentage: number; // Percentage of strings not translated
 }
 
 interface LanguageData {
@@ -20,12 +22,18 @@ interface LanguageData {
   statistics: Record<string, StringStats>;
 }
 
-// Function to fetch language data from GitHub
+// Function to fetch language data
 async function fetchLanguageData(): Promise<LanguageData | null> {
   try {
-    const response = await fetch(
-      "https://raw.githubusercontent.com/codybrom/blankie/refs/heads/i18n-data/languages.json"
-    );
+    // For development server
+    const baseUrl = import.meta.env.DEV
+      ? "http://localhost:4321" // Use your dev server port
+      : import.meta.env.SITE;
+
+    const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
+    console.log("Fetching from:", languagesJsonPath); // Debug log
+
+    const response = await fetch(languagesJsonPath);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch language data: ${response.status}`);
@@ -196,7 +204,7 @@ function getStatusText(stats: StringStats): string {
                   </span>
                 </div>
 
-                <div class="mt-4 flex-grow">
+                <div class="my-2 flex-grow">
                   {/* Combined progress indicator */}
                   <div class="mb-1 flex justify-between text-xs text-mid-gray">
                     <span>Overall Progress:</span>
@@ -214,16 +222,17 @@ function getStatusText(stats: StringStats): string {
                   <div class="flex justify-between text-sm">
                     <span>{stats.translationPercentage}% finalized</span>
                     <span>
-                      {stats.translatedStrings}/{stats.totalStrings} strings
+                      {stats.translatedStrings}/{stats.totalStrings} translated
+                      & reviewed strings
                     </span>
                   </div>
 
                   {/* Needs review translations */}
-                  {stats.needsReviewPercentage > 0 && (
+                  {stats.needsReviewStrings > 0 && (
                     <div class="mt-3">
                       <div class="w-full bg-black/50 rounded-full h-4 mb-2">
                         <div
-                          class="h-4 rounded-full bg-gradient-to-r from-orange-500/70 to-orange-500"
+                          class="h-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-500/70"
                           style={`width: ${stats.needsReviewPercentage}%`}
                         />
                       </div>
@@ -231,8 +240,8 @@ function getStatusText(stats: StringStats): string {
                       <div class="flex justify-between text-sm">
                         <span>{stats.needsReviewPercentage}% in review</span>
                         <span>
-                          {stats.needsReviewStrings}/{stats.totalStrings}{" "}
-                          strings
+                          {stats.needsReviewStrings}/{stats.totalStrings} need
+                          review
                         </span>
                       </div>
                     </div>
@@ -241,9 +250,10 @@ function getStatusText(stats: StringStats): string {
 
                 <a
                   href={`/i18n/${langCode}`}
-                  class="text-sm bg-card px-3 py-1.5 rounded-lg hover:bg-zinc-700 transition-colors"
+                  class="text-sm text-yellow-500 hover:text-yellow-400 transition-colors flex items-center gap-1 bg-card px-3 py-1.5 rounded-lg w-fit mt-2"
                 >
-                  View Details →
+                  View Details
+                  <span class="text-xs">→</span>
                 </a>
               </div>
             </div>

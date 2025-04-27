@@ -1,27 +1,35 @@
-#!/usr/bin/env node
+/**
+ * Prebuild script to extract localization data
+ * This runs automatically before building the Astro site
+ */
 
-const fs = require("fs");
-const path = require("path");
-const glob = require("glob");
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+import { globSync } from "glob";
 
-// Parse args
-const args = process.argv.slice(2);
-let globPattern = "**/*.xcstrings";
-let outputDir = "tmp";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-for (let i = 0; i < args.length; i += 2) {
-  if (args[i] === "--globs") globPattern = args[i + 1];
-  if (args[i] === "--output-dir") outputDir = args[i + 1];
-}
+// Define paths
+const projectRoot = path.resolve(__dirname, "..");
+const outputDir = path.join(__dirname, "public", "i18n");
+const globsPattern = path.join(projectRoot, "Blankie", "*.xcstrings");
 
-console.log(`Looking for files matching: ${globPattern}`);
+// Ensure output directory exists
+console.log(`\n✨ Prebuild: Ensuring i18n directory exists...`);
+fs.mkdirSync(outputDir, { recursive: true });
 
+// Extraction logic integrated directly
+console.log(`✨ Prebuild: Extracting localization data...`);
 try {
   // Find all matching files
-  const files = glob.sync(globPattern);
+  console.log(`Looking for files matching: ${globsPattern}`);
+  const files = globSync(globsPattern);
 
   if (files.length === 0) {
-    console.error(`No files found matching: ${globPattern}`);
+    console.error(`❌ Prebuild: No files found matching: ${globsPattern}`);
     process.exit(1);
   }
 
@@ -31,7 +39,7 @@ try {
   const result = {
     metadata: {
       extractedAt: new Date().toISOString(),
-      tool: "blanki8n-action",
+      tool: "blanki8n-prebuild",
       files: files,
     },
     strings: {},
@@ -92,11 +100,6 @@ try {
       console.error(`Error processing ${file}: ${error.message}`);
     }
   });
-
-  // Create output directory if it doesn't exist
-  if (!fs.existsSync(outputDir)) {
-    fs.mkdirSync(outputDir, { recursive: true });
-  }
 
   // Save the complete extraction result
   fs.writeFileSync(
@@ -257,10 +260,9 @@ try {
     .toISOString()
     .slice(0, 10)}`;
   fs.writeFileSync(path.join(outputDir, "summary.txt"), commitSummary);
-  console.log(`\nCommit message suggestion:\n${commitSummary}`);
 
   // Print translation summary
-  console.log("\nTranslation Progress Summary:");
+  console.log("\n✨ Prebuild: Translation Progress Summary:");
   console.log("============================");
   Object.keys(langIndex.statistics)
     .sort()
@@ -271,7 +273,15 @@ try {
       );
     });
   console.log("============================");
+
+  // Count the generated files
+  const generatedFiles = fs.readdirSync(outputDir);
+  console.log(
+    `✨ Prebuild: Generated ${generatedFiles.length} localization files\n`
+  );
 } catch (error) {
-  console.error(`Error during extraction: ${error.message}`);
+  console.error(
+    `❌ Prebuild: Localization extraction failed: ${error.message}`
+  );
   process.exit(1);
 }

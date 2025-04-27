@@ -182,10 +182,24 @@ if (langData?.strings) {
     }
   });
 
-  // Sort each group alphabetically by the string key
-  groupedStrings.translated.sort((a, b) => a[0].localeCompare(b[0]));
-  groupedStrings.needsReview.sort((a, b) => a[0].localeCompare(b[0]));
-  groupedStrings.needsTranslation.sort((a, b) => a[0].localeCompare(b[0]));
+  // Sort each group by comment, strings with comments first
+  const sortByComment = (a: [string, StringItem], b: [string, StringItem]) => {
+    // If both have comments or both don't have comments
+    if (!!a[1].comment === !!b[1].comment) {
+      // If both have comments, sort by comment
+      if (a[1].comment && b[1].comment) {
+        return a[1].comment.localeCompare(b[1].comment);
+      }
+      // If neither have comments, sort by key
+      return a[0].localeCompare(b[0]);
+    }
+    // Put strings with comments first
+    return a[1].comment ? -1 : 1;
+  };
+
+  groupedStrings.translated.sort(sortByComment);
+  groupedStrings.needsReview.sort(sortByComment);
+  groupedStrings.needsTranslation.sort(sortByComment);
 }
 
 function shouldShowSource(key: string, source: string): boolean {

@@ -71,7 +71,7 @@ Blankie aims to be accessible to users around the world, which means we need hel
 
 4. **Submit Your Translation**: There are two ways to submit translations:
    * **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your JSON file
-   * **Pull Request**: If you're familiar with Git, you can fork the repository, add your translation file to the `/docs/public/i18n/` directory, and submit a pull request
+   * **Email**: Send updated translation files or general feedback to i18n@blankie.rest
 
 ### Translation Guidelines
 

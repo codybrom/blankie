@@ -35,11 +35,22 @@ Blankie makes it easy to mix different ambient sounds into a custom soundscape. 
   - Automatic or customizable light/dark modes
   - Automatic or custom accent colors
 
+## Supported Languages
+
+Blankie offers support in:
+
+- English
+- Español (Spanish)
+- Deutsch (German)
+- Français (French)
+- 中文 (Chinese, Simplified)
+
 ## Contributing
 
 We welcome contributions from the community! There are many ways to contribute to Blankie:
 
 - **Code**: Help fix bugs, add features, or improve performance
+- **Localization**: Help translate Blankie into your language
 - **Testing**: Try new features and report issues
 - **Documentation**: Improve our docs and website
 - **Ideas**: Submit feature requests and provide feedback
@@ -51,7 +62,7 @@ Before contributing, please review our [Contributing Guidelines](CONTRIBUTING.md
 We're currenly looking for help with:
 
 - [Adding custom sound support](https://github.com/codybrom/blankie/issues/1)
-- [Internationalization / Translation](https://github.com/codybrom/blankie/issues/2)
+- [Translating Blankie into other languages](https://github.com/codybrom/blankie/blob/main/CONTRIBUTING.md#translation-contributions)
 
 ## Development Setup
 

@@ -91,14 +91,28 @@ Once submitted, your translations will go through this process:
 
 ### How to Submit Translations
 
-You can submit translations in two ways:
+You can submit translations in three ways:
 
 1. **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your updated JSON or CSV file
+
 2. **Email**: Send your translation files to i18n@blankie.rest
 
-For general translation feedback or to report issues with existing translations, also use the above methods.
+3. **Direct Import**: If you're comfortable using a command line and XCode you can use our `blanki8n` tool to import your translations directly into the app. This is the preferred method for developers and contributors who want to test their translations locally.
 
-If you have any questions at all about translations or need clarification on specific strings, please don't hesitate to reach out. We're here to help!
+   ```bash
+   # Make the tool executable
+   chmod +x blanki8n.swift
+   
+   # For CSV
+   ./blanki8n.swift path/to/your-translation.csv
+
+   # For JSON
+   # ./blanki8n.swift path/to/your-translation.json
+   ```
+
+   The tool will update `Localizable.xcstrings` directly with your translations for you to build and then test locally. You can then create a pull request with your changes on a fork.
+
+For general translation feedback or to report issues with existing translations, you can create a GitHub issue or email us at the address above. If you have any other questions about translations or need clarification on specific strings, please don't hesitate to reach out. We're here to help!
 
 ## Credit and Attribution
 

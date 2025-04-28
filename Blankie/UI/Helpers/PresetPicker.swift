@@ -23,8 +23,8 @@ struct PresetPicker: View {
           Text(
             presetManager.hasCustomPresets
               ? (presetManager.currentPreset?.name
-                ?? NSLocalizedString("Default", comment: "Default preset name"))
-              : NSLocalizedString("Presets", comment: "Presets menu title")
+                ?? String(localized: "Default", comment: "Default preset name"))
+              : String(localized: "Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)
           Image(systemName: "chevron.down")
@@ -50,7 +50,10 @@ struct PresetPicker: View {
               // Count existing custom presets
               let customPresetCount = presetManager.presets.filter { !$0.isDefault }.count
               // Create name like "Preset 1", "Preset 2", etc.
-              let newPresetName = "Preset \(customPresetCount + 1)"
+              let newPresetName = String(
+                format: String(localized: "Preset %d", comment: "New preset name format"),
+                customPresetCount + 1
+              )
 
               Task {
                 presetManager.saveNewPreset(name: newPresetName)
@@ -58,8 +61,7 @@ struct PresetPicker: View {
               }
             }) {
               Label(
-                NSLocalizedString("New Preset", comment: "New preset button label"),
-                systemImage: "plus")
+                String(localized: "New Preset", comment: "New preset button"), systemImage: "plus")
             }
             .buttonStyle(.plain)
             .padding(8)
@@ -75,8 +77,6 @@ struct PresetPicker: View {
       )
     }
   }
-
-  // Removed the helper function completely
 }
 
 private struct PresetList: View {
@@ -106,9 +106,9 @@ private struct PresetList: View {
     }
     .background(Color(NSColor.controlBackgroundColor))
     .alert(
-      NSLocalizedString("Error", comment: "Error alert title"), isPresented: .constant(error != nil)
+      "Error", isPresented: .constant(error != nil)
     ) {
-      Button(NSLocalizedString("OK", comment: "OK button label")) { error = nil }
+      Button("OK") { error = nil }
     } message: {
       if let error = error {
         Text(error.localizedDescription)
@@ -116,6 +116,7 @@ private struct PresetList: View {
     }
   }
 }
+
 private struct PresetRow: View {
   let preset: Preset
   @Binding var isPresented: Bool
@@ -158,7 +159,8 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help(NSLocalizedString("Rename Preset", comment: "Tooltip for rename preset button"))
+        .help("Rename Preset")
+
         Button(action: {
           presetManager.deletePreset(preset)
         }) {
@@ -166,15 +168,15 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help(NSLocalizedString("Delete Preset", comment: "Tooltip for delete preset button"))
+        .help("Delete Preset")
       }
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 6)
     .alert(
-      NSLocalizedString("Error", comment: "Error alert title"), isPresented: .constant(error != nil)
+      "Error", isPresented: .constant(error != nil)
     ) {
-      Button(NSLocalizedString("OK", comment: "OK button label")) { error = nil }
+      Button("OK") { error = nil }
     } message: {
       if let error = error {
         Text(error.localizedDescription)

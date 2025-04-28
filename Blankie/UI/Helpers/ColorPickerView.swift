@@ -13,7 +13,7 @@ struct ColorPickerView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
-      Text(NSLocalizedString("Appearance", comment: "Preferences appearance section"))
+      Text("Appearance")
         .font(.headline)
         .padding(.bottom, 4)
 
@@ -46,7 +46,7 @@ struct ColorPickerView: View {
       Divider()
         .padding(.vertical, 8)
 
-      Text(NSLocalizedString("Accent Color", comment: "Preferences accent color label"))
+      Text("Accent Color")
         .font(.headline)
         .padding(.bottom, 4)
 
@@ -76,7 +76,6 @@ struct ColorPickerView: View {
         .buttonStyle(.plain)
         .padding(.vertical, 4)
       }
-
     }
     .frame(width: 200)
   }

@@ -63,7 +63,7 @@ struct SoundIcon: View {
       .buttonStyle(.borderless)
       .frame(width: Configuration.iconSize, height: Configuration.iconSize)
 
-      Text(NSLocalizedString(sound.title, comment: "Sound title"))
+      Text(LocalizedStringKey(sound.title))
         .font(
           Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
         )
@@ -87,6 +87,7 @@ struct SoundIcon: View {
     .frame(width: maxWidth)
   }
 }
+
 #Preview("Selected") {
   SoundIcon(
     sound: Sound(

@@ -26,7 +26,7 @@ struct BlankieToolbar: ToolbarContent {
 
     ToolbarItem(placement: .primaryAction) {
       Menu {
-        Button(NSLocalizedString("Add Sound (Coming Soon!)", comment: "Add sound menu item")) {
+        Button("Add Sound (Coming Soon!)") {
           // Implement add sound functionality
         }
         .keyboardShortcut("o", modifiers: .command)
@@ -39,8 +39,7 @@ struct BlankieToolbar: ToolbarContent {
           }
         } label: {
           HStack {
-            Text(
-              NSLocalizedString("Hide Inactive Sounds", comment: "Hide inactive sounds menu item"))
+            Text("Hide Inactive Sounds")
             if appState.hideInactiveSounds {
               Spacer()
               Image(systemName: "checkmark")
@@ -51,24 +50,24 @@ struct BlankieToolbar: ToolbarContent {
 
         Divider()
 
-        Button(NSLocalizedString("About Blankie", comment: "About menu item")) {
+        Button("About Blankie") {
           showingAbout = true
           appState.isAboutViewPresented = true
         }
 
-        Button(NSLocalizedString("Keyboard Shortcuts", comment: "Keyboard shortcuts menu item")) {
+        Button("Keyboard Shortcuts") {
           showingShortcuts = true
         }
         .keyboardShortcut("?", modifiers: [.command, .shift])
 
         SettingsLink {
-          Text(NSLocalizedString("Preferences...", comment: "Preferences menu item"))
+          Text("Preferences...", comment: "Preferences menu item")
         }
         .keyboardShortcut(",", modifiers: .command)
 
         Divider()
 
-        Button(NSLocalizedString("Quit Blankie", comment: "Quit menu item")) {
+        Button("Quit Blankie") {
           audioManager.pauseAll()
           exit(0)
         }

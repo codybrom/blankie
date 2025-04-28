@@ -54,7 +54,7 @@ struct PreferencesView: View {
         Button(action: {
           globalSettings.setAccentColor(nil)
         }) {
-          Text(NSLocalizedString("System", comment: "System accent color option"))
+          Text("System", comment: "System accent color option")
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(
@@ -85,32 +85,35 @@ struct PreferencesView: View {
 
   var body: some View {
     Form {
-      Section(NSLocalizedString("Appearance", comment: "Preferences appearance section")) {
+      Section {
         HStack(spacing: 16) {
-          Text(NSLocalizedString("Appearance", comment: "Preferences appearance label"))
+          Text("Appearance")
             .frame(width: 100, alignment: .leading)
           appearanceButtons
         }
 
         HStack(alignment: .top, spacing: 16) {
-          Text(NSLocalizedString("Accent Color", comment: "Preferences accent color label"))
+          Text("Accent Color")
             .frame(width: 100, alignment: .leading)
           colorButtons
         }
+      } header: {
+        Text("Appearance")
       }
 
-      Section(NSLocalizedString("Behavior", comment: "Preferences behavior section")) {
+      Section {
         Toggle(
-          NSLocalizedString("Always Start Paused", comment: "Preference toggle label"),
+          LocalizedStringKey("Always Start Paused"),
           isOn: Binding(
             get: { globalSettings.alwaysStartPaused },
             set: { globalSettings.setAlwaysStartPaused($0) }
           )
         )
-        .help(NSLocalizedString("If disabled, Blankie will immediately play your most recent preset on launch", comment: "Help for always start paused"))
+        .help("If disabled, Blankie will immediately play your most recent preset on launch")
         .tint(accentColorForUI)
+      } header: {
+        Text("Behavior")
       }
-
     }
     .formStyle(.grouped)
     .padding()

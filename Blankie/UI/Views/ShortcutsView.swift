@@ -23,7 +23,7 @@ struct ShortcutsView: View {
     VStack(alignment: .leading, spacing: 16) {
       // Header with close button
       HStack {
-        Text(NSLocalizedString("Keyboard Shortcuts", comment: "Shortcuts view title"))
+        Text(LocalizedStringKey("Keyboard Shortcuts"))
           .font(.headline)
 
         Spacer()
@@ -43,7 +43,7 @@ struct ShortcutsView: View {
       VStack(spacing: 12) {
         ForEach(shortcuts, id: \.0) { shortcut in
           HStack {
-            Text(NSLocalizedString(shortcut.1, comment: "Shortcut description"))
+            Text(LocalizedStringKey(shortcut.1))
               .foregroundColor(.primary)
 
             Spacer()

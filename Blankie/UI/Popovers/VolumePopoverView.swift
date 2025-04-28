@@ -18,7 +18,7 @@ struct VolumePopoverView: View {
   var body: some View {
     VStack(spacing: 16) {
       VStack(alignment: .leading, spacing: 4) {
-        Text(NSLocalizedString("All Sounds", comment: "All sounds label"))
+        Text("All Sounds")
           .font(.caption)
         Slider(
           value: Binding(
@@ -38,7 +38,7 @@ struct VolumePopoverView: View {
         // Active sound sliders
         ForEach(audioManager.sounds.filter(\.isSelected)) { sound in
           VStack(alignment: .leading, spacing: 4) {
-            Text(NSLocalizedString(sound.title, comment: "Sound title"))
+            Text(LocalizedStringKey(sound.title))
               .font(.caption)
 
             Slider(
@@ -56,7 +56,7 @@ struct VolumePopoverView: View {
       Divider()
 
       // Reset button
-      Button(NSLocalizedString("Reset Sounds", comment: "Reset sounds button label")) {
+      Button("Reset Sounds") {
         audioManager.resetSounds()
       }
       .font(.caption)

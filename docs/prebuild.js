@@ -226,6 +226,30 @@ try {
     );
   });
 
+  console.log(`\n✨ Prebuild: Generating CSV files...`);
+
+  // Generate source CSV template
+  const sourceCSV = convertSourceToCSV(sourceJson);
+  fs.writeFileSync(path.join(outputDir, "source.csv"), sourceCSV);
+  console.log(`Created source.csv template`);
+
+  // Generate per-language CSV files
+  languages.forEach((lang) => {
+    if (lang === "en") return; // Skip English as it's the source language
+
+    // Read the language JSON file we just created
+    const langJsonPath = path.join(outputDir, `${lang}.json`);
+    const langData = JSON.parse(fs.readFileSync(langJsonPath, "utf8"));
+
+    // Convert to CSV
+    const csvContent = convertTranslationToCSV(langData.strings);
+
+    // Save CSV file
+    const csvFileName = `${lang}.csv`;
+    fs.writeFileSync(path.join(outputDir, csvFileName), csvContent);
+    console.log(`Created language CSV file: ${csvFileName}`);
+  });
+
   // Create a language index file with translation statistics
   const langIndex = {
     metadata: {
@@ -321,4 +345,59 @@ try {
     `❌ Prebuild: Localization extraction failed: ${error.message}`
   );
   process.exit(1);
+}
+
+export function convertTranslationToCSV(strings) {
+  // CSV headers
+  let csv = "key,source,target,state,comment\n";
+
+  // Add each string as a row
+  Object.entries(strings).forEach(([key, item]) => {
+    // Ensure all fields are strings and handle optional fields
+    const escapedKey = escapeCSVField(key);
+    const escapedSource = escapeCSVField(item.source || "");
+    const escapedTarget = escapeCSVField(item.target || "");
+    const escapedState = escapeCSVField(item.state || "needs_translation");
+    const escapedComment = escapeCSVField(item.comment || "");
+
+    // Add row
+    csv += `${escapedKey},${escapedSource},${escapedTarget},${escapedState},${escapedComment}\n`;
+  });
+
+  return csv;
+}
+
+export function convertSourceToCSV(sourceData) {
+  // CSV headers
+  let csv = "key,source,target,state,comment\n";
+
+  // Add each string as a row
+  Object.entries(sourceData.strings).forEach(([key, item]) => {
+    const escapedKey = escapeCSVField(key);
+    const escapedSource = escapeCSVField(item.value || "");
+    const escapedTarget = escapeCSVField(""); // Empty target for template
+    const escapedState = escapeCSVField("needs_translation"); // Default state
+    const escapedComment = escapeCSVField(item.comment || "");
+
+    // Add row
+    csv += `${escapedKey},${escapedSource},${escapedTarget},${escapedState},${escapedComment}\n`;
+  });
+
+  return csv;
+}
+
+// Helper function to escape CSV fields properly
+function escapeCSVField(field) {
+  if (!field) return '""';
+
+  // If the field contains commas, newlines, or quotes, wrap it in quotes and escape internal quotes
+  const needsQuotes = /[,\r\n"]/g.test(field);
+
+  if (needsQuotes) {
+    // Replace double quotes with two double quotes (CSV escaping)
+    const escaped = field.replace(/"/g, '""');
+    return `"${escaped}"`;
+  }
+
+  return `"${field}"`; // Always wrap in quotes for consistency
 }

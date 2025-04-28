@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import ISO6391 from "iso-639-1-plus";
 
 // Define types for the language data
 interface StringItem {
@@ -25,122 +26,58 @@ interface LanguageFile {
   strings: Record<string, StringItem>;
 }
 
-// In getStaticPaths function
+// Function to get language name - same as in i18n.astro
+function getLanguageName(localeCode: string): string {
+  // Special case for source language
+  if (localeCode === "en") {
+    return "English (Source)";
+  }
+
+  // Try to get the name from ISO6391
+  if (ISO6391.validate(localeCode)) {
+    return ISO6391.getName(localeCode);
+  }
+
+  // Fallback for special cases not in the ISO standard
+  const specialCases: Record<string, string> = {
+    "zh-Hans": "Chinese (Simplified)",
+    "zh-Hant": "Chinese (Traditional)",
+    // Add other special cases as needed
+  };
+
+  return specialCases[localeCode] || localeCode;
+}
+
 export async function getStaticPaths() {
   const baseUrl = import.meta.env.DEV
-    ? "http://localhost:4321" // Dev server port
-    : import.meta.env.SITE; // Use Astro's site configuration
+    ? "http://localhost:4321"
+    : import.meta.env.SITE;
 
   const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
+  const response = await fetch(languagesJsonPath);
+  const languagesData = await response.json();
 
-  try {
-    const response = await fetch(languagesJsonPath);
-
-    if (!response.ok) {
-      // Return a minimal set of common languages if we can't fetch the full list
-      console.error(`Failed to fetch languages data: ${response.status}`);
-      return [
-        "de",
-        "es",
-        "fr",
-        "it",
-        "zh-Hans",
-        "ja",
-        "ko",
-        "pt-BR",
-        "ru",
-        "en-GB",
-      ].map((lang) => ({
-        params: { lang },
-      }));
-    }
-
-    const languagesData = await response.json();
-
-    // Create a path for each language
-    return Object.keys(languagesData.statistics).map((lang) => ({
-      params: { lang },
-    }));
-  } catch (error) {
-    console.error(`Error getting language paths: ${error}`);
-    // Fallback to common languages
-    return [
-      "de",
-      "es",
-      "fr",
-      "it",
-      "zh-Hans",
-      "ja",
-      "ko",
-      "pt-BR",
-      "ru",
-      "en-GB",
-    ].map((lang) => ({
-      params: { lang },
-    }));
-  }
+  // Create a path for each language in the data
+  return Object.keys(languagesData.statistics).map((lang) => ({
+    params: { lang },
+  }));
 }
 
 const { lang } = Astro.params;
-
-// Language names mapping
-const languageNames: Record<string, string> = {
-  en: "English (Source)",
-  de: "German",
-  es: "Spanish",
-  fr: "French",
-  it: "Italian",
-  ja: "Japanese",
-  ko: "Korean",
-  "pt-BR": "Portuguese (Brazil)",
-  ru: "Russian",
-  "zh-Hans": "Chinese (Simplified)",
-  "zh-Hant": "Chinese (Traditional)",
-  nl: "Dutch",
-  pl: "Polish",
-  sv: "Swedish",
-  tr: "Turkish",
-  uk: "Ukrainian",
-  cs: "Czech",
-  da: "Danish",
-  fi: "Finnish",
-  no: "Norwegian",
-  ro: "Romanian",
-  hu: "Hungarian",
-  el: "Greek",
-  id: "Indonesian",
-  ms: "Malay",
-  th: "Thai",
-  vi: "Vietnamese",
-  ar: "Arabic",
-  he: "Hebrew",
-  "en-GB": "English (UK)",
-  "pt-PT": "Portuguese (Portugal)",
-  ca: "Catalan",
-  hr: "Croatian",
-  sk: "Slovak",
-  sl: "Slovenian",
-  bg: "Bulgarian",
-  et: "Estonian",
-  lv: "Latvian",
-  lt: "Lithuanian",
-};
 
 // Function to calculate combined progress
 function getCombinedProgress(stats: LanguageFile["statistics"]): number {
   return stats.translationPercentage + stats.needsReviewPercentage;
 }
 
-// Update the fetchLanguageData function
+// Update the fetchLanguageData function for static build
 async function fetchLanguageData(lang: string): Promise<LanguageFile | null> {
   try {
     const baseUrl = import.meta.env.DEV
-      ? "http://localhost:4321" // Dev server port
-      : import.meta.env.SITE; // Use Astro's site configuration
+      ? "http://localhost:4321"
+      : import.meta.env.SITE;
 
     const langJsonPath = `${baseUrl}/i18n/${lang}.json`;
-    console.log("Fetching from:", langJsonPath); // Debug log
-
     const response = await fetch(langJsonPath);
 
     if (!response.ok) {
@@ -155,7 +92,7 @@ async function fetchLanguageData(lang: string): Promise<LanguageFile | null> {
 }
 
 const langData = await fetchLanguageData(lang || "");
-const langName = lang ? languageNames[lang] || lang : "Unknown Language";
+const langName = lang ? getLanguageName(lang) : "Unknown Language";
 const title = `${langName} Translation Status`;
 
 // Group strings by their state
@@ -263,9 +200,6 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
           <div class="bg-zinc-800 rounded-lg shadow-lg overflow-hidden border border-zinc-700">
             {/* Header */}
             <div class="bg-zinc-900 p-5 border-b border-zinc-700">
-              <h2 class="text-2xl font-semibold text-white">
-                {langName} Translation
-              </h2>
               <p class="text-sm text-gray-400 mt-1">
                 Last updated:{" "}
                 {new Date(langData.metadata.extractedAt).toLocaleString()}
@@ -378,10 +312,10 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                 </a>
 
                 {/* CSV Download Button - using client-side JS now */}
-                <button
-                  id="download-csv-btn"
+                <a
+                  href={`/i18n/${lang}.csv`}
+                  download
                   class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
-                  data-lang={lang}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -398,7 +332,7 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
                     />
                   </svg>
                   Download CSV
-                </button>
+                </a>
               </div>
 
               <a
@@ -684,102 +618,4 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
       }
     });
   });
-
-  // Select the first enabled tab on load
-  window.addEventListener("load", () => {
-    const firstEnabledTab = Array.from(tabButtons).find(
-      (button: HTMLButtonElement) => !button.disabled
-    );
-    if (firstEnabledTab) {
-      const targetId = firstEnabledTab
-        .getAttribute("data-tabs-target")
-        ?.substring(1);
-      if (targetId) {
-        setActiveTab(targetId);
-      }
-    }
-
-    // Handle CSV Download - Client Side
-    setupCSVDownload();
-  });
-
-  // Function to handle CSV downloads
-  function setupCSVDownload() {
-    const downloadBtn = document.getElementById("download-csv-btn");
-    if (!downloadBtn) return;
-
-    downloadBtn.addEventListener("click", async () => {
-      const langCode = downloadBtn.getAttribute("data-lang");
-      if (!langCode) return;
-
-      try {
-        // Fetch the JSON data
-        const response = await fetch(`/i18n/${langCode}.json`);
-        if (!response.ok) {
-          throw new Error(`Failed to fetch language data: ${response.status}`);
-        }
-
-        const langData = await response.json();
-
-        // Generate CSV
-        const csvContent = convertToCSV(langData.strings);
-
-        // Trigger download
-        downloadCSV(csvContent, `${langCode}-translations.csv`);
-      } catch (error) {
-        console.error("Error generating CSV:", error);
-        alert("Failed to generate CSV file. Please try again later.");
-      }
-    });
-  }
-
-  // CSV Utility functions
-  function convertToCSV(strings: Record<string, any>): string {
-    // CSV headers
-    let csv = "key,source,target,state,comment\n";
-
-    // Add each string as a row
-    Object.entries(strings).forEach(([key, item]) => {
-      // Escape quotes in fields for CSV compatibility
-      const escapedKey = escapeCSVField(key);
-      const escapedSource = escapeCSVField(item.source);
-      const escapedTarget = escapeCSVField(item.target || "");
-      const escapedState = escapeCSVField(item.state);
-      const escapedComment = escapeCSVField(item.comment || "");
-
-      // Add row
-      csv += `${escapedKey},${escapedSource},${escapedTarget},${escapedState},${escapedComment}\n`;
-    });
-
-    return csv;
-  }
-
-  // Helper function to escape CSV fields properly
-  function escapeCSVField(field: string): string {
-    if (!field) return '""';
-
-    // If the field contains commas, newlines, or quotes, wrap it in quotes and escape internal quotes
-    const needsQuotes = /[,\r\n"]/g.test(field);
-
-    if (needsQuotes) {
-      // Replace double quotes with two double quotes (CSV escaping)
-      const escaped = field.replace(/"/g, '""');
-      return `"${escaped}"`;
-    }
-
-    return `"${field}"`; // Always wrap in quotes for consistency
-  }
-
-  // Helper function to trigger a download of CSV content
-  function downloadCSV(csvContent: string, filename: string): void {
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", filename);
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
 </script>

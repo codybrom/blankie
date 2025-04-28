@@ -15,6 +15,7 @@
     "astro": "^5.7.5",
     "astro-seo": "^0.8.4",
     "glob": "^10.3.10",
+    "iso-639-1-plus": "^3.0.5",
     "marked": "^15.0.7",
     "papaparse": "^5.5.2",
     "tailwindcss": "^4.1.2"

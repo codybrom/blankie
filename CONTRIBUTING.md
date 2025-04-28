@@ -57,6 +57,49 @@ Before implementing changes that might alter core functionality in serious ways:
    * Document any breaking changes thoroughly in pull requests
    * Consider phased rollouts for major changes
 
+## Translation Contributions
+
+Blankie aims to be accessible to users around the world, which means we need help translating the app into different languages. You don't need to be a programmer to contribute translations!
+
+### Getting Started with Translations
+
+1. **Check Current Status**: Visit our [translations page](https://blankie.rest/i18n) to see which languages already have translations and their status.
+
+2. **Get the Template**: Download a English template or current translation in JSON or CSV format from the [translations page](https://blankie.rest/i18n) with all the strings that need translation.
+
+3. **Edit the Template**: Using any text editor, translate the English strings to your target language. Keep the  structure intact - only modify the "target" content within the strings.
+
+4. **Submit Your Translation**: There are two ways to submit translations:
+   * **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your JSON file
+   * **Pull Request**: If you're familiar with Git, you can fork the repository, add your translation file to the `/docs/public/i18n/` directory, and submit a pull request
+
+### Translation Guidelines
+
+* **Respect Context**: The `comment` field provides context about where each string appears in the app. Use this to guide your translation choices.
+* **Consistency**: Maintain consistent terminology throughout the translation.
+* **Special Characters**: Pay attention to formatting placeholders like `%@` (which represent variable content) and preserve them in your translation.
+* **Testing**: If you have the ability to, you might also test your translations by building the app locally to see how they appear in context.
+
+### Translation Review Process
+
+Once submitted, your translations will go through this process:
+
+1. Initial review by the maintainers
+2. For languages we can't verify internally, we may reach out to other community members who speak that language
+3. After review, translations will be marked as either "translated" or "needs review"
+4. Approved translations will be included in a future Blankie release
+
+### How to Submit Translations
+
+You can submit translations in two ways:
+
+1. **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your updated JSON or CSV file
+2. **Email**: Send your translation files to i18n@blankie.rest
+
+For general translation feedback or to report issues with existing translations, also use the above methods.
+
+If you have any questions at all about translations or need clarification on specific strings, please don't hesitate to reach out. We're here to help!
+
 ## Credit and Attribution
 
 It is important to give credit where credit is due. Contributors to Blankie may be credited on the [Credits](https://blankie.rest/credits) page of the Blankie website and on the app's About screen. If you would prefer not to be credited, please let us know in your pull request.
@@ -82,15 +125,7 @@ Before opening a pull request related to the website, please:
 
 The website serves as the main documentation hub for Blankie users, so clarity, accessibility, and performance are crucial. If you're unsure about any aspect of website development, feel free to open an issue for discussion.
 
-## Future Contribution Areas
-
-At this time, we're not accepting contributions in the following areas, but we hope to in the future:
-
-### Translation Contributions
-
-When we have a foundation set for translations, we will be looking for contributors to help translate Blankie for different language regions. If you're interested in contributing to translations, stay tuned for more information. [Details are tracked on this issue.](https://github.com/codybrom/blankie/issues/2)
-
-### Sound Contributions
+## Sound Contributions
 
 At this time, we're not seeking new sound contributions to Blankie. However, if you have suggestions for sound effects, you are welcomed to post in the [_"What Sounds Would You Add to Blankie?"_ discussion thread](https://github.com/codybrom/blankie/discussions/13).
 

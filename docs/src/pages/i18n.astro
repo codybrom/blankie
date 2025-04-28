@@ -1,5 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import ISO6391 from "iso-639-1-plus";
+import languagesJson from "../../public/i18n/languages.json";
 
 const title = "Translation Status";
 
@@ -22,93 +24,46 @@ interface LanguageData {
   statistics: Record<string, StringStats>;
 }
 
-// Function to fetch language data
-async function fetchLanguageData(): Promise<LanguageData | null> {
-  try {
-    // Use Astro's site configuration
-    const baseUrl = import.meta.env.DEV
-      ? "http://localhost:4321" // Dev server port
-      : import.meta.env.SITE; // Use Astro's site configuration
-
-    const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
-    console.log("Fetching from:", languagesJsonPath); // Debug log
-
-    const response = await fetch(languagesJsonPath);
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch language data: ${response.status}`);
-    }
-
-    return (await response.json()) as LanguageData;
-  } catch (error) {
-    console.error("Error fetching language data:", error);
-    return null;
-  }
-}
-
 // Fetch the languages.json data at build time
-const languageData = await fetchLanguageData();
+const languageData = languagesJson as unknown as LanguageData;
 
 // Sort languages by translation percentage (descending)
-const sortedLanguages = languageData
-  ? Object.entries(languageData.statistics).sort(
-      ([, a], [, b]) => b.translationPercentage - a.translationPercentage
-    )
-  : [];
+const sortedLanguages = Object.entries(languageData.statistics).sort(
+  ([, a], [, b]) => b.translationPercentage - a.translationPercentage
+);
 
 // Get language names (you could expand this map as needed)
-const languageNames: Record<string, string> = {
-  en: "English (Source)",
-  de: "German",
-  es: "Spanish",
-  fr: "French",
-  it: "Italian",
-  ja: "Japanese",
-  ko: "Korean",
-  "pt-BR": "Portuguese (Brazil)",
-  ru: "Russian",
-  "zh-Hans": "Chinese (Simplified)",
-  "zh-Hant": "Chinese (Traditional)",
-  nl: "Dutch",
-  pl: "Polish",
-  sv: "Swedish",
-  tr: "Turkish",
-  uk: "Ukrainian",
-  cs: "Czech",
-  da: "Danish",
-  fi: "Finnish",
-  no: "Norwegian",
-  ro: "Romanian",
-  hu: "Hungarian",
-  el: "Greek",
-  id: "Indonesian",
-  ms: "Malay",
-  th: "Thai",
-  vi: "Vietnamese",
-  ar: "Arabic",
-  he: "Hebrew",
-  "en-GB": "English (UK)",
-  "pt-PT": "Portuguese (Portugal)",
-  ca: "Catalan",
-  hr: "Croatian",
-  sk: "Slovak",
-  sl: "Slovenian",
-  bg: "Bulgarian",
-  et: "Estonian",
-  lv: "Latvian",
-  lt: "Lithuanian",
-};
+function getLanguageName(localeCode: string): string {
+  // Special case for source language
+  if (localeCode === "en") {
+    return "English (Source)";
+  }
+
+  // Try to get the name from ISO6391
+  if (ISO6391.validate(localeCode)) {
+    return ISO6391.getName(localeCode);
+  }
+
+  // Fallback for special cases not in the ISO standard
+  const specialCases: Record<string, string> = {
+    "zh-Hans": "Chinese (Simplified)",
+    "zh-Hant": "Chinese (Traditional)",
+    // Add other special cases as needed
+  };
+
+  return specialCases[localeCode] || localeCode;
+}
 
 // Get the extraction timestamp and format it
-const extractionDate = languageData
-  ? new Date(languageData.metadata.extractedAt).toLocaleString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
-    })
-  : "Unknown";
+const extractionDate = new Date(
+  languageData.metadata.extractedAt
+).toLocaleString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
 // Function to calculate combined progress (translated + needs review)
 function getCombinedProgress(stats: StringStats): number {
@@ -163,10 +118,90 @@ function getStatusText(stats: StringStats): string {
     <h1 class="text-4xl font-semibold mb-6">Translation Status</h1>
 
     <div class="border border-gray-700 bg-card rounded-lg p-6 mb-8 text-base">
-      <p class="text-md leading-relaxed">
-        This page shows the current translation status for Blankie. The data is
-        automatically updated whenever new translations are added.
-      </p>
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4"
+      >
+        <p class="text-md leading-relaxed mb-4 md:mb-0 md:mr-4">
+          This page shows the current translation status for Blankie. The data
+          is automatically updated whenever new translations are added.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <div class="dropdown relative inline-block">
+            <button
+              class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              Download Template
+              <svg
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div
+              class="dropdown-menu hidden absolute right-0 mt-2 py-2 w-48 bg-zinc-800 rounded-md shadow-xl border border-zinc-700 z-10"
+            >
+              <a
+                href="/i18n/source.json"
+                target="_blank"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+              >
+                JSON Format
+              </a>
+              <a
+                href="/i18n/source.csv"
+                target="_blank"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+              >
+                CSV Format
+              </a>
+            </div>
+          </div>
+
+          <a
+            href="/contributing#translation-contributions"
+            class="inline-flex items-center px-4 py-2 bg-primary-blue hover:bg-blue-700 text-white font-medium rounded-md transition-colors text-sm no-underline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              ></path>
+            </svg>
+            Translation Guide
+          </a>
+        </div>
+      </div>
+
       <p class="mt-4 text-sm text-mid-gray">
         Last updated: {extractionDate}
       </p>
@@ -196,8 +231,7 @@ function getStatusText(stats: StringStats): string {
               <div class="p-4 flex flex-col h-full">
                 <div class="flex justify-between items-start">
                   <h2 class="text-xl font-semibold">
-                    {languageNames[langCode as keyof typeof languageNames] ||
-                      langCode}
+                    {getLanguageName(langCode)}
                   </h2>
                   <span class="px-2 py-1 text-xs rounded-full bg-black/30">
                     {getStatusText(stats)}
@@ -268,12 +302,48 @@ function getStatusText(stats: StringStats): string {
         Blankie is translated by volunteers. If you'd like to help translate
         Blankie into your language, please check the
         <a
-          href="/contributing"
+          href="/contributing#translation-contributions"
           class="text-yellow-500 hover:text-yellow-400 transition-colors"
         >
           contribution guidelines
         </a>.
       </p>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">
+        Getting Started with Translation
+      </h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>
+          Download the <a
+            href="/i18n/"
+            class="text-yellow-500 hover:text-yellow-400 transition-colors"
+            >English template</a
+          > to use as your starting point
+        </li>
+        <li>
+          Translate the strings by editing the the JSON or CSV file (keep the
+          original keys and structure)
+        </li>
+        <li>
+          Submit your translations either:
+          <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+            <li>
+              Through a GitHub issue using the <a
+                href="https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+"
+                class="text-yellow-500 hover:text-yellow-400 transition-colors"
+                >Translation contribution</a
+              > template
+            </li>
+            <li>
+              Or by emailing them to <a
+                href="mailto:i18n@blankie.rest"
+                class="text-yellow-500 hover:text-yellow-400 transition-colors"
+                >i18n@blankie.rest</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ol>
 
       <h3 class="text-xl font-semibold mt-6 mb-3">Understanding the Status</h3>
       <p class="mb-3">We track translation progress in two categories:</p>
@@ -342,11 +412,59 @@ function getStatusText(stats: StringStats): string {
 
       <h3 class="text-xl font-semibold mt-6 mb-3">Working with Translations</h3>
       <p>
-        On a language page, can download translations as CSV files to work on
-        them in spreadsheet software. After making changes, you can contribute
-        by creating a pull request with your updated translations in the GitHub
-        repository.
+        On a language page, you can download translations as CSV files to work
+        on them in spreadsheet software. After making changes, you can
+        contribute by submitting a GitHub issue with your translation file.
+        (Tooling to directly import translations to the repo for testing is in
+        the works.)
+      </p>
+
+      <div class="divider my-6 border-t border-gray-700"></div>
+
+      <p class="mt-6 mb-4">
+        Find an issue with existing translations or have general feedback? Email <a
+          href="mailto:i18n@blankie.rest"
+          class="text-yellow-500 hover:text-yellow-400 transition-colors"
+          >i18n@blankie.rest</a
+        >.
       </p>
     </div>
   </main>
 </Layout>
+
+<script>
+  // Handle dropdown functionality
+  const dropdownButton = document.querySelector(".dropdown button");
+  const dropdownMenu = document.querySelector(".dropdown-menu");
+
+  if (dropdownButton && dropdownMenu) {
+    // Toggle dropdown
+    dropdownButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", () => {
+      dropdownMenu.classList.add("hidden");
+    });
+
+    // Prevent closing when clicking inside dropdown
+    dropdownMenu.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+</script>
+
+<style>
+  /* Add these styles to handle dropdown positioning and appearance */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-menu {
+    min-width: 160px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+</style>

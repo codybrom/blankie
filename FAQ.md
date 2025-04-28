@@ -46,9 +46,35 @@ Even if you don't write code, Blankie being open source benefits you in several 
 
 Blankie's complete source code, including both the macOS app and this entire website, is available on [GitHub](https://github.com/codybrom/blankie) for anyone to explore, use, or contribute to.
 
+## Is Blankie available in my language?
+
+Blankie is currently available in the following languages:
+
+- English (en, en-GB)
+- Spanish (es)
+- French (fr)
+- German (de)
+- Simplified Chinese (zh-Hans)
+
+We're actively working on translations for more languages, and you can help! If you'd like to contribute translations for your language, visit our [translation page](https://blankie.rest/i18n) to see the current status and download a translation template.
+
+## Can I contribute translations for my language?
+
+We welcome translation contributions from the community! To help translate Blankie into your language:
+
+1. Download the English text strings template or existing translation files for your language from [blankie.rest/i18n](https://blankie.rest/i18n)
+2. Translate the strings in the CSV or JSON file
+3. Submit your translations either:
+   - Through a [GitHub Issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+)
+   - Or by emailing them to i18n@blankie.rest
+
+No coding experience is required to contribute translations! For more detailed instructions, see our [contribution guidelines](https://blankie.rest/contributing#translation-contributions).
+
+If you notice any translation issues or have general feedback about existing translations, please email i18n@blankie.rest.
+
 ## How can I contribute to Blankie?
 
-Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how to get involved
+Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how to get involved.
 
 ## How do I control playback and volume?
 

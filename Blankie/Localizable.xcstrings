@@ -432,7 +432,7 @@
         "de" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Sicher, dass Sie %@ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden."
+            "value" : "Sind Sie sicher, dass Sie '%@' löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden"
           }
         },
         "en" : {
@@ -492,7 +492,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opciones"
+            "value" : "Comportamiento"
           }
         },
         "fr" : {
@@ -1419,7 +1419,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Eliminar sonido"
+            "value" : "Eliminar sonido prediseñado"
           }
         },
         "fr" : {
@@ -1503,7 +1503,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Editar sonido"
+            "value" : "Editar sonido prediseñado"
           }
         },
         "fr" : {
@@ -2133,7 +2133,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nuevo sonido"
+            "value" : "Nuevo sonido prediseñado"
           }
         },
         "fr" : {
@@ -2681,7 +2681,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre del sonido"
+            "value" : "Nombre del sonido prediseñado"
           }
         },
         "fr" : {
@@ -3059,7 +3059,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Renombrar sonido"
+            "value" : "Renombrar sonido prediseñado"
           }
         },
         "fr" : {
@@ -3824,7 +3824,7 @@
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Former"
+            "value" : "Train"
           }
         },
         "zh-Hans" : {

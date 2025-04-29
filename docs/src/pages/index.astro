@@ -29,7 +29,15 @@ const title = "Ambient sound mixer for macOS";
         ambient atmosphere.
       </span>
     </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-16">
+    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-8">
+      <p
+        class="text-base mt-6 flex items-center justify-center gap-2 bg-blue-900/10 rounded px-3 py-1 mx-auto w-fit border border-blue-300 border-opacity-20"
+        aria-label="Multiple language support announcement"
+        style="font-weight: 400; letter-spacing: 0.01em;"
+      >
+        🌍 Now available in Español, Français, Deutsch and 中文!
+      </p>
+
       <h1
         class="text-5xl md:text-6xl font-semibold leading-tight tracking-tighter my-4"
       >
@@ -72,31 +80,34 @@ const title = "Ambient sound mixer for macOS";
             alt="Download on the Mac App Store"
             width={240}
             height={80}
-            loading="eager"
+            loading="lazy"
           />
         </a>
 
         <div class="flex flex-col sm:flex-row gap-4 items-center">
           <a
-            href="https://github.com/codybrom/blankie/releases/latest"
-            class="text-gray-200 hover:text-yellow-500 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
+            href="https://github.com/codybrom/blankie/releases/download/latest/Blankie.zip"
+            class="inline-flex items-center px-4 py-1.5 text-sm font-medium text-yellow-100 bg-yellow-100/20 hover:bg-yellow-200/90 border hover:text-yellow-950 border-yellow-300 rounded-md shadow-sm transition-colors duration-200 focus:outline-none focus:ring-1 focus:ring-yellow-400 focus:ring-offset-1"
+            role="button"
+            aria-label="Download Blankie directly"
+            style="margin-top: 0.5rem;"
           >
-            or download directly from GitHub
+            or Download Directly
           </a>
         </div>
       </div>
       <p
-        class="text-lg mt-12 flex items-center justify-center gap-2 text-gray-100"
+        class="text-lg mt-12 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 text-gray-100"
       >
         <span>macOS 14.6+</span>
-        <span class="text-gray-400">•</span>
-        <span>No Ads or Subscriptions</span>
-        <span class="text-gray-400">•</span>
-        <span>Offline & Private</span>
-        <span class="text-gray-400">•</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
+        <span class="sm:ml-2">No Ads or Subscriptions</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
+        <span class="sm:ml-2">Offline & Private</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
         <a
           href="https://github.com/codybrom/blankie"
-          class="hover:text-yellow-500 transition-colors duration-300"
+          class="hover:text-yellow-500 transition-colors duration-300 sm:ml-2"
         >
           Open Source
         </a>

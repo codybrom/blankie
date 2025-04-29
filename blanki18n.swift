@@ -8,7 +8,7 @@
 /// This script is used to update the Localizable.xcstrings file with single-language translations in JSON or CSV format.
 /// To learn more, visit blankie.rest/i18n
 ///
-///  Usage: ./blanki8n.swift path/to/translation.[json|csv]
+///  Usage: ./blanki18n.swift path/to/translation.[json|csv]
 ///
 
 import Foundation

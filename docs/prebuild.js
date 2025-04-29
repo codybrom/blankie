@@ -39,7 +39,7 @@ try {
   const result = {
     metadata: {
       extractedAt: new Date().toISOString(),
-      tool: "blanki8n-prebuild",
+      tool: "blanki18n-prebuild",
       files: files,
     },
     strings: {},

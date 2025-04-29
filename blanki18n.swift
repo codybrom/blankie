@@ -1,5 +1,16 @@
 #!/usr/bin/swift
 
+///
+/// blanki18n
+/// By Cody Bromley
+/// MIT License
+///
+/// This script is used to update the Localizable.xcstrings file with single-language translations in JSON or CSV format.
+/// To learn more, visit blankie.rest/i18n
+///
+///  Usage: ./blanki8n.swift path/to/translation.[json|csv]
+///
+
 import Foundation
 
 // MARK: - CSV Parser

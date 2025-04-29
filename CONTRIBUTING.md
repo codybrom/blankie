@@ -97,17 +97,17 @@ You can submit translations in three ways:
 
 2. **Email**: Send your translation files to i18n@blankie.rest
 
-3. **Direct Import**: If you're comfortable using a command line and XCode you can use our `blanki8n` tool to import your translations directly into the app. This is the preferred method for developers and contributors who want to test their translations locally.
+3. **Direct Import**: If you're comfortable using a command line and XCode you can use our `blanki18n` tool to import your translations directly into the app. This is the preferred method for developers and contributors who want to test their translations locally.
 
    ```bash
    # Make the tool executable
-   chmod +x blanki8n.swift
+   chmod +x blanki18n.swift
    
    # For CSV
-   ./blanki8n.swift path/to/your-translation.csv
+   ./blanki18n.swift path/to/your-translation.csv
 
    # For JSON
-   # ./blanki8n.swift path/to/your-translation.json
+   # ./blanki18n.swift path/to/your-translation.json
    ```
 
    The tool will update `Localizable.xcstrings` directly with your translations for you to build and then test locally. You can then create a pull request with your changes on a fork.

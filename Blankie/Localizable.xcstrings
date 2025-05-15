@@ -207,6 +207,12 @@
             "value" : "À propos de Blankie"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Blankie Hakkında"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -247,6 +253,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Couleur d'accent"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Vurgu Rengi"
           }
         },
         "zh-Hans" : {
@@ -291,6 +303,12 @@
             "value" : "Ajouter un son (bientôt disponible !)"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ses Ekle (Yakında!)"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -331,6 +349,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Tous les sons"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tüm Sesler"
           }
         },
         "zh-Hans" : {
@@ -375,6 +399,12 @@
             "value" : "Toujours démarrer en pause"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Her Zaman Duraklatılmış Başlat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -415,6 +445,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Apparence"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Görünüm"
           }
         },
         "zh-Hans" : {
@@ -459,6 +495,12 @@
             "value" : "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "'%@' öğesini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -501,6 +543,12 @@
             "value" : "Comportement"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Davranış"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -541,6 +589,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Oiseaux"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kuşlar"
           }
         },
         "zh-Hans" : {
@@ -628,6 +682,12 @@
             "value" : "Aide Blankie"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Blankie Yardım"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -668,6 +728,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Paramètres Blankie"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Blankie Ayarları"
           }
         },
         "zh-Hans" : {
@@ -755,6 +821,12 @@
             "value" : "Bleu"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Mavi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -795,6 +867,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bateau"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tekne"
           }
         },
         "zh-Hans" : {
@@ -839,6 +917,12 @@
             "value" : "Marron"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kahverengi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -879,6 +963,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Par"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tarafından"
           }
         },
         "zh-Hans" : {
@@ -923,6 +1013,12 @@
             "value" : "Annuler"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "İptal"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -963,6 +1059,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Ville"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Şehir"
           }
         },
         "zh-Hans" : {
@@ -1007,6 +1109,12 @@
             "value" : "Fermer"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kapat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1047,6 +1155,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Fermer la fenêtre"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Pencereyi Kapat"
           }
         },
         "zh-Hans" : {
@@ -1134,6 +1248,12 @@
             "value" : "Cody Bromley et les contributeurs. Tous droits réservés."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Cody Bromley ve katkıda bulunanlar. Tüm hakları saklıdır."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1174,6 +1294,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Café"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kafe"
           }
         },
         "zh-Hans" : {
@@ -1218,6 +1344,12 @@
             "value" : "Contributeurs"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Katkıda Bulunanlar"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1258,6 +1390,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Cyan"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Camgöbeği"
           }
         },
         "zh-Hans" : {
@@ -1302,6 +1440,12 @@
             "value" : "Sombre"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Koyu"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1342,6 +1486,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Par défaut"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Varsayılan"
           }
         },
         "zh-Hans" : {
@@ -1386,6 +1536,12 @@
             "value" : "Supprimer"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sil"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1426,6 +1582,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Supprimer le préréglage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayarı Sil"
           }
         },
         "zh-Hans" : {
@@ -1470,6 +1632,12 @@
             "value" : "Développé par"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Geliştirici"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1510,6 +1678,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Modifier le préréglage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayarı Düzenle"
           }
         },
         "zh-Hans" : {
@@ -1554,6 +1728,12 @@
             "value" : "Édité par"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Düzenleyen"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1596,6 +1776,12 @@
             "value" : "Erreur"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Hata"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1636,6 +1822,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Cheminée"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Şömine"
           }
         },
         "zh-Hans" : {
@@ -1723,6 +1915,12 @@
             "value" : "Vert"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yeşil"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1763,6 +1961,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Masquer les sons inactifs"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Etkin Olmayan Sesleri Gizle"
           }
         },
         "zh-Hans" : {
@@ -1849,6 +2053,12 @@
             "value" : "Indigo"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Çivit Mavisi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1888,6 +2098,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Inspiré par Blanket par Rafael Mardojai CM"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Rafael Mardojai CM'nin Blanket uygulamasından esinlenmiştir"
           }
         },
         "zh-Hans" : {
@@ -1932,6 +2148,12 @@
             "value" : "Raccourcis clavier"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Klavye Kısayolları"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -1972,6 +2194,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "En savoir plus sur la Licence MIT"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "MIT Lisansı hakkında daha fazla bilgi edinin"
           }
         },
         "zh-Hans" : {
@@ -2016,6 +2244,12 @@
             "value" : "Clair"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Açık Tema"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2056,6 +2290,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Chargement des préréglages..."
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayarlar Yükleniyor..."
           }
         },
         "zh-Hans" : {
@@ -2100,6 +2340,12 @@
             "value" : "Menthe"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Nane"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2140,6 +2386,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Nouveau préréglage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yeni Ön Ayar"
           }
         },
         "zh-Hans" : {
@@ -2184,6 +2436,12 @@
             "value" : "Nouvelle fenêtre"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yeni Pencere"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2224,6 +2482,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Aucun préréglage personnalisé"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Özel Ön Ayar Yok"
           }
         },
         "zh-Hans" : {
@@ -2311,6 +2575,12 @@
             "value" : "Ok"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tamam"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2351,6 +2621,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Orange"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Turuncu"
           }
         },
         "zh-Hans" : {
@@ -2438,6 +2714,12 @@
             "value" : "Rose"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Pembe"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2478,6 +2760,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bruit rose"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Pembe Gürültü"
           }
         },
         "zh-Hans" : {
@@ -2522,6 +2810,12 @@
             "value" : "Lire/Pause les sons"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sesleri Oynat/Duraklat"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2562,6 +2856,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Lecture en pause"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Oynatma Duraklatıldı"
           }
         },
         "zh-Hans" : {
@@ -2606,6 +2906,12 @@
             "value" : "Préférences"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tercihler"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2648,6 +2954,12 @@
             "value" : "Préférences..."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tercihler..."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2655,6 +2967,9 @@
           }
         }
       }
+    },
+    "Preset %d" : {
+      "comment" : "New preset name format"
     },
     "Preset Name" : {
       "comment" : "Preset name text field",
@@ -2688,6 +3003,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Nom du préréglage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayar Adı"
           }
         },
         "zh-Hans" : {
@@ -2732,6 +3053,12 @@
             "value" : "Le nom du préréglage ne peut pas être vide"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön ayar adı boş olamaz"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2772,6 +3099,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Préréglages"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayarlar"
           }
         },
         "zh-Hans" : {
@@ -2816,6 +3149,12 @@
             "value" : "Domaine public"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kamu Malı"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2856,6 +3195,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Violet"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Mor"
           }
         },
         "zh-Hans" : {
@@ -2900,6 +3245,12 @@
             "value" : "Quitter"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Çık"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -2940,6 +3291,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Quitter Blankie"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Blankie'den Çık"
           }
         },
         "zh-Hans" : {
@@ -2984,6 +3341,12 @@
             "value" : "Pluie"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yağmur"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3024,6 +3387,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Rouge"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kırmızı"
           }
         },
         "zh-Hans" : {
@@ -3068,6 +3437,12 @@
             "value" : "Renommer le préréglage"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ön Ayarı Yeniden Adlandır"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3108,6 +3483,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Signaler un problème"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sorun Bildir"
           }
         },
         "zh-Hans" : {
@@ -3152,6 +3533,12 @@
             "value" : "Réinitialiser les sons"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sesleri Sıfırla"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3192,6 +3579,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Enregistrer"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Kaydet"
           }
         },
         "zh-Hans" : {
@@ -3236,6 +3629,12 @@
             "value" : "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Mevcut ses yapılandırmanızı daha sonra hızlıca erişmek için bir ön ayar olarak kaydedin."
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3276,6 +3675,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Afficher tous les sons"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tüm Sesleri Göster"
           }
         },
         "zh-Hans" : {
@@ -3320,6 +3725,12 @@
             "value" : "Licence logicielle"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yazılım Lisansı"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3360,6 +3771,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Crédits sonores"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Ses Katkıları"
           }
         },
         "zh-Hans" : {
@@ -3404,6 +3821,12 @@
             "value" : "Mettre une étoile sur GitHub"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "GitHub’da Yıldızla"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3444,6 +3867,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Orage"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Fırtına"
           }
         },
         "zh-Hans" : {
@@ -3488,6 +3917,12 @@
             "value" : "Ruisseau"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Dere"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3528,6 +3963,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Nuit d'été"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Yaz Gecesi"
           }
         },
         "zh-Hans" : {
@@ -3572,6 +4013,12 @@
             "value" : "Système"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sistem"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3612,6 +4059,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Sarcelle"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Deniz Mavisi"
           }
         },
         "zh-Hans" : {
@@ -3697,6 +4150,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Le préréglage par défaut ne peut pas être renommé"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Varsayılan ön ayar yeniden adlandırılamaz"
           }
         },
         "zh-Hans" : {
@@ -3827,6 +4286,12 @@
             "value" : "Train"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Tren"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3867,6 +4332,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Traductions"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Çeviriler"
           }
         },
         "zh-Hans" : {
@@ -3911,6 +4382,12 @@
             "value" : "Version %@ (%@)"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sürüm %@ (%@)"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -3951,6 +4428,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Vagues"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Dalgalar"
           }
         },
         "zh-Hans" : {
@@ -3995,6 +4478,12 @@
             "value" : "Site web"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Web Sitesi"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -4035,6 +4524,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bruit blanc"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Beyaz Gürültü"
           }
         },
         "zh-Hans" : {
@@ -4079,6 +4574,12 @@
             "value" : "Vent"
           }
         },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Rüzgar"
+          }
+        },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
@@ -4119,6 +4620,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Jaune"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "needs_translation",
+            "value" : "Sarı"
           }
         },
         "zh-Hans" : {

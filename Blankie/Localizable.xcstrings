@@ -2975,7 +2975,15 @@
       }
     },
     "Preset %d" : {
-      "comment" : "New preset name format"
+      "comment" : "New preset name format",
+      "localizations" : {
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ön Ayar %d"
+          }
+        }
+      }
     },
     "Preset Name" : {
       "comment" : "Preset name text field",

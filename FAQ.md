@@ -18,6 +18,7 @@ There are several ways to get started:
 
    - Blankie will be installed in your Applications folder
    - Updates can be managed through Homebrew with `brew upgrade`
+   - Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information
 
 3. **Direct Download**
    - Download the latest .zip from the [Releases](https://github.com/codybrom/blankie/releases) on GitHub

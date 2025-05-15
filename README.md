@@ -35,6 +35,8 @@ You can also install Blankie using Homebrew:
 brew install --cask blankie
 ```
 
+Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information.
+
 ### iOS, iPadOS, and visionOS Beta
 
 Blankie is coming to iOS, iPadOS, and visionOS! Join the TestFlight beta to help test:

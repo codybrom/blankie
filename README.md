@@ -73,13 +73,13 @@ Blankie offers support in:
 ### Translation Credits
 
 <!-- TRANSLATOR_CREDITS_START -->
-<table>
-<tr><th>Language</th><th>Translators</th></tr>
-<tr><td>Deutsch</td><td><em>Contributions welcome!</em></td></tr>
-<tr><td>Español</td><td>Chuskas</td></tr>
-<tr><td>Français</td><td><em>Contributions welcome!</em></td></tr>
-<tr><td>中文（简体)</td><td><em>Contributions welcome!</em></td></tr>
-</table>
+| Language | Translators |
+| -------- | ----------- |
+| Deutsch | *Contributions welcome!* |
+| Español | Chuskas |
+| Français | *Contributions welcome!* |
+| Türkçe | aybarsnazlica |
+| 中文（简体) | *Contributions welcome!* |
 <!-- TRANSLATOR_CREDITS_END -->
 
 ## Contributing

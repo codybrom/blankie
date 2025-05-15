@@ -25,18 +25,19 @@ jobs:
 
       - name: Ensure we have working directory
         run: mkdir -p .github/actions
-        
+
       - name: Create updater script
         run: |
           cat > .github/actions/update_section.sh << 'EOF'
           #!/bin/bash
-          
+
           README="README.md"
           TEMP_FILE="README.md.new"
           START_MARKER="<!-- TRANSLATOR_CREDITS_START -->"
           END_MARKER="<!-- TRANSLATOR_CREDITS_END -->"
           CONTENT_FILE="temp/translators.md"
-          
+          skip=false
+
           # Read the content in chunks
           while IFS= read -r line; do
             if [[ "$line" == *"$START_MARKER"* ]]; then
@@ -57,13 +58,13 @@ jobs:
               echo "$line" >> "$TEMP_FILE"
             fi
           done < "$README"
-          
+
           # Replace the original file
           mv "$TEMP_FILE" "$README"
           EOF
-          
+
           chmod +x .github/actions/update_section.sh
-          
+
       - name: Update translator credits in README
         run: |
           # Run the script

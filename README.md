@@ -17,6 +17,31 @@
   </a>
 </div>
 
+## Installation Options
+
+### Mac App Store (Recommended)
+
+The recommended installation method is through the [Mac App Store](https://apps.apple.com/us/app/blankie/id6740096581), which provides automatic updates.
+
+### Direct Download
+
+You can download the Apple-notarized binary directly from [GitHub Releases](https://github.com/codybrom/blankie/releases/latest/download/Blankie.zip).
+
+### Homebrew
+
+You can also install Blankie using Homebrew:
+
+```bash
+brew install --cask blankie
+```
+
+Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information.
+
+### iOS, iPadOS, and visionOS Beta
+
+Blankie is coming to iOS, iPadOS, and visionOS! Join the TestFlight beta to help test:
+[Join Blankie TestFlight Beta](https://testflight.apple.com/join/XgpBpWv8)
+
 ## Description
 
 Blankie makes it easy to mix different ambient sounds into a custom soundscape. Use it to focus and increase your productivity or help you fall asleep in a noisy environment. Blankie is a native macOS app with support for automatic light/dark modes, and your system or a custom accent color and global play/pause control from your keyboard's media keys, command center, or headphones.
@@ -44,6 +69,18 @@ Blankie offers support in:
 - Deutsch (German)
 - Français (French)
 - 中文 (Chinese, Simplified)
+
+### Translation Credits
+
+<!-- TRANSLATOR_CREDITS_START -->
+<table>
+<tr><th>Language</th><th>Translators</th></tr>
+<tr><td>Deutsch</td><td><em>Contributions welcome!</em></td></tr>
+<tr><td>Español</td><td>Chuskas</td></tr>
+<tr><td>Français</td><td><em>Contributions welcome!</em></td></tr>
+<tr><td>中文（简体)</td><td><em>Contributions welcome!</em></td></tr>
+</table>
+<!-- TRANSLATOR_CREDITS_END -->
 
 ## Contributing
 

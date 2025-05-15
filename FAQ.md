@@ -2,19 +2,30 @@
 
 ## How do I get started with Blankie?
 
-There's three ways to get started:
+There are several ways to get started:
 
 1. **Mac App Store**
 
    - Download the latest stable version of Blankie on the  [Mac App Store](https://apps.apple.com/us/app/blankie/id6740096581) and receive automatic updates.
    - _This is the recommended way to install Blankie._
 
-2. **Direct Download**
+2. **Homebrew**
+   - If you use Homebrew, you can install Blankie with:
+
+   ``` bash
+   brew install --cask blankie
+   ```
+
+   - Blankie will be installed in your Applications folder
+   - Updates can be managed through Homebrew with `brew upgrade`
+   - Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information
+
+3. **Direct Download**
    - Download the latest .zip from the [Releases](https://github.com/codybrom/blankie/releases) on GitHub
    - Copy the app to your Applications folder
    - Open Blankie and click a sound to start!
 
-3. **TestFlight (Beta Versions)**
+4. **TestFlight (Beta Versions)**
 
    Get early access to new features by joining our [TestFlight Public Beta](https://testflight.apple.com/join/XgpBpWv8)
 

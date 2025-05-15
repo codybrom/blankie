@@ -68,19 +68,19 @@ Blankie offers support in:
 - Español (Spanish)
 - Deutsch (German)
 - Français (French)
+- Türkçe (Turkish)
 - 中文 (Chinese, Simplified)
 
 ### Translation Credits
 
-<!-- TRANSLATOR_CREDITS_START -->
-<table>
-<tr><th>Language</th><th>Translators</th></tr>
-<tr><td>Deutsch</td><td><em>Contributions welcome!</em></td></tr>
-<tr><td>Español</td><td>Chuskas</td></tr>
-<tr><td>Français</td><td><em>Contributions welcome!</em></td></tr>
-<tr><td>中文（简体)</td><td><em>Contributions welcome!</em></td></tr>
-</table>
-<!-- TRANSLATOR_CREDITS_END -->
+| Language | Translators |
+|----------|------------|
+| Español | Chuskas |
+| Türkçe | aybarsnazlica |
+| Deutsch | *Contributions welcome!* |
+| Français | *Contributions welcome!* |
+| 中文（简体) | *Contributions welcome!* |
+| *Other Languages* | Contributions welcome! |
 
 ## Contributing
 

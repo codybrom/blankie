@@ -209,7 +209,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Blankie Hakkında"
           }
         },
@@ -257,7 +257,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Vurgu Rengi"
           }
         },
@@ -305,7 +305,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ses Ekle (Yakında!)"
           }
         },
@@ -353,7 +353,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tüm Sesler"
           }
         },
@@ -401,7 +401,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Her Zaman Duraklatılmış Başlat"
           }
         },
@@ -449,7 +449,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Görünüm"
           }
         },
@@ -497,7 +497,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "'%@' öğesini silmek istediğinizden emin misiniz? Bu işlem geri alınamaz."
           }
         },
@@ -545,7 +545,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Davranış"
           }
         },
@@ -593,7 +593,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kuşlar"
           }
         },
@@ -684,7 +684,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Blankie Yardım"
           }
         },
@@ -732,7 +732,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Blankie Ayarları"
           }
         },
@@ -823,7 +823,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Mavi"
           }
         },
@@ -871,7 +871,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tekne"
           }
         },
@@ -919,7 +919,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kahverengi"
           }
         },
@@ -967,7 +967,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tarafından"
           }
         },
@@ -1015,7 +1015,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "İptal"
           }
         },
@@ -1063,7 +1063,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Şehir"
           }
         },
@@ -1111,7 +1111,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kapat"
           }
         },
@@ -1159,7 +1159,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Pencereyi Kapat"
           }
         },
@@ -1250,7 +1250,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Cody Bromley ve katkıda bulunanlar. Tüm hakları saklıdır."
           }
         },
@@ -1298,7 +1298,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kafe"
           }
         },
@@ -1346,7 +1346,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Katkıda Bulunanlar"
           }
         },
@@ -1394,7 +1394,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Camgöbeği"
           }
         },
@@ -1442,7 +1442,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Koyu"
           }
         },
@@ -1490,7 +1490,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Varsayılan"
           }
         },
@@ -1538,7 +1538,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sil"
           }
         },
@@ -1586,7 +1586,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayarı Sil"
           }
         },
@@ -1634,7 +1634,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Geliştirici"
           }
         },
@@ -1682,7 +1682,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayarı Düzenle"
           }
         },
@@ -1730,7 +1730,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Düzenleyen"
           }
         },
@@ -1778,7 +1778,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Hata"
           }
         },
@@ -1826,7 +1826,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Şömine"
           }
         },
@@ -1917,7 +1917,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yeşil"
           }
         },
@@ -1965,7 +1965,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Etkin Olmayan Sesleri Gizle"
           }
         },
@@ -2009,6 +2009,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Si désactivé, Blankie jouera immédiatement votre préréglage le plus récent au lancement"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If disabled, Blankie will immediately play your most recent preset on launch"
           }
         },
         "zh-Hans" : {
@@ -2055,7 +2061,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Çivit Mavisi"
           }
         },
@@ -2102,7 +2108,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Rafael Mardojai CM'nin Blanket uygulamasından esinlenmiştir"
           }
         },
@@ -2150,7 +2156,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Klavye Kısayolları"
           }
         },
@@ -2198,7 +2204,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "MIT Lisansı hakkında daha fazla bilgi edinin"
           }
         },
@@ -2246,7 +2252,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Açık Tema"
           }
         },
@@ -2294,7 +2300,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayarlar Yükleniyor..."
           }
         },
@@ -2342,7 +2348,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Nane"
           }
         },
@@ -2390,7 +2396,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yeni Ön Ayar"
           }
         },
@@ -2438,7 +2444,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yeni Pencere"
           }
         },
@@ -2486,7 +2492,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Özel Ön Ayar Yok"
           }
         },
@@ -2577,7 +2583,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tamam"
           }
         },
@@ -2625,7 +2631,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Turuncu"
           }
         },
@@ -2716,7 +2722,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Pembe"
           }
         },
@@ -2764,7 +2770,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Pembe Gürültü"
           }
         },
@@ -2812,7 +2818,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sesleri Oynat/Duraklat"
           }
         },
@@ -2860,7 +2866,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Oynatma Duraklatıldı"
           }
         },
@@ -2908,7 +2914,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tercihler"
           }
         },
@@ -2956,7 +2962,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tercihler..."
           }
         },
@@ -3007,7 +3013,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayar Adı"
           }
         },
@@ -3055,7 +3061,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön ayar adı boş olamaz"
           }
         },
@@ -3103,7 +3109,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayarlar"
           }
         },
@@ -3151,7 +3157,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kamu Malı"
           }
         },
@@ -3199,7 +3205,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Mor"
           }
         },
@@ -3247,7 +3253,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Çık"
           }
         },
@@ -3295,7 +3301,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Blankie'den Çık"
           }
         },
@@ -3343,7 +3349,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yağmur"
           }
         },
@@ -3391,7 +3397,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kırmızı"
           }
         },
@@ -3439,7 +3445,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ön Ayarı Yeniden Adlandır"
           }
         },
@@ -3487,7 +3493,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sorun Bildir"
           }
         },
@@ -3535,7 +3541,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sesleri Sıfırla"
           }
         },
@@ -3583,7 +3589,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Kaydet"
           }
         },
@@ -3631,7 +3637,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Mevcut ses yapılandırmanızı daha sonra hızlıca erişmek için bir ön ayar olarak kaydedin."
           }
         },
@@ -3679,7 +3685,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tüm Sesleri Göster"
           }
         },
@@ -3727,7 +3733,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yazılım Lisansı"
           }
         },
@@ -3775,7 +3781,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Ses Katkıları"
           }
         },
@@ -3823,7 +3829,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "GitHub’da Yıldızla"
           }
         },
@@ -3871,7 +3877,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Fırtına"
           }
         },
@@ -3919,7 +3925,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Dere"
           }
         },
@@ -3967,7 +3973,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Yaz Gecesi"
           }
         },
@@ -4015,7 +4021,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sistem"
           }
         },
@@ -4063,7 +4069,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Deniz Mavisi"
           }
         },
@@ -4154,7 +4160,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Varsayılan ön ayar yeniden adlandırılamaz"
           }
         },
@@ -4288,7 +4294,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Tren"
           }
         },
@@ -4336,7 +4342,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Çeviriler"
           }
         },
@@ -4384,7 +4390,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sürüm %@ (%@)"
           }
         },
@@ -4432,7 +4438,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Dalgalar"
           }
         },
@@ -4480,7 +4486,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Web Sitesi"
           }
         },
@@ -4528,7 +4534,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Beyaz Gürültü"
           }
         },
@@ -4576,7 +4582,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Rüzgar"
           }
         },
@@ -4624,7 +4630,7 @@
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "needs_translation",
+            "state" : "translated",
             "value" : "Sarı"
           }
         },

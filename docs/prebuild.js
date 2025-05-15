@@ -254,13 +254,13 @@ try {
   const langIndex = {
     metadata: {
       extractedAt: result.metadata.extractedAt,
-      languages: Array.from(languages),
+      languages: Array.from(languages).sort(),
     },
     statistics: {},
   };
 
   // Calculate statistics for each language
-  languages.forEach((lang) => {
+  Array.from(languages).forEach((lang) => {
     if (lang === "en") return; // Skip English as it's the source language
 
     let totalStrings = 0;

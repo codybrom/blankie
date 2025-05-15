@@ -202,7 +202,12 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
             <div class="bg-zinc-900 p-5 border-b border-zinc-700">
               <p class="text-sm text-gray-400 mt-1">
                 Last updated:{" "}
-                {new Date(langData.metadata.extractedAt).toLocaleString()}
+                <span
+                  id="localTime"
+                  data-timestamp={langData.metadata.extractedAt}
+                >
+                  {langData.metadata.extractedAt}
+                </span>
               </p>
             </div>
 
@@ -557,6 +562,22 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
 </Layout>
 
 <script>
+  const localTimeElement = document.getElementById("localTime");
+  if (localTimeElement) {
+    const timestamp = localTimeElement.getAttribute("data-timestamp");
+    if (timestamp) {
+      const utcDate = new Date(timestamp);
+      localTimeElement.textContent = utcDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+      });
+    }
+  }
+
   // Simple tab system
   const tabButtons =
     document.querySelectorAll<HTMLButtonElement>('[role="tab"]');

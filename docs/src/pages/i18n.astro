@@ -54,16 +54,7 @@ function getLanguageName(localeCode: string): string {
   return specialCases[localeCode] || localeCode;
 }
 
-// Get the extraction timestamp and format it
-const extractionDate = new Date(
-  languageData.metadata.extractedAt
-).toLocaleString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-});
+const extractionTimestamp = languageData.metadata.extractedAt;
 
 // Function to calculate combined progress (translated + needs review)
 function getCombinedProgress(stats: StringStats): number {
@@ -203,7 +194,9 @@ function getStatusText(stats: StringStats): string {
       </div>
 
       <p class="mt-4 text-sm text-mid-gray">
-        Last updated: {extractionDate}
+        Last updated: <span id="localTime" data-timestamp={extractionTimestamp}
+          >{extractionTimestamp}</span
+        >
       </p>
     </div>
 
@@ -456,6 +449,23 @@ function getStatusText(stats: StringStats): string {
     dropdownMenu.addEventListener("click", (e) => {
       e.stopPropagation();
     });
+  }
+
+  // Add local time conversion
+  const localTimeElement = document.getElementById("localTime");
+  if (localTimeElement) {
+    const timestamp = localTimeElement.getAttribute("data-timestamp");
+    if (timestamp) {
+      const utcDate = new Date(timestamp);
+      localTimeElement.textContent = utcDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+      });
+    }
   }
 </script>
 

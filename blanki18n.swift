@@ -43,39 +43,21 @@ func parseCSV(data: String) -> [CSVRow] {
   return rows
 }
 
-// MARK: - Main
+// MARK: - Utilities
 
-func main() {
-  print("blanki8n Localization Updater")
-  print("===================")
-
-  // Get file path argument
+func getFilePath() -> String {
   guard CommandLine.arguments.count > 1 else {
     print("Error: Please provide a translation file path")
     print("Usage: ./blanki8n.swift path/to/translation.[json|csv]")
     exit(1)
   }
 
-  let filePath = CommandLine.arguments[1]
+  return CommandLine.arguments[1]
+}
 
-  // Read translation file
-  guard let fileData = try? String(contentsOfFile: filePath, encoding: .utf8) else {
-    print("Error: Could not read file at \(filePath)")
-    exit(1)
-  }
-
-  // Parse CSV file
-  guard filePath.hasSuffix(".csv") else {
-    print("Error: Only CSV files are supported")
-    exit(1)
-  }
-
-  let translations = parseCSV(data: fileData)
-
-  // Get language code from user or command line
-  let langCode: String
+func getLanguageCode() -> String {
   if CommandLine.arguments.count > 2 {
-    langCode = CommandLine.arguments[2]
+    return CommandLine.arguments[2]
   } else {
     print("\nEnter the language code for these translations (e.g. de, es, fr):")
     guard let inputLangCode = readLine()?.trimmingCharacters(in: .whitespaces),
@@ -84,10 +66,25 @@ func main() {
       print("Error: Invalid language code")
       exit(1)
     }
-    langCode = inputLangCode
+    return inputLangCode
+  }
+}
+
+func readTranslationFile(at path: String) -> [CSVRow] {
+  guard let fileData = try? String(contentsOfFile: path, encoding: .utf8) else {
+    print("Error: Could not read file at \(path)")
+    exit(1)
   }
 
-  // Read existing Localizable.xcstrings
+  guard path.hasSuffix(".csv") else {
+    print("Error: Only CSV files are supported")
+    exit(1)
+  }
+
+  return parseCSV(data: fileData)
+}
+
+func readXCStringsFile() -> (json: [String: Any], strings: [String: [String: Any]]) {
   let xcstringsURL = URL(fileURLWithPath: "Blankie/Localizable.xcstrings")
 
   guard let xcstringsData = try? Data(contentsOf: xcstringsURL) else {
@@ -95,57 +92,83 @@ func main() {
     exit(1)
   }
 
-  // Parse as JSON to work with the data structure
   guard let json = try? JSONSerialization.jsonObject(with: xcstringsData) as? [String: Any],
-    var strings = json["strings"] as? [String: [String: Any]]
+    let strings = json["strings"] as? [String: [String: Any]]
   else {
     print("Error: Could not parse Localizable.xcstrings")
     exit(1)
   }
 
+  return (json: json, strings: strings)
+}
+
+func updateTranslations(
+  in strings: [String: [String: Any]], with translations: [CSVRow], for langCode: String
+) -> ([String: [String: Any]], Int) {
+  var updatedStrings = strings
   var updatedCount = 0
 
-  // Go through each translation
   for translation in translations {
     if var entry = strings[translation.key],
-      var localizations = entry["localizations"] as? [String: [String: Any]]
-    {
+      var localizations = entry["localizations"] as? [String: [String: Any]] {
 
       // Add or update the localization for this language
       localizations[langCode] = [
         "stringUnit": [
           "state": translation.state,
-          "value": translation.target,
+          "value": translation.target
         ]
       ]
 
       // Update the entry
       entry["localizations"] = localizations
-      strings[translation.key] = entry
+      updatedStrings[translation.key] = entry
       updatedCount += 1
     }
   }
 
-  if updatedCount == 0 {
-    print("No translations were updated. Check if your keys match the ones in the xcstrings file.")
-    exit(1)
-  }
+  return (updatedStrings, updatedCount)
+}
 
-  // Update the JSON structure
+func writeUpdatedStrings(
+  json: [String: Any], strings: [String: [String: Any]], updatedCount: Int, langCode: String
+) {
+  let xcstringsURL = URL(fileURLWithPath: "Blankie/Localizable.xcstrings")
   var updatedJson = json
   updatedJson["strings"] = strings
 
-  // Write back with formatting preserved
   if let updatedData = try? JSONSerialization.data(
     withJSONObject: updatedJson, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]),
-    let updatedString = String(data: updatedData, encoding: .utf8)
-  {
+    let updatedString = String(data: updatedData, encoding: .utf8) {
     try? updatedString.write(to: xcstringsURL, atomically: true, encoding: .utf8)
     print("\nSuccess! Updated \(updatedCount) translations for language: \(langCode)")
   } else {
     print("Error: Could not write updated translations")
     exit(1)
   }
+}
+
+// MARK: - Main
+
+func main() {
+  print("blanki8n Localization Updater")
+  print("===================")
+
+  let filePath = getFilePath()
+  let translations = readTranslationFile(at: filePath)
+  let langCode = getLanguageCode()
+
+  let (json, strings) = readXCStringsFile()
+  let (updatedStrings, updatedCount) = updateTranslations(
+    in: strings, with: translations, for: langCode)
+
+  if updatedCount == 0 {
+    print("No translations were updated. Check if your keys match the ones in the xcstrings file.")
+    exit(1)
+  }
+
+  writeUpdatedStrings(
+    json: json, strings: updatedStrings, updatedCount: updatedCount, langCode: langCode)
 }
 
 main()

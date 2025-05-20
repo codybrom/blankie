@@ -2205,14 +2205,20 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Si está deshabilitado, Blankie reproducirá inmediatamente su configuración predeterminada más reciente al lanzar"
+            "state" : "translated",
+            "value" : "Si está deshabilitado, Blankie reproducirá inmediatamente su configuración más reciente al lanzar"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Si désactivé, Blankie jouera immédiatement votre préréglage le plus récent au lancement"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se disabilitato, Blankie riprodurrà immediatamente il configurazione più recente all'avvio"
           }
         },
         "tr" : {
@@ -2390,6 +2396,60 @@
         }
       }
     },
+    "Language" : {
+      "comment" : "Preferences menu label",
+      "extractionState" : "stale",
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Sprache"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idioma"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "Langue"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingua"
+          }
+        },
+        "tr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dil"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
+            "value" : "语言"
+          }
+        }
+      }
+    },
     "Learn more about the MIT License" : {
       "comment" : "License link label",
       "extractionState" : "manual",
@@ -2414,7 +2474,7 @@
         },
         "es" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Más información sobre la licencia MIT"
           }
         },
@@ -3317,6 +3377,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Préréglage %d"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurazione %d"
           }
         },
         "tr" : {

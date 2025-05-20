@@ -5,10 +5,10 @@
 /// By Cody Bromley
 /// MIT License
 ///
-/// This script is used to update the Localizable.xcstrings file with single-language translations in JSON or CSV format.
+/// This script is used to update the Localizable.xcstrings file with single-language translations in JSON or CSV format
 /// To learn more, visit blankie.rest/i18n
 ///
-///  Usage: ./blanki18n.swift path/to/translation.[json|csv]
+///  Usage: ./blanki18n.swift path/to/translation.[json|csv] [language_code]
 ///
 
 import Foundation
@@ -72,13 +72,19 @@ func main() {
 
   let translations = parseCSV(data: fileData)
 
-  // Get language code from user
-  print("\nEnter the language code for these translations (e.g. de, es, fr):")
-  guard let langCode = readLine()?.trimmingCharacters(in: .whitespaces),
-    !langCode.isEmpty
-  else {
-    print("Error: Invalid language code")
-    exit(1)
+  // Get language code from user or command line
+  let langCode: String
+  if CommandLine.arguments.count > 2 {
+    langCode = CommandLine.arguments[2]
+  } else {
+    print("\nEnter the language code for these translations (e.g. de, es, fr):")
+    guard let inputLangCode = readLine()?.trimmingCharacters(in: .whitespaces),
+      !inputLangCode.isEmpty
+    else {
+      print("Error: Invalid language code")
+      exit(1)
+    }
+    langCode = inputLangCode
   }
 
   // Read existing Localizable.xcstrings

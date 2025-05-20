@@ -207,6 +207,12 @@
             "value" : "À propos de Blankie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riguardo Blankie"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -253,6 +259,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Couleur d'accent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Colore di Accento"
           }
         },
         "tr" : {
@@ -303,6 +315,12 @@
             "value" : "Ajouter un son (bientôt disponible !)"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aggiungi un suono (Prossimamente!)"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -349,6 +367,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Tous les sons"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tutti i Suoni"
           }
         },
         "tr" : {
@@ -399,6 +423,12 @@
             "value" : "Toujours démarrer en pause"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri Sempre in Pausa"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -445,6 +475,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Apparence"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aspetto"
           }
         },
         "tr" : {
@@ -495,6 +531,12 @@
             "value" : "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sei sicuro di voler eliminare '%@'? Questa azione è irreversibile"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -543,6 +585,12 @@
             "value" : "Comportement"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comportamento"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -589,6 +637,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Oiseaux"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uccelli"
           }
         },
         "tr" : {
@@ -682,6 +736,12 @@
             "value" : "Aide Blankie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aiuto su Blankie"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -728,6 +788,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Paramètres Blankie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni di Blankie"
           }
         },
         "tr" : {
@@ -821,6 +887,12 @@
             "value" : "Bleu"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blu"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -867,6 +939,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bateau"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Barca"
           }
         },
         "tr" : {
@@ -917,6 +995,12 @@
             "value" : "Marron"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marrone"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -963,6 +1047,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Par"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Da"
           }
         },
         "tr" : {
@@ -1013,6 +1103,12 @@
             "value" : "Annuler"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1059,6 +1155,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Ville"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Città"
           }
         },
         "tr" : {
@@ -1109,6 +1211,12 @@
             "value" : "Fermer"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1155,6 +1263,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Fermer la fenêtre"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiudi Finestra"
           }
         },
         "tr" : {
@@ -1248,6 +1362,12 @@
             "value" : "Cody Bromley et les contributeurs. Tous droits réservés."
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cody Bromley ed i suoi contributori. Tutti i diritti riservati."
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1294,6 +1414,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Café"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caffetteria"
           }
         },
         "tr" : {
@@ -1344,6 +1470,12 @@
             "value" : "Contributeurs"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contributori"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1390,6 +1522,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Cyan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ciano"
           }
         },
         "tr" : {
@@ -1440,6 +1578,12 @@
             "value" : "Sombre"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scuro"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1486,6 +1630,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Par défaut"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Predefinito"
           }
         },
         "tr" : {
@@ -1536,6 +1686,12 @@
             "value" : "Supprimer"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1582,6 +1738,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Supprimer le préréglage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elimina Configurazione"
           }
         },
         "tr" : {
@@ -1632,6 +1794,12 @@
             "value" : "Développé par"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sviluppato Da"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1678,6 +1846,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Modifier le préréglage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifica Configurazione"
           }
         },
         "tr" : {
@@ -1728,6 +1902,12 @@
             "value" : "Édité par"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modificato da"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1776,6 +1956,12 @@
             "value" : "Erreur"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Errore"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1822,6 +2008,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Cheminée"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Focolaio"
           }
         },
         "tr" : {
@@ -1915,6 +2107,12 @@
             "value" : "Vert"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verde"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1961,6 +2159,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Masquer les sons inactifs"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nascondi i suoni non attivi"
           }
         },
         "tr" : {
@@ -2059,6 +2263,12 @@
             "value" : "Indigo"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indaco"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2104,6 +2314,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Inspiré par Blanket par Rafael Mardojai CM"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inspirato da Blanket di Rafael Mardojai CM"
           }
         },
         "tr" : {
@@ -2154,6 +2370,12 @@
             "value" : "Raccourcis clavier"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tasti Rapidi"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2200,6 +2422,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "En savoir plus sur la Licence MIT"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prendi visione della licenza MIT"
           }
         },
         "tr" : {
@@ -2250,6 +2478,12 @@
             "value" : "Clair"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chiaro"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2296,6 +2530,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Chargement des préréglages..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caricando le Configurazioni…"
           }
         },
         "tr" : {
@@ -2346,6 +2586,12 @@
             "value" : "Menthe"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menta"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2392,6 +2638,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Nouveau préréglage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova Configurazione"
           }
         },
         "tr" : {
@@ -2442,6 +2694,12 @@
             "value" : "Nouvelle fenêtre"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuova Finestra"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2488,6 +2746,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Aucun préréglage personnalisé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna Configurazione Personalizzata"
           }
         },
         "tr" : {
@@ -2581,6 +2845,12 @@
             "value" : "Ok"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2627,6 +2897,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Orange"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arancione"
           }
         },
         "tr" : {
@@ -2720,6 +2996,12 @@
             "value" : "Rose"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosa"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2766,6 +3048,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bruit rose"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rumore Rosa"
           }
         },
         "tr" : {
@@ -2816,6 +3104,12 @@
             "value" : "Lire/Pause les sons"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riproduci/Ferma i suoni"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2862,6 +3156,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Lecture en pause"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riproduzione Ferma"
           }
         },
         "tr" : {
@@ -2912,6 +3212,12 @@
             "value" : "Préférences"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2958,6 +3264,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Préférences..."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impostazioni…"
           }
         },
         "tr" : {
@@ -3055,6 +3367,12 @@
             "value" : "Nom du préréglage"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome della Configurazione"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3101,6 +3419,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Le nom du préréglage ne peut pas être vide"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il Nome della Configurazione é obbligatorio"
           }
         },
         "tr" : {
@@ -3151,6 +3475,12 @@
             "value" : "Préréglages"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configurazioni"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3197,6 +3527,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Domaine public"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dominio Pubblico"
           }
         },
         "tr" : {
@@ -3247,6 +3583,12 @@
             "value" : "Violet"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viola"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3293,6 +3635,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Quitter"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci"
           }
         },
         "tr" : {
@@ -3343,6 +3691,12 @@
             "value" : "Quitter Blankie"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esci da Blankie"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3389,6 +3743,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Pluie"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pioggia"
           }
         },
         "tr" : {
@@ -3439,6 +3799,12 @@
             "value" : "Rouge"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rosso"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3485,6 +3851,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Renommer le préréglage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rinomina Configurazione"
           }
         },
         "tr" : {
@@ -3535,6 +3907,12 @@
             "value" : "Signaler un problème"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Segnala un Problema"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3581,6 +3959,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Réinitialiser les sons"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Azzera i Suoni"
           }
         },
         "tr" : {
@@ -3631,6 +4015,12 @@
             "value" : "Enregistrer"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3677,6 +4067,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva la tua configurazione corrente come una configurazione personale per poterla usare anche dopo"
           }
         },
         "tr" : {
@@ -3727,6 +4123,12 @@
             "value" : "Afficher tous les sons"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra tutti i Suoni"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3773,6 +4175,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Licence logicielle"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licenza Software"
           }
         },
         "tr" : {
@@ -3823,6 +4231,12 @@
             "value" : "Crédits sonores"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riconoscimenti dei suoni"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3869,6 +4283,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Mettre une étoile sur GitHub"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metti una stella su GitHub"
           }
         },
         "tr" : {
@@ -3919,6 +4339,12 @@
             "value" : "Orage"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tempesta"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3965,6 +4391,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Ruisseau"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torrente"
           }
         },
         "tr" : {
@@ -4015,6 +4447,12 @@
             "value" : "Nuit d'été"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notte Estiva"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4063,6 +4501,12 @@
             "value" : "Système"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4109,6 +4553,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Sarcelle"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blu Tè"
           }
         },
         "tr" : {
@@ -4200,6 +4650,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Le préréglage par défaut ne peut pas être renommé"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La configurazione predefinita non può essere rinominata"
           }
         },
         "tr" : {
@@ -4336,6 +4792,12 @@
             "value" : "Train"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treno"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4382,6 +4844,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Traductions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Traduzioni"
           }
         },
         "tr" : {
@@ -4432,6 +4900,12 @@
             "value" : "Version %@ (%@)"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Versione %@ (%@)"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4478,6 +4952,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Vagues"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Onde"
           }
         },
         "tr" : {
@@ -4528,6 +5008,12 @@
             "value" : "Site web"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sito Web"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4574,6 +5060,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Bruit blanc"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rumore Bianco"
           }
         },
         "tr" : {
@@ -4624,6 +5116,12 @@
             "value" : "Vent"
           }
         },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vento"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4670,6 +5168,12 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "Jaune"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giallo"
           }
         },
         "tr" : {

@@ -62,12 +62,14 @@ Blankie makes it easy to mix different ambient sounds into a custom soundscape. 
 
 ## Supported Languages
 
-Blankie offers support in:
+Blankie automatically uses your system language when available. It currently supports more than 7 languages, including:
 
-- English
+- English, US [default]
+- English, Great Britain
 - Español (Spanish)
 - Deutsch (German)
 - Français (French)
+- Italiano (Italian)
 - Türkçe (Turkish)
 - 中文 (Chinese, Simplified)
 
@@ -77,6 +79,7 @@ Blankie offers support in:
 |----------|------------|
 | Español | Chuskas |
 | Türkçe | aybarsnazlica |
+| Italiano | davnr |
 | Deutsch | *Contributions welcome!* |
 | Français | *Contributions welcome!* |
 | 中文（简体) | *Contributions welcome!* |

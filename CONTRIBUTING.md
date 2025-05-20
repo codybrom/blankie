@@ -103,11 +103,11 @@ You can submit translations in three ways:
    # Make the tool executable
    chmod +x blanki18n.swift
    
-   # For CSV
-   ./blanki18n.swift path/to/your-translation.csv
-
-   # For JSON
-   # ./blanki18n.swift path/to/your-translation.json
+   # Using interactive mode (will prompt for language code)
+   ./blanki18n.swift path/to/your-translation.[csv|json]
+   
+   # Or specify language code directly
+   ./blanki18n.swift path/to/your-translation.[csv|json] es
    ```
 
    The tool will update `Localizable.xcstrings` directly with your translations for you to build and then test locally. You can then create a pull request with your changes on a fork.

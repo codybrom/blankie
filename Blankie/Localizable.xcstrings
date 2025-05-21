@@ -2398,7 +2398,6 @@
     },
     "Language" : {
       "comment" : "Preferences menu label",
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2446,6 +2445,40 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "语言"
+          }
+        }
+      }
+    },
+    "Language Changed" : {
+      "comment" : "Restart app to change language, alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language Changed"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language Changed"
+          }
+        }
+      }
+    },
+    "Later" : {
+      "comment" : "Restart app to change language, cancel button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Later"
           }
         }
       }
@@ -4047,6 +4080,23 @@
         }
       }
     },
+    "Restart Now" : {
+      "comment" : "Restart app to change language, restart now button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart Now"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restart Now"
+          }
+        }
+      }
+    },
     "Save" : {
       "comment" : "Save button",
       "extractionState" : "manual",
@@ -5252,6 +5302,23 @@
           "stringUnit" : {
             "state" : "needs_review",
             "value" : "黄色"
+          }
+        }
+      }
+    },
+    "You will need to restart Blankie for the language change to take effect." : {
+      "comment" : "Restart app to change language message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will need to restart Blankie for the language change to take effect."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You will need to restart Blankie for the language change to take effect."
           }
         }
       }

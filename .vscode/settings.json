@@ -11,5 +11,7 @@
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
-  }
+  },
+  "swift.diagnostics": true,
+  "swift.sourcekit-lsp.disable": true
 }

@@ -23,7 +23,7 @@ struct ImportSoundSheet: View {
   // Icon categories with curated selections
   private let iconCategories: [String: [String]] = [
     "Popular": [
-      "waveform.circle", "speaker.wave.2", "music.note", "ears", "waveform",
+      "waveform.circle", "speaker.wave.2", "music.note", "waveform",
       "leaf", "drop", "wind", "flame", "bolt", "cloud.rain",
       "cloud.bolt.rain", "beach.umbrella", "tornado", "umbrella",
       "bubbles.and.sparkles", "light.max", "bird", "water.waves",
@@ -106,7 +106,7 @@ struct ImportSoundSheet: View {
       "waveform.badge.exclamationmark", "waveform.badge.magnifyingglass",
       "waveform.and.person.filled",
       "waveform.badge.microphone", "metronome", "metronome.fill", "tuningfork", "headphones",
-      "headphones.circle", "headset", "ear", "ear.fill", "ears", "recordingtape",
+      "headphones.circle", "headset", "ear", "ear.fill", "recordingtape",
       "recordingtape.circle", "recordingtape.circle.fill", "radio", "radio.fill",
       "antenna.radiowaves.left.and.right.circle", "antenna.radiowaves.left.and.right.circle.fill",
       "hifireceiver", "hifireceiver.fill", "amplifier", "pianokeys", "pianokeys.inverse",
@@ -623,22 +623,39 @@ struct ImportSoundSheet: View {
 
     isProcessing = true
 
-    Task { @Sendable in
-      // Using the Sendable-compliant method that returns Result<CustomSoundData, CustomSoundError>
+    // Capture values before Task to avoid sendability issues
+    let file = selectedFile
+    let title = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
+    let icon = selectedIcon
+
+    Task.detached {
       let result = await CustomSoundManager.shared.importSound(
-        from: selectedFile,
-        title: soundName.trimmingCharacters(in: .whitespacesAndNewlines),
-        iconName: selectedIcon
+        from: file,
+        title: title,
+        iconName: icon
       )
+
+      // Extract sendable values from the result
+      let success: Bool
+      let errorMessage: String?
+
+      switch result {
+      case .success:
+        success = true
+        errorMessage = nil
+      case .failure(let error):
+        success = false
+        errorMessage = error.localizedDescription
+      }
 
       await MainActor.run {
         isProcessing = false
 
-        switch result {
-        case .success:
+        if success {
           dismiss()
-        case .failure(let error):
-          importError = error
+        } else if let message = errorMessage {
+          importError = NSError(
+            domain: "ImportError", code: -1, userInfo: [NSLocalizedDescriptionKey: message])
           showingError = true
         }
       }

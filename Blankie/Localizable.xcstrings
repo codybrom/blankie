@@ -4271,7 +4271,7 @@
         }
       }
     },
-    "Saving..." : {
+    "Saving changes..." : {
 
     },
     "Search icons or enter custom name..." : {
@@ -4446,9 +4446,6 @@
       }
     },
     "Sound File" : {
-
-    },
-    "Sound Name" : {
 
     },
     "Star on GitHub" : {

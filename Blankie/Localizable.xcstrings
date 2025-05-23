@@ -281,6 +281,9 @@
         }
       }
     },
+    "Add or Edit Custom Sounds" : {
+
+    },
     "Add Sound (Coming Soon!)" : {
       "comment" : "Add sound menu item",
       "extractionState" : "manual",
@@ -550,6 +553,9 @@
           }
         }
       }
+    },
+    "Are you sure you want to delete \"%@\"? This cannot be undone." : {
+
     },
     "Behavior" : {
       "comment" : "Preferences section",
@@ -1123,6 +1129,12 @@
         }
       }
     },
+    "Category" : {
+
+    },
+    "Change" : {
+
+    },
     "City" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -1490,6 +1502,9 @@
         }
       }
     },
+    "Custom Sounds" : {
+
+    },
     "Cyan" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -1760,6 +1775,12 @@
         }
       }
     },
+    "Delete sound" : {
+
+    },
+    "Delete Sound" : {
+
+    },
     "Developed By" : {
       "comment" : "Developed by label",
       "extractionState" : "manual",
@@ -1813,6 +1834,15 @@
           }
         }
       }
+    },
+    "Display Name" : {
+
+    },
+    "Done" : {
+
+    },
+    "Edit" : {
+
     },
     "Edit Preset" : {
       "comment" : "Edit preset sheet title",
@@ -1868,6 +1898,12 @@
         }
       }
     },
+    "Edit sound" : {
+
+    },
+    "Edit Sound" : {
+
+    },
     "Edited by" : {
       "comment" : "Attribution edited by label",
       "extractionState" : "manual",
@@ -1921,6 +1957,9 @@
           }
         }
       }
+    },
+    "Enter a name for this sound" : {
+
     },
     "Error" : {
       "comment" : "Error alert title",
@@ -2181,6 +2220,9 @@
         }
       }
     },
+    "Icon" : {
+
+    },
     "If disabled, Blankie will immediately play your most recent preset on launch" : {
       "comment" : "Help for \"Always start paused\" toggle",
       "extractionState" : "manual",
@@ -2234,6 +2276,21 @@
           }
         }
       }
+    },
+    "Import" : {
+
+    },
+    "Import Error" : {
+
+    },
+    "Import Sound" : {
+
+    },
+    "Import your own sounds to personalize your mix." : {
+
+    },
+    "Importing sound..." : {
+
     },
     "Indigo" : {
       "comment" : "Accent color name",
@@ -2860,6 +2917,12 @@
           }
         }
       }
+    },
+    "No Custom Sounds" : {
+
+    },
+    "No matching icons found" : {
+
     },
     "NSHumanReadableCopyright" : {
       "comment" : "Human readable copyright string",
@@ -3594,6 +3657,9 @@
         }
       }
     },
+    "Press Return or click \"Use Custom\" to use\n\"%@\" as a custom icon name" : {
+
+    },
     "Public Domain" : {
       "comment" : "Audio license type",
       "extractionState" : "manual",
@@ -4205,6 +4271,18 @@
         }
       }
     },
+    "Saving..." : {
+
+    },
+    "Search icons or enter custom name..." : {
+
+    },
+    "Select Sound File" : {
+
+    },
+    "Selected:" : {
+
+    },
     "Show All Sounds" : {
       "comment" : "View menu item",
       "extractionState" : "manual",
@@ -4366,6 +4444,12 @@
           }
         }
       }
+    },
+    "Sound File" : {
+
+    },
+    "Sound Name" : {
+
     },
     "Star on GitHub" : {
       "comment" : "Link label",
@@ -4981,6 +5065,9 @@
           }
         }
       }
+    },
+    "Use Custom" : {
+
     },
     "Version %@ (%@)" : {
       "comment" : "Version string",

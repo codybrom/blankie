@@ -19,12 +19,14 @@ struct Preset: Codable, Identifiable, Equatable {
   }
 
   func validate() -> Bool {
-    // Check required sound states
-    let requiredSounds = AudioManager.shared.sounds.map(\.fileName)
+    // Check required sound states for built-in sounds only
+    // Custom sounds should be optional in presets
+    let allSounds = AudioManager.shared.sounds
+    let builtInSounds = allSounds.filter { !($0 is CustomSound) }.map(\.fileName)
     let presetSounds = Set(soundStates.map(\.fileName))
 
-    guard requiredSounds.allSatisfy(presetSounds.contains) else {
-      print("❌ Preset: Missing required sounds")
+    guard builtInSounds.allSatisfy(presetSounds.contains) else {
+      print("❌ Preset: Missing required built-in sounds")
       return false
     }
 

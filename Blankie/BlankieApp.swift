@@ -19,6 +19,18 @@ struct BlankieApp: App {
   @State private var showingNewPresetPopover = false
   @State private var presetName = ""
 
+  let modelContainer: ModelContainer
+
+  // Initialize SwiftData
+  init() {
+    do {
+      modelContainer = try ModelContainer(for: CustomSoundData.self)
+      print("🗄️ BlankieApp: Successfully created SwiftData model container")
+    } catch {
+      fatalError("❌ BlankieApp: Failed to create SwiftData model container: \(error)")
+    }
+  }
+
   var body: some Scene {
     Window("Blankie", id: "main") {
       WindowDefaults.defaultContentView(
@@ -27,7 +39,12 @@ struct BlankieApp: App {
         showingNewPresetPopover: $showingNewPresetPopover,
         presetName: $presetName
       )
+      .onAppear {
+        // Pass model context to AudioManager for custom sounds
+        AudioManager.shared.setModelContext(modelContainer.mainContext)
+      }
     }
+    .modelContainer(modelContainer)
     .defaultPosition(.center)
     .windowResizability(.contentSize)
     .windowStyle(.automatic)

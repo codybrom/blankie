@@ -12,6 +12,8 @@ struct BlankieToolbar: ToolbarContent {
   @Binding var showingShortcuts: Bool
   @Binding var showingNewPresetPopover: Bool
   @Binding var presetName: String
+  @State private var showingImportSoundSheet = false
+  @State private var showingCustomSoundsView = false
 
   @ObservedObject private var appState = AppState.shared
   @StateObject private var audioManager = AudioManager.shared
@@ -26,11 +28,10 @@ struct BlankieToolbar: ToolbarContent {
 
     ToolbarItem(placement: .primaryAction) {
       Menu {
-        Button("Add Sound (Coming Soon!)") {
-          // Implement add sound functionality
+        Button("Add or Edit Custom Sounds") {
+          showingCustomSoundsView = true
         }
         .keyboardShortcut("o", modifiers: .command)
-        .disabled(true)
 
         Button {
           withAnimation {
@@ -77,6 +78,13 @@ struct BlankieToolbar: ToolbarContent {
       }
       .menuIndicator(.hidden)
       .menuStyle(.borderlessButton)
+      .sheet(isPresented: $showingImportSoundSheet) {
+        ImportSoundSheet()
+      }
+      .sheet(isPresented: $showingCustomSoundsView) {
+        CustomSoundsView()
+          .frame(width: 450, height: 500)
+      }
     }
   }
 }

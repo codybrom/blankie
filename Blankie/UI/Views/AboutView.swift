@@ -61,7 +61,7 @@ struct AboutView: View {
           HStack(spacing: 4) {
             Image(systemName: "globe")
             Link("blankie.rest", destination: URL(string: "https://blankie.rest")!)
-                  .handCursor()
+              .handCursor()
           }
 
           Link(destination: URL(string: "https://github.com/codybrom/blankie")!) {
@@ -84,7 +84,7 @@ struct AboutView: View {
 
           }
           .handCursor()
-            
+
         }
         .font(.system(size: 12))
 
@@ -175,7 +175,7 @@ struct AboutView: View {
           }
           .foregroundColor(.accentColor)
           .handCursor()
-            
+
           Text("•")
             .foregroundStyle(.secondary)
 
@@ -438,7 +438,7 @@ struct AboutView: View {
             .onTapGesture {
               NSWorkspace.shared.open(soundUrl)
             }
-            .handCursor() 
+            .handCursor()
         } else {
           // Without link case
           Text(credit.soundName)
@@ -476,12 +476,11 @@ struct AboutView: View {
 struct HandCursorOnHover: ViewModifier {
   func body(content: Content) -> some View {
     #if os(macOS)
-    content.onHover { hovering in
-      if hovering { NSCursor.pointingHand.push() }
-      else        { NSCursor.pop() }
-    }
+      content.onHover { hovering in
+        if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+      }
     #else
-    content
+      content
     #endif
   }
 }

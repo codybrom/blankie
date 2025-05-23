@@ -1,0 +1,215 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+import screenshot from "../assets/screenshot.png";
+import bg1 from "../assets/bg-1.png";
+import bg2 from "../assets/bg-2.png";
+import bg3 from "../assets/bg-3.png";
+import bg4 from "../assets/bg-4.png";
+
+const title = "Features - Blankie";
+---
+
+<Layout title={title}>
+  <!-- Hero & High-Quality Audio Section -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={bg2} alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+
+    <!-- Hero -->
+    <div class="relative max-w-4xl mx-auto px-5 py-20 text-center mt-16">
+      <h1
+        class="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter mb-6"
+      >
+        Everything you need for the perfect ambient soundscape
+      </h1>
+      <p class="text-xl text-gray-300 mb-8">
+        Discover all the features that make Blankie the best ambient sound mixer
+        for macOS.
+      </p>
+    </div>
+
+    <!-- High-Quality Audio -->
+    <div class="relative max-w-6xl mx-auto px-5 pb-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-semibold mb-6">🎚️ High-Quality Audio</h2>
+          <p class="text-lg text-gray-300 mb-6">
+            14 carefully curated ambient sounds recorded in high fidelity. From
+            gentle rain and ocean waves to crackling fireplaces and bustling
+            coffee shops.
+          </p>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              Individual volume controls for each sound
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              High-quality audio files optimized for long listening
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              Mix and match sounds to create your perfect environment
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              Seamless loops with no gaps or interruptions
+            </li>
+          </ul>
+        </div>
+        <div class="flex justify-center">
+          <Image
+            src={screenshot}
+            alt="Blankie interface showing audio controls"
+            width={400}
+            height={584}
+            class="rounded-lg shadow-lg"
+            quality={90}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preset System & macOS Integration Section -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={bg3} alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+
+    <!-- Preset System -->
+    <div class="relative max-w-6xl mx-auto px-5 py-12">
+      <div
+        class="grid grid-cols-1 lg:grid-cols-2 gap-2 lg:gap-4 items-center mb-8"
+      >
+        <div class="order-2 lg:order-1 flex justify-center">
+          <div class="bg-card rounded-xl p-8 max-w-md">
+            <div class="space-y-3">
+              <div class="bg-black/30 rounded-lg p-3">
+                <div class="font-medium">☔️ Rainy Day Focus</div>
+                <div class="text-sm text-gray-400">
+                  Rain + Storm + Coffee Shop
+                </div>
+              </div>
+              <div class="bg-black/30 rounded-lg p-3">
+                <div class="font-medium">🌊 Ocean Meditation</div>
+                <div class="text-sm text-gray-400">Waves + Wind + Boat</div>
+              </div>
+              <div class="bg-black/30 rounded-lg p-3">
+                <div class="font-medium">🔥 Cozy Evening</div>
+                <div class="text-sm text-gray-400">Fireplace + Rain + Wind</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <h2 class="text-3xl font-semibold mb-6">💾 Preset Perfection</h2>
+          <p class="text-lg text-gray-300 mb-6">
+            Save your favorite mixes and switch between them instantly. Perfect
+            for different moods, activities or times of day.
+          </p>
+          <ul class="space-y-3 text-gray-300">
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              Use unlimited custom presets to save your favorite mixes
+            </li>
+            <li class="flex items-center gap-3">
+              <span class="text-yellow-300">✓</span>
+              One-click switching from toolbar preset picker
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- macOS Integration -->
+    <div class="relative max-w-6xl mx-auto px-5 pb-12 mb-6">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-semibold mb-6"> Made for macOS</h2>
+        <p class="text-lg text-gray-300 max-w-3xl mx-auto">
+          Blankie integrates seamlessly with macOS, feeling like a native part
+          of your system. It just works the way you'd expect.
+        </p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-card rounded-xl p-6">
+          <div class="text-2xl mb-4">⌨️</div>
+          <h3 class="text-lg font-semibold mb-3">Media Controls</h3>
+          <p class="text-gray-300">
+            Works with media keys, AirPods, and other Bluetooth headphones for
+            seamless control.
+          </p>
+        </div>
+        <div class="bg-card rounded-xl p-6">
+          <div class="text-2xl mb-4">🎛️</div>
+          <h3 class="text-lg font-semibold mb-3">Control Center</h3>
+          <p class="text-gray-300">
+            See now playing information and preset names in the macOS Control
+            Center.
+          </p>
+        </div>
+        <div class="bg-card rounded-xl p-6">
+          <div class="text-2xl mb-4">⚡</div>
+          <h3 class="text-lg font-semibold mb-3">Native Performance</h3>
+          <p class="text-gray-300">
+            Built with Swift for optimal performance and energy efficiency on
+            Apple Silicon and Intel Macs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon & CTA Section -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0">
+      <Image src={bg1} alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/70"></div>
+    </div>
+    <div class="relative max-w-4xl mx-auto px-5 py-12 text-center">
+      <div class="bg-card/30 rounded-2xl p-8 border border-yellow-500/20 mb-12">
+        <h2 class="text-3xl font-semibold mb-6">🔮 What's Coming Next</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-card/30 rounded-xl p-6">
+            <div class="text-2xl mb-3">📁</div>
+            <h3 class="text-lg font-semibold mb-2">Custom Sound Import</h3>
+            <p class="text-gray-300">
+              Add your own audio files to create truly personalized soundscapes.
+            </p>
+          </div>
+          <div class="bg-card/20 rounded-xl p-6">
+            <div class="text-2xl mb-3">📱</div>
+            <h3 class="text-lg font-semibold mb-2">iOS & iPadOS</h3>
+            <p class="text-gray-300">
+              Bring your favorite ambient sounds to iPhone and iPad.
+            </p>
+          </div>
+        </div>
+        <p class="text-gray-400 mt-6">
+          Have feature requests? <a
+            href="/contributing"
+            class="text-yellow-300 hover:text-yellow-200 transition-colors"
+            >Let us know!</a
+          >
+        </p>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center">
+        <h2 class="text-2xl font-semibold mb-4">
+          Ready to experience Blankie?
+        </h2>
+        <a
+          href="/#download"
+          class="inline-flex items-center px-6 py-3 text-lg font-semibold text-black bg-yellow-300 hover:bg-yellow-200 rounded-lg transition-colors duration-200"
+        >
+          Download Now
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

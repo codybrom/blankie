@@ -37,7 +37,7 @@ const formattedInitialStars =
   href={`https://github.com/${REPO}`}
   target="_blank"
   rel="noopener noreferrer"
-  class="inline-flex items-center text-sm group hover:bg-[#30363d] transition-colors duration-200 rounded-md border border-mid-gray"
+  class="inline-flex items-center text-sm group hover:bg-[#30363d] transition-colors duration-200 rounded-md border border-mid-gray w-fit"
   title="Star us on GitHub"
   id="github-stars-link"
 >
@@ -74,7 +74,8 @@ const formattedInitialStars =
     const CACHE_DURATION = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
     const countElement = document.getElementById("github-stars-count");
-    if (!countElement) return;
+    const countElementMedium = document.getElementById("github-stars-count-medium");
+    if (!countElement && !countElementMedium) return;
 
     // Check if we have a recent cached value
     const cachedData = localStorage.getItem(CACHE_KEY);
@@ -85,9 +86,9 @@ const formattedInitialStars =
 
         if (age < CACHE_DURATION) {
           // Use cached data if it's less than 6 hours old
-          countElement.textContent = new Intl.NumberFormat("en-US").format(
-            stars
-          );
+          const formattedStars = new Intl.NumberFormat("en-US").format(stars);
+          if (countElement) countElement.textContent = formattedStars;
+          if (countElementMedium) countElementMedium.textContent = formattedStars;
           return;
         }
       } catch (e) {
@@ -114,10 +115,10 @@ const formattedInitialStars =
         const stars = data.stargazers_count;
 
         // Update the displayed count
-        if (stars && countElement) {
-          countElement.textContent = new Intl.NumberFormat("en-US").format(
-            stars
-          );
+        if (stars) {
+          const formattedStars = new Intl.NumberFormat("en-US").format(stars);
+          if (countElement) countElement.textContent = formattedStars;
+          if (countElementMedium) countElementMedium.textContent = formattedStars;
         }
 
         // Cache the result with a timestamp

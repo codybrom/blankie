@@ -15,6 +15,8 @@
     <p><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie"></p>
     <p><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="200"></p>
   </a>
+  
+  <p><a href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=light&t=1747948853827" alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a></p>
 </div>
 
 ## Installation Options

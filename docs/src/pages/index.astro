@@ -4,6 +4,9 @@ import { Image } from "astro:assets";
 import screenshot from "../assets/screenshot.png";
 import macAppStoreBadge from "../assets/download-on-mac-app-store.svg";
 import wavesVideo from "../assets/waves.mp4";
+import ghSVG from "../assets/github.svg";
+import bmcSVG from "../assets/bmc.svg";
+import kfSVG from "../assets/kofi.svg";
 
 const title = "Ambient sound mixer for macOS";
 ---
@@ -387,6 +390,61 @@ const title = "Ambient sound mixer for macOS";
           >Learn more about TestFlight</a
         >
       </p>
+    </div>
+  </section>
+
+  <!-- Support Section -->
+  <section class="max-w-3xl mx-auto px-5 py-10 my-4 text-center">
+    <h4 class="text-xl font-semibold mb-2">
+      Blankie is made with love and caffeine
+    </h4>
+    <p class="mb-6 text-gray-200 text-sm">
+      If you enjoy using it and want to support its creator and development, you
+      can use the links below:
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a
+        href="https://github.com/sponsors/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={ghSVG.src}
+          alt="GitHub Logo"
+          aria-label="GitHub"
+        />
+        GitHub Sponsors
+      </a>
+      <a
+        href="https://buymeacoffee.com/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={bmcSVG.src}
+          alt="Buy Me a Coffee Logo"
+          aria-label="Buy Me a Coffee"
+        />
+        Buy Me a Coffee
+      </a>
+      <a
+        href="https://ko-fi.com/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={kfSVG.src}
+          alt="Ko-fi Logo"
+          aria-label="Ko-fi"
+        />
+        Ko-fi
+      </a>
     </div>
   </section>
 

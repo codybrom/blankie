@@ -77,12 +77,12 @@ We welcome translation contributions from the community! To help translate Blank
 2. Translate the strings in the CSV or JSON file
 3. Submit your translations either:
    - Through a [GitHub Issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+)
-   - By emailing updated localization templates to i18n@blankie.rest
+   - By emailing updated localization templates to <i18n@blankie.rest>
    - Creating a pull request on our [GitHub repository](https://github.com/codybrom/blankie) with changes added to `Localizable.xcstrings`
 
 No coding experience is required to contribute translations! For more detailed instructions, see our [contribution guidelines](https://blankie.rest/contributing#translation-contributions).
 
-If you notice any translation issues or have general feedback about existing translations, please email i18n@blankie.rest.
+If you notice any translation issues or have general feedback about existing translations, please email <i18n@blankie.rest>.
 
 ## How can I contribute to Blankie?
 

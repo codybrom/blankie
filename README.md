@@ -2,6 +2,7 @@
   <img src="docs/src/assets/icon.png" alt="Blankie logo" width="153" height="128"/>
   
 # Blankie
+
   Ambient sound mixer for macOS
   <p align="center">
     <img src="https://img.shields.io/badge/macOS%2014.6+-111111?style=flat-square&logo=apple&logoColor=white" alt="macOS">
@@ -65,11 +66,12 @@ Additionally, Blankie is coming to iOS, iPadOS, and visionOS! You can join the T
 [Join the Blankie TestFlight Beta](https://testflight.apple.com/join/XgpBpWv8)
 
 ## Features
+
 - **Includes 14 high-quality ambient sounds**
 - Individual volume sliders for each sound
 - Save unlimited custom presets for quick preset switching
 - Beautiful SwiftUI interface with automatic light/dark mode support and custom accent colors
-- System media key and Control Center support 
+- System media key and Control Center support
 
 ### 🌍 Internationalization & Localization
 

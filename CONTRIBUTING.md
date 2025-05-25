@@ -71,7 +71,7 @@ Blankie aims to be accessible to users around the world, which means we need hel
 
 4. **Submit Your Translation**: There are two ways to submit translations:
    * **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your JSON file
-   * **Email**: Send updated translation files or general feedback to i18n@blankie.rest
+   * **Email**: Send updated translation files or general feedback to <i18n@blankie.rest>
 
 ### Translation Guidelines
 
@@ -95,7 +95,7 @@ You can submit translations in three ways:
 
 1. **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your updated JSON or CSV file
 
-2. **Email**: Send your translation files to i18n@blankie.rest
+2. **Email**: Send your translation files to <i18n@blankie.rest>
 
 3. **Direct Import**: If you're comfortable using a command line and XCode you can use our `blanki18n` tool to import your translations directly into the app. This is the preferred method for developers and contributors who want to test their translations locally.
 

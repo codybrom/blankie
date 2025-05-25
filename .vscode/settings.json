@@ -1,10 +1,12 @@
 {
+  "[swift]": {
+    "editor.defaultFormatter": "vknabel.vscode-apple-swift-format",
+    "editor.formatOnSave": true
+  },
   "markdownlint.config": {
     "default": true,
-    "MD013": false,
     "MD033": false,
-    "MD034": false,
-    "MD041": false
+    "MD041": false,
   },
   "cSpell.words": [
     "aybarsnazlica",

@@ -61,11 +61,13 @@ Blankie's complete source code, including both the macOS app and this entire web
 
 Blankie is currently available in the following languages:
 
-- English (en, en-GB)
-- Spanish (es)
-- French (fr)
-- German (de)
-- Simplified Chinese (zh-Hans)
+- English - Default (en, en-GB)
+- Deutsch (de)
+- Español (es)
+- Français (fr)
+- Italiano (it)
+- Türkçe (tr)
+- 简体中文 (zh-Hans)
 
 We're actively working on translations for more languages, and you can help! If you'd like to contribute translations for your language, visit our [translation page](https://blankie.rest/i18n) to see the current status and download a translation template.
 

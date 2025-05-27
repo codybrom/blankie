@@ -5,14 +5,19 @@
   },
   "markdownlint.config": {
     "default": true,
+    "MD013": false,
     "MD033": false,
     "MD041": false,
+    "MD024": {
+      "siblings_only": true
+    }
   },
   "cSpell.words": [
     "aybarsnazlica",
     "blanki",
     "blanki8n",
     "Blankie",
+    "Chuscas",
     "Chuskas",
     "codybrom",
     "davnr",
@@ -25,11 +30,13 @@
     "kofi",
     "Mardojai",
     "playform",
+    "Sonoma",
     "Türkçe",
     "Twitterbot",
     "xcconfig",
     "xcstrings",
-    "yournamehere"
+    "yournamehere",
+    "简体中文",
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"

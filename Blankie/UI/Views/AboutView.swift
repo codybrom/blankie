@@ -245,11 +245,45 @@ struct AboutView: View {
         .font(.system(size: 13, weight: .bold))
         .padding(.bottom, 4)  // Same spacing after title
 
-      ForEach(translators.keys.sorted(), id: \.self) { language in
-        // Only show languages with at least one translator
-        if let translatorList = translators[language], !translatorList.isEmpty {
+      // Filter out languages without translators
+      let translatedLanguages = translators.filter { !$0.value.isEmpty }.keys.sorted()
+      let isOddCount = translatedLanguages.count % 2 != 0
+
+      // Split languages for grid and potential last item
+      let gridLanguages = isOddCount ? Array(translatedLanguages.dropLast()) : translatedLanguages
+      let lastLanguage = isOddCount ? translatedLanguages.last : nil
+
+      VStack(spacing: 12) {
+        // Two-column grid for even items
+        if !gridLanguages.isEmpty {
+          LazyVGrid(columns: [GridItem(.fixed(150)), GridItem(.fixed(150))], spacing: 20) {
+            ForEach(gridLanguages, id: \.self) { language in
+              if let translatorList = translators[language], !translatorList.isEmpty {
+                VStack(spacing: 4) {
+                  Text(language)
+                    .font(.system(size: 12, weight: .medium))
+                    .italic()
+                    .foregroundStyle(.secondary)
+
+                  Text(translatorList.joined(separator: ", "))
+                    .font(.system(size: 13))
+                    .multilineTextAlignment(.center)
+                    .lineLimit(3)
+                    .fixedSize(horizontal: false, vertical: true)
+                }
+                .frame(width: 150, alignment: .center)
+              }
+            }
+          }
+          .frame(maxWidth: .infinity)
+        }
+
+        // Centered last item if odd count
+        if let lastLanguage = lastLanguage,
+          let translatorList = translators[lastLanguage], !translatorList.isEmpty
+        {
           VStack(spacing: 4) {
-            Text(language)
+            Text(lastLanguage)
               .font(.system(size: 12, weight: .medium))
               .italic()
               .foregroundStyle(.secondary)
@@ -260,8 +294,7 @@ struct AboutView: View {
               .lineLimit(3)
               .fixedSize(horizontal: false, vertical: true)
           }
-          .frame(maxWidth: .infinity, alignment: .center)
-          .padding(.vertical, 2)  // Slightly reduced vertical padding
+          .frame(width: 150, alignment: .center)
         }
       }
     }

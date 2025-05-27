@@ -203,7 +203,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "À propos de Blankie"
           }
         },
@@ -221,7 +221,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "关于 Blankie"
           }
         }
@@ -257,8 +257,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Couleur d'accent"
+            "state" : "translated",
+            "value" : "Couleur d’accentuation"
           }
         },
         "it" : {
@@ -275,7 +275,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "强调色"
           }
         }
@@ -314,7 +314,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ajouter un son (bientôt disponible !)"
           }
         },
@@ -332,8 +332,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "添加声音（即将推出！）"
+            "state" : "translated",
+            "value" : "添加音效（即将推出！）"
           }
         }
       }
@@ -368,7 +368,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tous les sons"
           }
         },
@@ -386,8 +386,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "所有声音"
+            "state" : "translated",
+            "value" : "所有音效"
           }
         }
       }
@@ -422,7 +422,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Toujours démarrer en pause"
           }
         },
@@ -440,8 +440,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "总是以暂停状态启动"
+            "state" : "translated",
+            "value" : "启动时暂停播放"
           }
         }
       }
@@ -476,7 +476,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Apparence"
           }
         },
@@ -494,7 +494,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "外观"
           }
         }
@@ -530,7 +530,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
           }
         },
@@ -548,7 +548,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "您确定要删除“%@”吗？此操作无法撤销。"
           }
         }
@@ -587,7 +587,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Comportement"
           }
         },
@@ -605,8 +605,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "行为"
+            "state" : "translated",
+            "value" : "功能"
           }
         }
       }
@@ -641,7 +641,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Oiseaux"
           }
         },
@@ -659,7 +659,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "鸟鸣"
           }
         }
@@ -738,8 +738,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aide Blankie"
+            "state" : "translated",
+            "value" : "Aide de Blankie"
           }
         },
         "it" : {
@@ -756,7 +756,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Blankie 帮助"
           }
         }
@@ -792,8 +792,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Paramètres Blankie"
+            "state" : "translated",
+            "value" : "Paramètres de Blankie"
           }
         },
         "it" : {
@@ -810,7 +810,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Blankie 设置"
           }
         }
@@ -889,7 +889,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bleu"
           }
         },
@@ -907,7 +907,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "蓝色"
           }
         }
@@ -943,7 +943,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bateau"
           }
         },
@@ -961,7 +961,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "船"
           }
         }
@@ -997,7 +997,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Marron"
           }
         },
@@ -1015,7 +1015,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "棕色"
           }
         }
@@ -1051,7 +1051,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Par"
           }
         },
@@ -1069,7 +1069,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "作者"
           }
         }
@@ -1105,7 +1105,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Annuler"
           }
         },
@@ -1123,7 +1123,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "取消"
           }
         }
@@ -1165,7 +1165,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ville"
           }
         },
@@ -1183,7 +1183,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "城市"
           }
         }
@@ -1219,7 +1219,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fermer"
           }
         },
@@ -1237,7 +1237,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "关闭"
           }
         }
@@ -1273,7 +1273,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fermer la fenêtre"
           }
         },
@@ -1291,7 +1291,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "关闭窗口"
           }
         }
@@ -1370,7 +1370,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cody Bromley et les contributeurs. Tous droits réservés."
           }
         },
@@ -1388,7 +1388,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cody Bromley 和贡献者。保留所有权利。"
           }
         }
@@ -1424,7 +1424,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Café"
           }
         },
@@ -1442,8 +1442,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "咖啡馆"
+            "state" : "translated",
+            "value" : "咖啡店"
           }
         }
       }
@@ -1478,7 +1478,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Contributeurs"
           }
         },
@@ -1496,7 +1496,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "贡献者"
           }
         }
@@ -1535,7 +1535,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cyan"
           }
         },
@@ -1553,8 +1553,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "青蓝色"
+            "state" : "translated",
+            "value" : "青色"
           }
         }
       }
@@ -1589,7 +1589,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sombre"
           }
         },
@@ -1607,7 +1607,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "深色"
           }
         }
@@ -1643,7 +1643,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Par défaut"
           }
         },
@@ -1661,7 +1661,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "默认"
           }
         }
@@ -1697,7 +1697,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer"
           }
         },
@@ -1715,7 +1715,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "删除"
           }
         }
@@ -1751,7 +1751,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer le préréglage"
           }
         },
@@ -1769,7 +1769,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "删除预设"
           }
         }
@@ -1811,7 +1811,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Développé par"
           }
         },
@@ -1829,7 +1829,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "开发者"
           }
         }
@@ -1874,7 +1874,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Modifier le préréglage"
           }
         },
@@ -1892,7 +1892,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "编辑预设"
           }
         }
@@ -1934,7 +1934,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Édité par"
           }
         },
@@ -1952,7 +1952,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "编辑"
           }
         }
@@ -1991,7 +1991,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Erreur"
           }
         },
@@ -2009,7 +2009,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "错误"
           }
         }
@@ -2045,8 +2045,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cheminée"
+            "state" : "translated",
+            "value" : "Feu de Cheminée"
           }
         },
         "it" : {
@@ -2063,7 +2063,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "壁炉"
           }
         }
@@ -2142,7 +2142,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vert"
           }
         },
@@ -2160,7 +2160,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "绿色"
           }
         }
@@ -2196,7 +2196,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Masquer les sons inactifs"
           }
         },
@@ -2214,8 +2214,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "隐藏未激活声音"
+            "state" : "translated",
+            "value" : "隐藏未启用音效"
           }
         }
       }
@@ -2253,7 +2253,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Si désactivé, Blankie jouera immédiatement votre préréglage le plus récent au lancement"
           }
         },
@@ -2322,7 +2322,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Indigo"
           }
         },
@@ -2340,7 +2340,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "靛蓝色"
           }
         }
@@ -2375,7 +2375,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Inspiré par Blanket par Rafael Mardojai CM"
           }
         },
@@ -2393,8 +2393,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "受到 Blanket Rafael Mardojai CM 的激励"
+            "state" : "translated",
+            "value" : "受到 Rafael Mardojai CM的Blanket启发"
           }
         }
       }
@@ -2429,7 +2429,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Raccourcis clavier"
           }
         },
@@ -2447,7 +2447,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "键盘快捷键"
           }
         }
@@ -2482,7 +2482,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Langue"
           }
         },
@@ -2500,7 +2500,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "语言"
           }
         }
@@ -2520,6 +2520,18 @@
             "state" : "translated",
             "value" : "Language Changed"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue modifiée"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言已变更"
+          }
         }
       }
     },
@@ -2536,6 +2548,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Later"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "稍后重启"
           }
         }
       }
@@ -2570,7 +2594,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "En savoir plus sur la Licence MIT"
           }
         },
@@ -2588,8 +2612,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "了解更多关于 MIT许可协议"
+            "state" : "translated",
+            "value" : "了解更多关于 MIT许可协议的内容"
           }
         }
       }
@@ -2624,7 +2648,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Clair"
           }
         },
@@ -2642,7 +2666,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "浅色"
           }
         }
@@ -2678,7 +2702,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Chargement des préréglages..."
           }
         },
@@ -2696,8 +2720,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "加载预先设置中……"
+            "state" : "translated",
+            "value" : "加载预设中……"
           }
         }
       }
@@ -2732,7 +2756,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Menthe"
           }
         },
@@ -2750,7 +2774,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "薄荷色"
           }
         }
@@ -2786,7 +2810,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouveau préréglage"
           }
         },
@@ -2804,7 +2828,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "新预设"
           }
         }
@@ -2840,7 +2864,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouvelle fenêtre"
           }
         },
@@ -2858,7 +2882,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "新窗口"
           }
         }
@@ -2894,7 +2918,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aucun préréglage personnalisé"
           }
         },
@@ -2912,8 +2936,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "没有自定义预设"
+            "state" : "translated",
+            "value" : "无自定义预设"
           }
         }
       }
@@ -2997,7 +3021,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ok"
           }
         },
@@ -3015,7 +3039,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "确定"
           }
         }
@@ -3051,7 +3075,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Orange"
           }
         },
@@ -3069,7 +3093,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "橙色"
           }
         }
@@ -3148,7 +3172,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Rose"
           }
         },
@@ -3166,7 +3190,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "粉色"
           }
         }
@@ -3202,7 +3226,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bruit rose"
           }
         },
@@ -3220,8 +3244,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "粉噪音"
+            "state" : "translated",
+            "value" : "粉噪声"
           }
         }
       }
@@ -3256,8 +3280,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Lire/Pause les sons"
+            "state" : "translated",
+            "value" : "Lire/Mettre en pause les sons"
           }
         },
         "it" : {
@@ -3274,8 +3298,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "播放/暂停声音"
+            "state" : "translated",
+            "value" : "播放/暂停音效"
           }
         }
       }
@@ -3310,7 +3334,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lecture en pause"
           }
         },
@@ -3328,7 +3352,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "播放已暂停"
           }
         }
@@ -3364,7 +3388,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préférences"
           }
         },
@@ -3382,7 +3406,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "偏好设置"
           }
         }
@@ -3418,7 +3442,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préférences..."
           }
         },
@@ -3436,7 +3460,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "偏好设置……"
           }
         }
@@ -3471,7 +3495,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préréglage %d"
           }
         },
@@ -3489,7 +3513,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "预设 %d"
           }
         }
@@ -3525,7 +3549,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nom du préréglage"
           }
         },
@@ -3543,7 +3567,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "预设名称"
           }
         }
@@ -3579,7 +3603,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Le nom du préréglage ne peut pas être vide"
           }
         },
@@ -3597,7 +3621,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "预设名称不能为空"
           }
         }
@@ -3633,7 +3657,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préréglages"
           }
         },
@@ -3651,7 +3675,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "预设"
           }
         }
@@ -3690,7 +3714,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Domaine public"
           }
         },
@@ -3708,7 +3732,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "公有领域"
           }
         }
@@ -3744,7 +3768,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Violet"
           }
         },
@@ -3762,7 +3786,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "紫色"
           }
         }
@@ -3798,7 +3822,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Quitter"
           }
         },
@@ -3816,7 +3840,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "退出"
           }
         }
@@ -3852,7 +3876,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Quitter Blankie"
           }
         },
@@ -3870,7 +3894,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "退出 Blankie"
           }
         }
@@ -3906,7 +3930,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Pluie"
           }
         },
@@ -3924,7 +3948,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "雨"
           }
         }
@@ -3960,7 +3984,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Rouge"
           }
         },
@@ -3978,7 +4002,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "红色"
           }
         }
@@ -4014,7 +4038,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Renommer le préréglage"
           }
         },
@@ -4032,7 +4056,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "重命名预设"
           }
         }
@@ -4068,7 +4092,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Signaler un problème"
           }
         },
@@ -4086,7 +4110,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "报告问题"
           }
         }
@@ -4122,7 +4146,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Réinitialiser les sons"
           }
         },
@@ -4140,8 +4164,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "重置声音"
+            "state" : "translated",
+            "value" : "重置音效"
           }
         }
       }
@@ -4159,6 +4183,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Restart Now"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrer maintenant"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "立即重启"
           }
         }
       }
@@ -4193,7 +4229,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Enregistrer"
           }
         },
@@ -4211,7 +4247,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "保存"
           }
         }
@@ -4247,7 +4283,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
           }
         },
@@ -4265,8 +4301,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "将您当前的声音配置保存为预设，以便之后快速访问。"
+            "state" : "translated",
+            "value" : "将您当前的音效配置保存为预设，以便之后快速使用。"
           }
         }
       }
@@ -4313,7 +4349,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Afficher tous les sons"
           }
         },
@@ -4331,8 +4367,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "显示所有声音"
+            "state" : "translated",
+            "value" : "显示所有音效"
           }
         }
       }
@@ -4367,7 +4403,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Licence logicielle"
           }
         },
@@ -4385,7 +4421,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "软件许可"
           }
         }
@@ -4421,8 +4457,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Crédits sonores"
+            "state" : "translated",
+            "value" : "Crédits des sons"
           }
         },
         "it" : {
@@ -4439,8 +4475,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "声音致谢"
+            "state" : "translated",
+            "value" : "音效致谢"
           }
         }
       }
@@ -4478,7 +4514,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Mettre une étoile sur GitHub"
           }
         },
@@ -4496,8 +4532,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub 收藏"
+            "state" : "translated",
+            "value" : "在GitHub上收藏"
           }
         }
       }
@@ -4532,7 +4568,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Orage"
           }
         },
@@ -4550,8 +4586,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "风暴"
+            "state" : "translated",
+            "value" : "雷雨"
           }
         }
       }
@@ -4586,7 +4622,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ruisseau"
           }
         },
@@ -4604,7 +4640,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "溪流"
           }
         }
@@ -4640,7 +4676,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nuit d'été"
           }
         },
@@ -4658,7 +4694,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "夏夜"
           }
         }
@@ -4694,7 +4730,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Système"
           }
         },
@@ -4712,8 +4748,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "系统"
+            "state" : "translated",
+            "value" : "跟随系统"
           }
         }
       }
@@ -4748,7 +4784,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sarcelle"
           }
         },
@@ -4766,7 +4802,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "青色"
           }
         }
@@ -4845,7 +4881,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Le préréglage par défaut ne peut pas être renommé"
           }
         },
@@ -4863,7 +4899,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "默认预设无法重命名"
           }
         }
@@ -4985,7 +5021,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Train"
           }
         },
@@ -5003,7 +5039,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "火车"
           }
         }
@@ -5039,7 +5075,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Traductions"
           }
         },
@@ -5057,8 +5093,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "翻译"
+            "state" : "translated",
+            "value" : "翻译人员"
           }
         }
       }
@@ -5096,7 +5132,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Version %@ (%@)"
           }
         },
@@ -5114,7 +5150,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "版本 %@（%@）"
           }
         }
@@ -5150,7 +5186,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vagues"
           }
         },
@@ -5168,7 +5204,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "海浪"
           }
         }
@@ -5204,7 +5240,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Site web"
           }
         },
@@ -5222,8 +5258,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "网站"
+            "state" : "translated",
+            "value" : "官方网站"
           }
         }
       }
@@ -5258,7 +5294,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bruit blanc"
           }
         },
@@ -5276,8 +5312,8 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "白噪音"
+            "state" : "translated",
+            "value" : "白噪声"
           }
         }
       }
@@ -5312,7 +5348,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vent"
           }
         },
@@ -5330,7 +5366,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "风"
           }
         }
@@ -5366,7 +5402,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Jaune"
           }
         },
@@ -5384,7 +5420,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "黄色"
           }
         }
@@ -5403,6 +5439,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You will need to restart Blankie for the language change to take effect."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous devez redémarrer Blankie pour que le changement de langue prenne effet"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重启Blankie以变更语言。"
           }
         }
       }

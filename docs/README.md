@@ -23,13 +23,20 @@ You can develop either locally or using Docker Compose. Both methods will give y
 
 ### Using Docker Compose (Recommended)
 
-From the root directory of the project, simply run:
-
 ```bash
-docker compose up
+# From the `docs` directory, simply run:
+docker-compose up
+
+# Or, from the root directory:
+cd docs && docker-compose up
 ```
 
-The development server will be available at `http://localhost:4321`. The container will automatically reload when you make changes to the source files.
+The development server will be available at `http://localhost:4321`. The container will automatically:
+
+- Mount the parent directory to access required files (FAQ.md, CONTRIBUTING.md, etc.)
+- Copy necessary files from the parent directory
+- Enable hot-reloading for changes in `src/` and `public/` directories
+- Maintain container-based node_modules to avoid platform issues
 
 ### Local Development
 

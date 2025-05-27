@@ -61,11 +61,13 @@ Blankie's complete source code, including both the macOS app and this entire web
 
 Blankie is currently available in the following languages:
 
-- English (en, en-GB)
-- Spanish (es)
-- French (fr)
-- German (de)
-- Simplified Chinese (zh-Hans)
+- English - Default (en, en-GB)
+- Deutsch (de)
+- Español (es)
+- Français (fr)
+- Italiano (it)
+- Türkçe (tr)
+- 简体中文 (zh-Hans)
 
 We're actively working on translations for more languages, and you can help! If you'd like to contribute translations for your language, visit our [translation page](https://blankie.rest/i18n) to see the current status and download a translation template.
 
@@ -77,12 +79,12 @@ We welcome translation contributions from the community! To help translate Blank
 2. Translate the strings in the CSV or JSON file
 3. Submit your translations either:
    - Through a [GitHub Issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+)
-   - By emailing updated localization templates to i18n@blankie.rest
+   - By emailing updated localization templates to <i18n@blankie.rest>
    - Creating a pull request on our [GitHub repository](https://github.com/codybrom/blankie) with changes added to `Localizable.xcstrings`
 
 No coding experience is required to contribute translations! For more detailed instructions, see our [contribution guidelines](https://blankie.rest/contributing#translation-contributions).
 
-If you notice any translation issues or have general feedback about existing translations, please email i18n@blankie.rest.
+If you notice any translation issues or have general feedback about existing translations, please email <i18n@blankie.rest>.
 
 ## How can I contribute to Blankie?
 

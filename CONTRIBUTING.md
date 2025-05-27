@@ -8,8 +8,8 @@ This document outlines the guidelines, expectations, and processes for contribut
 
 There are many ways you can contribute, including:
 
-* **Testing & Bug Reports:** Help test features and identify issues. Find a bug? [Open an issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=BUG%3A+) using our bug report template.
-* **Feature Suggestions:** Have an idea for Blankie? [Submit a feature request](https://github.com/codybrom/blankie/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=IDEA%3A+). Design mockups, UI/UX flows, and even rough sketches are welcome! Be sure to explain your use case and be open to discussion.
+* **Testing & Bug Reports:** Help test features and identify issues. Find a bug? [Open an issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=%5BBug%5D%3A+) using our bug report template.
+* **Feature Suggestions:** Have an idea for Blankie? [Submit a feature request](https://github.com/codybrom/blankie/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+). Design mockups, UI/UX flows, and even rough sketches are welcome! Be sure to explain your use case and be open to discussion.
 * **[Code Contributions](#code-contributions):** Dive right in and help us fix bugs, add new features, improve performance, and enhance Blankie's architecture.
 * **[Documentation and Website Contributions](#documentation-and-website-contributions):** Help improve core documentation (like this page), write user guides and make changes or additions to the Blankie website.
 * **[Other Ways](#other-contributions):** Interested in contributing in other ways? We're open to new ideas and suggestions, but please check the guidelines below.
@@ -71,7 +71,7 @@ Blankie aims to be accessible to users around the world, which means we need hel
 
 4. **Submit Your Translation**: There are two ways to submit translations:
    * **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your JSON file
-   * **Email**: Send updated translation files or general feedback to i18n@blankie.rest
+   * **Email**: Send updated translation files or general feedback to <i18n@blankie.rest>
 
 ### Translation Guidelines
 
@@ -95,7 +95,7 @@ You can submit translations in three ways:
 
 1. **GitHub Issue**: Create a [translation contribution issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+) and attach your updated JSON or CSV file
 
-2. **Email**: Send your translation files to i18n@blankie.rest
+2. **Email**: Send your translation files to <i18n@blankie.rest>
 
 3. **Direct Import**: If you're comfortable using a command line and XCode you can use our `blanki18n` tool to import your translations directly into the app. This is the preferred method for developers and contributors who want to test their translations locally.
 

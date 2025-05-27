@@ -203,7 +203,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "À propos de Blankie"
           }
         },
@@ -257,8 +257,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Couleur d'accent"
+            "state" : "translated",
+            "value" : "Couleur d’accentuation"
           }
         },
         "it" : {
@@ -311,7 +311,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ajouter un son (bientôt disponible !)"
           }
         },
@@ -365,7 +365,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Tous les sons"
           }
         },
@@ -419,7 +419,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Toujours démarrer en pause"
           }
         },
@@ -473,7 +473,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Apparence"
           }
         },
@@ -527,7 +527,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible."
           }
         },
@@ -581,7 +581,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Comportement"
           }
         },
@@ -635,7 +635,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Oiseaux"
           }
         },
@@ -732,8 +732,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Aide Blankie"
+            "state" : "translated",
+            "value" : "Aide de Blankie"
           }
         },
         "it" : {
@@ -786,8 +786,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Paramètres Blankie"
+            "state" : "translated",
+            "value" : "Paramètres de Blankie"
           }
         },
         "it" : {
@@ -883,7 +883,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bleu"
           }
         },
@@ -937,7 +937,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bateau"
           }
         },
@@ -991,7 +991,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Marron"
           }
         },
@@ -1045,7 +1045,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Par"
           }
         },
@@ -1099,7 +1099,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Annuler"
           }
         },
@@ -1153,7 +1153,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ville"
           }
         },
@@ -1207,7 +1207,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fermer"
           }
         },
@@ -1261,7 +1261,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Fermer la fenêtre"
           }
         },
@@ -1358,7 +1358,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cody Bromley et les contributeurs. Tous droits réservés."
           }
         },
@@ -1412,7 +1412,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Café"
           }
         },
@@ -1466,7 +1466,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Contributeurs"
           }
         },
@@ -1520,7 +1520,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Cyan"
           }
         },
@@ -1574,7 +1574,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sombre"
           }
         },
@@ -1628,7 +1628,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Par défaut"
           }
         },
@@ -1682,7 +1682,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer"
           }
         },
@@ -1736,7 +1736,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Supprimer le préréglage"
           }
         },
@@ -1790,7 +1790,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Développé par"
           }
         },
@@ -1844,7 +1844,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Modifier le préréglage"
           }
         },
@@ -1898,7 +1898,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Édité par"
           }
         },
@@ -1952,7 +1952,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Erreur"
           }
         },
@@ -2006,8 +2006,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cheminée"
+            "state" : "translated",
+            "value" : "Feu de Cheminée"
           }
         },
         "it" : {
@@ -2103,7 +2103,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vert"
           }
         },
@@ -2157,7 +2157,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Masquer les sons inactifs"
           }
         },
@@ -2265,7 +2265,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Indigo"
           }
         },
@@ -2318,7 +2318,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Inspiré par Blanket par Rafael Mardojai CM"
           }
         },
@@ -2372,7 +2372,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Raccourcis clavier"
           }
         },
@@ -2425,7 +2425,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Langue"
           }
         },
@@ -2463,6 +2463,12 @@
             "state" : "translated",
             "value" : "Language Changed"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Langue modifiée"
+          }
         }
       }
     },
@@ -2479,6 +2485,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Later"
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plus tard"
           }
         }
       }
@@ -2513,7 +2525,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "En savoir plus sur la Licence MIT"
           }
         },
@@ -2567,7 +2579,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Clair"
           }
         },
@@ -2621,7 +2633,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Chargement des préréglages..."
           }
         },
@@ -2675,7 +2687,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Menthe"
           }
         },
@@ -2729,7 +2741,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouveau préréglage"
           }
         },
@@ -2783,7 +2795,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nouvelle fenêtre"
           }
         },
@@ -2837,7 +2849,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Aucun préréglage personnalisé"
           }
         },
@@ -2934,7 +2946,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ok"
           }
         },
@@ -2988,7 +3000,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Orange"
           }
         },
@@ -3085,7 +3097,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Rose"
           }
         },
@@ -3139,7 +3151,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bruit rose"
           }
         },
@@ -3193,8 +3205,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Lire/Pause les sons"
+            "state" : "translated",
+            "value" : "Lire/Mettre en pause les sons"
           }
         },
         "it" : {
@@ -3247,7 +3259,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Lecture en pause"
           }
         },
@@ -3301,7 +3313,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préférences"
           }
         },
@@ -3355,7 +3367,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préférences..."
           }
         },
@@ -3408,7 +3420,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préréglage %d"
           }
         },
@@ -3462,7 +3474,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nom du préréglage"
           }
         },
@@ -3516,7 +3528,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Le nom du préréglage ne peut pas être vide"
           }
         },
@@ -3570,7 +3582,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Préréglages"
           }
         },
@@ -3624,7 +3636,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Domaine public"
           }
         },
@@ -3678,7 +3690,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Violet"
           }
         },
@@ -3732,7 +3744,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Quitter"
           }
         },
@@ -3786,7 +3798,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Quitter Blankie"
           }
         },
@@ -3840,7 +3852,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Pluie"
           }
         },
@@ -3894,7 +3906,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Rouge"
           }
         },
@@ -3948,7 +3960,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Renommer le préréglage"
           }
         },
@@ -4002,7 +4014,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Signaler un problème"
           }
         },
@@ -4056,7 +4068,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Réinitialiser les sons"
           }
         },
@@ -4094,6 +4106,12 @@
             "state" : "translated",
             "value" : "Restart Now"
           }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redémarrer maintenant"
+          }
         }
       }
     },
@@ -4127,7 +4145,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Enregistrer"
           }
         },
@@ -4181,7 +4199,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Enregistrez votre configuration sonore actuelle comme préréglage pour y accéder rapidement plus tard."
           }
         },
@@ -4235,7 +4253,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Afficher tous les sons"
           }
         },
@@ -4289,7 +4307,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Licence logicielle"
           }
         },
@@ -4343,8 +4361,8 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Crédits sonores"
+            "state" : "translated",
+            "value" : "Crédits des sons"
           }
         },
         "it" : {
@@ -4397,7 +4415,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Mettre une étoile sur GitHub"
           }
         },
@@ -4451,7 +4469,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Orage"
           }
         },
@@ -4505,7 +4523,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Ruisseau"
           }
         },
@@ -4559,7 +4577,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Nuit d'été"
           }
         },
@@ -4613,7 +4631,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Système"
           }
         },
@@ -4667,7 +4685,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sarcelle"
           }
         },
@@ -4764,7 +4782,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Le préréglage par défaut ne peut pas être renommé"
           }
         },
@@ -4904,7 +4922,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Train"
           }
         },
@@ -4958,7 +4976,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Traductions"
           }
         },
@@ -5012,7 +5030,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Version %@ (%@)"
           }
         },
@@ -5066,7 +5084,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vagues"
           }
         },
@@ -5120,7 +5138,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Site web"
           }
         },
@@ -5174,7 +5192,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Bruit blanc"
           }
         },
@@ -5228,7 +5246,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vent"
           }
         },
@@ -5282,7 +5300,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Jaune"
           }
         },
@@ -5319,6 +5337,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You will need to restart Blankie for the language change to take effect."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous devez redémarrer Blankie pour que le changement de langue prenne effet"
           }
         }
       }

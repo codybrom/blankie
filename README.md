@@ -79,12 +79,12 @@ Blankie automatically uses your system language when available and has support f
 
 - 🇺🇸 English (US) [default]
 - 🇬🇧 English (Great Britain)
-- 🇪🇸 Español (Spain) - *Thanks to Chuskas*
+- 🇪🇸 Español (Spain) - *Thanks to **Chuskas***
 - 🇩🇪 Deutsch\*
-- 🇫🇷 Français\*
-- 🇮🇹 Italiano (Italian) - *Thanks to davnr*
-- 🇹🇷 Türkçe (Turkish) - *Thanks to aybarsnazlica*
-- 🇨🇳 中文 (Chinese, Simplified)*
+- 🇫🇷 Français - *Thanks to **ma203***
+- 🇮🇹 Italiano (Italian) - *Thanks to **davnr***
+- 🇹🇷 Türkçe (Turkish) - *Thanks to **aybarsnazlica***
+- 🇨🇳 中文 (Chinese, Simplified)\*
 
 \* Currently seeking translators to verify and improve these translations. If you can help, please reach out!
 

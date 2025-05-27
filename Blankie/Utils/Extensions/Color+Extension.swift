@@ -24,19 +24,19 @@ enum AccentColor: CaseIterable {
 
   var name: String {
     switch self {
-    case .system: return "System"
-    case .red: return "Red"
-    case .pink: return "Pink"
-    case .orange: return "Orange"
-    case .brown: return "Brown"
-    case .yellow: return "Yellow"
-    case .green: return "Green"
-    case .mint: return "Mint"
-    case .teal: return "Teal"
-    case .cyan: return "Cyan"
-    case .blue: return "Blue"
-    case .indigo: return "Indigo"
-    case .purple: return "Purple"
+    case .system: return String(localized: "System", comment: "Accent color name")
+    case .red: return String(localized: "Red", comment: "Accent color name")
+    case .pink: return String(localized: "Pink", comment: "Accent color name")
+    case .orange: return String(localized: "Orange", comment: "Accent color name")
+    case .brown: return String(localized: "Brown", comment: "Accent color name")
+    case .yellow: return String(localized: "Yellow", comment: "Accent color name")
+    case .green: return String(localized: "Green", comment: "Accent color name")
+    case .mint: return String(localized: "Mint", comment: "Accent color name")
+    case .teal: return String(localized: "Teal", comment: "Accent color name")
+    case .cyan: return String(localized: "Cyan", comment: "Accent color name")
+    case .blue: return String(localized: "Blue", comment: "Accent color name")
+    case .indigo: return String(localized: "Indigo", comment: "Accent color name")
+    case .purple: return String(localized: "Purple", comment: "Accent color name")
     }
   }
 
@@ -60,9 +60,17 @@ enum AccentColor: CaseIterable {
 }
 
 enum AppearanceMode: String, CaseIterable {
-  case system = "System"
-  case light = "Light"
-  case dark = "Dark"
+  case system
+  case light
+  case dark
+
+  var localizedName: String {
+    switch self {
+    case .system: return String(localized: "System", comment: "Appearance mode")
+    case .light: return String(localized: "Light", comment: "Appearance mode")
+    case .dark: return String(localized: "Dark", comment: "Appearance mode")
+    }
+  }
 
   var icon: String {
     switch self {
@@ -70,6 +78,10 @@ enum AppearanceMode: String, CaseIterable {
     case .light: return "sun.max.fill"
     case .dark: return "moon.fill"
     }
+  }
+
+  var displayName: String {
+    localizedName
   }
 }
 

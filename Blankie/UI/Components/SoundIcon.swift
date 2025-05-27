@@ -63,8 +63,10 @@ struct SoundIcon: View {
       .buttonStyle(.borderless)
       .frame(width: Configuration.iconSize, height: Configuration.iconSize)
 
-      Text(sound.title)
-        .font(.callout)
+      Text(LocalizedStringKey(sound.title))
+        .font(
+          Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
+        )
         .lineLimit(2)
         .multilineTextAlignment(.center)
         .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))

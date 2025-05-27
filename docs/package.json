@@ -3,22 +3,27 @@
   "type": "module",
   "version": "1.0.0",
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "node prebuild.js && astro dev",
+    "build": "node prebuild.js && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "extract-i18n": "node prebuild.js"
   },
   "dependencies": {
     "@playform/compress": "^0.1.9",
     "@tailwindcss/vite": "^4.1.2",
-    "astro": "^5.6.1",
+    "astro": "^5.7.13",
     "astro-seo": "^0.8.4",
+    "glob": "^10.3.10",
+    "iso-639-1-plus": "^3.0.5",
     "marked": "^15.0.7",
+    "papaparse": "^5.5.2",
     "tailwindcss": "^4.1.2"
   },
   "devDependencies": {
     "@playform/build": "^0.2.2",
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/papaparse": "^5.3.15"
   },
   "engines": {
     "node": ">=22"

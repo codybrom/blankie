@@ -27,7 +27,7 @@ struct ColorPickerView: View {
             Image(systemName: mode.icon)
               .frame(width: 16, height: 16)
 
-            Text(mode.rawValue)
+            Text(mode.localizedName)
               .foregroundColor(.primary)
 
             Spacer()
@@ -76,7 +76,6 @@ struct ColorPickerView: View {
         .buttonStyle(.plain)
         .padding(.vertical, 4)
       }
-
     }
     .frame(width: 200)
   }

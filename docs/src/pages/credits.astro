@@ -1,10 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import soundsJSON from "../../../Blankie/Resources/sounds.json";
+import creditsJSON from "../../../Blankie/credits.json";
 import ccSvg from "../assets/cc.svg";
 import bySvg from "../assets/by.svg";
 
 const title = "Credits";
+const contributors = creditsJSON.contributors || [];
+const translators = creditsJSON.translators || {};
 
 interface Sound {
   title: string;
@@ -91,8 +94,8 @@ function getLicenseURL(license: string) {
             </p>
 
             <p class="mb-4">
-              © 2024 Cody Bromley. The Blankie name and all trademark rights
-              are reserved.
+              © Cody Bromley and contributors. All rights reserved. The Blankie
+              name and all trademark rights are reserved.
             </p>
 
             <p class="text-mid-gray text-sm my-2">
@@ -155,157 +158,205 @@ function getLicenseURL(license: string) {
           </div>
         </div>
       </section>
-
-      <!-- Sound Credits -->
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold mb-4">Sound Credits</h2>
-        <div class="bg-dark-gray rounded-lg p-3 shadow-sm overflow-hidden">
-          <div class="grid gap-6 sm:grid-cols-2">
-            {
-              sounds.map((sound) => (
-                <div class="px-4 border border-mid-gray rounded-lg w-full overflow-hidden">
-                  <p class="text-md text-zinc-300 font-semibold my-1">
-                    {sound.title}
-                  </p>
-                  <div class="flex justify-between items-center">
-                    <a
-                      href={sound.soundUrl}
-                      class="text-yellow-500 hover:text-yellow-700 hover:underline"
-                      style="word-break: break-word; hyphens: auto;"
-                    >
-                      {sound.soundName}
-                    </a>
-                    <a
-                      href={getLicenseURL(sound.license)}
-                      class="text-xs px-2 py-0.5 rounded bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700/75"
-                    >
-                      {getLicenseText(sound.license)}
-                    </a>
-                  </div>
-                  <p class="text-xs mt-2">
-                    by{" "}
-                    {sound.authorUrl ? (
-                      <a href={sound.authorUrl} class="hover:underline">
-                        {sound.author}
-                      </a>
-                    ) : (
-                      sound.author
-                    )}
-                  </p>
-                </div>
-              ))
-            }
-          </div>
-        </div>
-      </section>
-
-      <!-- Assets & Other Credits -->
-      <section class="mb-12">
-        <h2 class="text-2xl font-semibold mb-4">Assets & Other Credits</h2>
-        <div class="bg-dark-gray rounded-lg p-6 shadow-sm space-y-8 not-prose">
-          <!-- App Icon subsection -->
-          <div>
-            <h3 class="text-xl font-medium mb-3">App Icon & Logo</h3>
-            <p>
-              The Blankie logo and app icon were created by
-              <a
-                href="https://github.com/codybrom"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-              >
-                Cody Bromley
-              </a>
-              and used under the
-              <a
-                href="https://creativecommons.org/licenses/by/4.0/"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-              >
-                Creative Commons Attribution 4.0 International License
-                <img
-                  class="h-[22px] inline-block"
-                  src={ccSvg.src}
-                  alt="Creative Commons"
-                  aria-label="Creative Commons License"
-                />
-                <img
-                  class="h-[22px] inline-block"
-                  src={bySvg.src}
-                  alt="Attribution"
-                  aria-label="Attribution Required"
-                />
-              </a>
-            </p>
-            <h3 class="text-lg mt-4 mb-2 font-bold">
-              Exceptions for Attribution
-            </h3>
-            <p>
-              If you would like to write about Blankie on your website or blog,
-              the icon's creator officially permits you to use the official
-              Blankie icon without attribution when <u
-                ><b>all of the following conditions</b></u
-              >
-              are met:
-            </p>
-            <ul class="list-disc my-2 pl-5">
-              <li>
-                the icon is not cropped, distorted, recolored or otherwise
-                altered in any way
-              </li>
-              <li>the icon is used in reference to the Blankie app</li>
-              <li>
-                the icon is used on the same page as a link to the Blankie
-                <a href="https://blankie.rest">website</a>, <a
-                  href="https://github.com/codybrom/blankie"
-                  >GitHub repository</a
-                >, or <a
-                  href="https://apps.apple.com/us/app/blankie/id6740096581"
-                  >Mac App Store listing</a
-                >.
-              </li>
-            </ul>
-          </div>
-
-          <!-- Sound Icons subsection -->
-          <div>
-            <h3 class="text-xl font-medium mb-3">Sound Icons</h3>
-            <p>
-              Blankie uses <a
-                href="https://developer.apple.com/sf-symbols/"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-                >SF Symbols</a
-              > for sound icons. SF Symbols are provided by Apple as a system resource,
-              with usage governed by the <a
-                href="https://www.apple.com/legal/sla/docs/xcode.pdf"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors inline-flex items-center gap-1"
-              >
-                Xcode and Apple SDKs Agreement
-                <span
-                  class="text-xs px-1.5 py-0.5 bg-zinc-700 rounded-md"
-                  aria-label="PDF file">PDF</span
-                >
-              </a>.
-            </p>
-          </div>
-
-          <!-- Website Content subsection -->
-          <div>
-            <h3 class="text-xl font-medium mb-3">Website Content</h3>
-            <p>
-              Homepage Video Background: <a
-                href="https://www.pexels.com/video/bird-s-eye-view-of-ocean-waves-1918465/"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-                >Bird's Eye View of Ocean Waves</a
-              > by
-              <a
-                href="https://www.pexels.com/@digitech/"
-                class="text-yellow-500 hover:text-yellow-700 transition-colors"
-              >
-                Ruvim Miksanskiy
-              </a>
-              <a href="https://www.pexels.com/license/">(Pexels License)</a>
-            </p>
-          </div>
-        </div>
-      </section>
     </div>
+
+    <!-- Contributors & Translators Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Contributors & Translators</h2>
+      <div class="bg-dark-gray rounded-lg p-6 shadow-sm space-y-6 not-prose">
+        <!-- Contributors subsection -->
+        {
+          contributors.length > 0 && (
+            <div>
+              <h3 class="text-xl font-medium mb-3">Contributors</h3>
+              <p>
+                Special thanks to the following individuals who have contributed
+                code to Blankie:
+              </p>
+              <div class="flex flex-wrap gap-2 mt-3">
+                {contributors.map((contributor) => (
+                  <span class="px-3 py-1.5 bg-zinc-700/50 rounded-full text-sm">
+                    {contributor}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )
+        }
+
+        <!-- Translators subsection -->
+        {
+          Object.keys(translators).length > 0 && (
+            <div>
+              <h3 class="text-xl font-medium mb-3">Translators</h3>
+              <p>
+                Thanks to the following translators who helped make Blankie
+                accessible in multiple languages:
+              </p>
+              <div class="grid gap-4 sm:grid-cols-2 mt-4">
+                {Object.entries(translators).map(
+                  ([language, names]) =>
+                    names.length > 0 && (
+                      <div class="border border-mid-gray rounded-lg p-3">
+                        <h4 class="font-medium text-zinc-300">{language}</h4>
+                        <div class="text-sm mt-1">{names.join(", ")}</div>
+                      </div>
+                    )
+                )}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <!-- Sound Credits -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Sound Credits</h2>
+      <div class="bg-dark-gray rounded-lg p-3 shadow-sm overflow-hidden">
+        <div class="grid gap-6 sm:grid-cols-2">
+          {
+            sounds.map((sound) => (
+              <div class="px-4 border border-mid-gray rounded-lg w-full overflow-hidden">
+                <p class="text-md text-zinc-300 font-semibold my-1">
+                  {sound.title}
+                </p>
+                <div class="flex justify-between items-center">
+                  <a
+                    href={sound.soundUrl}
+                    class="text-yellow-500 hover:text-yellow-700 hover:underline"
+                    style="word-break: break-word; hyphens: auto;"
+                  >
+                    {sound.soundName}
+                  </a>
+                  <a
+                    href={getLicenseURL(sound.license)}
+                    class="text-xs px-2 py-0.5 rounded bg-zinc-700/50 text-zinc-300 hover:bg-zinc-700/75"
+                  >
+                    {getLicenseText(sound.license)}
+                  </a>
+                </div>
+                <p class="text-xs mt-2">
+                  by{" "}
+                  {sound.authorUrl ? (
+                    <a href={sound.authorUrl} class="hover:underline">
+                      {sound.author}
+                    </a>
+                  ) : (
+                    sound.author
+                  )}
+                </p>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Assets & Other Credits -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Assets & Other Credits</h2>
+      <div class="bg-dark-gray rounded-lg p-6 shadow-sm space-y-8 not-prose">
+        <!-- App Icon subsection -->
+        <div>
+          <h3 class="text-xl font-medium mb-3">App Icon & Logo</h3>
+          <p>
+            The Blankie logo and app icon were created by
+            <a
+              href="https://github.com/codybrom"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors"
+            >
+              Cody Bromley
+            </a>
+            and used under the
+            <a
+              href="https://creativecommons.org/licenses/by/4.0/"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors"
+            >
+              Creative Commons Attribution 4.0 International License
+              <img
+                class="h-[22px] inline-block"
+                src={ccSvg.src}
+                alt="Creative Commons"
+                aria-label="Creative Commons License"
+              />
+              <img
+                class="h-[22px] inline-block"
+                src={bySvg.src}
+                alt="Attribution"
+                aria-label="Attribution Required"
+              />
+            </a>
+          </p>
+          <h3 class="text-lg mt-4 mb-2 font-bold">
+            Exceptions for Attribution
+          </h3>
+          <p>
+            If you would like to write about Blankie on your website or blog,
+            the icon's creator officially permits you to use the official
+            Blankie icon without attribution when <u
+              ><b>all of the following conditions</b></u
+            >
+            are met:
+          </p>
+          <ul class="list-disc my-2 pl-5">
+            <li>
+              the icon is not cropped, distorted, recolored or otherwise altered
+              in any way
+            </li>
+            <li>the icon is used in reference to the Blankie app</li>
+            <li>
+              the icon is used on the same page as a link to the Blankie
+              <a href="https://blankie.rest">website</a>, <a
+                href="https://github.com/codybrom/blankie">GitHub repository</a
+              >, or <a href="https://apps.apple.com/us/app/blankie/id6740096581"
+                >Mac App Store listing</a
+              >.
+            </li>
+          </ul>
+        </div>
+
+        <!-- Sound Icons subsection -->
+        <div>
+          <h3 class="text-xl font-medium mb-3">Sound Icons</h3>
+          <p>
+            Blankie uses <a
+              href="https://developer.apple.com/sf-symbols/"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors"
+              >SF Symbols</a
+            > for sound icons. SF Symbols are provided by Apple as a system resource,
+            with usage governed by the <a
+              href="https://www.apple.com/legal/sla/docs/xcode.pdf"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors inline-flex items-center gap-1"
+            >
+              Xcode and Apple SDKs Agreement
+              <span
+                class="text-xs px-1.5 py-0.5 bg-zinc-700 rounded-md"
+                aria-label="PDF file">PDF</span
+              >
+            </a>.
+          </p>
+        </div>
+
+        <!-- Website Content subsection -->
+        <div>
+          <h3 class="text-xl font-medium mb-3">Website Content</h3>
+          <p>
+            Homepage Video Background: <a
+              href="https://www.pexels.com/video/bird-s-eye-view-of-ocean-waves-1918465/"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors"
+              >Bird's Eye View of Ocean Waves</a
+            > by
+            <a
+              href="https://www.pexels.com/@digitech/"
+              class="text-yellow-500 hover:text-yellow-700 transition-colors"
+            >
+              Ruvim Miksanskiy
+            </a>
+            <a href="https://www.pexels.com/license/">(Pexels License)</a>
+          </p>
+        </div>
+      </div>
+    </section>
   </main>
 </Layout>

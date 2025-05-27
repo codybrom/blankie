@@ -1,14 +1,34 @@
 services:
-  astro:
+  docs:
     build:
       context: .
       dockerfile: Dockerfile
+    image: blankie-docs
+    container_name: blankie-docs
     ports:
       - "4321:4321"
     volumes:
-      - ".:/app"
-      - "/app/node_modules"
+      # Mount parent directory as read-only
+      - ../:/parent:ro
+      # Mount source directories for hot reload
+      - ./src:/app/src
+      - ./public:/app/public
+      # Preserve node_modules from container
+      - /app/node_modules
     environment:
       - NODE_ENV=development
-      - HOST=0.0.0.0
-      - PORT=4321
+    command: >
+      sh -c "
+        cp /parent/FAQ.md /FAQ.md 2>/dev/null || true &&
+        cp /parent/CONTRIBUTING.md /CONTRIBUTING.md 2>/dev/null || true &&
+        cp /parent/Blankie/Resources/sounds.json /Blankie/Resources/ 2>/dev/null || true &&
+        cp /parent/Blankie/credits.json /Blankie/ 2>/dev/null || true &&
+        cp /parent/Blankie/*.xcstrings /Blankie/ 2>/dev/null || true &&
+        npm run dev -- --host 0.0.0.0
+      "
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:4321', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 3s
+      start_period: 40s
+      retries: 3

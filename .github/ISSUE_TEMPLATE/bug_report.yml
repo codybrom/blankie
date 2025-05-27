@@ -1,0 +1,106 @@
+name: Bug Report
+description: File a bug report to help us improve Blankie
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report!
+
+        Before submitting, please check existing issues to avoid duplicates.
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: "When I click on the volume slider, the app crashes..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Open Blankie
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: false
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen.
+      placeholder: "The volume should adjust smoothly without crashing"
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Blankie Version
+      description: What version of Blankie are you running? (Found in Blankie > About)
+      placeholder: "e.g., 1.0.8"
+    validations:
+      required: true
+
+  - type: input
+    id: macos-version
+    attributes:
+      label: macOS Version
+      description: Which version of macOS are you using? (Found in Apple menu > About This Mac)
+      placeholder: "e.g., macOS Sequoia 15.5, macOS 14.7.6"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: installation
+    attributes:
+      label: Installation Method
+      description: How did you install Blankie?
+      options:
+        - Mac App Store
+        - Homebrew
+        - GitHub Release
+        - Blankie.rest
+        - Built from source
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or Screen Recordings
+      description: If applicable, add screenshots or screen recordings to help explain your problem. You can drag and drop images here.
+      placeholder: "Drag and drop images or paste them here"
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here (e.g., crash logs, console output, specific hardware)
+      placeholder: "This started happening after updating to macOS 15..."
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-submission Checklist
+      description: Please confirm the following before submitting
+      options:
+        - label: I have searched existing issues to ensure this bug hasn't been reported
+          required: false
+        - label: I confirmed I'm using the latest version of Blankie
+          required: false
+        - label: I have included relevant information needed to reproduce the issue
+          required: true

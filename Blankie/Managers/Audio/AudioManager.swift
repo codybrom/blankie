@@ -106,26 +106,23 @@ class AudioManager: ObservableObject {
       }
     }
   }
+
   private func loadSounds() {
-    print("🎵 AudioManager: Loading sounds from JSON")
-    let bundlePath = Bundle.main.bundlePath
-    print("📦 Bundle path: \(bundlePath)")
+    print("🎵 AudioManager: Loading built-in sounds from JSON")
 
-    if let resourcePath = Bundle.main.resourcePath {
-      print("📂 Resource path: \(resourcePath)")
-      do {
-        let resources = try FileManager.default.contentsOfDirectory(atPath: resourcePath)
-        print("📑 Resources in bundle: \(resources)")
-      } catch {
-        print("❌ Error listing resources: \(error)")
-      }
-    }
+    // Start with an empty array
+    self.sounds = []
 
-    guard Bundle.main.url(forResource: "sounds", withExtension: "json") != nil else {
-      print("❌ AudioManager: sounds.json file not found in Resources folder")
-      ErrorReporter.shared.report(AudioError.fileNotFound)
-      return
+    // Load built-in sounds
+    loadBuiltInSounds()
+
+    // Load custom sounds if available
+    if modelContext != nil {
+      loadCustomSounds()
     }
+  }
+
+  private func loadBuiltInSounds() {
     guard let url = Bundle.main.url(forResource: "sounds", withExtension: "json") else {
       print("❌ AudioManager: sounds.json file not found in Resources folder")
       ErrorReporter.shared.report(AudioError.fileNotFound)
@@ -137,7 +134,7 @@ class AudioManager: ObservableObject {
       let decoder = JSONDecoder()
       let soundsContainer = try decoder.decode(SoundsContainer.self, from: data)
 
-      self.sounds = soundsContainer.sounds
+      let builtInSounds = soundsContainer.sounds
         .sorted(by: { $0.defaultOrder < $1.defaultOrder })
         .map { soundData in
           let supportedExtensions = ["wav", "m4a", "mp3", "aiff"]
@@ -153,10 +150,48 @@ class AudioManager: ObservableObject {
             fileExtension: fileExtension
           )
         }
+
+      // Add built-in sounds to the sounds array
+      self.sounds.append(contentsOf: builtInSounds)
+      print("🎵 AudioManager: Loaded \(builtInSounds.count) built-in sounds")
     } catch {
       print("❌ AudioManager: Failed to parse sounds.json: \(error)")
       ErrorReporter.shared.report(error)
     }
+  }
+
+  private func loadCustomSounds() {
+    print("🎵 AudioManager: Loading custom sounds")
+
+    // Get all custom sounds from the database
+    let customSoundData = CustomSoundManager.shared.getAllCustomSounds()
+
+    // Remove any existing custom sounds from the array
+    sounds.removeAll(where: { $0 is CustomSound })
+
+    // Create Sound objects for each custom sound
+    let customSounds = customSoundData.compactMap { data -> CustomSound? in
+      guard let url = CustomSoundManager.shared.getURLForCustomSound(data) else {
+        print("❌ AudioManager: Could not get URL for custom sound \(data.fileName)")
+        return nil
+      }
+
+      return CustomSound(
+        title: data.title,
+        systemIconName: data.systemIconName,
+        fileName: data.fileName,
+        fileExtension: data.fileExtension,
+        fileURL: url,
+        customSoundData: data
+      )
+    }
+
+    // Add custom sounds to the array
+    sounds.append(contentsOf: customSounds)
+    print("🎵 AudioManager: Loaded \(customSounds.count) custom sounds")
+
+    // Re-setup observers for the new sounds
+    setupSoundObservers()
   }
 
   private func setupMediaControls() {
@@ -469,6 +504,27 @@ class AudioManager: ObservableObject {
     } else {
       self.updateNowPlayingInfo()
     }
+  }
+
+  // MARK: - SwiftData Integration
+
+  /// Set up the model context for accessing custom sounds
+  func setModelContext(_ context: ModelContext) {
+    self.modelContext = context
+    CustomSoundManager.shared.setModelContext(context)
+    setupCustomSoundObservers()
+    loadCustomSounds()
+  }
+
+  private func setupCustomSoundObservers() {
+    // Observe custom sound changes
+    customSoundObserver = NotificationCenter.default.publisher(for: .customSoundAdded)
+      .merge(with: NotificationCenter.default.publisher(for: .customSoundDeleted))
+      .sink { [weak self] _ in
+        Task { @MainActor in
+          self?.loadCustomSounds()
+        }
+      }
   }
 
   deinit {

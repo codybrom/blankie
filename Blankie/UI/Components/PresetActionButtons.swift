@@ -18,18 +18,20 @@ struct PresetActionButtons: View {
         Button(role: .destructive) {
           showingDeleteAlert = true
         } label: {
-          Label("Delete", systemImage: "trash")
+          Label(LocalizedStringKey("Delete"), systemImage: "trash")
         }
         .buttonStyle(.borderless)
-        .alert("Delete Preset", isPresented: $showingDeleteAlert) {
-          Button("Cancel", role: .cancel) {}
-          Button("Delete", role: .destructive) {
+        .alert(LocalizedStringKey("Delete Preset"), isPresented: $showingDeleteAlert) {
+          Button(LocalizedStringKey("Cancel"), role: .cancel) {}
+          Button(LocalizedStringKey("Delete"), role: .destructive) {
             Task {
               presetManager.deletePreset(preset)
             }
           }
         } message: {
-          Text("Are you sure you want to delete '\(preset.name)'? This action cannot be undone.")
+          Text(
+            LocalizedStringKey(
+              "Are you sure you want to delete '\(preset.name)'? This action cannot be undone."))
         }
       }
     }

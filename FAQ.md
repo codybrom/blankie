@@ -2,19 +2,30 @@
 
 ## How do I get started with Blankie?
 
-There's three ways to get started:
+There are several ways to get started:
 
 1. **Mac App Store**
 
    - Download the latest stable version of Blankie on the  [Mac App Store](https://apps.apple.com/us/app/blankie/id6740096581) and receive automatic updates.
    - _This is the recommended way to install Blankie._
 
-2. **Direct Download**
+2. **Homebrew**
+   - If you use Homebrew, you can install Blankie with:
+
+   ``` bash
+   brew install --cask blankie
+   ```
+
+   - Blankie will be installed in your Applications folder
+   - Updates can be managed through Homebrew with `brew upgrade`
+   - Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information
+
+3. **Direct Download**
    - Download the latest .zip from the [Releases](https://github.com/codybrom/blankie/releases) on GitHub
    - Copy the app to your Applications folder
    - Open Blankie and click a sound to start!
 
-3. **TestFlight (Beta Versions)**
+4. **TestFlight (Beta Versions)**
 
    Get early access to new features by joining our [TestFlight Public Beta](https://testflight.apple.com/join/XgpBpWv8)
 
@@ -46,9 +57,38 @@ Even if you don't write code, Blankie being open source benefits you in several 
 
 Blankie's complete source code, including both the macOS app and this entire website, is available on [GitHub](https://github.com/codybrom/blankie) for anyone to explore, use, or contribute to.
 
+## Is Blankie available in my language?
+
+Blankie is currently available in the following languages:
+
+- English - Default (en, en-GB)
+- Deutsch (de)
+- Español (es)
+- Français (fr)
+- Italiano (it)
+- Türkçe (tr)
+- 简体中文 (zh-Hans)
+
+We're actively working on translations for more languages, and you can help! If you'd like to contribute translations for your language, visit our [translation page](https://blankie.rest/i18n) to see the current status and download a translation template.
+
+## Can I contribute translations for my language?
+
+We welcome translation contributions from the community! To help translate Blankie into your language:
+
+1. Download the English text strings template or existing translation files for your language from [blankie.rest/i18n](https://blankie.rest/i18n)
+2. Translate the strings in the CSV or JSON file
+3. Submit your translations either:
+   - Through a [GitHub Issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+)
+   - By emailing updated localization templates to <i18n@blankie.rest>
+   - Creating a pull request on our [GitHub repository](https://github.com/codybrom/blankie) with changes added to `Localizable.xcstrings`
+
+No coding experience is required to contribute translations! For more detailed instructions, see our [contribution guidelines](https://blankie.rest/contributing#translation-contributions).
+
+If you notice any translation issues or have general feedback about existing translations, please email <i18n@blankie.rest>.
+
 ## How can I contribute to Blankie?
 
-Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how to get involved
+Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how to get involved.
 
 ## How do I control playback and volume?
 
@@ -61,7 +101,7 @@ Check out our [Contributing guide](/CONTRIBUTING.md) for more information on how
 **Volume:**
 
 - Use individual sliders for each sound
-- Access the global volume slider from the controls bar (speaker icon) to blend with other apps
+- Access the "All Sounds" volume slider from the controls bar (speaker icon) to blend with other apps
 
 ## Can I save my favorite sound combinations?
 

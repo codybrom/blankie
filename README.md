@@ -1,57 +1,115 @@
-<img src="docs/src/assets/icon.png" alt="Blankie logo" width="153" height="128" align="left"/>
-
-### Blankie
-
-<small>Ambient sound mixer for macOS inspired by <a href="https://github.com/rafaelmardojai/blanket">Blanket</a></small>
-
-[![macOS](https://img.shields.io/badge/14.6+-111111?logo=macOS&logoColor=white&logoSize=auto&logoWidth=25)](https://www.apple.com/macos/)
-[![Swift](https://img.shields.io/badge/Swift%205-F05138?logo=Swift&logoColor=white)](https://swift.org)
-[![SwiftUI](https://img.shields.io/badge/Swift%20UI-0071e3.svg?logo=swift&logoColor=white)](https://developer.apple.com/xcode/swiftui/)
-[![Xcode](https://img.shields.io/badge/XCode%2016-007ACC?logo=xcode&logoColor=white)](https://developer.apple.com/xcode/)
-[![GitHub](https://img.shields.io/github/license/codybrom/blankie.svg)](https://github.com/codybrom/blankie/blob/master/LICENSE)
-
 <div align="center">
-  <a href="https://apps.apple.com/us/app/blankie/id6740096581">
-    <p><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie"></p>
-    <p><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="200"></p>
-  </a>
+  <img src="docs/src/assets/icon.png" alt="Blankie logo" width="153" height="128"/>
+  
+# Blankie
+
+  Ambient sound mixer for macOS
+  <p align="center">
+    <img src="https://img.shields.io/badge/macOS%2014.6+-111111?style=flat-square&logo=apple&logoColor=white" alt="macOS">
+    <img src="https://img.shields.io/badge/Swift%205-F05138?style=flat-square&logo=Swift&logoColor=white" alt="Swift">
+    <img src="https://img.shields.io/badge/SwiftUI-0071e3.svg?style=flat-square&logo=swift&logoColor=white" alt="SwiftUI">
+    <img src="https://img.shields.io/badge/Xcode%2016-007ACC?style=flat-square&logo=xcode&logoColor=white" alt="Xcode">
+    <a href="https://github.com/codybrom/blankie/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codybrom/blankie.svg?style=flat-square" alt="License"></a>
+  </p>
+  <p align="center"><a href="https://apps.apple.com/us/app/blankie/id6740096581"><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="202"></a></p>
+  <p align="center"><img src="docs/src/assets/screenshot.png" alt="Screenshot of Blankie" height="600"></p>
+  <p align="center"><a href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=neutral&t=1747948853827" alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a></p>
 </div>
 
-## Description
+## Table of Contents
 
-Blankie makes it easy to mix different ambient sounds into a custom soundscape. Use it to focus and increase your productivity or help you fall asleep in a noisy environment. Blankie is a native macOS app with support for automatic light/dark modes, and your system or a custom accent color and global play/pause control from your keyboard's media keys, command center, or headphones.
+- [Why Blankie?](#why-blankie)
+- [Features](#features)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [Development Setup](#development-setup)
+- [Credits](#credits)
+- [License](#license--copyright)
+
+## Why Blankie?
+
+In our increasingly noisy world, finding focus and calm can be challenging. Blankie was created to provide a simple, beautiful, and native solution for anyone who wants to:
+
+- 🎯 **Focus deeply** on work or studying
+- 😴 **Sleep better** by masking disruptive environmental sounds
+- 🧘 **Stay calm** during stressful moments with soothing soundscapes
+- 🎨 **Create** an ideal ambient environment for any activity
+
+Inspired by the excellent [Blanket](https://github.com/rafaelmardojai/blanket) for Linux, Blankie brings the same simplicity and effectiveness to Apple's ecosystem.
+
+## Installation
+
+### Mac App Store (Recommended)
+
+The recommended installation method is through the [Mac App Store](https://apps.apple.com/us/app/blankie/id6740096581), which provides automatic updates.
+
+### Direct Download
+
+You can also download the Apple-notarized binary directly from [GitHub Releases](https://github.com/codybrom/blankie/releases/latest/download/Blankie.zip).
+
+### Homebrew
+
+Blankie is also available using Homebrew:
+
+```bash
+brew install --cask blankie
+```
+
+Visit the [Blankie cask page on brew.sh](https://formulae.brew.sh/cask/blankie) for more information.
+
+### TestFlight Beta Versions
+
+Occasionally, some early macOS releases of Blankie are also available on TestFlight. Join the TestFlight beta to help test new features and provide feedback.
+
+Additionally, Blankie is coming to iOS, iPadOS, and visionOS! You can join the TestFlight beta for these platforms from the same link.
+
+[Join the Blankie TestFlight Beta](https://testflight.apple.com/join/XgpBpWv8)
 
 ## Features
 
-- 14 high-quality ambient sounds:
-  - Nature sounds (rain, waves, birds, wind)
-  - Environmental sounds (train, city, coffee shop)
-  - White/pink noise
-- Individual volume controls for each sound
-- Global volume control
-- Preset system to save your favorite sound combinations
-- Native macOS integration:
-  - System media controls
-  - Automatic or customizable light/dark modes
-  - Automatic or custom accent colors
+- **Includes 14 high-quality ambient sounds**
+- Individual volume sliders for each sound
+- Save unlimited custom presets for quick preset switching
+- Beautiful SwiftUI interface with automatic light/dark mode support and custom accent colors
+- System media key and Control Center support
+
+### 🌍 Internationalization & Localization
+
+Blankie automatically uses your system language when available and has support for 7+ languages:
+
+- 🇺🇸 English (US) [default]
+- 🇬🇧 English (Great Britain)
+- 🇪🇸 Español (Spain) - *Thanks to **Chuskas***
+- 🇩🇪 Deutsch\*
+- 🇫🇷 Français - *Thanks to **ma203***
+- 🇮🇹 Italiano (Italian) - *Thanks to **davnr***
+- 🇹🇷 Türkçe (Turkish) - *Thanks to **aybarsnazlica***
+- 🇨🇳 简体中文 (Chinese, Simplified)\*
+
+\* Currently seeking translators to verify and improve these translations. If you can help, please reach out!
+
+[Help translate Blankie to your language!](https://github.com/codybrom/blankie/blob/main/CONTRIBUTING.md#translation-contributions)
 
 ## Contributing
 
-We welcome contributions from the community! There are many ways to contribute to Blankie:
+Blankie was built to be shared by the community and we'd love your help!
 
-- **Code**: Help fix bugs, add features, or improve performance
-- **Testing**: Try new features and report issues
-- **Documentation**: Improve our docs and website
-- **Ideas**: Submit feature requests and provide feedback
+### Ways to Contribute
 
-Before contributing, please review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md).
+- ⭐ **Star this repo** to show your support
+- 📱 [Rate on the App Store](https://apps.apple.com/us/app/blankie/id6740096581)
+- 🐛 [Report bugs](https://github.com/codybrom/blankie/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml&title=%5BBug%5D%3A+) and help us improve stability
+- 💡 [Suggest features](https://github.com/codybrom/blankie/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.yml&title=%5BFeature%5D%3A+) to make Blankie even better
+- 🌍 [Translate](https://blankie.rest/contributing/#translation-contributions) Blankie into your language
+- 💻 [Write code](https://blankie.rest/contributing/#code-contributions) to fix issues or add features
 
-### Current Priority Areas for Contribution
+### Current Priorities
 
-We're currenly looking for help with:
+- 🎧 [Custom sound support](https://github.com/codybrom/blankie/issues/1)
+- 🌐 [More language translations](https://github.com/codybrom/blankie/blob/main/CONTRIBUTING.md#translation-contributions)
+- 🧪 Cross-platform testing of the Universal App beta
 
-- [Adding custom sound support](https://github.com/codybrom/blankie/issues/1)
-- [Internationalization / Translation](https://github.com/codybrom/blankie/issues/2)
+See our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) to get started.
 
 ## Development Setup
 
@@ -95,19 +153,25 @@ We're currenly looking for help with:
 
 ## Documentation
 
-Additional information about Blankie, including an FAQ and more credits, are available on the [Blankie website](https://blankie.rest). The website is created using Astro and hosted on GitHub Pages. The source code is available in the `docs` directory.
-
-Information about the Blankie website's source code can be found in its [README](docs/README.md) file.
+Additional information about Blankie, including an FAQ and more credits, are available on the [Blankie website](https://blankie.rest). The website is created using Astro and hosted on GitHub Pages. The source code is available in the `docs` directory with more info in its own [README](docs/README.md) file.
 
 ## Credits
 
 ### Special Thanks
 
-An incredibly special thanks to [Rafael Mardojai CM](https://github.com/rafaelmardojai) and all the contributors to the [Blanket](https://github.com/rafaelmardojai/blanket) project which inspired me to build this app when I couldn't find a free, simple and open-source Mac app like it.
+An incredibly special thanks to [Rafael Mardojai CM](https://github.com/rafaelmardojai) and all the contributors to the [Blanket](https://github.com/rafaelmardojai/blanket) project which inspired me to build this app when I couldn't find a free, simple and open-source Mac app like it. Please give them a star and support their work!
+
+### Contributors
+
+Thanks to everyone who has contributed to making Blankie better! ✨
+
+<a href="https://github.com/codybrom/blankie/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=codybrom/blankie" alt="Contributors" title="Made with https://contrib.rocks" />
+</a>
 
 ### Sounds
 
-The sounds in Blankie are used under various open licenses. Full attribution information about sounds and licensing is available on the Blankie website at [blankie.rest/credits](https://blankie.rest/credits) or on the About screen of the app.
+The sounds in Blankie are used under various open licenses. Full attribution information about sounds and licensing can be found on the Blankie website at [blankie.rest/credits](https://blankie.rest/credits) or on the About screen of the app.
 
 ### App Logo / Icon
 
@@ -123,7 +187,7 @@ Blankie uses [SF Symbols](https://developer.apple.com/sf-symbols/) for sound ico
 
 ## License & Copyright
 
-© 2024 Cody Bromley. All rights reserved.
+© 2025 Cody Bromley and contributors. All rights reserved.
 
 The Blankie name and trademark rights are reserved. The Blankie logo and app icon are licensed under a [Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
@@ -131,12 +195,15 @@ The Blankie source code and website code are copyright Cody Bromley and licensed
 
 Different components of Blankie (such as sounds, icons, or others) may be covered by different licenses. Full attribution information about sounds and licensing for included items is available on the Blankie website at [blankie.rest/credits](https://blankie.rest/credits) and on the About screen of the app.
 
-## Support & Community
+## Support Development
 
-- 🐛 Find a bug? [Open an issue](https://github.com/codybrom/blankie/issues/new?assignees=&labels=bug&projects=&template=bug_report.md&title=BUG%3A+)
-- 💡 Have an idea? [Submit a feature request](https://github.com/codybrom/blankie/issues/new?assignees=&labels=enhancement&projects=&template=feature_request.md&title=IDEA%3A+)
-- 💬 Join the discussion in our [GitHub Discussions](https://github.com/codybrom/blankie/discussions)
+Blankie is made with love and caffeine and will always be free and open-source. You can support Blankie's ongoing development via [GitHub Sponsors](https://github.com/sponsors/codybrom), [Ko-fi](https://ko-fi.com/codybrom), or [Buy Me a Coffee](https://buymeacoffee.com/codybrom)
 
 ---
 
-> Blankie is an independent macOS application inspired by Blanket. Blankie was built without re-using any code from the Blanket project, though it does use some of the same openly licensed sound files. Blankie is not affiliated with or endorsed by the Blanket team or any of its contributors.
+<div align="center">
+  <sub>
+    Blankie is an independent macOS application inspired by <a href="https://github.com/rafaelmardojai/blanket">Blanket</a>.<br>
+    Built with ❤️ by <a href="https://github.com/codybrom">Cody Bromley</a> and contributors.
+  </sub>
+</div>

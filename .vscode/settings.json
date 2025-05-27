@@ -1,16 +1,47 @@
 {
+  "[swift]": {
+    "editor.defaultFormatter": "vknabel.vscode-apple-swift-format",
+    "editor.formatOnSave": true
+  },
   "markdownlint.config": {
     "default": true,
     "MD013": false,
     "MD033": false,
-    "MD034": false,
-    "MD041": false
+    "MD041": false,
+    "MD024": {
+      "siblings_only": true
+    }
   },
   "cSpell.words": [
-    "Blankie"
+    "aybarsnazlica",
+    "blanki",
+    "blanki8n",
+    "Blankie",
+    "Chuscas",
+    "Chuskas",
+    "codybrom",
+    "davnr",
+    "Deutsch",
+    "Español",
+    "facebookexternalhit",
+    "Français",
+    "healthcheck",
+    "Italiano",
+    "kofi",
+    "Mardojai",
+    "playform",
+    "Sonoma",
+    "Türkçe",
+    "Twitterbot",
+    "xcconfig",
+    "xcstrings",
+    "yournamehere",
+    "简体中文",
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
   },
-  "gpt-context-generator.enforceFileTypes": false
+  "swift.diagnostics": true,
+  "swift.sourcekit-lsp.disable": true,
+  "docker.lsp.experimental.vulnerabilityScanning": false,
 }

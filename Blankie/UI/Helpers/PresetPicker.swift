@@ -22,7 +22,9 @@ struct PresetPicker: View {
         HStack(spacing: 4) {
           Text(
             presetManager.hasCustomPresets
-              ? (presetManager.currentPreset?.name ?? "Default") : "Presets"
+              ? (presetManager.currentPreset?.name
+                ?? String(localized: "Default", comment: "Default preset name"))
+              : String(localized: "Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)
           Image(systemName: "chevron.down")
@@ -48,14 +50,18 @@ struct PresetPicker: View {
               // Count existing custom presets
               let customPresetCount = presetManager.presets.filter { !$0.isDefault }.count
               // Create name like "Preset 1", "Preset 2", etc.
-              let newPresetName = "Preset \(customPresetCount + 1)"
+              let newPresetName = String(
+                format: String(localized: "Preset %d", comment: "New preset name format"),
+                customPresetCount + 1
+              )
 
               Task {
                 presetManager.saveNewPreset(name: newPresetName)
                 showingPresetPopover = false
               }
             }) {
-              Label("New Preset", systemImage: "plus")
+              Label(
+                String(localized: "New Preset", comment: "New preset button"), systemImage: "plus")
             }
             .buttonStyle(.plain)
             .padding(8)
@@ -116,6 +122,7 @@ private struct PresetList: View {
     }
   }
 }
+
 private struct PresetRow: View {
   let preset: Preset
   @Binding var isPresented: Bool
@@ -175,7 +182,9 @@ private struct PresetRow: View {
     }
     .padding(.horizontal, 12)
     .padding(.vertical, 6)
-    .alert("Error", isPresented: .constant(error != nil)) {
+    .alert(
+      "Error", isPresented: .constant(error != nil)
+    ) {
       Button("OK") { error = nil }
     } message: {
       if let error = error {

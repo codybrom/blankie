@@ -6,6 +6,7 @@
 //
 
 import Combine
+import Foundation
 import SwiftUI
 
 private enum UserDefaultsKeys {
@@ -16,9 +17,11 @@ private enum UserDefaultsKeys {
   static let hideInactiveSounds = "hideInactiveSounds"
   static let enableHaptics = "enableHaptics"
   static let enableSpatialAudio = "enableSpatialAudio"
+  static let language = "languagePreference"
 }
 
 class GlobalSettings: ObservableObject {
+  @Published var needsRestartForLanguageChange = false
   static let shared = GlobalSettings()
 
   @Published private(set) var volume: Double
@@ -26,6 +29,8 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var customAccentColor: Color?
   @Published private(set) var alwaysStartPaused: Bool
   @Published private(set) var hideInactiveSounds: Bool
+  @Published private(set) var language: Language
+  @Published private(set) var availableLanguages: [Language] = []
 
   // Platform-specific settings
   @Published private(set) var enableHaptics: Bool = true
@@ -63,6 +68,20 @@ class GlobalSettings: ObservableObject {
     enableSpatialAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableSpatialAudio) as? Bool ?? false
 
+    // First initialize language with default value
+    language = Language.system
+
+    // Then load available languages
+    availableLanguages = Language.getAvailableLanguages()
+
+    // Finally, try to set the saved language preference
+    let savedLanguageCode = UserDefaults.standard.string(forKey: UserDefaultsKeys.language)
+    if let code = savedLanguageCode,
+      let savedLanguage = availableLanguages.first(where: { $0.code == code })
+    {
+      language = savedLanguage
+    }
+
     // After initialization, setup observers
     setupObservers()
     logCurrentSettings()
@@ -73,8 +92,9 @@ class GlobalSettings: ObservableObject {
   }
 
   private func setupObservers() {
-    _appearance.projectedValue.sink { newValue in
+    _appearance.projectedValue.sink { [weak self] newValue in
       UserDefaults.standard.setValue(newValue.rawValue, forKey: UserDefaultsKeys.appearance)
+      self?.updateAppAppearance()
     }.store(in: &observers)
 
     _customAccentColor.projectedValue.sink { newColor in
@@ -99,6 +119,10 @@ class GlobalSettings: ObservableObject {
 
     _enableSpatialAudio.projectedValue.sink { newValue in
       UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableSpatialAudio)
+    }.store(in: &observers)
+
+    _language.projectedValue.sink { newValue in
+      UserDefaults.standard.setValue(newValue.code, forKey: UserDefaultsKeys.language)
     }.store(in: &observers)
   }
 
@@ -169,6 +193,21 @@ class GlobalSettings: ObservableObject {
     logCurrentSettings()
   }
 
+  @MainActor
+  func setLanguage(_ newLanguage: Language) {
+    guard newLanguage.code != language.code else {
+      print("🌐 Language not changed (already set to \(language.code))")
+      return
+    }
+
+    print("🌐 GlobalSettings: Changing language from \(language.code) to \(newLanguage.code)")
+    language = newLanguage
+
+    needsRestartForLanguageChange = true
+    Language.applyLanguage(newLanguage)
+    logCurrentSettings()
+  }
+
   func logCurrentSettings() {
     print("\n⚙️ GlobalSettings: Current State")
     print("  - Volume: \(volume)")
@@ -178,5 +217,22 @@ class GlobalSettings: ObservableObject {
     print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
     print("  - Enable Haptics: \(enableHaptics)")
     print("  - Enable Spatial Audio: \(enableSpatialAudio)")
+    print("  - Language: \(language.code)")
+    print("  - Available Languages: \(availableLanguages.map { $0.code }.joined(separator: ", "))")
+  }
+
+  private func updateAppAppearance() {
+    #if os(macOS)
+      DispatchQueue.main.async {
+        switch self.appearance {
+        case .system:
+          NSApp.appearance = nil
+        case .light:
+          NSApp.appearance = NSAppearance(named: .aqua)
+        case .dark:
+          NSApp.appearance = NSAppearance(named: .darkAqua)
+        }
+      }
+    #endif
   }
 }

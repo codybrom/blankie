@@ -4,6 +4,9 @@ import { Image } from "astro:assets";
 import screenshot from "../assets/screenshot.png";
 import macAppStoreBadge from "../assets/download-on-mac-app-store.svg";
 import wavesVideo from "../assets/waves.mp4";
+import ghSVG from "../assets/github.svg";
+import bmcSVG from "../assets/bmc.svg";
+import kfSVG from "../assets/kofi.svg";
 
 const title = "Ambient sound mixer for macOS";
 ---
@@ -29,7 +32,15 @@ const title = "Ambient sound mixer for macOS";
         ambient atmosphere.
       </span>
     </div>
-    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-16">
+    <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-8">
+      <p
+        class="text-base mt-6 flex items-center justify-center gap-2 bg-blue-900/10 rounded px-3 py-1 mx-auto w-fit border border-blue-300 border-opacity-20 font-normal tracking-wide"
+        aria-label="Multiple language support announcement"
+      >
+        🌍 Now available in Deutsch, Español, Français, Italiano, Türkçe and
+        简体中文!
+      </p>
+
       <h1
         class="text-5xl md:text-6xl font-semibold leading-tight tracking-tighter my-4"
       >
@@ -48,55 +59,92 @@ const title = "Ambient sound mixer for macOS";
           <span class="sm:hidden">Flow.</span>
         </div>
       </h2>
-      <Image
-        src={screenshot}
-        alt="Screenshot of the Blankie app"
-        width={712}
-        height={1039}
-        loading="eager"
-        class="rounded-lg mx-auto max-w-full block transition duration-300 hover:scale-102 w-full md:w-[600px]"
-        quality={90}
-        style={{ aspectRatio: "712/1039" }}
-      />
+      <a href="/features" class="block">
+        <Image
+          src={screenshot}
+          alt="Screenshot of the Blankie app"
+          width={712}
+          height={1039}
+          loading="eager"
+          class="rounded-lg mx-auto max-w-full block transition duration-300 hover:scale-102 w-full md:w-[600px] cursor-pointer"
+          quality={90}
+          style={{ aspectRatio: "712/1039" }}
+        />
+      </a>
+
+      <!-- Product Hunt Badge -->
+      <div class="flex justify-center mb-8">
+        <a
+          href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"
+          target="_blank"
+        >
+          <img
+            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=light&t=1747948853827"
+            alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt"
+            style="width: 250px; height: 54px;"
+            width="250"
+            height="54"
+          />
+        </a>
+      </div>
 
       <div
         id="download"
-        class="flex flex-col items-center max-w-fit mx-auto gap-y-5 mt-4"
+        class="flex flex-col items-center max-w-fit mx-auto gap-y-4 mt-4"
       >
-        <a
-          href="https://apps.apple.com/us/app/blankie/id6740096581"
-          class="hover:opacity-80 transition-opacity duration-300"
-        >
-          <Image
-            src={macAppStoreBadge}
-            alt="Download on the Mac App Store"
-            width={240}
-            height={80}
-            loading="eager"
-          />
-        </a>
-
-        <div class="flex flex-col sm:flex-row gap-4 items-center">
+        <!-- Primary Download -->
+        <div class="flex flex-col items-center">
           <a
-            href="https://github.com/codybrom/blankie/releases/latest"
-            class="text-gray-200 hover:text-yellow-500 text-sm font-normal cursor-pointer underline flex items-center gap-x-1 transition-colors duration-300"
+            href="https://apps.apple.com/us/app/blankie/id6740096581"
+            class="hover:opacity-90 transition-all duration-300"
           >
-            or download directly from GitHub
+            <Image
+              src={macAppStoreBadge}
+              alt="Download on the Mac App Store"
+              width={240}
+              height={80}
+              loading="lazy"
+            />
           </a>
+          <span class="text-xs text-gray-300 mt-2 font-bold"
+            >Recommended Method • Automatic Updates</span
+          >
+        </div>
+
+        <!-- Alternative Options -->
+        <div class="flex flex-col gap-2 items-center text-sm">
+          <div class="flex flex-col sm:flex-row gap-1 sm:gap-3 items-center">
+            <a
+              href="https://github.com/codybrom/blankie/releases/latest/download/Blankie.zip"
+              class="text-yellow-300 hover:text-yellow-200 transition-colors underline"
+            >
+              Direct Download
+            </a>
+            <span class="hidden sm:inline text-gray-400">•</span>
+            <a
+              href="#brew"
+              class="text-yellow-300 hover:text-yellow-200 transition-colors underline"
+            >
+              Install via Homebrew
+            </a>
+          </div>
+          <span class="text-xs text-gray-400 text-center">
+            Verified by Apple • Manual Updates Only</span
+          >
         </div>
       </div>
       <p
-        class="text-lg mt-12 flex items-center justify-center gap-2 text-gray-100"
+        class="text-lg mt-12 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-2 text-gray-100"
       >
         <span>macOS 14.6+</span>
-        <span class="text-gray-400">•</span>
-        <span>No Ads or Subscriptions</span>
-        <span class="text-gray-400">•</span>
-        <span>Offline & Private</span>
-        <span class="text-gray-400">•</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
+        <span class="sm:ml-2">No Ads or Subscriptions</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
+        <span class="sm:ml-2">Offline & Private</span>
+        <span class="hidden sm:inline text-gray-400">•</span>
         <a
-          href="https://github.com/codybrom/blankie"
-          class="hover:text-yellow-500 transition-colors duration-300"
+          href="/contributing"
+          class="hover:text-yellow-500 transition-colors duration-300 sm:ml-2"
         >
           Open Source
         </a>
@@ -107,53 +155,160 @@ const title = "Ambient sound mixer for macOS";
   <!-- Features Section -->
   <section class="max-w-5xl mx-auto px-5 py-10" id="features">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <div
-        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
-      >
-        <div class="text-3xl mb-5">🔊</div>
-        <h3 class="text-xl font-semibold mb-2">Dulcet Tones</h3>
-        <p class="text-mid-gray base">
-          Built-in collection of high-quality ambient soundscapes.
-        </p>
-      </div>
-      <div
-        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
-      >
-        <div class="text-3xl mb-5">🎚️</div>
-        <h3 class="text-xl font-semibold mb-2">Mixed by You</h3>
-        <p class="text-mid-gray base">
-          Fine-tune with individual and global volume controls.
-        </p>
-      </div>
+      <a href="/features#high-quality-audio" class="block group">
+        <div
+          class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
+        >
+          <div class="text-3xl mb-5">🎚️</div>
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-yellow-300 transition-colors flex items-center gap-2"
+          >
+            High-Quality Audio
+            <svg
+              class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </h3>
+          <p class="text-mid-gray base">
+            14 built-in ambient sounds for mixing custom soundscapes.
+          </p>
+          <p
+            class="text-xs text-yellow-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            Learn more about audio features →
+          </p>
+        </div>
+      </a>
 
-      <div
-        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
-      >
-        <div class="text-3xl mb-5">💾</div>
-        <h3 class="text-xl font-semibold mb-2">Preset Perfection</h3>
-        <p class="text-mid-gray base">
-          Quick access to your favorite ambient blends.
-        </p>
-      </div>
-      <div
-        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
-      >
-        <div class="text-3xl mb-5"></div>
-        <h3 class="text-xl font-semibold mb-2">Made for macOS</h3>
-        <p class="text-mid-gray base">
-          <i class="font-semibold">It just works</i> with media keys, Control Center
-          & AirPod controls.
-        </p>
-      </div>
-      <div
-        class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative"
-      >
-        <div class="text-3xl mb-5">♾️</div>
-        <h3 class="text-xl font-semibold mb-2">Open-Source & Free</h3>
-        <p class="text-mid-gray base">
-          No in-app purchases or subscriptions. Ever.
-        </p>
-      </div>
+      <a href="/features#preset-perfection" class="block group">
+        <div
+          class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
+        >
+          <div class="text-3xl mb-5">💾</div>
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-yellow-300 transition-colors flex items-center gap-2"
+          >
+            Preset Perfection
+            <svg
+              class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </h3>
+          <p class="text-mid-gray base">
+            Save and switch between your favorite ambient mixes.
+          </p>
+          <p
+            class="text-xs text-yellow-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            Learn more about presets →
+          </p>
+        </div>
+      </a>
+
+      <a href="/i18n" class="block group">
+        <div
+          class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
+        >
+          <div class="text-3xl mb-5">🌍</div>
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-yellow-300 transition-colors flex items-center gap-2"
+          >
+            Multiple Languages
+            <svg
+              class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </h3>
+          <p class="text-mid-gray base">
+            Available in 7 languages, with ongoing community contributions.
+          </p>
+          <p
+            class="text-xs text-yellow-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            View translations page →
+          </p>
+        </div>
+      </a>
+
+      <a href="/features#made-for-macos" class="block group">
+        <div
+          class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
+        >
+          <div class="text-3xl mb-5"></div>
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-yellow-300 transition-colors flex items-center gap-2"
+          >
+            Made for macOS
+            <svg
+              class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </h3>
+          <p class="text-mid-gray base">
+            <i class="font-semibold">It just works</i> with media keys, Control Center
+            & AirPod controls.
+          </p>
+          <p
+            class="text-xs text-yellow-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            Learn more about macOS integration →
+          </p>
+        </div>
+      </a>
+      <a href="/privacy" class="block group">
+        <div
+          class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
+        >
+          <div class="text-3xl mb-5">♾️</div>
+          <h3
+            class="text-xl font-semibold mb-2 group-hover:text-yellow-300 transition-colors flex items-center gap-2"
+          >
+            Actually Free
+            <svg
+              class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </h3>
+          <p class="text-mid-gray base">
+            No accounts, subscriptions, or additional purchases. Ever.
+          </p>
+          <p
+            class="text-xs text-yellow-300 mt-2 opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            View privacy policy →
+          </p>
+        </div>
+      </a>
       <div
         class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 coming-soon-card relative"
       >
@@ -165,4 +320,154 @@ const title = "Ambient sound mixer for macOS";
       </div>
     </div>
   </section>
+
+  <!-- Homebrew Installation Section -->
+  <section class="max-w-3xl mx-auto px-5 py-4 text-center" id="brew">
+    <h2 class="text-3xl font-semibold mb-6">Install with Homebrew</h2>
+    <div class="bg-card rounded-xl p-8 mb-6">
+      <p class="mb-4">
+        You can install Blankie via Homebrew by running this in your Terminal:
+      </p>
+      <div
+        class="bg-black text-white py-3 px-4 rounded-md overflow-x-auto text-center cursor-pointer hover:bg-gray-900 transition-colors duration-200 relative group"
+        id="brew-command-container"
+      >
+        <pre
+          class="m-0"><code class="inline-block">brew install --cask blankie</code></pre>
+
+        <!-- Hover overlay -->
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-70 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
+        >
+          <span class="text-white text-sm">Click to copy to clipboard</span>
+        </div>
+
+        <!-- Success message -->
+        <div
+          id="copy-success-message"
+          class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-80 rounded-md opacity-0 transition-opacity duration-300 pointer-events-none"
+        >
+          <span class="text-white text-sm">Copied to clipboard!</span>
+        </div>
+      </div>
+      <p class="text-mid-gray mt-4">
+        Requires Homebrew to be installed on your Mac. Visit <a
+          href="https://formulae.brew.sh/cask/blankie"
+          class="text-yellow-300 hover:text-yellow-200 transition-colors"
+          >brew.sh</a
+        > for more information.
+      </p>
+    </div>
+  </section>
+
+  <!-- Coming Soon Section -->
+  <section class="max-w-3xl mx-auto px-5 py-4 text-center">
+    <div class="bg-card rounded-xl p-8 mb-6 border border-yellow-500/20">
+      <div class="flex items-center justify-center mb-4">
+        <h2 class="text-2xl font-semibold">
+          Wish you could use Blankie on other devices?
+        </h2>
+      </div>
+      <p class="mb-6">
+        Blankie is coming to iOS, iPadOS, and visionOS. If you don't mind things
+        being a little rough around the edges, join Blankie's beta crew and help
+        us test it out!
+      </p>
+      <a
+        href="https://testflight.apple.com/join/XgpBpWv8"
+        class="inline-flex items-center px-6 py-3 text-sm font-bold text-yellow-100 bg-yellow-100/20 hover:bg-yellow-200/90 border hover:text-yellow-950 border-yellow-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span class="mr-2">🧪</span>
+        <span class="group-hover:text-black">Join the TestFlight Beta</span>
+      </a>
+      <p class="text-xs text-white mt-4">
+        Requires TestFlight to be installed on your device.
+        <a
+          href="https://developer.apple.com/testflight/"
+          class="text-yellow-300 hover:text-yellow-200 transition-colors"
+          >Learn more about TestFlight</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <!-- Support Section -->
+  <section class="max-w-3xl mx-auto px-5 py-10 my-4 text-center">
+    <h4 class="text-xl font-semibold mb-2">
+      Blankie is made with love and caffeine
+    </h4>
+    <p class="mb-6 text-gray-200 text-sm">
+      If you enjoy using it and want to support its creator and development, you
+      can use the links below:
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a
+        href="https://github.com/sponsors/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={ghSVG.src}
+          alt="GitHub Logo"
+          aria-label="GitHub"
+        />
+        GitHub Sponsors
+      </a>
+      <a
+        href="https://buymeacoffee.com/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={bmcSVG.src}
+          alt="Buy Me a Coffee Logo"
+          aria-label="Buy Me a Coffee"
+        />
+        Buy Me a Coffee
+      </a>
+      <a
+        href="https://ko-fi.com/codybrom"
+        class="inline-flex items-center px-3 py-2 text-sm font-bold text-blue-100 bg-blue-100/20 hover:bg-blue-950 border hover:text-blue-200/90 border-blue-300 rounded-md shadow-sm transition-colors duration-200 group"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <img
+          class="h-[15px] inline-block mr-2"
+          src={kfSVG.src}
+          alt="Ko-fi Logo"
+          aria-label="Ko-fi"
+        />
+        Ko-fi
+      </a>
+    </div>
+  </section>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const brewCommandContainer = document.getElementById(
+        "brew-command-container"
+      );
+      const successMessage = document.getElementById("copy-success-message");
+
+      if (brewCommandContainer && successMessage) {
+        brewCommandContainer.addEventListener("click", () => {
+          navigator.clipboard.writeText("brew install --cask blankie");
+
+          // Show the success message
+          successMessage.style.opacity = "1";
+
+          // Hide it after a delay
+          setTimeout(() => {
+            successMessage.style.opacity = "0";
+          }, 1500);
+        });
+      }
+    });
+  </script>
 </Layout>

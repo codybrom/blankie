@@ -13,6 +13,8 @@ import SwiftUI
     @Binding var showingShortcuts: Bool
     @Binding var showingNewPresetPopover: Bool
     @Binding var presetName: String
+    @State private var showingImportSoundSheet = false
+    @State private var showingCustomSoundsView = false
 
     @ObservedObject private var appState = AppState.shared
     @StateObject private var audioManager = AudioManager.shared
@@ -27,11 +29,10 @@ import SwiftUI
 
       ToolbarItem(placement: .primaryAction) {
         Menu {
-          Button("Add Sound (Coming Soon!)") {
-            // Implement add sound functionality
+          Button("Add or Edit Custom Sounds") {
+            showingCustomSoundsView = true
           }
           .keyboardShortcut("o", modifiers: .command)
-          .disabled(true)
 
           Button {
             withAnimation {
@@ -53,7 +54,7 @@ import SwiftUI
 
           Button("About Blankie") {
             showingAbout = true
-            appState.isAboutViewPresented = true  // Add this line
+            appState.isAboutViewPresented = true
           }
 
           Button("Keyboard Shortcuts") {
@@ -62,7 +63,7 @@ import SwiftUI
           .keyboardShortcut("?", modifiers: [.command, .shift])
 
           SettingsLink {
-            Text("Preferences...")
+            Text("Preferences...", comment: "Preferences menu item")
           }
           .keyboardShortcut(",", modifiers: .command)
 
@@ -78,6 +79,13 @@ import SwiftUI
         }
         .menuIndicator(.hidden)
         .menuStyle(.borderlessButton)
+        .sheet(isPresented: $showingImportSoundSheet) {
+          ImportSoundSheet()
+        }
+        .sheet(isPresented: $showingCustomSoundsView) {
+          CustomSoundsView()
+            .frame(width: 450, height: 500)
+        }
       }
     }
   }

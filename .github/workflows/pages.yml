@@ -5,8 +5,13 @@ on:
     branches:
       - main
     paths:
-      - "docs/**"
       - ".github/workflows/pages.yml"
+      - "**/*.xcstrings"
+      - "Blankie/credits.json"
+      - "Blankie/Resources/sounds.json"
+      - "docs/**"
+      - "CONTRIBUTING.md"
+      - "FAQ.md"
   workflow_dispatch:
 
 permissions:

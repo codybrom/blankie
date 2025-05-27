@@ -1,0 +1,483 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ISO6391 from "iso-639-1-plus";
+import languagesJson from "../../public/i18n/languages.json";
+
+const title = "Translation Status";
+
+// Define types for the language data structure
+interface StringStats {
+  totalStrings: number;
+  translatedStrings: number; // Finalized/reviewed strings
+  needsReviewStrings: number; // Strings that have translations but need review
+  untranslatedStrings: number; // Strings that haven't been translated at all
+  translationPercentage: number; // Percentage of finalized strings
+  needsReviewPercentage: number; // Percentage of strings needing review
+  untranslatedPercentage: number; // Percentage of strings not translated
+}
+
+interface LanguageData {
+  metadata: {
+    extractedAt: string;
+    languages: string[];
+  };
+  statistics: Record<string, StringStats>;
+}
+
+// Fetch the languages.json data at build time
+const languageData = languagesJson as unknown as LanguageData;
+
+// Sort languages by translation percentage (descending)
+const sortedLanguages = Object.entries(languageData.statistics).sort(
+  ([, a], [, b]) => b.translationPercentage - a.translationPercentage
+);
+
+// Get language names (you could expand this map as needed)
+function getLanguageName(localeCode: string): string {
+  // Special case for source language
+  if (localeCode === "en") {
+    return "English (Source)";
+  }
+
+  // Try to get the name from ISO6391
+  if (ISO6391.validate(localeCode)) {
+    return ISO6391.getName(localeCode);
+  }
+
+  // Fallback for special cases not in the ISO standard
+  const specialCases: Record<string, string> = {
+    "zh-Hans": "Chinese (Simplified)",
+    "zh-Hant": "Chinese (Traditional)",
+    // Add other special cases as needed
+  };
+
+  return specialCases[localeCode] || localeCode;
+}
+
+const extractionTimestamp = languageData.metadata.extractedAt;
+
+// Function to calculate combined progress (translated + needs review)
+function getCombinedProgress(stats: StringStats): number {
+  return stats.translationPercentage + stats.needsReviewPercentage;
+}
+
+// Function to determine the color class based on combined progress
+function getColorClass(stats: StringStats): string {
+  const combinedProgress = getCombinedProgress(stats);
+
+  if (stats.translationPercentage >= 90)
+    return "bg-green-500/30 border-green-500";
+  if (stats.translationPercentage >= 70)
+    return "bg-blue-500/30 border-blue-500";
+  if (combinedProgress >= 90) return "bg-blue-500/30 border-blue-500"; // High combined progress
+  if (combinedProgress >= 50) return "bg-yellow-500/30 border-yellow-500"; // Moderate combined progress
+  if (combinedProgress > 0) return "bg-orange-500/30 border-orange-500"; // Some progress
+  return "bg-red-500/30 border-red-500"; // No progress at all
+}
+
+// Function to determine the status text based on combined progress
+function getStatusText(stats: StringStats): string {
+  const { translationPercentage, needsReviewPercentage } = stats;
+  const combinedProgress = translationPercentage + needsReviewPercentage;
+
+  if (translationPercentage >= 90) return "Complete";
+  if (translationPercentage >= 70) return "Well Translated";
+
+  if (combinedProgress >= 90) {
+    if (needsReviewPercentage > translationPercentage)
+      return "Mostly in Review";
+    return "Nearly Complete";
+  }
+
+  if (combinedProgress >= 50) {
+    if (needsReviewPercentage > translationPercentage)
+      return "Mainly in Review";
+    return "In Progress";
+  }
+
+  if (combinedProgress > 0) {
+    if (translationPercentage === 0) return "All Needs Review";
+    return "Getting Started";
+  }
+
+  return "Not Started";
+}
+---
+
+<Layout title={title}>
+  <main class="max-w-5xl mx-auto px-5 pt-28 pb-10">
+    <h1 class="text-4xl font-semibold mb-6">Translation Status</h1>
+
+    <div class="border border-gray-700 bg-card rounded-lg p-6 mb-8 text-base">
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4"
+      >
+        <p class="text-md leading-relaxed mb-4 md:mb-0 md:mr-4">
+          This page shows the current translation status for Blankie. The data
+          is automatically updated whenever new translations are added.
+        </p>
+
+        <div class="flex flex-wrap gap-3">
+          <div class="dropdown relative inline-block">
+            <button
+              class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 mr-2"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              Download Template
+              <svg
+                class="w-4 h-4 ml-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div
+              class="dropdown-menu hidden absolute right-0 mt-2 py-2 w-48 bg-zinc-800 rounded-md shadow-xl border border-zinc-700 z-10"
+            >
+              <a
+                href="/i18n/source.json"
+                target="_blank"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+              >
+                JSON Format
+              </a>
+              <a
+                href="/i18n/source.csv"
+                target="_blank"
+                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+              >
+                CSV Format
+              </a>
+            </div>
+          </div>
+
+          <a
+            href="/contributing#translation-contributions"
+            class="inline-flex items-center px-4 py-2 bg-primary-blue hover:bg-blue-700 text-white font-medium rounded-md transition-colors text-sm no-underline"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 mr-2"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              ></path>
+            </svg>
+            Translation Guide
+          </a>
+        </div>
+      </div>
+
+      <p class="mt-4 text-sm text-mid-gray">
+        Last updated: <span id="localTime" data-timestamp={extractionTimestamp}
+          >{extractionTimestamp}</span
+        >
+      </p>
+    </div>
+
+    {
+      !languageData && (
+        <div class="bg-red-500/30 border border-red-500 rounded-lg p-6 mb-8">
+          <h2 class="text-xl font-semibold mb-2">
+            Error Loading Translation Data
+          </h2>
+          <p>
+            We couldn't load the latest translation statistics. Please try again
+            later.
+          </p>
+        </div>
+      )
+    }
+
+    {
+      languageData && (
+        <div class="grid gap-6 grid-cols-1 md:grid-cols-2">
+          {sortedLanguages.map(([langCode, stats]) => (
+            <div
+              class={`border-l-4 rounded-lg overflow-hidden bg-card ${getColorClass(stats)}`}
+            >
+              <div class="p-4 flex flex-col h-full">
+                <div class="flex justify-between items-start">
+                  <h2 class="text-xl font-semibold">
+                    {getLanguageName(langCode)}
+                  </h2>
+                  <span class="px-2 py-1 text-xs rounded-full bg-black/30">
+                    {getStatusText(stats)}
+                  </span>
+                </div>
+
+                <div class="my-2 flex-grow">
+                  {/* Combined progress indicator */}
+                  <div class="mb-1 flex justify-between text-xs text-mid-gray">
+                    <span>Overall Progress:</span>
+                    <span>{getCombinedProgress(stats)}%</span>
+                  </div>
+
+                  {/* Finalized translations */}
+                  <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+                    <div
+                      class="h-4 rounded-full bg-gradient-to-r from-green-500/70 to-green-500"
+                      style={`width: ${stats.translationPercentage}%`}
+                    />
+                  </div>
+
+                  <div class="flex justify-between text-sm">
+                    <span>{stats.translationPercentage}% finalized</span>
+                    <span>
+                      {stats.translatedStrings}/{stats.totalStrings} translated
+                      & reviewed strings
+                    </span>
+                  </div>
+
+                  {/* Needs review translations */}
+                  {stats.needsReviewStrings > 0 && (
+                    <div class="mt-3">
+                      <div class="w-full bg-black/50 rounded-full h-4 mb-2">
+                        <div
+                          class="h-4 rounded-full bg-gradient-to-r from-orange-500 to-orange-500/70"
+                          style={`width: ${stats.needsReviewPercentage}%`}
+                        />
+                      </div>
+
+                      <div class="flex justify-between text-sm">
+                        <span>{stats.needsReviewPercentage}% in review</span>
+                        <span>
+                          {stats.needsReviewStrings}/{stats.totalStrings} need
+                          review
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <a
+                  href={`/i18n/${langCode}`}
+                  class="text-sm text-yellow-500 hover:text-yellow-400 transition-colors flex items-center gap-1 bg-card px-3 py-1.5 rounded-lg w-fit mt-2"
+                >
+                  View Details
+                  <span class="text-xs">→</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    <div class="mt-12 border border-gray-700 bg-card rounded-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">About Translations</h2>
+      <p class="mb-4">
+        Blankie is translated by volunteers. If you'd like to help translate
+        Blankie into your language, please check the
+        <a
+          href="/contributing#translation-contributions"
+          class="text-yellow-500 hover:text-yellow-400 transition-colors"
+        >
+          contribution guidelines
+        </a>.
+      </p>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">
+        Getting Started with Translation
+      </h3>
+      <ol class="list-decimal list-inside space-y-2 mb-4">
+        <li>
+          Download the <a
+            href="/i18n/"
+            class="text-yellow-500 hover:text-yellow-400 transition-colors"
+            >English template</a
+          > to use as your starting point
+        </li>
+        <li>
+          Translate the strings by editing the the JSON or CSV file (keep the
+          original keys and structure)
+        </li>
+        <li>
+          Submit your translations either:
+          <ul class="list-disc list-inside ml-6 mt-2 space-y-1">
+            <li>
+              Through a GitHub issue using the <a
+                href="https://github.com/codybrom/blankie/issues/new?assignees=&labels=translation-contribution&projects=&template=translation_contribution.yml&title=%5BTranslation%5D%3A+"
+                class="text-yellow-500 hover:text-yellow-400 transition-colors"
+                >Translation contribution</a
+              > template
+            </li>
+            <li>
+              Or by emailing them to <a
+                href="mailto:i18n@blankie.rest"
+                class="text-yellow-500 hover:text-yellow-400 transition-colors"
+                >i18n@blankie.rest</a
+              >
+            </li>
+          </ul>
+        </li>
+      </ol>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">Understanding the Status</h3>
+      <p class="mb-3">We track translation progress in two categories:</p>
+      <ul class="space-y-2 mb-4">
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Finalized</strong>: Translations that are ready for use</span
+          >
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>In Review</strong>: Translations that need validation</span
+          >
+        </li>
+      </ul>
+
+      <p class="mb-3">Status labels are based on the combined progress:</p>
+      <ul class="space-y-2">
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-green-500 rounded-full mr-2"
+          ></span>
+          <span><strong>Complete</strong>: 90%+ strings finalized</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-blue-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Well Translated/Nearly Complete</strong>: 70%+ finalized or
+            90%+ combined progress</span
+          >
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-yellow-500 rounded-full mr-2"
+          ></span>
+          <span><strong>In Progress</strong>: 50%+ combined progress</span>
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-orange-500 rounded-full mr-2"
+          ></span>
+          <span
+            ><strong>Getting Started/All Needs Review</strong>: Some strings
+            translated or in review</span
+          >
+        </li>
+        <li class="flex items-center">
+          <span class="w-3 h-3 inline-block bg-red-500 rounded-full mr-2"
+          ></span>
+          <span><strong>Not Started</strong>: No translation work yet</span>
+        </li>
+      </ul>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">Needs Review</h3>
+      <p>
+        Strings marked as "needs review" are translations that may need
+        attention, such as strings that:
+      </p>
+      <ul class="list-disc list-inside mt-2 space-y-1 text-mid-gray">
+        <li>Were automatically translated and need human verification</li>
+        <li>May not match the context correctly</li>
+        <li>Need updates after the source string changed</li>
+      </ul>
+
+      <h3 class="text-xl font-semibold mt-6 mb-3">Working with Translations</h3>
+      <p>
+        On a language page, you can download translations as CSV files to work
+        on them in spreadsheet software. After making changes, you can
+        contribute by submitting a GitHub issue with your translation file. If
+        you're comfortable using XCode, you can also fork the repository, import
+        changes from a CSV or JSON file <a
+          href="/contributing/#translation-contributions"
+          >using our import script</a
+        >, then test locally and create a pull request with your changes.
+      </p>
+
+      <div class="divider my-6 border-t border-gray-700"></div>
+
+      <p class="mt-6 mb-4">
+        Find an issue with existing translations or have general feedback? Email <a
+          href="mailto:i18n@blankie.rest"
+          class="text-yellow-500 hover:text-yellow-400 transition-colors"
+          >i18n@blankie.rest</a
+        >.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Handle dropdown functionality
+  const dropdownButton = document.querySelector(".dropdown button");
+  const dropdownMenu = document.querySelector(".dropdown-menu");
+
+  if (dropdownButton && dropdownMenu) {
+    // Toggle dropdown
+    dropdownButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener("click", () => {
+      dropdownMenu.classList.add("hidden");
+    });
+
+    // Prevent closing when clicking inside dropdown
+    dropdownMenu.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  }
+
+  // Add local time conversion
+  const localTimeElement = document.getElementById("localTime");
+  if (localTimeElement) {
+    const timestamp = localTimeElement.getAttribute("data-timestamp");
+    if (timestamp) {
+      const utcDate = new Date(timestamp);
+      localTimeElement.textContent = utcDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+      });
+    }
+  }
+</script>
+
+<style>
+  /* Add these styles to handle dropdown positioning and appearance */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-menu {
+    min-width: 160px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
+</style>

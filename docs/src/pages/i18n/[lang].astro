@@ -1,0 +1,642 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ISO6391 from "iso-639-1-plus";
+
+// Define types for the language data
+interface StringItem {
+  source: string;
+  target: string;
+  state: string;
+  comment: string;
+}
+
+interface LanguageFile {
+  metadata: {
+    language: string;
+    extractedAt: string;
+    sourceFiles: string[];
+  };
+  statistics: {
+    totalStrings: number;
+    translatedStrings: number;
+    needsReviewStrings: number;
+    translationPercentage: number;
+    needsReviewPercentage: number;
+  };
+  strings: Record<string, StringItem>;
+}
+
+// Function to get language name - same as in i18n.astro
+function getLanguageName(localeCode: string): string {
+  // Special case for source language
+  if (localeCode === "en") {
+    return "English (Source)";
+  }
+
+  // Try to get the name from ISO6391
+  if (ISO6391.validate(localeCode)) {
+    return ISO6391.getName(localeCode);
+  }
+
+  // Fallback for special cases not in the ISO standard
+  const specialCases: Record<string, string> = {
+    "zh-Hans": "Chinese (Simplified)",
+    "zh-Hant": "Chinese (Traditional)",
+    // Add other special cases as needed
+  };
+
+  return specialCases[localeCode] || localeCode;
+}
+
+export async function getStaticPaths() {
+  const baseUrl = import.meta.env.DEV
+    ? "http://localhost:4321"
+    : import.meta.env.SITE;
+
+  const languagesJsonPath = `${baseUrl}/i18n/languages.json`;
+  const response = await fetch(languagesJsonPath);
+  const languagesData = await response.json();
+
+  // Create a path for each language in the data
+  return Object.keys(languagesData.statistics).map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+
+// Function to calculate combined progress
+function getCombinedProgress(stats: LanguageFile["statistics"]): number {
+  return stats.translationPercentage + stats.needsReviewPercentage;
+}
+
+// Update the fetchLanguageData function for static build
+async function fetchLanguageData(lang: string): Promise<LanguageFile | null> {
+  try {
+    const baseUrl = import.meta.env.DEV
+      ? "http://localhost:4321"
+      : import.meta.env.SITE;
+
+    const langJsonPath = `${baseUrl}/i18n/${lang}.json`;
+    const response = await fetch(langJsonPath);
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch language data: ${response.status}`);
+    }
+
+    return (await response.json()) as LanguageFile;
+  } catch (error) {
+    console.error(`Error fetching language data for ${lang}:`, error);
+    return null;
+  }
+}
+
+const langData = await fetchLanguageData(lang || "");
+const langName = lang ? getLanguageName(lang) : "Unknown Language";
+const title = `${langName} Translation Status`;
+
+// Group strings by their state
+type GroupedStrings = {
+  translated: [string, StringItem][];
+  needsReview: [string, StringItem][];
+  needsTranslation: [string, StringItem][];
+};
+
+const groupedStrings: GroupedStrings = {
+  translated: [],
+  needsReview: [],
+  needsTranslation: [],
+};
+
+if (langData?.strings) {
+  Object.entries(langData.strings).forEach(([key, item]) => {
+    if (item.state === "translated") {
+      groupedStrings.translated.push([key, item]);
+    } else if (item.state === "needs_review") {
+      groupedStrings.needsReview.push([key, item]);
+    } else {
+      groupedStrings.needsTranslation.push([key, item]);
+    }
+  });
+
+  // Sort each group by comment, strings with comments first
+  const sortByComment = (a: [string, StringItem], b: [string, StringItem]) => {
+    // If both have comments or both don't have comments
+    if (!!a[1].comment === !!b[1].comment) {
+      // If both have comments, sort by comment
+      if (a[1].comment && b[1].comment) {
+        return a[1].comment.localeCompare(b[1].comment);
+      }
+      // If neither have comments, sort by key
+      return a[0].localeCompare(b[0]);
+    }
+    // Put strings with comments first
+    return a[1].comment ? -1 : 1;
+  };
+
+  groupedStrings.translated.sort(sortByComment);
+  groupedStrings.needsReview.sort(sortByComment);
+  groupedStrings.needsTranslation.sort(sortByComment);
+}
+
+function shouldShowSource(key: string, source: string): boolean {
+  return key !== source;
+}
+
+// Helper function to format a string for display (limit length, handle multiline)
+function formatStringForDisplay(str: string, maxLength: number = 100): string {
+  if (!str) return "";
+
+  // Replace newlines with spaces
+  let formatted = str.replace(/\n/g, " ");
+
+  // Truncate if too long
+  if (formatted.length > maxLength) {
+    formatted = formatted.substring(0, maxLength) + "...";
+  }
+
+  return formatted;
+}
+---
+
+<Layout title={title}>
+  <main class="max-w-6xl mx-auto px-5 pt-28 pb-10">
+    <div class="flex items-center mb-6">
+      <a
+        href="/i18n"
+        class="text-yellow-500 hover:text-yellow-400 transition-colors mr-3"
+      >
+        ← All Languages
+      </a>
+      <h1 class="text-4xl font-semibold">{langName} Translation</h1>
+    </div>
+
+    {
+      !langData && (
+        <div class="bg-red-500/30 border border-red-500 rounded-lg p-6 mb-8">
+          <h2 class="text-xl font-semibold mb-2">
+            Error Loading Translation Data
+          </h2>
+          <p>
+            We couldn't load the translation data for {langName}. Please try
+            again later or
+            <a
+              href={`/i18n/${lang}.json`}
+              class="text-yellow-500 hover:text-yellow-400 underline"
+              target="_blank"
+            >
+              view the raw JSON file
+            </a>
+            .
+          </p>
+        </div>
+      )
+    }
+
+    {
+      langData && (
+        <>
+          {/* Statistics Card */}
+          <div class="bg-zinc-800 rounded-lg shadow-lg overflow-hidden border border-zinc-700">
+            {/* Header */}
+            <div class="bg-zinc-900 p-5 border-b border-zinc-700">
+              <p class="text-sm text-gray-400 mt-1">
+                Last updated:{" "}
+                <span
+                  id="localTime"
+                  data-timestamp={langData.metadata.extractedAt}
+                >
+                  {langData.metadata.extractedAt}
+                </span>
+              </p>
+            </div>
+
+            {/* Content */}
+            <div class="p-6">
+              {/* Statistics Grid */}
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Finalized</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {langData.statistics.translationPercentage}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.translatedStrings} of{" "}
+                    {langData.statistics.totalStrings} strings
+                  </div>
+                </div>
+
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-orange-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Needs Review</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {langData.statistics.needsReviewPercentage}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.needsReviewStrings} of{" "}
+                    {langData.statistics.totalStrings} strings
+                  </div>
+                </div>
+
+                <div class="bg-zinc-900/70 rounded-lg p-4 shadow-inner border border-zinc-700/50">
+                  <div class="flex items-center mb-2">
+                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2" />
+                    <h3 class="text-gray-300 font-medium">Overall Progress</h3>
+                  </div>
+                  <div class="text-3xl font-bold text-white mb-1">
+                    {getCombinedProgress(langData.statistics)}%
+                  </div>
+                  <div class="text-sm text-gray-400">
+                    {langData.statistics.totalStrings} total strings
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress Bar */}
+              <div class="mb-6">
+                <div class="mb-2 text-sm font-medium text-gray-300">
+                  Translation Progress
+                </div>
+                <div class="w-full bg-zinc-950 rounded-full h-6 overflow-hidden shadow-inner">
+                  <div class="flex h-full">
+                    <div
+                      class="h-full bg-gradient-to-r from-green-600 to-green-500 transition-all duration-500"
+                      style={`width: ${langData.statistics.translationPercentage}%`}
+                    />
+                    <div
+                      class="h-full bg-gradient-to-r from-orange-600 to-orange-500 transition-all duration-500"
+                      style={`width: ${langData.statistics.needsReviewPercentage}%`}
+                    />
+                  </div>
+                </div>
+                <div class="flex justify-between text-xs mt-2 text-gray-400">
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-green-500 inline-block rounded-full mr-1" />
+                    <span>Finalized</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-orange-500 inline-block rounded-full mr-1" />
+                    <span>Needs Review</span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="w-2 h-2 bg-red-500 inline-block rounded-full mr-1" />
+                    <span>Not Translated</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer with Actions */}
+            <div class="bg-zinc-900/50 p-4 border-t border-zinc-700 flex flex-col sm:flex-row gap-4 justify-between items-center">
+              <div class="flex flex-wrap gap-3">
+                <a
+                  href={`/i18n/${lang}.json`}
+                  target="_blank"
+                  class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+                    />
+                  </svg>
+                  View JSON
+                </a>
+
+                {/* CSV Download Button - using client-side JS now */}
+                <a
+                  href={`/i18n/${lang}.csv`}
+                  download
+                  class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4 mr-2"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                    />
+                  </svg>
+                  Download CSV
+                </a>
+              </div>
+
+              <a
+                href="/contributing"
+                class="inline-flex items-center px-5 py-2 bg-primary-blue hover:bg-blue-700 text-white font-medium rounded-md transition-colors text-sm no-underline"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-4 w-4 mr-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                  />
+                </svg>
+                How to Contribute
+              </a>
+            </div>
+          </div>
+
+          {/* Tabs for different string categories */}
+          <div class="mb-8">
+            <div class="border-b border-zinc-700">
+              <ul class="flex flex-wrap -mb-px" id="tabs" role="tablist">
+                {/* Order tabs by count, largest first */}
+                {[
+                  {
+                    id: "translated",
+                    label: "Finalized",
+                    count: groupedStrings.translated.length,
+                    target: "#translated",
+                  },
+                  {
+                    id: "needs-translation",
+                    label: "Needs Translation",
+                    count: groupedStrings.needsTranslation.length,
+                    target: "#needs-translation",
+                  },
+                  {
+                    id: "needs-review",
+                    label: "Needs Review",
+                    count: groupedStrings.needsReview.length,
+                    target: "#needs-review",
+                  },
+                ]
+                  .sort((a, b) => b.count - a.count)
+                  .map((tab) => (
+                    <li class="mr-2" role="presentation">
+                      <button
+                        class={`inline-block p-4 border-b-2 rounded-t-lg ${
+                          tab.count > 0
+                            ? "border-transparent hover:text-gray-300 hover:border-gray-300"
+                            : "border-transparent text-gray-500 cursor-not-allowed opacity-50"
+                        }`}
+                        id={`${tab.id}-tab`}
+                        data-tabs-target={tab.target}
+                        type="button"
+                        role="tab"
+                        aria-controls={tab.id}
+                        aria-selected="false"
+                        disabled={tab.count === 0}
+                      >
+                        {tab.label}
+                        <span class="ml-1 bg-zinc-700 px-2 py-0.5 rounded-full text-xs">
+                          {tab.count}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+
+            <div id="tab-content">
+              {/* Needs Review Tab */}
+              <div
+                class="block p-4 rounded-lg bg-zinc-800 mt-4"
+                id="needs-review"
+                role="tabpanel"
+                aria-labelledby="needs-review-tab"
+              >
+                {groupedStrings.needsReview.length === 0 ? (
+                  <p class="text-gray-400 italic">No strings need review.</p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                      <thead class="text-xs uppercase bg-zinc-900">
+                        <tr>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Source
+                          </th>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Translation
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {groupedStrings.needsReview.map(([key, item]) => (
+                          <tr class="border-b border-zinc-700">
+                            <td class="px-4 py-3 align-top">
+                              <div class="font-mono text-yellow-500">{key}</div>
+                              {item.comment && (
+                                <div class="text-gray-400 text-xs mt-1 italic">
+                                  {item.comment}
+                                </div>
+                              )}
+                            </td>
+                            <td class="px-4 py-3 align-top font-medium text-orange-300">
+                              {formatStringForDisplay(item.target)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Needs Translation Tab */}
+              <div
+                class="hidden p-4 rounded-lg bg-zinc-800 mt-4"
+                id="needs-translation"
+                role="tabpanel"
+                aria-labelledby="needs-translation-tab"
+              >
+                {groupedStrings.needsTranslation.length === 0 ? (
+                  <p class="text-gray-400 italic">
+                    All strings have translations.
+                  </p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                      <thead class="text-xs uppercase bg-zinc-900">
+                        <tr>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Source
+                          </th>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Translation
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {groupedStrings.needsTranslation.map(([key, item]) => (
+                          <tr class="border-b border-zinc-700">
+                            <td class="px-4 py-3 align-top">
+                              <div class="font-mono text-yellow-500">{key}</div>
+                              {item.comment && (
+                                <div class="text-gray-400 text-xs mt-1 italic">
+                                  {item.comment}
+                                </div>
+                              )}
+                            </td>
+                            <td class="px-4 py-3 align-top">
+                              {shouldShowSource(key, item.source)
+                                ? formatStringForDisplay(item.source)
+                                : null}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+
+              {/* Translated Tab */}
+              <div
+                class="hidden p-4 rounded-lg bg-zinc-800 mt-4"
+                id="translated"
+                role="tabpanel"
+                aria-labelledby="translated-tab"
+              >
+                {groupedStrings.translated.length === 0 ? (
+                  <p class="text-gray-400 italic">
+                    No strings have been finalized yet.
+                  </p>
+                ) : (
+                  <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                      <thead class="text-xs uppercase bg-zinc-900">
+                        <tr>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Source
+                          </th>
+                          <th scope="col" class="px-4 py-3 w-1/2">
+                            Translation
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {groupedStrings.translated.map(([key, item]) => (
+                          <tr class="border-b border-zinc-700">
+                            <td class="px-4 py-3 align-top">
+                              <div class="font-mono text-yellow-500">{key}</div>
+                              {item.comment && (
+                                <div class="text-gray-400 text-xs mt-1 italic">
+                                  {item.comment}
+                                </div>
+                              )}
+                            </td>
+                            <td class="px-4 py-3 align-top text-green-300">
+                              {formatStringForDisplay(item.target)}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </>
+      )
+    }
+  </main>
+</Layout>
+
+<script>
+  const localTimeElement = document.getElementById("localTime");
+  if (localTimeElement) {
+    const timestamp = localTimeElement.getAttribute("data-timestamp");
+    if (timestamp) {
+      const utcDate = new Date(timestamp);
+      localTimeElement.textContent = utcDate.toLocaleString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        timeZoneName: "short",
+      });
+    }
+  }
+
+  // Simple tab system
+  const tabButtons =
+    document.querySelectorAll<HTMLButtonElement>('[role="tab"]');
+  const tabPanels = document.querySelectorAll('[role="tabpanel"]');
+
+  function setActiveTab(tabId: string) {
+    // Only proceed if the tab is not disabled
+    const clickedTab = document.querySelector<HTMLButtonElement>(
+      `[data-tabs-target="#${tabId}"]`
+    );
+    if (clickedTab?.disabled) return;
+
+    // Hide all panels
+    tabPanels.forEach((panel) => {
+      panel.classList.add("hidden");
+      panel.classList.remove("block");
+    });
+
+    // Show the selected panel
+    const activePanel = document.getElementById(tabId);
+    if (activePanel) {
+      activePanel.classList.add("block");
+      activePanel.classList.remove("hidden");
+    }
+
+    // Update tab styles
+    tabButtons.forEach((button: HTMLButtonElement) => {
+      if (
+        button.getAttribute("data-tabs-target") === `#${tabId}` &&
+        !button.disabled
+      ) {
+        button.classList.add("border-yellow-500", "text-yellow-500");
+        button.classList.remove(
+          "border-transparent",
+          "hover:text-gray-300",
+          "hover:border-gray-300"
+        );
+        button.setAttribute("aria-selected", "true");
+      } else if (!button.disabled) {
+        button.classList.remove("border-yellow-500", "text-yellow-500");
+        button.classList.add(
+          "border-transparent",
+          "hover:text-gray-300",
+          "hover:border-gray-300"
+        );
+        button.setAttribute("aria-selected", "false");
+      }
+    });
+  }
+
+  // Add click handlers to tabs
+  tabButtons.forEach((button: HTMLButtonElement) => {
+    button.addEventListener("click", () => {
+      if (!button.disabled) {
+        const targetId = button.getAttribute("data-tabs-target")?.substring(1);
+        if (targetId) {
+          setActiveTab(targetId);
+        }
+      }
+    });
+  });
+</script>

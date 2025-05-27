@@ -11,7 +11,7 @@ struct PresetLoadingView: View {
   var body: some View {
     VStack(spacing: 12) {
       ProgressView()
-      Text("Loading Presets...")
+      Text("Loading Presets...", comment: "Preset loading indicator")
         .font(.caption)
         .foregroundStyle(.secondary)
     }

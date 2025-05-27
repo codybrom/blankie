@@ -11,6 +11,18 @@ import SwiftUI
 
 @main
 struct BlankieApp: App {
+  let modelContainer: ModelContainer
+
+  // Initialize SwiftData
+  init() {
+    do {
+      modelContainer = try ModelContainer(for: CustomSoundData.self)
+      print("🗄️ BlankieApp: Successfully created SwiftData model container")
+    } catch {
+      fatalError("❌ BlankieApp: Failed to create SwiftData model container: \(error)")
+    }
+  }
+
   #if os(macOS)
     @NSApplicationDelegateAdaptor(MacAppDelegate.self) private var appDelegate
 
@@ -30,7 +42,12 @@ struct BlankieApp: App {
           presetName: $presetName,
           showingSettings: .constant(false)
         )
+        .onAppear {
+          // Pass model context to AudioManager for custom sounds
+          AudioManager.shared.setModelContext(modelContainer.mainContext)
+        }
       }
+      .modelContainer(modelContainer)
       .defaultPosition(.center)
       .windowResizability(.contentSize)
       .windowStyle(.automatic)
@@ -39,27 +56,6 @@ struct BlankieApp: App {
       .commandsReplaced {
         AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
       }
-
-      //
-      //
-      // MenuBarExtra("Blankie", systemImage: "waveform") {
-      //   Button("Show Main Window") {
-      //     NSApp.activate(ignoringOtherApps: true)
-      //   }
-      //
-      //   Divider()
-      //
-      //   Button("About Blankie") {
-      //     NSApp.activate(ignoringOtherApps: true)
-      //     showingAbout = true
-      //   }
-      //
-      //   Divider()
-      //
-      //   Button("Quit Blankie") {
-      //     NSApplication.shared.terminate(nil)
-      //   }
-      // }
 
       Settings {
         PreferencesView()
@@ -88,11 +84,14 @@ struct BlankieApp: App {
         )
         .accentColor(globalSettings.customAccentColor ?? .accentColor)
         .onAppear {
+          // Pass model context to AudioManager for custom sounds
+          AudioManager.shared.setModelContext(modelContainer.mainContext)
           #if os(iOS) || os(visionOS)
             setupAudioSession()
           #endif
         }
       }
+      .modelContainer(modelContainer)
 
       #if os(visionOS)
         // VisionOS specific immersive space

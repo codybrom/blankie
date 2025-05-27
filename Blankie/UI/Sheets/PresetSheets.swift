@@ -17,11 +17,11 @@ struct EditPresetSheet: View {
 
   var body: some View {
     VStack(spacing: 16) {
-      Text("Edit Preset")
+      Text("Edit Preset", comment: "Edit preset sheet title")
         .font(.headline)
 
       if preset.isDefault {
-        Text("The default preset cannot be renamed")
+        Text("The default preset cannot be renamed", comment: "Default preset rename warning")
           .foregroundStyle(.secondary)
           .font(.caption)
       } else {
@@ -49,11 +49,11 @@ struct EditPresetSheet: View {
         }
 
         HStack(spacing: 16) {
-          Button("Cancel") {
+          Button("Cancel", systemImage: "Cancel button") {
             isPresented = nil
           }
 
-          Button("Save") {
+          Button("Save", systemImage: "Save button") {
             if !presetName.isEmpty {
               Task {
                 presetManager.updatePreset(preset, newName: presetName)

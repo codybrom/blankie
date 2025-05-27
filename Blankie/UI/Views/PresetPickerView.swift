@@ -4,9 +4,9 @@ struct PresetPickerView: View {
   @ObservedObject private var presetManager = PresetManager.shared
   @State private var showingNewPresetAlert = false
   @State private var newPresetName = ""
-  @State private var presetToRename: Preset? = nil
+  @State private var presetToRename: Preset?
   @State private var updatedPresetName = ""
-  @State private var presetToDelete: Preset? = nil
+  @State private var presetToDelete: Preset?
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
@@ -16,7 +16,7 @@ struct PresetPickerView: View {
           // Loading view
           HStack {
             Spacer()
-            ProgressView("Loading presets...")
+            ProgressView("Loading Presets...")
             Spacer()
           }
           .padding()
@@ -29,13 +29,16 @@ struct PresetPickerView: View {
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
 
-              Text("No Custom Presets")
+              Text("No Custom Presets", comment: "Empty state title for presets")
                 .font(.headline)
 
-              Text("Save your current sound configuration as a preset to quickly access it later.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+              Text(
+                "Save your current sound configuration as a preset to quickly access it later.",
+                comment: "Empty state description for presets"
+              )
+              .font(.caption)
+              .foregroundStyle(.secondary)
+              .multilineTextAlignment(.center)
             }
             .padding()
             .frame(maxWidth: 250)
@@ -73,14 +76,14 @@ struct PresetPickerView: View {
                 presetToRename = preset
                 updatedPresetName = preset.name
               } label: {
-                Label("Rename", systemImage: "pencil")
+                Label("Rename Preset", systemImage: "pencil")
               }
               .tint(.blue)
 
               Button(role: .destructive) {
                 presetToDelete = preset
               } label: {
-                Label("Delete", systemImage: "trash")
+                Label("Delete Preset", systemImage: "trash")
               }
             }
           }
@@ -99,7 +102,7 @@ struct PresetPickerView: View {
               }
             } label: {
               HStack {
-                Text("Default")
+                Text("Default", comment: "Default preset name")
                   .foregroundColor(.primary)
 
                 Spacer()
@@ -127,8 +130,10 @@ struct PresetPickerView: View {
         }
 
         ToolbarItem(placement: .cancellationAction) {
-          Button("Done") {
+          Button {
             dismiss()
+          } label: {
+            Text("Done", comment: "Toolbar done button")
           }
         }
       }
@@ -157,16 +162,18 @@ struct PresetPickerView: View {
           newPresetName = ""
         }
 
-        Button("Save") {
+        Button {
           if !newPresetName.isEmpty {
             Task {
               presetManager.saveNewPreset(name: newPresetName)
               newPresetName = ""
             }
           }
+        } label: {
+          Text("Save", comment: "Save preset button")
         }
       } message: {
-        Text("Save current sound configuration as a preset.")
+        Text("Save current sound configuration as a preset.", comment: "New preset alert message")
       }
       .alert(
         "Delete Preset",
@@ -189,7 +196,9 @@ struct PresetPickerView: View {
         }
       } message: {
         if let preset = presetToDelete {
-          Text("Are you sure you want to delete '\(preset.name)'? This action cannot be undone.")
+          Text(
+            "Are you sure you want to delete '\(preset.name)'? This action cannot be undone.",
+            comment: "Delete preset confirmation message")
         }
       }
     }
@@ -206,7 +215,7 @@ struct RenamePresetView: View {
   var body: some View {
     NavigationView {
       VStack(spacing: 20) {
-        Text("Rename Preset")
+        Text("Rename Preset", comment: "Rename preset view title")
           .font(.headline)
 
         TextField("Preset Name", text: $presetName)
@@ -219,9 +228,11 @@ struct RenamePresetView: View {
             dismiss()
           }
 
-          Button("Save") {
+          Button {
             onSave(presetName)
             dismiss()
+          } label: {
+            Text("Save", comment: "Save preset button")
           }
           .buttonStyle(.borderedProminent)
           .disabled(presetName.isEmpty)

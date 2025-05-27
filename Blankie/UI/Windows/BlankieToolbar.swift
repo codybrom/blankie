@@ -29,8 +29,10 @@ import SwiftUI
 
       ToolbarItem(placement: .primaryAction) {
         Menu {
-          Button("Add or Edit Custom Sounds") {
+          Button {
             showingCustomSoundsView = true
+          } label: {
+            Text("Manage Custom Sounds", comment: "Menu item to manage custom sounds")
           }
           .keyboardShortcut("o", modifiers: .command)
 
@@ -41,7 +43,7 @@ import SwiftUI
             }
           } label: {
             HStack {
-              Text("Hide Inactive Sounds")
+              Text("Hide Inactive Sounds", comment: "Toggle to hide sounds that are not active")
               if appState.hideInactiveSounds {
                 Spacer()
                 Image(systemName: "checkmark")
@@ -52,13 +54,17 @@ import SwiftUI
 
           Divider()
 
-          Button("About Blankie") {
+          Button {
             showingAbout = true
             appState.isAboutViewPresented = true
+          } label: {
+            Text("About Blankie", comment: "Menu item to show about window")
           }
 
-          Button("Keyboard Shortcuts") {
+          Button {
             showingShortcuts = true
+          } label: {
+            Text("Keyboard Shortcuts", comment: "Menu item to show keyboard shortcuts")
           }
           .keyboardShortcut("?", modifiers: [.command, .shift])
 
@@ -69,9 +75,11 @@ import SwiftUI
 
           Divider()
 
-          Button("Quit Blankie") {
+          Button {
             audioManager.pauseAll()
             exit(0)
+          } label: {
+            Text("Quit Blankie", comment: "Menu item to quit the application")
           }
           .keyboardShortcut("q", modifiers: .command)
         } label: {

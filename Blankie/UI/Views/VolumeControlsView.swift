@@ -30,13 +30,17 @@ struct VolumeControlsView: View {
           sheetContent
             .padding(.bottom, 30)
         }
-        .navigationTitle("Volume Controls")
+        .navigationTitle("All Sounds")
         #if os(iOS)
           .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
           ToolbarItem(placement: .primaryAction) {
-            Button("Done") { dismiss() }
+            Button {
+              dismiss()
+            } label: {
+              Text("Done", comment: "Volume controls done button")
+            }
           }
         }
       }
@@ -49,7 +53,7 @@ struct VolumeControlsView: View {
   private var popoverContent: some View {
     VStack(spacing: 16) {
       VStack(alignment: .leading, spacing: 4) {
-        Text("Global Volume")
+        Text("All Sounds", comment: "All Sounds slider label")
           .font(.caption)
         Slider(
           value: Binding(
@@ -84,8 +88,10 @@ struct VolumeControlsView: View {
 
       Divider()
 
-      Button("Reset Sounds") {
+      Button {
         audioManager.resetSounds()
+      } label: {
+        Text("Reset Sounds", comment: "Reset sounds button")
       }
       .font(.caption)
     }
@@ -95,9 +101,9 @@ struct VolumeControlsView: View {
   // Sheet-style content view
   private var sheetContent: some View {
     VStack(spacing: 24) {
-      // Global volume slider
+      // All Sounds slider
       VStack(alignment: .leading, spacing: 8) {
-        Text("All Sounds")
+        Text("All Sounds", comment: "All sounds volume section header")
           .font(.headline)
 
         HStack {
@@ -126,7 +132,7 @@ struct VolumeControlsView: View {
           .padding(.horizontal)
 
         VStack(alignment: .leading, spacing: 16) {
-          Text("Active Sounds")
+          Text("Active Sounds", comment: "Active sounds section header")
             .font(.headline)
             .padding(.horizontal)
 
@@ -180,7 +186,7 @@ struct VolumeControlsView: View {
         audioManager.resetSounds()
         dismiss()
       }) {
-        Text("Reset All Sounds")
+        Text("Reset Sounds", comment: "Reset sounds button label")
           .foregroundColor(.red)
       }
       .padding()

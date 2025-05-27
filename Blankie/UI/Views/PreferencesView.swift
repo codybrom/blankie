@@ -126,24 +126,24 @@ struct PreferencesView: View {
     Form {
       Section {
         HStack(spacing: 16) {
-          Text("Appearance")
+          Text("Appearance", comment: "Appearance label in preferences")
             .frame(width: 100, alignment: .leading)
           appearanceButtons
         }
 
         HStack(alignment: .top, spacing: 16) {
-          Text("Accent Color")
+          Text("Accent Color", comment: "Accent color label in preferences")
             .frame(width: 100, alignment: .leading)
           colorButtons
         }
 
         HStack(spacing: 16) {
-          Text("Language")
+          Text("Language", comment: "Language picker label")
             .frame(width: 100, alignment: .leading)
           languageMenu
         }
       } header: {
-        Text("Appearance")
+        Text("Appearance", comment: "Appearance section header")
       }
 
       Section {
@@ -159,7 +159,7 @@ struct PreferencesView: View {
         #endif
         .tint(accentColorForUI)
       } header: {
-        Text("Behavior")
+        Text("Behavior", comment: "Behavior section header")
       }
     }
     .formStyle(.grouped)
@@ -172,15 +172,22 @@ struct PreferencesView: View {
       }
     }
     .alert(
-      Text("Language Changed"),
+      Text("Language Changed", comment: "Language change alert title"),
       isPresented: $showingRestartAlert
     ) {
-      Button("Restart Now") {
+      Button {
         Language.restartApp()
+      } label: {
+        Text("Restart Now", comment: "Restart now button")
       }
-      Button("Later", role: .cancel) {}
+      Button(role: .cancel) {
+      } label: {
+        Text("Later", comment: "Cancel restart button")
+      }
     } message: {
-      Text("You will need to restart Blankie for the language change to take effect.")
+      Text(
+        "You will need to restart Blankie for the language change to take effect.",
+        comment: "Language change restart message")
     }
   }
 }

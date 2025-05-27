@@ -15,9 +15,11 @@ import SwiftUI
 
     var body: some Commands {
       CommandGroup(replacing: .appInfo) {
-        Button("About Blankie") {
+        Button {
           showingAbout = true
           appState.isAboutViewPresented = true
+        } label: {
+          Text("About Blankie", comment: "About menu command")
         }
       }
 

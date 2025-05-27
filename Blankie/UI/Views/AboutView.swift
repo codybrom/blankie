@@ -79,7 +79,7 @@ struct AboutView: View {
 
         // App Info Section
         VStack(spacing: 8) {
-          Text("Blankie", comment: "App name")
+          Text(verbatim: "Blankie")
             .font(.system(size: 24, weight: .medium, design: .rounded))
 
           Text(
@@ -147,7 +147,7 @@ struct AboutView: View {
         Divider()
           .padding(.horizontal, 40)
 
-        Text("© 2025 ")
+        Text(verbatim: "© 2025 ")
           .font(.caption)
           + Text(
             "Cody Bromley and contributors. All rights reserved.", comment: "Copyright notice"
@@ -198,7 +198,7 @@ struct AboutView: View {
         .font(.system(size: 13, weight: .bold))
 
       VStack(spacing: 8) {
-        Text("Cody Bromley", comment: "Developer name")
+        Text(verbatim: "Cody Bromley")
           .font(.system(size: 13))
 
         HStack(spacing: 8) {
@@ -209,11 +209,11 @@ struct AboutView: View {
           .foregroundColor(.accentColor)
           .handCursor()
 
-          Text("•")
+          Text(verbatim: "•")
             .foregroundStyle(.secondary)
 
           Link(destination: URL(string: "https://github.com/codybrom")!) {
-            Text("GitHub", comment: "GitHub link label")
+            Text(verbatim: "GitHub")
           }
           .foregroundColor(.accentColor)
           .handCursor()
@@ -261,7 +261,7 @@ struct AboutView: View {
             .font(.system(size: 13))
 
           if index < contributors.count - 1 {
-            Text(", ")
+            Text(verbatim: ", ")
               .font(.system(size: 13))
           }
         }
@@ -350,23 +350,23 @@ struct AboutView: View {
   private var softwareLicenseSection: some View {
     VStack(alignment: .leading, spacing: 8) {
       Text(
-        "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.",
-        comment: "License and warranty explainer text"
+        verbatim:
+          "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License.",
       )
       .font(.system(size: 12))
       Text(
-        "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:",
-        comment: "MIT License Section 1"
+        verbatim:
+          "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
       )
       .font(.system(size: 12))
       Text(
-        "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.",
-        comment: "MIT License Section 2"
+        verbatim:
+          "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
       )
       .font(.system(size: 12))
       Text(
-        "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
-        comment: "MIT License Section 3"
+        verbatim:
+          "THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
       )
       .font(.system(size: 12))
       Link(
@@ -479,7 +479,7 @@ struct AboutView: View {
         Text(credit.name)
           .fontWeight(.bold)
 
-        Text(" — ")
+        Text(verbatim: " — ")
           .foregroundStyle(.secondary)
 
         if let soundUrl = credit.soundUrl {
@@ -488,7 +488,11 @@ struct AboutView: View {
             .foregroundColor(.accentColor)
             .underline()
             .onTapGesture {
-              NSWorkspace.shared.open(soundUrl)
+              #if os(macOS)
+                NSWorkspace.shared.open(soundUrl)
+              #else
+                UIApplication.shared.open(soundUrl)
+              #endif
             }
             .handCursor()
         } else {
@@ -507,14 +511,14 @@ struct AboutView: View {
         Text(credit.author)
 
         if let editor = credit.editor {
-          Text("•").foregroundStyle(.secondary)
+          Text(verbatim: "•").foregroundStyle(.secondary)
           Text("Edited by", comment: "Attribution edited by label")
             .foregroundStyle(.secondary)
           Text(editor)
         }
 
         if let licenseUrl = credit.license.url {
-          Text("•").foregroundStyle(.secondary)
+          Text(verbatim: "•").foregroundStyle(.secondary)
           Link(credit.license.linkText, destination: licenseUrl)
             .help(licenseUrl.absoluteString)
             .foregroundColor(.accentColor)

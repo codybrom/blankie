@@ -74,7 +74,7 @@ open class Sound: ObservableObject, Identifiable {
 
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
-    // Observe global volume changes
+    // Observe "All Sounds" volume changes
     globalSettingsObserver = GlobalSettings.shared.$volume
       .sink { [weak self] _ in
         self?.updateVolume()

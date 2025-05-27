@@ -21,7 +21,7 @@ struct CustomSoundsView: View {
     VStack(spacing: 0) {
       // Header with title and buttons
       HStack {
-        Text("Custom Sounds")
+        Text("Custom Sounds", comment: "Custom sounds view title")
           .font(.title2.bold())
 
         Spacer()
@@ -34,8 +34,10 @@ struct CustomSoundsView: View {
           }
           .buttonStyle(.borderedProminent)
 
-          Button("Done") {
+          Button {
             dismiss()
+          } label: {
+            Text("Done", comment: "Custom sounds done button")
           }
           .buttonStyle(.bordered)
         }
@@ -58,7 +60,10 @@ struct CustomSoundsView: View {
         EditSoundSheet(sound: sound)
       }
     }
-    .alert("Delete Sound", isPresented: $showingDeleteConfirmation) {
+    .alert(
+      Text("Delete Sound", comment: "Delete sound confirmation alert title"),
+      isPresented: $showingDeleteConfirmation
+    ) {
       Button("Cancel", role: .cancel) {}
       Button("Delete", role: .destructive) {
         if let sound = selectedSound {
@@ -67,7 +72,8 @@ struct CustomSoundsView: View {
       }
     } message: {
       Text(
-        "Are you sure you want to delete \"\(selectedSound?.title ?? "this sound")\"? This cannot be undone."
+        "Are you sure you want to delete '\(selectedSound?.title ?? "this sound")'? This action cannot be undone.",
+        comment: "Delete custom sound confirmation message"
       )
     }
   }
@@ -78,18 +84,21 @@ struct CustomSoundsView: View {
         .font(.system(size: 48))
         .foregroundColor(.secondary)
 
-      Text("No Custom Sounds")
+      Text("No Custom Sounds", comment: "Empty state title for custom sounds")
         .font(.title3.bold())
 
-      Text("Import your own sounds to personalize your mix.")
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .padding(.horizontal)
+      Text(
+        "Import your own sounds to personalize your mix.",
+        comment: "Empty state description for custom sounds"
+      )
+      .foregroundStyle(.secondary)
+      .multilineTextAlignment(.center)
+      .padding(.horizontal)
 
       Button {
         showingImportSheet = true
       } label: {
-        Text("Import Sound")
+        Text("Import Sound", comment: "Import sound button label")
           .padding(.horizontal)
       }
       .buttonStyle(.borderedProminent)
@@ -129,7 +138,7 @@ struct CustomSoundsView: View {
                   .contentShape(Rectangle())
               }
               .buttonStyle(.plain)
-              .help("Edit sound")
+              .help("Edit Sound")
 
               Button {
                 selectedSound = sound
@@ -140,20 +149,28 @@ struct CustomSoundsView: View {
                   .contentShape(Rectangle())
               }
               .buttonStyle(.plain)
-              .help("Delete sound")
+              .help("Delete Sound")
             }
           }
           .padding(.horizontal)
           .padding(.vertical, 12)
-          .background(Color(NSColor.controlBackgroundColor).opacity(0.5))
+          .background(
+            Group {
+              #if os(macOS)
+                Color(NSColor.controlBackgroundColor).opacity(0.5)
+              #else
+                Color(UIColor.systemBackground).opacity(0.5)
+              #endif
+            }
+          )
           .contentShape(Rectangle())
           .contextMenu {
-            Button("Edit", systemImage: "pencil") {
+            Button("Edit Sound", systemImage: "pencil") {
               selectedSound = sound
               showingEditSheet = true
             }
 
-            Button("Delete", systemImage: "trash", role: .destructive) {
+            Button("Delete Sound", systemImage: "trash", role: .destructive) {
               selectedSound = sound
               showingDeleteConfirmation = true
             }
@@ -167,7 +184,15 @@ struct CustomSoundsView: View {
       }
       .padding(.vertical)
     }
-    .background(Color(NSColor.textBackgroundColor))
+    .background(
+      Group {
+        #if os(macOS)
+          Color(NSColor.textBackgroundColor)
+        #else
+          Color(UIColor.systemBackground)
+        #endif
+      }
+    )
   }
 
   private func deleteSound(_ sound: CustomSoundData) {

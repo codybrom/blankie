@@ -7,13 +7,15 @@ struct SettingsView: View {
   var body: some View {
     NavigationView {
       Form {
-        Section(header: Text("Appearance")) {
+        Section(
+          header: Text("Appearance", comment: "Settings section header for appearance options")
+        ) {
           Picker(
-            "Theme",
             selection: Binding(
               get: { globalSettings.appearance },
               set: { globalSettings.setAppearance($0) }
-            )
+            ),
+            label: Text("Theme", comment: "Appearance theme picker label")
           ) {
             ForEach(AppearanceMode.allCases, id: \.self) { mode in
               Label(
@@ -25,7 +27,7 @@ struct SettingsView: View {
 
           NavigationLink(destination: AccentColorPicker()) {
             HStack {
-              Text("Accent Color")
+              Text("Accent Color", comment: "Accent color picker label")
               Spacer()
               Circle()
                 .fill(globalSettings.customAccentColor ?? .accentColor)
@@ -34,7 +36,7 @@ struct SettingsView: View {
           }
         }
 
-        Section(header: Text("Behavior")) {
+        Section(header: Text("Behavior", comment: "Settings section header for behavior options")) {
           Toggle(
             "Always Start Paused",
             isOn: Binding(
@@ -45,14 +47,16 @@ struct SettingsView: View {
           .tint(globalSettings.customAccentColor ?? .accentColor)
         }
 
-        Section(header: Text("About")) {
+        Section(
+          header: Text("About Blankie", comment: "Settings section header for about information")
+        ) {
           NavigationLink(destination: AboutView()) {
-            Text("About Blankie")
+            Text("About Blankie", comment: "About view navigation label")
           }
 
           Link(destination: URL(string: "https://blankie.rest/faq")!) {
             HStack {
-              Text("Help & FAQ")
+              Text("Blankie Help", comment: "Help and FAQ link label")
               Spacer()
               Image(systemName: "safari")
                 .foregroundColor(.secondary)
@@ -66,8 +70,10 @@ struct SettingsView: View {
       #endif
       .toolbar {
         ToolbarItem(placement: .primaryAction) {
-          Button("Done") {
+          Button {
             dismiss()
+          } label: {
+            Text("Done", comment: "Settings done button")
           }
         }
       }
@@ -86,31 +92,29 @@ struct AccentColorPicker: View {
     ScrollView {
       VStack(alignment: .leading, spacing: 20) {
         LazyVGrid(columns: columns, spacing: 16) {
-          // System color option
-          Button(action: {
-            globalSettings.setAccentColor(nil)
-          }) {
-            VStack {
-              ZStack {
-                Circle()
-                  .strokeBorder(Color.primary, lineWidth: 1)
-                  .frame(width: 44, height: 44)
+          #if os(macOS)
+            // System color option - only available on macOS
+            Button(action: {
+              globalSettings.setAccentColor(nil)
+            }) {
+              VStack {
+                ZStack {
+                  Circle()
+                    .strokeBorder(Color.primary, lineWidth: 1)
+                    .frame(width: 44, height: 44)
 
-                if globalSettings.customAccentColor == nil {
-                  Image(systemName: "checkmark")
-                    .foregroundColor(.primary)
+                  if globalSettings.customAccentColor == nil {
+                    Image(systemName: "checkmark")
+                      .foregroundColor(.primary)
+                  }
                 }
 
-                Text("S")
-                  .font(.system(size: 14, weight: .medium))
-                  .foregroundColor(.primary)
+                Text("System", comment: "System accent color option")
+                  .font(.caption)
               }
-
-              Text("System")
-                .font(.caption)
             }
-          }
-          .buttonStyle(.plain)
+            .buttonStyle(.plain)
+          #endif
 
           // Color options
           ForEach(AccentColor.allCases.dropFirst(), id: \.self) { colorOption in

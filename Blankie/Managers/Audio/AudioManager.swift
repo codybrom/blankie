@@ -271,7 +271,7 @@ class AudioManager: ObservableObject {
         let imageData = try? Data(contentsOf: imageUrl),
         let image = UIImage(data: imageData)
       {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
@@ -281,7 +281,7 @@ class AudioManager: ObservableObject {
         let imageData = try? Data(contentsOf: imageUrl),
         let image = NSImage(data: imageData)
       {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
@@ -322,7 +322,7 @@ class AudioManager: ObservableObject {
         let imageData = try? Data(contentsOf: imageUrl),
         let image = UIImage(data: imageData)
       {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
@@ -332,7 +332,7 @@ class AudioManager: ObservableObject {
         let imageData = try? Data(contentsOf: imageUrl),
         let image = NSImage(data: imageData)
       {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
+        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
@@ -468,7 +468,7 @@ class AudioManager: ObservableObject {
       sound.volume = 1.0
       sound.isSelected = false
     }
-    // Reset global volume
+    // Reset "All Sounds" volume
     GlobalSettings.shared.setVolume(1.0)
 
     // Call the reset callback

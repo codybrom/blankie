@@ -8,6 +8,7 @@
 import AVFoundation
 import Combine
 import MediaPlayer
+import SwiftData
 import SwiftUI
 
 class AudioManager: ObservableObject {
@@ -18,9 +19,11 @@ class AudioManager: ObservableObject {
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
 
+  private var modelContext: ModelContext?
   private let commandCenter = MPRemoteCommandCenter.shared()
   private var nowPlayingInfo: [String: Any] = [:]
   private var isInitializing = true
+  private var customSoundObserver: AnyCancellable?
 
   private init() {
     print("🎵 AudioManager: Initializing")

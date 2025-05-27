@@ -105,7 +105,7 @@ struct PreferencesView: View {
     }
     .pickerStyle(.menu)
     .labelsHidden()
-    .frame(width: 180)
+    .frame(width: 220)
   }
 
   var body: some View {

@@ -13,6 +13,10 @@ private enum UserDefaultsKeys {
   static let volume = "globalVolume"
   static let appearance = "appearanceMode"
   static let accentColor = "customAccentColor"
+  static let alwaysStartPaused = "alwaysStartPaused"
+  static let hideInactiveSounds = "hideInactiveSounds"
+  static let enableHaptics = "enableHaptics"
+  static let enableSpatialAudio = "enableSpatialAudio"
   static let language = "languagePreference"
 }
 
@@ -24,8 +28,13 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var appearance: AppearanceMode
   @Published private(set) var customAccentColor: Color?
   @Published private(set) var alwaysStartPaused: Bool
+  @Published private(set) var hideInactiveSounds: Bool
   @Published private(set) var language: Language
   @Published private(set) var availableLanguages: [Language] = []
+
+  // Platform-specific settings
+  @Published private(set) var enableHaptics: Bool = true
+  @Published private(set) var enableSpatialAudio: Bool = false
 
   private var observers = Set<AnyCancellable>()
   private var volumeDebounceTimer: Timer?
@@ -47,7 +56,17 @@ class GlobalSettings: ObservableObject {
     }
 
     // Default to true for alwaysStartPaused if not set
-    alwaysStartPaused = UserDefaults.standard.object(forKey: "alwaysStartPaused") as? Bool ?? true
+    alwaysStartPaused =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.alwaysStartPaused) as? Bool ?? true
+
+    // Hide inactive sounds preference
+    hideInactiveSounds = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hideInactiveSounds)
+
+    // Load platform-specific preferences
+    enableHaptics =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.enableHaptics) as? Bool ?? true
+    enableSpatialAudio =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.enableSpatialAudio) as? Bool ?? false
 
     // First initialize language with default value
     language = Language.system
@@ -63,9 +82,8 @@ class GlobalSettings: ObservableObject {
       language = savedLanguage
     }
 
-    // After initialization, setup observers and update appearance
+    // After initialization, setup observers
     setupObservers()
-    updateAppAppearance()
     logCurrentSettings()
   }
 
@@ -88,25 +106,24 @@ class GlobalSettings: ObservableObject {
     }.store(in: &observers)
 
     _alwaysStartPaused.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: "alwaysStartPaused")
+      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.alwaysStartPaused)
+    }.store(in: &observers)
+
+    _hideInactiveSounds.projectedValue.sink { newValue in
+      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.hideInactiveSounds)
+    }.store(in: &observers)
+
+    _enableHaptics.projectedValue.sink { newValue in
+      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableHaptics)
+    }.store(in: &observers)
+
+    _enableSpatialAudio.projectedValue.sink { newValue in
+      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableSpatialAudio)
     }.store(in: &observers)
 
     _language.projectedValue.sink { newValue in
       UserDefaults.standard.setValue(newValue.code, forKey: UserDefaultsKeys.language)
     }.store(in: &observers)
-  }
-
-  private func updateAppAppearance() {
-    DispatchQueue.main.async {
-      switch self.appearance {
-      case .system:
-        NSApp.appearance = nil
-      case .light:
-        NSApp.appearance = NSAppearance(named: .aqua)
-      case .dark:
-        NSApp.appearance = NSAppearance(named: .darkAqua)
-      }
-    }
   }
 
   private func debouncedSaveVolume(_ newVolume: Double) {
@@ -118,9 +135,10 @@ class GlobalSettings: ObservableObject {
   }
 
   private func saveVolume(_ newVolume: Double) {
-    let validatedVolume = validateVolume(newVolume)
-    UserDefaults.standard.set(validatedVolume, forKey: "globalVolume")
-    print("⚙️ GlobalSettings: Saved volume: \(validatedVolume)")
+    let validVolume = validateVolume(newVolume)
+    UserDefaults.standard.set(validVolume, forKey: UserDefaultsKeys.volume)
+    print("⚙️ GlobalSettings: Saved volume: \(validVolume)")
+
   }
 
   @MainActor
@@ -133,7 +151,6 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setAppearance(_ newAppearance: AppearanceMode) {
     appearance = newAppearance
-    updateAppAppearance()
     logCurrentSettings()
   }
 
@@ -146,6 +163,33 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setAlwaysStartPaused(_ value: Bool) {
     alwaysStartPaused = value
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func toggleHideInactiveSounds() {
+    hideInactiveSounds.toggle()
+    UserDefaults.standard.set(hideInactiveSounds, forKey: UserDefaultsKeys.hideInactiveSounds)
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setHideInactiveSounds(_ value: Bool) {
+    hideInactiveSounds = value
+    UserDefaults.standard.set(hideInactiveSounds, forKey: UserDefaultsKeys.hideInactiveSounds)
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setEnableHaptics(_ value: Bool) {
+    enableHaptics = value
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setEnableSpatialAudio(_ value: Bool) {
+    enableSpatialAudio = value
+    // Here we would also update the audio engine to enable/disable spatial audio
     logCurrentSettings()
   }
 
@@ -170,8 +214,25 @@ class GlobalSettings: ObservableObject {
     print("  - Appearance: \(appearance.rawValue)")
     print("  - Custom Accent Color: \(customAccentColor?.toString ?? "System")")
     print("  - Always Start Paused: \(alwaysStartPaused)")
+    print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
+    print("  - Enable Haptics: \(enableHaptics)")
+    print("  - Enable Spatial Audio: \(enableSpatialAudio)")
     print("  - Language: \(language.code)")
     print("  - Available Languages: \(availableLanguages.map { $0.code }.joined(separator: ", "))")
   }
 
+  private func updateAppAppearance() {
+    #if os(macOS)
+      DispatchQueue.main.async {
+        switch self.appearance {
+        case .system:
+          NSApp.appearance = nil
+        case .light:
+          NSApp.appearance = NSAppearance(named: .aqua)
+        case .dark:
+          NSApp.appearance = NSAppearance(named: .darkAqua)
+        }
+      }
+    #endif
+  }
 }

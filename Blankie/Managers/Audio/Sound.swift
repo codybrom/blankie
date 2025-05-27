@@ -74,7 +74,7 @@ open class Sound: ObservableObject, Identifiable {
 
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
-    // Observe global volume changes
+    // Observe "All Sounds" volume changes
     globalSettingsObserver = GlobalSettings.shared.$volume
       .sink { [weak self] _ in
         self?.updateVolume()
@@ -145,8 +145,7 @@ open class Sound: ObservableObject, Identifiable {
       return
     }
     print(
-      "🔊 Sound: Starting playback for '\(fileName)' with volume \(player.volume), "
-        + "global: \(GlobalSettings.shared.volume)"
+      "🔊 Sound: Starting playback for '\(fileName)' with volume \(player.volume), global: \(GlobalSettings.shared.volume)"
     )
     player.play()
     completion?(.success(()))
@@ -225,13 +224,21 @@ open class Sound: ObservableObject, Identifiable {
       pause()
     }
 
+    // Only provide haptic feedback if enabled and on iOS
+    if GlobalSettings.shared.enableHaptics {
+      #if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+      #endif
+    }
+
     print("🔊 Sound: Sound '\(fileName)' - toggled to \(isSelected)")
   }
 
   deinit {
     fadeTimer?.invalidate()
     volumeDebounceTimer?.invalidate()
-    updateVolumeLogTimer?.invalidate()  // Add this line
+    updateVolumeLogTimer?.invalidate()
     player?.stop()
     player = nil
     globalSettingsObserver?.cancel()

@@ -5,20 +5,12 @@
 //  Created by Cody Bromley on 12/30/24.
 //
 
+import AVFAudio
 import SwiftData
 import SwiftUI
 
 @main
 struct BlankieApp: App {
-  @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-
-  @StateObject private var audioManager = AudioManager.shared
-  @StateObject private var windowObserver = WindowObserver.shared
-  @State private var showingAbout = false
-  @State private var showingShortcuts = false
-  @State private var showingNewPresetPopover = false
-  @State private var presetName = ""
-
   let modelContainer: ModelContainer
 
   // Initialize SwiftData
@@ -31,53 +23,129 @@ struct BlankieApp: App {
     }
   }
 
-  var body: some Scene {
-    Window("Blankie", id: "main") {
-      WindowDefaults.defaultContentView(
-        showingAbout: $showingAbout,
-        showingShortcuts: $showingShortcuts,
-        showingNewPresetPopover: $showingNewPresetPopover,
-        presetName: $presetName
-      )
-      .onAppear {
-        // Pass model context to AudioManager for custom sounds
-        AudioManager.shared.setModelContext(modelContainer.mainContext)
+  #if os(macOS)
+    @NSApplicationDelegateAdaptor(MacAppDelegate.self) private var appDelegate
+
+    @StateObject private var audioManager = AudioManager.shared
+    @StateObject private var windowObserver = WindowObserver.shared
+    @State private var showingAbout = false
+    @State private var showingShortcuts = false
+    @State private var showingNewPresetPopover = false
+    @State private var presetName = ""
+
+    var body: some Scene {
+        Window("Blankie", id: "main") {
+        WindowDefaults.defaultContentView(
+          showingAbout: $showingAbout,
+          showingShortcuts: $showingShortcuts,
+          showingNewPresetPopover: $showingNewPresetPopover,
+          presetName: $presetName,
+          showingSettings: .constant(false)
+        )
+        .onAppear {
+          // Pass model context to AudioManager for custom sounds
+          AudioManager.shared.setModelContext(modelContainer.mainContext)
+        }
+      }
+      .modelContainer(modelContainer)
+      .defaultPosition(.center)
+      .windowResizability(.contentSize)
+      .windowStyle(.automatic)
+      .defaultSize(width: WindowDefaults.defaultWidth, height: WindowDefaults.defaultHeight)
+      .windowToolbarStyle(.unified)
+      .commandsReplaced {
+        AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
+      }
+
+      Settings {
+        PreferencesView()
       }
     }
-    .modelContainer(modelContainer)
-    .defaultPosition(.center)
-    .windowResizability(.contentSize)
-    .windowStyle(.automatic)
-    .defaultSize(width: WindowDefaults.defaultWidth, height: WindowDefaults.defaultHeight)
-    .windowToolbarStyle(.unified)
-    .commandsReplaced {
-      AppCommands(showingAbout: $showingAbout, hasWindow: $windowObserver.hasVisibleWindow)
+
+  #elseif os(iOS) || os(visionOS)
+    @UIApplicationDelegateAdaptor(IOSAppDelegate.self) private var appDelegate
+
+    @StateObject private var audioManager = AudioManager.shared
+    @StateObject private var presetManager = PresetManager.shared
+    @StateObject private var globalSettings = GlobalSettings.shared
+
+    @State private var showingAbout = false
+    @State private var showingSettings = false
+
+    var body: some Scene {
+      WindowGroup {
+        UniversalContentView(
+          showingAbout: $showingAbout,
+          showingSettings: $showingSettings
+        )
+        .preferredColorScheme(
+          globalSettings.appearance == .system
+            ? nil : (globalSettings.appearance == .dark ? .dark : .light)
+        )
+        .accentColor(globalSettings.customAccentColor ?? .accentColor)
+        .onAppear {
+          // Pass model context to AudioManager for custom sounds
+          AudioManager.shared.setModelContext(modelContainer.mainContext)
+          #if os(iOS) || os(visionOS)
+            setupAudioSession()
+          #endif
+        }
+      }
+      .modelContainer(modelContainer)
+
+      #if os(visionOS)
+        // VisionOS specific immersive space
+        ImmersiveSpace(id: "blankieSpace") {
+          // VisionOSImmersiveView will need to be implemented
+          // or commented out until visionOS support is ready
+          Text("Immersive Audio Experience")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+      #endif
     }
 
-    //
-    //
-    // MenuBarExtra("Blankie", systemImage: "waveform") {
-    //   Button("Show Main Window") {
-    //     NSApp.activate(ignoringOtherApps: true)
-    //   }
-    //
-    //   Divider()
-    //
-    //   Button("About Blankie") {
-    //     NSApp.activate(ignoringOtherApps: true)
-    //     showingAbout = true
-    //   }
-    //
-    //   Divider()
-    //
-    //   Button("Quit Blankie") {
-    //     NSApplication.shared.terminate(nil)
-    //   }
-    // }
+    #if os(iOS) || os(visionOS)
+      private func setupAudioSession() {
+        do {
+          try AVAudioSession.sharedInstance().setCategory(
+            .playback,
+            mode: .default,
+            options: [.mixWithOthers, .duckOthers]
+          )
+          try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+          print("Failed to set up audio session: \(error)")
+        }
+      }
+    #endif
+  #endif
+}
 
-    Settings {
-      PreferencesView()
-    }
+// Universal wrapper view that adapts to each platform
+struct UniversalContentView: View {
+  @Binding var showingAbout: Bool
+  @Binding var showingSettings: Bool
+
+  var body: some View {
+    #if os(macOS)
+      ContentView(
+        showingAbout: $showingAbout,
+        showingShortcuts: .constant(false),
+        showingNewPresetPopover: .constant(false),
+        presetName: .constant("")
+      )
+    #elseif os(visionOS)
+      // For visionOS, use iOS view until specific implementation is ready
+      AdaptiveContentView(
+        showingAbout: $showingAbout,
+        showingSettings: $showingSettings
+      )
+    #else
+      AdaptiveContentView(
+        showingAbout: $showingAbout,
+        showingSettings: $showingSettings
+      )
+    #endif
   }
 }
 
@@ -86,15 +154,25 @@ struct BlankieApp: App {
     static var previews: some View {
       Group {
         ForEach(["Light Mode", "Dark Mode"], id: \.self) { scheme in
-          WindowDefaults.defaultContentView(
-            showingAbout: .constant(false),
-            showingShortcuts: .constant(false),
-            showingNewPresetPopover: .constant(false),
-            presetName: .constant("")
-          )
-          .frame(width: 450, height: 450)
-          .preferredColorScheme(scheme == "Dark Mode" ? .dark : .light)
-          .previewDisplayName(scheme)
+          #if os(macOS)
+            WindowDefaults.defaultContentView(
+              showingAbout: .constant(false),
+              showingShortcuts: .constant(false),
+              showingNewPresetPopover: .constant(false),
+              presetName: .constant(""),
+              showingSettings: .constant(false)
+            )
+            .frame(width: 450, height: 450)
+            .preferredColorScheme(scheme == "Dark Mode" ? .dark : .light)
+            .previewDisplayName(scheme)
+          #else
+            UniversalContentView(
+              showingAbout: .constant(false),
+              showingSettings: .constant(false)
+            )
+            .preferredColorScheme(scheme == "Dark Mode" ? .dark : .light)
+            .previewDisplayName(scheme)
+          #endif
         }
       }
       .previewLayout(.sizeThatFits)

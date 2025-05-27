@@ -13,6 +13,7 @@
     }
   },
   "cSpell.words": [
+    "autoplay",
     "aybarsnazlica",
     "blanki",
     "blanki8n",
@@ -31,12 +32,13 @@
     "Mardojai",
     "playform",
     "Sonoma",
+    "subheadline",
     "Türkçe",
     "Twitterbot",
     "xcconfig",
     "xcstrings",
     "yournamehere",
-    "简体中文",
+    "简体中文"
   ],
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"

@@ -359,11 +359,234 @@ struct ImportSoundSheet: View {
     }.sorted()
   }
 
+  private var fileSelectionSection: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      Text("Sound File", comment: "Sound file section header")
+        .font(.headline)
+
+      if let selectedFile = selectedFile {
+        HStack {
+          Image(systemName: "doc.fill")
+            .foregroundStyle(.tint)
+          VStack(alignment: .leading) {
+            Text(selectedFile.lastPathComponent)
+              .lineLimit(1)
+            Text(formatFileSize(selectedFile))
+              .font(.caption)
+              .foregroundStyle(.secondary)
+          }
+          Spacer()
+          Button {
+            isImporting = true
+          } label: {
+            Text("Change", comment: "Change file button")
+          }
+          .buttonStyle(.bordered)
+          .controlSize(.small)
+        }
+        .padding()
+        .background(
+          Group {
+            #if os(macOS)
+              Color(NSColor.controlBackgroundColor)
+            #else
+              Color(UIColor.systemBackground)
+            #endif
+          }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 8))
+      } else {
+        Button {
+          isImporting = true
+        } label: {
+          HStack {
+            Image(systemName: "plus.circle.fill")
+              .font(.title2)
+            Text("Select Sound File", comment: "Select sound file button label")
+              .font(.headline)
+          }
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 20)
+        }
+        .buttonStyle(.bordered)
+      }
+    }
+  }
+
+  private var nameInputSection: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      Text("Name", comment: "Display name field label")
+        .font(.headline)
+      TextField(text: $soundName) {
+        Text("Enter a name for this sound", comment: "Sound name text field placeholder")
+      }
+      .textFieldStyle(.roundedBorder)
+    }
+  }
+
+  private var iconSelectionSection: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      HStack {
+        Text("Icon", comment: "Icon selection label")
+          .font(.headline)
+        Spacer()
+        Text("Selected:", comment: "Selected icon label")
+        Image(systemName: selectedIcon)
+          .font(.title2)
+          .foregroundStyle(.tint)
+      }
+
+      iconSearchBar
+
+      ScrollView {
+        if searchResults.isEmpty && !iconSearchText.isEmpty {
+          emptySearchResultsView
+        } else {
+          iconGrid
+        }
+      }
+      .frame(height: 180)
+      .background(
+        Group {
+          #if os(macOS)
+            Color(NSColor.textBackgroundColor)
+          #else
+            Color(UIColor.systemBackground)
+          #endif
+        }
+      )
+      .clipShape(RoundedRectangle(cornerRadius: 8))
+    }
+  }
+
+  private var iconSearchBar: some View {
+    HStack(spacing: 8) {
+      HStack {
+        Image(systemName: "magnifyingglass")
+          .foregroundStyle(.secondary)
+        TextField(text: $iconSearchText) {
+          Text("Search icons or enter custom name...", comment: "Icon search field placeholder")
+        }
+        .textFieldStyle(.plain)
+        .onSubmit {
+          // If search text is not empty and no results, use it as custom icon
+          if !iconSearchText.isEmpty && searchResults.isEmpty {
+            selectedIcon = iconSearchText
+          }
+        }
+      }
+      .padding(6)
+      .background(
+        Group {
+          #if os(macOS)
+            Color(NSColor.controlBackgroundColor)
+          #else
+            Color(UIColor.systemBackground)
+          #endif
+        }
+      )
+      .clipShape(RoundedRectangle(cornerRadius: 6))
+
+      if iconSearchText.isEmpty {
+        Picker(
+          selection: $selectedIconCategory,
+          label: Text("Category", comment: "Icon category picker label")
+        ) {
+          ForEach(Array(iconCategories.keys).sorted(), id: \.self) { category in
+            Text(category).tag(category)
+          }
+        }
+        .pickerStyle(.menu)
+        .labelsHidden()
+        .frame(width: 120)
+      } else if searchResults.isEmpty {
+        Button {
+          selectedIcon = iconSearchText
+        } label: {
+          Text("Use Custom", comment: "Use custom icon button")
+        }
+        .buttonStyle(.bordered)
+        .controlSize(.small)
+      }
+    }
+  }
+
+  private var emptySearchResultsView: some View {
+    VStack(spacing: 12) {
+      Image(systemName: "questionmark.square.dashed")
+        .font(.largeTitle)
+        .foregroundStyle(.tertiary)
+      Text("No matching icons found", comment: "No icon search results message")
+        .font(.headline)
+      Text(
+        "Press Return or click \"Use Custom\" to use\n\"\(iconSearchText)\" as a custom icon name",
+        comment: "Custom icon usage instruction"
+      )
+      .font(.caption)
+      .foregroundStyle(.secondary)
+      .multilineTextAlignment(.center)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 40)
+  }
+
+  private var iconGrid: some View {
+    LazyVGrid(
+      columns: Array(repeating: GridItem(.fixed(50), spacing: 8), count: 6),
+      spacing: 8
+    ) {
+      ForEach(searchResults, id: \.self) { iconName in
+        Button {
+          selectedIcon = iconName
+        } label: {
+          VStack(spacing: 4) {
+            Image(systemName: iconName)
+              .font(.system(size: 24))
+              .frame(height: 30)
+            if !iconSearchText.isEmpty {
+              Text(iconName)
+                .font(.system(size: 8))
+                .lineLimit(1)
+                .truncationMode(.middle)
+            }
+          }
+          .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
+          .background(iconButtonBackground(for: iconName))
+          .clipShape(RoundedRectangle(cornerRadius: 8))
+          .overlay(
+            RoundedRectangle(cornerRadius: 8)
+              .stroke(
+                selectedIcon == iconName ? Color.accentColor : Color.clear,
+                lineWidth: 2
+              )
+          )
+        }
+        .buttonStyle(.plain)
+        .help(iconName)
+      }
+    }
+    .padding(4)
+  }
+
+  private func iconButtonBackground(for iconName: String) -> some View {
+    Group {
+      if selectedIcon == iconName {
+        Color.accentColor.opacity(0.2)
+      } else {
+        #if os(macOS)
+          Color(NSColor.controlBackgroundColor)
+        #else
+          Color(UIColor.systemBackground)
+        #endif
+      }
+    }
+  }
+
   var body: some View {
     VStack(spacing: 0) {
       // Header
       VStack(spacing: 8) {
-        Text("Import Sound")
+        Text("Import Sound", comment: "Import sound sheet title")
           .font(.title2.bold())
       }
       .padding(.top, 20)
@@ -373,167 +596,9 @@ struct ImportSoundSheet: View {
 
       // Content
       VStack(alignment: .leading, spacing: 20) {
-        // File Selection
-        VStack(alignment: .leading, spacing: 8) {
-          Text("Sound File")
-            .font(.headline)
-
-          if let selectedFile = selectedFile {
-            HStack {
-              Image(systemName: "doc.fill")
-                .foregroundStyle(.tint)
-              VStack(alignment: .leading) {
-                Text(selectedFile.lastPathComponent)
-                  .lineLimit(1)
-                Text(formatFileSize(selectedFile))
-                  .font(.caption)
-                  .foregroundStyle(.secondary)
-              }
-              Spacer()
-              Button("Change") {
-                isImporting = true
-              }
-              .buttonStyle(.bordered)
-              .controlSize(.small)
-            }
-            .padding()
-            .background(Color(NSColor.controlBackgroundColor))
-            .clipShape(RoundedRectangle(cornerRadius: 8))
-          } else {
-            Button {
-              isImporting = true
-            } label: {
-              HStack {
-                Image(systemName: "plus.circle.fill")
-                  .font(.title2)
-                Text("Select Sound File")
-                  .font(.headline)
-              }
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 20)
-            }
-            .buttonStyle(.bordered)
-          }
-        }
-
-        // Name Input
-        VStack(alignment: .leading, spacing: 8) {
-          Text("Display Name")
-            .font(.headline)
-          TextField("Enter a name for this sound", text: $soundName)
-            .textFieldStyle(.roundedBorder)
-        }
-
-        // Icon Selection
-        VStack(alignment: .leading, spacing: 8) {
-          HStack {
-            Text("Icon")
-              .font(.headline)
-            Spacer()
-            Text("Selected:")
-            Image(systemName: selectedIcon)
-              .font(.title2)
-              .foregroundStyle(.tint)
-          }
-
-          // Search and category picker
-          HStack(spacing: 8) {
-            HStack {
-              Image(systemName: "magnifyingglass")
-                .foregroundStyle(.secondary)
-              TextField("Search icons or enter custom name...", text: $iconSearchText)
-                .textFieldStyle(.plain)
-                .onSubmit {
-                  // If search text is not empty and no results, use it as custom icon
-                  if !iconSearchText.isEmpty && searchResults.isEmpty {
-                    selectedIcon = iconSearchText
-                  }
-                }
-            }
-            .padding(6)
-            .background(Color(NSColor.controlBackgroundColor))
-            .clipShape(RoundedRectangle(cornerRadius: 6))
-
-            if iconSearchText.isEmpty {
-              Picker("Category", selection: $selectedIconCategory) {
-                ForEach(Array(iconCategories.keys).sorted(), id: \.self) { category in
-                  Text(category).tag(category)
-                }
-              }
-              .pickerStyle(.menu)
-              .labelsHidden()
-              .frame(width: 120)
-            } else if searchResults.isEmpty {
-              Button("Use Custom") {
-                selectedIcon = iconSearchText
-              }
-              .buttonStyle(.bordered)
-              .controlSize(.small)
-            }
-          }
-
-          ScrollView {
-            if searchResults.isEmpty && !iconSearchText.isEmpty {
-              VStack(spacing: 12) {
-                Image(systemName: "questionmark.square.dashed")
-                  .font(.largeTitle)
-                  .foregroundStyle(.tertiary)
-                Text("No matching icons found")
-                  .font(.headline)
-                Text(
-                  "Press Return or click \"Use Custom\" to use\n\"\(iconSearchText)\" as a custom icon name"
-                )
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-              }
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 40)
-            } else {
-              LazyVGrid(
-                columns: Array(repeating: GridItem(.fixed(50), spacing: 8), count: 6),
-                spacing: 8
-              ) {
-                ForEach(searchResults, id: \.self) { iconName in
-                  Button {
-                    selectedIcon = iconName
-                  } label: {
-                    VStack(spacing: 4) {
-                      Image(systemName: iconName)
-                        .font(.system(size: 24))
-                        .frame(height: 30)
-                      if !iconSearchText.isEmpty {
-                        Text(iconName)
-                          .font(.system(size: 8))
-                          .lineLimit(1)
-                          .truncationMode(.middle)
-                      }
-                    }
-                    .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
-                    .background(
-                      selectedIcon == iconName
-                        ? Color.accentColor.opacity(0.2) : Color(NSColor.controlBackgroundColor)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 8))
-                    .overlay(
-                      RoundedRectangle(cornerRadius: 8)
-                        .stroke(
-                          selectedIcon == iconName ? Color.accentColor : Color.clear,
-                          lineWidth: 2
-                        )
-                    )
-                  }
-                  .buttonStyle(.plain)
-                  .help(iconName)
-                }
-              }
-              .padding(4)
-            }
-          }
-          .frame(height: 180)
-          .background(Color(NSColor.textBackgroundColor))
-          .clipShape(RoundedRectangle(cornerRadius: 8))
-        }
+        fileSelectionSection
+        nameInputSection
+        iconSelectionSection
       }
       .padding(20)
 
@@ -551,8 +616,10 @@ struct ImportSoundSheet: View {
 
         Spacer()
 
-        Button("Import") {
+        Button {
           importSound()
+        } label: {
+          Text("Import Sound", comment: "Import sound button")
         }
         .buttonStyle(.borderedProminent)
         .disabled(
@@ -588,29 +655,44 @@ struct ImportSoundSheet: View {
         showingError = true
       }
     }
-    .alert("Import Error", isPresented: $showingError, presenting: importError) { _ in
+    .alert(
+      Text("Import Error", comment: "Import error alert title"), isPresented: $showingError,
+      presenting: importError
+    ) { _ in
       Button("OK", role: .cancel) {}
     } message: { error in
       Text(error.localizedDescription)
     }
     .overlay {
       if isProcessing {
-        ZStack {
-          Color.black.opacity(0.3)
-            .ignoresSafeArea()
-
-          VStack(spacing: 12) {
-            ProgressView()
-              .scaleEffect(1.5)
-            Text("Importing sound...")
-              .font(.headline)
-          }
-          .padding(24)
-          .background(Color(NSColor.windowBackgroundColor))
-          .clipShape(RoundedRectangle(cornerRadius: 12))
-          .shadow(radius: 20)
-        }
+        processingOverlay
       }
+    }
+  }
+
+  private var processingOverlay: some View {
+    ZStack {
+      Color.black.opacity(0.3)
+        .ignoresSafeArea()
+
+      VStack(spacing: 12) {
+        ProgressView()
+          .scaleEffect(1.5)
+        Text("Importing sound...", comment: "Import progress message")
+          .font(.headline)
+      }
+      .padding(24)
+      .background(
+        Group {
+          #if os(macOS)
+            Color(NSColor.windowBackgroundColor)
+          #else
+            Color(UIColor.systemBackground)
+          #endif
+        }
+      )
+      .clipShape(RoundedRectangle(cornerRadius: 12))
+      .shadow(radius: 20)
     }
   }
 

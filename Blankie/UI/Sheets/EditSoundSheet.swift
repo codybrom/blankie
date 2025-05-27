@@ -368,7 +368,7 @@ struct EditSoundSheet: View {
     VStack(spacing: 0) {
       // Header
       VStack(spacing: 8) {
-        Text("Edit Sound")
+        Text("Edit Sound", comment: "Edit sound sheet title")
           .font(.title2.bold())
       }
       .padding(.top, 20)
@@ -380,19 +380,21 @@ struct EditSoundSheet: View {
       VStack(alignment: .leading, spacing: 20) {
         // Name Input
         VStack(alignment: .leading, spacing: 8) {
-          Text("Display Name")
+          Text("Name", comment: "Display name field label")
             .font(.headline)
-          TextField("Enter a name for this sound", text: $editedName)
-            .textFieldStyle(.roundedBorder)
+          TextField(text: $editedName) {
+            Text("Enter a name for this sound", comment: "Sound name text field placeholder")
+          }
+          .textFieldStyle(.roundedBorder)
         }
 
         // Icon Selection
         VStack(alignment: .leading, spacing: 8) {
           HStack {
-            Text("Icon")
+            Text("Icon", comment: "Icon selection label")
               .font(.headline)
             Spacer()
-            Text("Selected:")
+            Text("Selected:", comment: "Selected icon label")
             Image(systemName: editedIcon)
               .font(.title2)
               .foregroundStyle(.tint)
@@ -403,21 +405,35 @@ struct EditSoundSheet: View {
             HStack {
               Image(systemName: "magnifyingglass")
                 .foregroundStyle(.secondary)
-              TextField("Search icons or enter custom name...", text: $iconSearchText)
-                .textFieldStyle(.plain)
-                .onSubmit {
-                  // If search text is not empty and no results, use it as custom icon
-                  if !iconSearchText.isEmpty && searchResults.isEmpty {
-                    editedIcon = iconSearchText
-                  }
+              TextField(text: $iconSearchText) {
+                Text(
+                  "Search icons or enter custom name...", comment: "Icon search field placeholder")
+              }
+              .textFieldStyle(.plain)
+              .onSubmit {
+                // If search text is not empty and no results, use it as custom icon
+                if !iconSearchText.isEmpty && searchResults.isEmpty {
+                  editedIcon = iconSearchText
                 }
+              }
             }
             .padding(6)
-            .background(Color(NSColor.controlBackgroundColor))
+            .background(
+              Group {
+                #if os(macOS)
+                  Color(NSColor.controlBackgroundColor)
+                #else
+                  Color(UIColor.systemBackground)
+                #endif
+              }
+            )
             .clipShape(RoundedRectangle(cornerRadius: 6))
 
             if iconSearchText.isEmpty {
-              Picker("Category", selection: $selectedIconCategory) {
+              Picker(
+                selection: $selectedIconCategory,
+                label: Text("Category", comment: "Icon category picker label")
+              ) {
                 ForEach(Array(iconCategories.keys).sorted(), id: \.self) { category in
                   Text(category).tag(category)
                 }
@@ -426,8 +442,10 @@ struct EditSoundSheet: View {
               .labelsHidden()
               .frame(width: 120)
             } else if searchResults.isEmpty {
-              Button("Use Custom") {
+              Button {
                 editedIcon = iconSearchText
+              } label: {
+                Text("Use Custom", comment: "Use custom icon button")
               }
               .buttonStyle(.bordered)
               .controlSize(.small)
@@ -440,10 +458,11 @@ struct EditSoundSheet: View {
                 Image(systemName: "questionmark.square.dashed")
                   .font(.largeTitle)
                   .foregroundStyle(.tertiary)
-                Text("No matching icons found")
+                Text("No matching icons found", comment: "No icon search results message")
                   .font(.headline)
                 Text(
-                  "Press Return or click \"Use Custom\" to use\n\"\(iconSearchText)\" as a custom icon name"
+                  "Press Return or click \"Use Custom\" to use \"\(iconSearchText)\" as a custom icon name",
+                  comment: "Custom icon usage instruction"
                 )
                 .font(.caption)
                 .foregroundStyle(.secondary)
@@ -474,7 +493,8 @@ struct EditSoundSheet: View {
                     .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
                     .background(
                       editedIcon == iconName
-                        ? Color.accentColor.opacity(0.2) : Color(NSColor.controlBackgroundColor)
+                        ? Color.accentColor.opacity(0.2)
+                        : Color.primary.opacity(0.05)
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 8))
                     .overlay(
@@ -493,7 +513,15 @@ struct EditSoundSheet: View {
             }
           }
           .frame(height: 250)
-          .background(Color(NSColor.textBackgroundColor))
+          .background(
+            Group {
+              #if os(macOS)
+                Color(NSColor.textBackgroundColor)
+              #else
+                Color(UIColor.systemBackground)
+              #endif
+            }
+          )
           .clipShape(RoundedRectangle(cornerRadius: 8))
         }
       }
@@ -513,8 +541,10 @@ struct EditSoundSheet: View {
 
         Spacer()
 
-        Button("Save") {
+        Button {
           saveChanges()
+        } label: {
+          Text("Save", comment: "Save changes button")
         }
         .buttonStyle(.borderedProminent)
         .disabled(
@@ -534,11 +564,19 @@ struct EditSoundSheet: View {
           VStack(spacing: 12) {
             ProgressView()
               .scaleEffect(1.5)
-            Text("Saving changes...")
+            Text("Saving changes...", comment: "Save progress message")
               .font(.headline)
           }
           .padding(24)
-          .background(Color(NSColor.windowBackgroundColor))
+          .background(
+            Group {
+              #if os(macOS)
+                Color(NSColor.windowBackgroundColor)
+              #else
+                Color(UIColor.systemBackground)
+              #endif
+            }
+          )
           .clipShape(RoundedRectangle(cornerRadius: 12))
           .shadow(radius: 20)
         }

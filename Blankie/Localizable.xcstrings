@@ -2211,7 +2211,7 @@
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Si désactivé, Blankie jouera immédiatement votre préréglage le plus récent au lancement"
           }
         },

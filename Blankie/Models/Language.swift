@@ -22,9 +22,30 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static var system: Language {
-    Language(
+    // Read the system's actual language preference from UserDefaults global domain
+    let globalDomain = UserDefaults(suiteName: UserDefaults.globalDomain)
+    let systemLanguages = globalDomain?.object(forKey: "AppleLanguages") as? [String]
+    let systemLanguageCode = systemLanguages?.first ?? "en"
+
+    // For display, we want just the base language code (e.g., "en" from "en-US")
+    let languageCode =
+      systemLanguageCode.split(separator: "-").first.map(String.init) ?? systemLanguageCode
+
+    // Create a locale for the system language to get its native name
+    let systemLocale = Locale(identifier: languageCode)
+
+    // Get the language name in its own locale (e.g., "English" for en, "Español" for es)
+    let languageName = systemLocale.localizedString(forLanguageCode: languageCode) ?? languageCode
+
+    // Show "System (Language)" where System is in the current app language
+    let displayName =
+      "\(NSLocalizedString("System", comment: "System default language option")) (\(languageName))"
+
+    print("🌐 System language from global domain: code=\(languageCode), name=\(languageName)")
+
+    return Language(
       code: "system",
-      displayName: NSLocalizedString("System", comment: "System default language option"),
+      displayName: displayName,
       icon: "globe")
   }
 
@@ -179,11 +200,10 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static func restartApp() {
-    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+    let url = Bundle.main.bundleURL
     let task = Process()
     task.launchPath = "/usr/bin/open"
-    task.arguments = [path]
+    task.arguments = ["-n", url.path]
 
     // Store a flag to indicate we're restarting
     UserDefaults.standard.set(true, forKey: "AppIsRestarting")

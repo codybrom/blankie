@@ -179,11 +179,10 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static func restartApp() {
-    let url = URL(fileURLWithPath: Bundle.main.resourcePath!)
-    let path = url.deletingLastPathComponent().deletingLastPathComponent().absoluteString
+    let url = Bundle.main.bundleURL
     let task = Process()
     task.launchPath = "/usr/bin/open"
-    task.arguments = [path]
+    task.arguments = ["-n", url.path]
 
     // Store a flag to indicate we're restarting
     UserDefaults.standard.set(true, forKey: "AppIsRestarting")

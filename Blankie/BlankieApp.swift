@@ -34,7 +34,7 @@ struct BlankieApp: App {
     @State private var presetName = ""
 
     var body: some Scene {
-      Window(verbatim: "Blankie", id: "main") {
+        Window("Blankie", id: "main") {
         WindowDefaults.defaultContentView(
           showingAbout: $showingAbout,
           showingShortcuts: $showingShortcuts,

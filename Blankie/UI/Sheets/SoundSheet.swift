@@ -1,24 +1,83 @@
 //
-//  ImportSoundSheet.swift
+//  SoundSheet.swift
 //  Blankie
 //
-//  Created by Cody Bromley on 5/22/25.
+//  Created by Cody Bromley on 5/28/25.
 //
 
+import SwiftData
 import SwiftUI
 import UniformTypeIdentifiers
 
-struct ImportSoundSheet: View {
+enum SoundSheetMode {
+  case add
+  case edit(CustomSoundData)
+}
+
+struct SoundSheet: View {
   @Environment(\.dismiss) private var dismiss
-  @State private var selectedFile: URL?
+  @Environment(\.modelContext) private var modelContext
+
+  let mode: SoundSheetMode
+
   @State private var soundName: String = ""
   @State private var selectedIcon: String = "waveform.circle"
+  @State private var selectedFile: URL?
   @State private var isImporting = false
   @State private var importError: Error?
   @State private var showingError = false
   @State private var isProcessing = false
   @State private var iconSearchText = ""
   @State private var selectedIconCategory = "Popular"
+
+  private var sound: CustomSoundData? {
+    switch mode {
+    case .add:
+      return nil
+    case .edit(let sound):
+      return sound
+    }
+  }
+
+  private var title: LocalizedStringKey {
+    switch mode {
+    case .add:
+      return "Import Sound"
+    case .edit:
+      return "Edit Sound"
+    }
+  }
+
+  private var buttonTitle: LocalizedStringKey {
+    switch mode {
+    case .add:
+      return "Import Sound"
+    case .edit:
+      return "Save"
+    }
+  }
+
+  private var progressMessage: LocalizedStringKey {
+    switch mode {
+    case .add:
+      return "Importing sound..."
+    case .edit:
+      return "Saving changes..."
+    }
+  }
+
+  init(mode: SoundSheetMode) {
+    self.mode = mode
+
+    switch mode {
+    case .add:
+      _soundName = State(initialValue: "")
+      _selectedIcon = State(initialValue: "waveform.circle")
+    case .edit(let sound):
+      _soundName = State(initialValue: sound.title)
+      _selectedIcon = State(initialValue: sound.systemIconName)
+    }
+  }
 
   // Icon categories with curated selections
   private let iconCategories: [String: [String]] = [
@@ -297,8 +356,7 @@ struct ImportSoundSheet: View {
       "figure.squash.circle.fill", "figure.stair.stepper", "figure.stairs", "figure.step.training",
       "figure.surfing", "figure.table.tennis", "figure.taichi", "figure.tennis",
       "figure.track.and.field", "figure.strengthtraining.traditional", "figure.volleyball",
-      "figure.water.fitness",
-      "figure.waterpolo", "figure.wrestling", "figure.yoga",
+      "figure.water.fitness", "figure.waterpolo", "figure.wrestling", "figure.yoga",
 
       // Body parts
       "lungs.fill", "shoeprints.fill", "face.smiling", "face.smiling.inverse",
@@ -359,6 +417,107 @@ struct ImportSoundSheet: View {
     }.sorted()
   }
 
+  var body: some View {
+    VStack(spacing: 0) {
+      // Header
+      VStack(spacing: 8) {
+        Text(title)
+          .font(.title2.bold())
+      }
+      .padding(.top, 20)
+      .padding(.bottom, 16)
+
+      Divider()
+
+      // Content
+      VStack(alignment: .leading, spacing: 20) {
+        // File selection (only for add mode)
+        if case .add = mode {
+          fileSelectionSection
+        }
+
+        // Name Input
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Name", comment: "Display name field label")
+            .font(.headline)
+          TextField(text: $soundName) {
+            Text("Enter a name for this sound", comment: "Sound name text field placeholder")
+          }
+          .textFieldStyle(.roundedBorder)
+        }
+
+        // Icon Selection
+        iconSelectionSection
+      }
+      .padding(20)
+
+      Spacer()
+
+      Divider()
+
+      // Footer buttons
+      HStack {
+        Button("Cancel") {
+          dismiss()
+        }
+        .buttonStyle(.bordered)
+        .keyboardShortcut(.escape)
+
+        Spacer()
+
+        Button {
+          performAction()
+        } label: {
+          Text(buttonTitle)
+        }
+        .buttonStyle(.borderedProminent)
+        .disabled(isDisabled)
+        .keyboardShortcut(.return)
+      }
+      .padding()
+    }
+    .frame(width: 450, height: mode.isAdd ? 580 : 520)
+    .fileImporter(
+      isPresented: $isImporting,
+      allowedContentTypes: [
+        UTType.audio,
+        UTType.mp3,
+        UTType.wav,
+        UTType.mpeg4Audio,
+      ],
+      allowsMultipleSelection: false
+    ) { result in
+      switch result {
+      case .success(let files):
+        if let file = files.first {
+          selectedFile = file
+          // Extract filename (without extension) as default name
+          if soundName.isEmpty {
+            soundName = file.deletingPathExtension().lastPathComponent
+          }
+        }
+      case .failure(let error):
+        importError = error
+        showingError = true
+      }
+    }
+    .alert(
+      Text("Import Error", comment: "Import error alert title"), isPresented: $showingError,
+      presenting: importError
+    ) { _ in
+      Button("OK", role: .cancel) {}
+    } message: { error in
+      Text(error.localizedDescription)
+    }
+    .overlay {
+      if isProcessing {
+        processingOverlay
+      }
+    }
+  }
+
+  // MARK: - File Selection Section
+
   private var fileSelectionSection: some View {
     VStack(alignment: .leading, spacing: 8) {
       Text("Sound File", comment: "Sound file section header")
@@ -413,16 +572,7 @@ struct ImportSoundSheet: View {
     }
   }
 
-  private var nameInputSection: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text("Name", comment: "Display name field label")
-        .font(.headline)
-      TextField(text: $soundName) {
-        Text("Enter a name for this sound", comment: "Sound name text field placeholder")
-      }
-      .textFieldStyle(.roundedBorder)
-    }
-  }
+  // MARK: - Icon Selection Section
 
   private var iconSelectionSection: some View {
     VStack(alignment: .leading, spacing: 8) {
@@ -436,16 +586,118 @@ struct ImportSoundSheet: View {
           .foregroundStyle(.tint)
       }
 
-      iconSearchBar
+      // Search and category picker
+      HStack(spacing: 8) {
+        HStack {
+          Image(systemName: "magnifyingglass")
+            .foregroundStyle(.secondary)
+          TextField(text: $iconSearchText) {
+            Text("Search icons or enter custom name...", comment: "Icon search field placeholder")
+          }
+          .textFieldStyle(.plain)
+          .onSubmit {
+            // If search text is not empty and no results, use it as custom icon
+            if !iconSearchText.isEmpty && searchResults.isEmpty {
+              selectedIcon = iconSearchText
+            }
+          }
+        }
+        .padding(6)
+        .background(
+          Group {
+            #if os(macOS)
+              Color(NSColor.controlBackgroundColor)
+            #else
+              Color(UIColor.systemBackground)
+            #endif
+          }
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 6))
+
+        if iconSearchText.isEmpty {
+          Picker(
+            selection: $selectedIconCategory,
+            label: Text("Category", comment: "Icon category picker label")
+          ) {
+            ForEach(Array(iconCategories.keys).sorted(), id: \.self) { category in
+              Text(category).tag(category)
+            }
+          }
+          .pickerStyle(.menu)
+          .labelsHidden()
+          .frame(width: 120)
+        } else if searchResults.isEmpty {
+          Button {
+            selectedIcon = iconSearchText
+          } label: {
+            Text("Use Custom", comment: "Use custom icon button")
+          }
+          .buttonStyle(.bordered)
+          .controlSize(.small)
+        }
+      }
 
       ScrollView {
         if searchResults.isEmpty && !iconSearchText.isEmpty {
-          emptySearchResultsView
+          VStack(spacing: 12) {
+            Image(systemName: "questionmark.square.dashed")
+              .font(.largeTitle)
+              .foregroundStyle(.tertiary)
+            Text("No matching icons found", comment: "No icon search results message")
+              .font(.headline)
+            Text(
+              "Press Return or click \"Use Custom\" to use \"\(iconSearchText)\" as a custom icon name",
+              comment: "Custom icon usage instruction"
+            )
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .multilineTextAlignment(.center)
+          }
+          .frame(maxWidth: .infinity)
+          .padding(.vertical, 40)
         } else {
-          iconGrid
+          LazyVGrid(
+            columns: Array(repeating: GridItem(.fixed(50), spacing: 8), count: 6),
+            spacing: 8
+          ) {
+            ForEach(searchResults, id: \.self) { iconName in
+              Button {
+                selectedIcon = iconName
+              } label: {
+                VStack(spacing: 4) {
+                  Image(systemName: iconName)
+                    .font(.system(size: 24))
+                    .frame(height: 30)
+                  if !iconSearchText.isEmpty {
+                    Text(iconName)
+                      .font(.system(size: 8))
+                      .lineLimit(1)
+                      .truncationMode(.middle)
+                  }
+                }
+                .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
+                .background(
+                  selectedIcon == iconName
+                    ? Color.accentColor.opacity(0.2)
+                    : Color.primary.opacity(0.05)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .overlay(
+                  RoundedRectangle(cornerRadius: 8)
+                    .stroke(
+                      selectedIcon == iconName ? Color.accentColor : Color.clear,
+                      lineWidth: 2
+                    )
+                )
+              }
+              .buttonStyle(.plain)
+              .help(iconName)
+            }
+          }
+          .padding(4)
         }
       }
-      .frame(height: 180)
+      .frame(height: 200)
       .background(
         Group {
           #if os(macOS)
@@ -459,216 +711,7 @@ struct ImportSoundSheet: View {
     }
   }
 
-  private var iconSearchBar: some View {
-    HStack(spacing: 8) {
-      HStack {
-        Image(systemName: "magnifyingglass")
-          .foregroundStyle(.secondary)
-        TextField(text: $iconSearchText) {
-          Text("Search icons or enter custom name...", comment: "Icon search field placeholder")
-        }
-        .textFieldStyle(.plain)
-        .onSubmit {
-          // If search text is not empty and no results, use it as custom icon
-          if !iconSearchText.isEmpty && searchResults.isEmpty {
-            selectedIcon = iconSearchText
-          }
-        }
-      }
-      .padding(6)
-      .background(
-        Group {
-          #if os(macOS)
-            Color(NSColor.controlBackgroundColor)
-          #else
-            Color(UIColor.systemBackground)
-          #endif
-        }
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 6))
-
-      if iconSearchText.isEmpty {
-        Picker(
-          selection: $selectedIconCategory,
-          label: Text("Category", comment: "Icon category picker label")
-        ) {
-          ForEach(Array(iconCategories.keys).sorted(), id: \.self) { category in
-            Text(category).tag(category)
-          }
-        }
-        .pickerStyle(.menu)
-        .labelsHidden()
-        .frame(width: 120)
-      } else if searchResults.isEmpty {
-        Button {
-          selectedIcon = iconSearchText
-        } label: {
-          Text("Use Custom", comment: "Use custom icon button")
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.small)
-      }
-    }
-  }
-
-  private var emptySearchResultsView: some View {
-    VStack(spacing: 12) {
-      Image(systemName: "questionmark.square.dashed")
-        .font(.largeTitle)
-        .foregroundStyle(.tertiary)
-      Text("No matching icons found", comment: "No icon search results message")
-        .font(.headline)
-      Text(
-        "Press Return or click \"Use Custom\" to use\n\"\(iconSearchText)\" as a custom icon name",
-        comment: "Custom icon usage instruction"
-      )
-      .font(.caption)
-      .foregroundStyle(.secondary)
-      .multilineTextAlignment(.center)
-    }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 40)
-  }
-
-  private var iconGrid: some View {
-    LazyVGrid(
-      columns: Array(repeating: GridItem(.fixed(50), spacing: 8), count: 6),
-      spacing: 8
-    ) {
-      ForEach(searchResults, id: \.self) { iconName in
-        Button {
-          selectedIcon = iconName
-        } label: {
-          VStack(spacing: 4) {
-            Image(systemName: iconName)
-              .font(.system(size: 24))
-              .frame(height: 30)
-            if !iconSearchText.isEmpty {
-              Text(iconName)
-                .font(.system(size: 8))
-                .lineLimit(1)
-                .truncationMode(.middle)
-            }
-          }
-          .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
-          .background(iconButtonBackground(for: iconName))
-          .clipShape(RoundedRectangle(cornerRadius: 8))
-          .overlay(
-            RoundedRectangle(cornerRadius: 8)
-              .stroke(
-                selectedIcon == iconName ? Color.accentColor : Color.clear,
-                lineWidth: 2
-              )
-          )
-        }
-        .buttonStyle(.plain)
-        .help(iconName)
-      }
-    }
-    .padding(4)
-  }
-
-  private func iconButtonBackground(for iconName: String) -> some View {
-    Group {
-      if selectedIcon == iconName {
-        Color.accentColor.opacity(0.2)
-      } else {
-        #if os(macOS)
-          Color(NSColor.controlBackgroundColor)
-        #else
-          Color(UIColor.systemBackground)
-        #endif
-      }
-    }
-  }
-
-  var body: some View {
-    VStack(spacing: 0) {
-      // Header
-      VStack(spacing: 8) {
-        Text("Import Sound", comment: "Import sound sheet title")
-          .font(.title2.bold())
-      }
-      .padding(.top, 20)
-      .padding(.bottom, 16)
-
-      Divider()
-
-      // Content
-      VStack(alignment: .leading, spacing: 20) {
-        fileSelectionSection
-        nameInputSection
-        iconSelectionSection
-      }
-      .padding(20)
-
-      Spacer()
-
-      Divider()
-
-      // Footer buttons
-      HStack {
-        Button("Cancel") {
-          dismiss()
-        }
-        .buttonStyle(.bordered)
-        .keyboardShortcut(.escape)
-
-        Spacer()
-
-        Button {
-          importSound()
-        } label: {
-          Text("Import Sound", comment: "Import sound button")
-        }
-        .buttonStyle(.borderedProminent)
-        .disabled(
-          selectedFile == nil || soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-            || isProcessing
-        )
-        .keyboardShortcut(.return)
-      }
-      .padding()
-    }
-    .frame(width: 450, height: 600)
-    .fileImporter(
-      isPresented: $isImporting,
-      allowedContentTypes: [
-        UTType.audio,
-        UTType.mp3,
-        UTType.wav,
-        UTType.mpeg4Audio,
-      ],
-      allowsMultipleSelection: false
-    ) { result in
-      switch result {
-      case .success(let files):
-        if let file = files.first {
-          selectedFile = file
-          // Extract filename (without extension) as default name
-          if soundName.isEmpty {
-            soundName = file.deletingPathExtension().lastPathComponent
-          }
-        }
-      case .failure(let error):
-        importError = error
-        showingError = true
-      }
-    }
-    .alert(
-      Text("Import Error", comment: "Import error alert title"), isPresented: $showingError,
-      presenting: importError
-    ) { _ in
-      Button("OK", role: .cancel) {}
-    } message: { error in
-      Text(error.localizedDescription)
-    }
-    .overlay {
-      if isProcessing {
-        processingOverlay
-      }
-    }
-  }
+  // MARK: - Processing Overlay
 
   private var processingOverlay: some View {
     ZStack {
@@ -678,7 +721,7 @@ struct ImportSoundSheet: View {
       VStack(spacing: 12) {
         ProgressView()
           .scaleEffect(1.5)
-        Text("Importing sound...", comment: "Import progress message")
+        Text(progressMessage)
           .font(.headline)
       }
       .padding(24)
@@ -693,6 +736,27 @@ struct ImportSoundSheet: View {
       )
       .clipShape(RoundedRectangle(cornerRadius: 12))
       .shadow(radius: 20)
+    }
+  }
+
+  // MARK: - Helper Methods
+
+  private var isDisabled: Bool {
+    let nameTrimmed = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
+    switch mode {
+    case .add:
+      return selectedFile == nil || nameTrimmed.isEmpty || isProcessing
+    case .edit:
+      return nameTrimmed.isEmpty || isProcessing
+    }
+  }
+
+  private func performAction() {
+    switch mode {
+    case .add:
+      importSound()
+    case .edit(let sound):
+      saveChanges(sound)
     }
   }
 
@@ -744,6 +808,31 @@ struct ImportSoundSheet: View {
     }
   }
 
+  private func saveChanges(_ sound: CustomSoundData) {
+    guard !soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      return
+    }
+
+    isProcessing = true
+
+    // Update the sound data
+    sound.title = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
+    sound.systemIconName = selectedIcon
+
+    do {
+      try modelContext.save()
+
+      // Notify that a sound was updated
+      NotificationCenter.default.post(name: .customSoundAdded, object: nil)
+
+      // Dismiss the sheet
+      dismiss()
+    } catch {
+      print("❌ SoundSheet: Failed to save changes: \(error)")
+      isProcessing = false
+    }
+  }
+
   private func formatFileSize(_ url: URL) -> String {
     guard let attributes = try? FileManager.default.attributesOfItem(atPath: url.path),
       let fileSize = attributes[.size] as? Int64
@@ -757,16 +846,33 @@ struct ImportSoundSheet: View {
   }
 }
 
-extension Color {
-  fileprivate static var systemBackground: Color {
-    #if os(iOS)
-      return Color(UIColor.systemBackground)
-    #else
-      return Color(NSColor.windowBackgroundColor)
-    #endif
+// MARK: - Mode Extensions
+
+extension SoundSheetMode {
+  var isAdd: Bool {
+    switch self {
+    case .add:
+      return true
+    case .edit:
+      return false
+    }
   }
 }
 
-#Preview {
-  ImportSoundSheet()
+// MARK: - Previews
+
+#Preview("Add Mode") {
+  SoundSheet(mode: .add)
+}
+
+#Preview("Edit Mode") {
+  let previewSound = CustomSoundData(
+    title: "Sample Sound",
+    systemIconName: "waveform",
+    fileName: "sample",
+    fileExtension: "mp3"
+  )
+
+  return SoundSheet(mode: .edit(previewSound))
+    .modelContainer(for: CustomSoundData.self, inMemory: true)
 }

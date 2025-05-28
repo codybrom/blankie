@@ -53,11 +53,11 @@ struct CustomSoundsView: View {
       }
     }
     .sheet(isPresented: $showingImportSheet) {
-      ImportSoundSheet()
+      SoundSheet(mode: .add)
     }
     .sheet(isPresented: $showingEditSheet) {
       if let sound = selectedSound {
-        EditSoundSheet(sound: sound)
+        SoundSheet(mode: .edit(sound))
       }
     }
     .alert(

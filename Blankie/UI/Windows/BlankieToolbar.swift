@@ -88,7 +88,7 @@ import SwiftUI
         .menuIndicator(.hidden)
         .menuStyle(.borderlessButton)
         .sheet(isPresented: $showingImportSoundSheet) {
-          ImportSoundSheet()
+          SoundSheet(mode: .add)
         }
         .sheet(isPresented: $showingCustomSoundsView) {
           CustomSoundsView()

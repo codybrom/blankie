@@ -2085,7 +2085,7 @@
       }
     },
     "Import Sound" : {
-      "comment" : "Import sound button\nImport sound button label\nImport sound sheet title",
+      "comment" : "Import sound button label",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3496,23 +3496,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "预设"
-          }
-        }
-      }
-    },
-    "Press Return or click \"Use Custom\" to use\n\"%@\" as a custom icon name" : {
-      "comment" : "Custom icon usage instruction",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Press Return or click \"Use Custom\" to use\n\"%@\" as a custom icon name"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Press Return or click \"Use Custom\" to use\n\"%@\" as a custom icon name"
           }
         }
       }

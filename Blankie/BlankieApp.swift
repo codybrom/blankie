@@ -15,6 +15,9 @@ struct BlankieApp: App {
 
   // Initialize SwiftData
   init() {
+    // Reset defaults if running UI tests
+    UITestingHelper.resetAllDefaults()
+
     do {
       modelContainer = try ModelContainer(for: CustomSoundData.self)
       print("🗄️ BlankieApp: Successfully created SwiftData model container")
@@ -34,7 +37,7 @@ struct BlankieApp: App {
     @State private var presetName = ""
 
     var body: some Scene {
-        Window("Blankie", id: "main") {
+      Window("Blankie", id: "main") {
         WindowDefaults.defaultContentView(
           showingAbout: $showingAbout,
           showingShortcuts: $showingShortcuts,

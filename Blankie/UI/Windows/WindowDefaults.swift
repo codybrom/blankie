@@ -12,8 +12,8 @@
     static let title = "Blankie"
     static let minWidth: CGFloat = 428
     static let minHeight: CGFloat = 275
-    static let defaultWidth: CGFloat = 600
-    static let defaultHeight: CGFloat = 800
+    static let defaultWidth: CGFloat = 950
+    static let defaultHeight: CGFloat = 540
 
     static let defaultFrame = NSRect(
       x: 0,

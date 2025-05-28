@@ -62,6 +62,7 @@ struct SoundIcon: View {
       }
       .buttonStyle(.borderless)
       .frame(width: Configuration.iconSize, height: Configuration.iconSize)
+      .accessibilityIdentifier("sound-\(sound.fileName)")
 
       Text(LocalizedStringKey(sound.title))
         .font(

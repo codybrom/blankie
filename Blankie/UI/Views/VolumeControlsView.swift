@@ -71,7 +71,7 @@ struct VolumeControlsView: View {
 
         ForEach(audioManager.sounds.filter(\.isSelected)) { sound in
           VStack(alignment: .leading, spacing: 4) {
-            Text(sound.title)
+            Text(LocalizedStringKey(sound.title))
               .font(.caption)
 
             Slider(
@@ -142,7 +142,7 @@ struct VolumeControlsView: View {
                 Image(systemName: sound.systemIconName)
                   .foregroundColor(accentColor)
 
-                Text(sound.title)
+                Text(LocalizedStringKey(sound.title))
                   .font(.callout)
               }
 

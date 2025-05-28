@@ -29,7 +29,8 @@
 
       // If there's a saved language preference, apply it at launch
       if let languageCode = UserDefaults.standard.string(forKey: "languagePreference"),
-        languageCode != "system" {
+        languageCode != "system"
+      {
         print("🌐 AppDelegate: Applying saved language \(languageCode) at launch")
         UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
       }
@@ -38,6 +39,52 @@
       if UserDefaults.standard.bool(forKey: "AppIsRestarting") {
         print("🔄 App detected post-restart state for language change")
         UserDefaults.standard.removeObject(forKey: "AppIsRestarting")
+      }
+
+      // Apply window frame if in UI testing mode
+      if ProcessInfo.processInfo.arguments.contains("-UITestingResetDefaults") {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          if let window = NSApplication.shared.windows.first {
+            let frame = NSRect(x: 485, y: 277, width: 950, height: 540)
+            window.setFrame(frame, display: true, animate: false)
+            print("🪟 AppDelegate: Set window frame for UI testing to \(frame)")
+          }
+
+          // Force playback to start for screenshots
+          if ProcessInfo.processInfo.arguments.contains("-ScreenshotMode") {
+            // Apply screenshot settings directly to sounds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+              let audioManager = AudioManager.shared
+
+              // Configure specific sounds for screenshots
+              let soundsToActivate = [
+                ("rain", 0.8),
+                ("storm", 0.6),
+                ("wind", 0.9),
+                ("waves", 0.4),
+                ("boat", 0.7),
+              ]
+
+              // First deselect all sounds
+              for sound in audioManager.sounds {
+                sound.isSelected = false
+              }
+
+              // Then activate and set volumes for specific sounds
+              for (fileName, volume) in soundsToActivate {
+                if let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) {
+                  sound.isSelected = true
+                  sound.volume = Float(volume)
+                  print("🔊 Activated \(fileName) with volume \(volume)")
+                }
+              }
+
+              // Start playback
+              audioManager.setPlaybackState(true, forceUpdate: true)
+              print("🎵 AppDelegate: Started playback for screenshot mode")
+            }
+          }
+        }
       }
     }
 

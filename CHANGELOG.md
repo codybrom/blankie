@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Portuguese (Português) translation support - thanks to **Júlio Coelho**
+
 ## [1.0.9] - 2025-05-27
 
 ### Changed

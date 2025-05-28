@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Improved French (Français) translations - thanks to **ma203**
+- Improved French (Français) translations - thanks to **Richard_M**
 - Improved Simple Chinese (中文) translations - thanks to **kur1k0**
 - Fixed an issue where the app wasn't restarting properly after language changes
 - Improved translation credits layout

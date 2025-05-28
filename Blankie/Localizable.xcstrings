@@ -2067,6 +2067,9 @@
         }
       }
     },
+    "If enabled, Blankie can be used at the same time as other apps but playback cannot be controlled using your device's Now Playing widget or audio device controls." : {
+      "comment" : "Mix with others toggle caption"
+    },
     "Import Error" : {
       "comment" : "Import error alert title",
       "localizations" : {
@@ -2640,6 +2643,9 @@
         }
       }
     },
+    "Mix with Other Audio" : {
+
+    },
     "Name" : {
       "comment" : "Display name field label",
       "localizations" : {
@@ -3122,6 +3128,9 @@
           }
         }
       }
+    },
+    "Playback" : {
+      "comment" : "Settings section header for behavior options"
     },
     "Playback Paused" : {
       "comment" : "Playback paused banner",

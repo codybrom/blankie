@@ -10,18 +10,12 @@ struct SettingsView: View {
         Section(
           header: Text("Appearance", comment: "Settings section header for appearance options")
         ) {
-          Picker(
-            selection: Binding(
-              get: { globalSettings.appearance },
-              set: { globalSettings.setAppearance($0) }
-            ),
-            label: Text("Theme", comment: "Appearance theme picker label")
-          ) {
-            ForEach(AppearanceMode.allCases, id: \.self) { mode in
-              Label(
-                mode.rawValue,
-                systemImage: mode.icon
-              ).tag(mode)
+          NavigationLink(destination: ThemePicker()) {
+            HStack {
+              Text("Theme", comment: "Appearance theme picker label")
+              Spacer()
+              Text(globalSettings.appearance.localizedName)
+                .foregroundColor(.secondary)
             }
           }
 
@@ -36,7 +30,9 @@ struct SettingsView: View {
           }
         }
 
-        Section(header: Text("Behavior", comment: "Settings section header for behavior options")) {
+        Section(
+          header: Text("Playback", comment: "Settings section header for behavior options"),
+        ) {
           Toggle(
             "Always Start Paused",
             isOn: Binding(
@@ -45,11 +41,29 @@ struct SettingsView: View {
             )
           )
           .tint(globalSettings.customAccentColor ?? .accentColor)
+
+          #if os(iOS) || os(visionOS)
+            VStack(alignment: .leading, spacing: 4) {
+              Toggle(
+                "Mix with Other Audio",
+                isOn: Binding(
+                  get: { globalSettings.mixWithOthers },
+                  set: { globalSettings.setMixWithOthers($0) }
+                )
+              )
+              .tint(globalSettings.customAccentColor ?? .accentColor)
+
+              Text(
+                "If enabled, Blankie can be used at the same time as other apps but playback cannot be controlled using your device's Now Playing widget or audio device controls.",
+                comment: "Mix with others toggle caption"
+              )
+              .font(.caption)
+              .foregroundColor(.secondary)
+            }
+          #endif
         }
 
-        Section(
-          header: Text("About Blankie", comment: "Settings section header for about information")
-        ) {
+        Section {
           NavigationLink(destination: AboutView()) {
             Text("About Blankie", comment: "About view navigation label")
           }
@@ -144,6 +158,39 @@ struct AccentColorPicker: View {
       }
     }
     .navigationTitle("Accent Color")
+    #if os(iOS)
+      .navigationBarTitleDisplayMode(.inline)
+    #endif
+  }
+}
+
+struct ThemePicker: View {
+  @ObservedObject private var globalSettings = GlobalSettings.shared
+  @Environment(\.dismiss) private var dismiss
+
+  var body: some View {
+    List {
+      ForEach(AppearanceMode.allCases, id: \.self) { mode in
+        Button(action: {
+          globalSettings.setAppearance(mode)
+          dismiss()
+        }) {
+          HStack {
+            Text(mode.localizedName)
+              .foregroundColor(.primary)
+            Spacer()
+            Image(systemName: mode.icon)
+              .foregroundColor(.secondary)
+              .padding(.trailing, 8)
+            if globalSettings.appearance == mode {
+              Image(systemName: "checkmark")
+                .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+            }
+          }
+        }
+      }
+    }
+    .navigationTitle("Theme")
     #if os(iOS)
       .navigationBarTitleDisplayMode(.inline)
     #endif

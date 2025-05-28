@@ -5,6 +5,7 @@
 //  Created by Cody Bromley on 1/1/25.
 //
 
+import AVFoundation
 import Combine
 import Foundation
 import SwiftUI
@@ -18,6 +19,7 @@ private enum UserDefaultsKeys {
   static let enableHaptics = "enableHaptics"
   static let enableSpatialAudio = "enableSpatialAudio"
   static let language = "languagePreference"
+  static let mixWithOthers = "mixWithOthers"
 }
 
 class GlobalSettings: ObservableObject {
@@ -35,6 +37,7 @@ class GlobalSettings: ObservableObject {
   // Platform-specific settings
   @Published private(set) var enableHaptics: Bool = true
   @Published private(set) var enableSpatialAudio: Bool = false
+  @Published private(set) var mixWithOthers: Bool = false
 
   private var observers = Set<AnyCancellable>()
   private var volumeDebounceTimer: Timer?
@@ -67,6 +70,8 @@ class GlobalSettings: ObservableObject {
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableHaptics) as? Bool ?? true
     enableSpatialAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableSpatialAudio) as? Bool ?? false
+    mixWithOthers =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.mixWithOthers) as? Bool ?? false
 
     // First initialize language with default value
     language = Language.system
@@ -119,6 +124,10 @@ class GlobalSettings: ObservableObject {
 
     _enableSpatialAudio.projectedValue.sink { newValue in
       UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableSpatialAudio)
+    }.store(in: &observers)
+
+    _mixWithOthers.projectedValue.sink { newValue in
+      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.mixWithOthers)
     }.store(in: &observers)
 
     _language.projectedValue.sink { newValue in
@@ -194,6 +203,54 @@ class GlobalSettings: ObservableObject {
   }
 
   @MainActor
+  func setMixWithOthers(_ value: Bool) {
+    mixWithOthers = value
+    #if os(iOS) || os(visionOS)
+      // Update audio session configuration
+      updateAudioSession()
+    #endif
+    logCurrentSettings()
+  }
+
+  #if os(iOS) || os(visionOS)
+    private func updateAudioSession() {
+      do {
+        // First deactivate the session
+        try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+
+        // Configure the session based on mixWithOthers setting
+        if mixWithOthers {
+          // Allow mixing with other apps
+          try AVAudioSession.sharedInstance().setCategory(
+            .playback,
+            mode: .default,
+            options: [.mixWithOthers, .duckOthers]
+          )
+        } else {
+          // Exclusive playback mode - no mixing
+          try AVAudioSession.sharedInstance().setCategory(
+            .playback,
+            mode: .default,
+            options: []  // No options means exclusive playback
+          )
+        }
+
+        // Reactivate the session
+        try AVAudioSession.sharedInstance().setActive(true)
+
+        print("⚙️ GlobalSettings: Updated audio session with mixWithOthers: \(mixWithOthers)")
+
+        // Update Now Playing info if audio is playing
+        if AudioManager.shared.isGloballyPlaying {
+          AudioManager.shared.updateNowPlayingState()
+        }
+      } catch {
+        print("❌ GlobalSettings: Failed to update audio session: \(error)")
+      }
+    }
+  #endif
+
+  @MainActor
   func setLanguage(_ newLanguage: Language) {
     guard newLanguage.code != language.code else {
       print("🌐 Language not changed (already set to \(language.code))")
@@ -217,6 +274,7 @@ class GlobalSettings: ObservableObject {
     print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
     print("  - Enable Haptics: \(enableHaptics)")
     print("  - Enable Spatial Audio: \(enableSpatialAudio)")
+    print("  - Mix With Others: \(mixWithOthers)")
     print("  - Language: \(language.code)")
     print("  - Available Languages: \(availableLanguages.map { $0.code }.joined(separator: ", "))")
   }

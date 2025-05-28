@@ -89,9 +89,6 @@ struct BlankieApp: App {
         .onAppear {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
-          #if os(iOS) || os(visionOS)
-            setupAudioSession()
-          #endif
         }
       }
       .modelContainer(modelContainer)
@@ -106,21 +103,6 @@ struct BlankieApp: App {
         }
       #endif
     }
-
-    #if os(iOS) || os(visionOS)
-      private func setupAudioSession() {
-        do {
-          try AVAudioSession.sharedInstance().setCategory(
-            .playback,
-            mode: .default,
-            options: [.mixWithOthers, .duckOthers]
-          )
-          try AVAudioSession.sharedInstance().setActive(true)
-        } catch {
-          print("Failed to set up audio session: \(error)")
-        }
-      }
-    #endif
   #endif
 }
 

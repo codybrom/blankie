@@ -5,18 +5,19 @@
 
   Ambient sound mixer for macOS
   <p align="center">
-    <img src="https://img.shields.io/badge/macOS%2014.6+-111111?style=flat-square&logo=apple&logoColor=white" alt="macOS">
-    <img src="https://img.shields.io/badge/Swift%205-F05138?style=flat-square&logo=Swift&logoColor=white" alt="Swift">
-    <img src="https://img.shields.io/badge/SwiftUI-0071e3.svg?style=flat-square&logo=swift&logoColor=white" alt="SwiftUI">
-    <img src="https://img.shields.io/badge/Xcode%2016-007ACC?style=flat-square&logo=xcode&logoColor=white" alt="Xcode">
-    <a href="https://github.com/codybrom/blankie/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codybrom/blankie.svg?style=flat-square" alt="License"></a>
+    <img src="https://img.shields.io/badge/macOS%2014.6+-111111?style=flat&logo=apple&logoColor=white" alt="macOS">
+    <img src="https://img.shields.io/badge/Swift%205-F05138?style=flat&logo=Swift&logoColor=white" alt="Swift">
+    <img src="https://img.shields.io/badge/SwiftUI-0071e3.svg?style=flat&logo=swift&logoColor=white" alt="SwiftUI">
+    <img src="https://img.shields.io/badge/Xcode%2016-007ACC?style=flat&logo=xcode&logoColor=white" alt="Xcode">
+    <a href="https://github.com/codybrom/blankie/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codybrom/blankie.svg?style=flat" alt="License"></a>
+    <a href="https://www.producthunt.com/products/blankie"><img src="https://img.shields.io/badge/Product%20Hunt-Featured-DA552F?style=flat&logo=producthunt&logoColor=white" alt="Product Hunt"></a>
+    <a href="https://formulae.brew.sh/cask/blankie"><img src="https://img.shields.io/badge/Homebrew-Available-FBB040?style=flat&logo=homebrew&logoColor=white" alt="Homebrew"></a>
   </p>
   <p align="center"><a href="https://apps.apple.com/us/app/blankie/id6740096581"><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="202"></a></p>
   <p align="center">
     <img src="docs/src/assets/en-dark.png" alt="Screenshot of Blankie" style="max-width: 100%; height: auto;"
     >
   </p>
-  <p align="center"><a href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=neutral&t=1747948853827" alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a></p>
 </div>
 
 ## Table of Contents

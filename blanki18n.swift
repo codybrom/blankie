@@ -158,7 +158,7 @@ func updateTranslations(
       let existingStringUnit = existingLocalization?["stringUnit"] as? [String: Any]
       let existingValue = existingStringUnit?["value"] as? String
       let existingState = existingStringUnit?["state"] as? String
-      
+
       let isChanged = existingValue != translation.target || existingState != state
 
       if isChanged {

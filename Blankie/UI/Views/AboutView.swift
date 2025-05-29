@@ -286,7 +286,7 @@ struct AboutView: View {
       let gridLanguages = isOddCount ? Array(translatedLanguages.dropLast()) : translatedLanguages
       let lastLanguage = isOddCount ? translatedLanguages.last : nil
 
-      VStack(spacing: 12) {
+      VStack(spacing: 20) {
         // Two-column grid for even items
         if !gridLanguages.isEmpty {
           LazyVGrid(columns: [GridItem(.fixed(150)), GridItem(.fixed(150))], spacing: 20) {

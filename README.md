@@ -13,10 +13,7 @@
   </p>
   <p align="center"><a href="https://apps.apple.com/us/app/blankie/id6740096581"><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="202"></a></p>
   <p align="center">
-    <img 
-      src="docs/src/assets/en-dark.png" 
-      alt="Screenshot of Blankie"
-      style="max-width: 100%; height: auto;"
+    <img src="docs/src/assets/en-dark.png" alt="Screenshot of Blankie" style="max-width: 100%; height: auto;"
     >
   </p>
   <p align="center"><a href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=neutral&t=1747948853827" alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a></p>
@@ -89,6 +86,7 @@ Blankie automatically uses your system language when available and has support f
 - 🇩🇪 Deutsch\*
 - 🇫🇷 Français - *Thanks to **Richard_M***
 - 🇮🇹 Italiano (Italian) - *Thanks to **davnr***
+- 🇵🇹 Português (Portuguese) - *Thanks to **Júlio Coelho***
 - 🇹🇷 Türkçe (Turkish) - *Thanks to **aybarsnazlica***
 - 🇨🇳 简体中文 (Chinese, Simplified) – *Thanks to **kur1k0***
 

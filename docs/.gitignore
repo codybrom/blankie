@@ -18,3 +18,7 @@ pnpm-debug.log*
 # environment variables
 .env
 .env.production
+
+# github pages
+.jekyll-cache/
+_site/

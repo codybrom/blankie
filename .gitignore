@@ -77,11 +77,9 @@ iOSInjectionProject/
 
 # Local configuration
 Configuration.xcconfig
+.mcp.json
 
 releases/*
 docs/.jekyll-cache/
 docs/_site/
 .ignored
-
-# Local AI notes
-CLAUDE.md

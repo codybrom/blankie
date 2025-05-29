@@ -2841,7 +2841,6 @@
     },
     "Manage Custom Sounds" : {
       "comment" : "Menu item to manage custom sounds",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

@@ -698,6 +698,12 @@
         }
       }
     },
+    "Blankie will pause playback when timer expires" : {
+
+    },
+    "Blankie will pause playback when timer expires" : {
+
+    },
     "blankie.rest" : {
       "shouldTranslate" : false
     },
@@ -1000,6 +1006,9 @@
           }
         }
       }
+    },
+    "Cancel Timer" : {
+
     },
     "Category" : {
       "comment" : "Icon category picker label",
@@ -2203,6 +2212,9 @@
         }
       }
     },
+    "Hours" : {
+
+    },
     "Icon" : {
       "comment" : "Icon selection label",
       "localizations" : {
@@ -2915,6 +2927,9 @@
           }
         }
       }
+    },
+    "Minutes" : {
+
     },
     "Mix with Other Audio" : {
 
@@ -4943,6 +4958,9 @@
         }
       }
     },
+    "Start Timer" : {
+
+    },
     "Storm" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -5319,6 +5337,12 @@
           }
         }
       }
+    },
+    "Time Remaining" : {
+
+    },
+    "Timer" : {
+
     },
     "Train" : {
       "comment" : "Sound name",

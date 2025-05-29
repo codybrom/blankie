@@ -95,6 +95,9 @@ import SwiftUI
                 Label("All Sounds", systemImage: "speaker.wave.2")
               }
             }
+            ToolbarItem(placement: .primaryAction) {
+              TimerButton()
+            }
           }
       }
       .navigationSplitViewStyle(.balanced)
@@ -286,6 +289,9 @@ import SwiftUI
           // Volume button
           volumeButton
 
+          // Timer button
+          timerButton
+
           // Play/Pause button
           playPauseButton
 
@@ -346,6 +352,12 @@ import SwiftUI
           .foregroundColor(.primary)
           .padding()
       }
+    }
+
+    // Timer button
+    private var timerButton: some View {
+      CompactTimerButton()
+        .padding()
     }
   }
 

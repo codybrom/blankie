@@ -213,7 +213,7 @@
             "value" : "Riguardo Blankie"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre o Blankie"
@@ -273,7 +273,7 @@
             "value" : "Colore di Accento"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cor de destaque"
@@ -333,7 +333,7 @@
             "value" : "Aggiungi un suono (Prossimamente!)"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Adicionar som (Em breve!)"
@@ -393,7 +393,7 @@
             "value" : "Tutti i Suoni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos os sons"
@@ -453,7 +453,7 @@
             "value" : "Apri Sempre in Pausa"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Começar sempre em pausa"
@@ -513,7 +513,7 @@
             "value" : "Aspetto"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aparência"
@@ -573,7 +573,7 @@
             "value" : "Sei sicuro di voler eliminare '%@'? Questa azione è irreversibile"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tem a certeza de que quer apagar '%@'? Esta ação não pode ser anulada."
@@ -633,7 +633,7 @@
             "value" : "Comportamento"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comportamento"
@@ -693,7 +693,7 @@
             "value" : "Uccelli"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pássaros"
@@ -796,7 +796,7 @@
             "value" : "Aiuto su Blankie"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajuda do Blankie"
@@ -856,7 +856,7 @@
             "value" : "Impostazioni di Blankie"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Definições do Blankie"
@@ -959,7 +959,7 @@
             "value" : "Blu"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Azul"
@@ -1019,7 +1019,7 @@
             "value" : "Barca"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Barco"
@@ -1079,7 +1079,7 @@
             "value" : "Marrone"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Castanho"
@@ -1139,7 +1139,7 @@
             "value" : "Da"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por"
@@ -1199,7 +1199,7 @@
             "value" : "Elimina"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
@@ -1259,7 +1259,7 @@
             "value" : "Città"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cidade"
@@ -1319,7 +1319,7 @@
             "value" : "Chiudi"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fechar"
@@ -1379,7 +1379,7 @@
             "value" : "Chiudi Finestra"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fechar Janela"
@@ -1482,7 +1482,7 @@
             "value" : "Cody Bromley ed i suoi contributori. Tutti i diritti riservati."
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cody Bromley e contribuidores. Todos os direitos reservados."
@@ -1542,7 +1542,7 @@
             "value" : "Caffetteria"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Café"
@@ -1602,7 +1602,7 @@
             "value" : "Contributori"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contribuidores "
@@ -1662,7 +1662,7 @@
             "value" : "Ciano"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ciano"
@@ -1722,7 +1722,7 @@
             "value" : "Scuro"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escuro"
@@ -1782,7 +1782,7 @@
             "value" : "Predefinito"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pré-definição"
@@ -1842,7 +1842,7 @@
             "value" : "Elimina"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apagar"
@@ -1902,7 +1902,7 @@
             "value" : "Elimina Configurazione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Apagar pré-definição"
@@ -1962,7 +1962,7 @@
             "value" : "Sviluppato Da"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desenvolvido por"
@@ -2022,7 +2022,7 @@
             "value" : "Modifica Configurazione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editar pré-definição"
@@ -2082,7 +2082,7 @@
             "value" : "Modificato da"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Editado por"
@@ -2142,7 +2142,7 @@
             "value" : "Errore"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Erro"
@@ -2202,7 +2202,7 @@
             "value" : "Focolaio"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lareira"
@@ -2305,7 +2305,7 @@
             "value" : "Verde"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verde"
@@ -2365,7 +2365,7 @@
             "value" : "Nascondi i suoni non attivi"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ocultar sons inativos"
@@ -2425,6 +2425,12 @@
             "value" : "Se disabilitato, Blankie riprodurrà immediatamente il configurazione più recente all'avvio"
           }
         },
+        "pt-PT" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se desativado, o Blankie reproduzirá imediatamente a sua última pré-definição ao iniciar"
+          }
+        },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2433,7 +2439,7 @@
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "如果禁用，Blankie 将在启动时立即播放您最近的预设"
           }
         }
@@ -2479,7 +2485,7 @@
             "value" : "Indaco"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Índigo"
@@ -2538,7 +2544,7 @@
             "value" : "Inspirato da Blanket di Rafael Mardojai CM"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inspirado no Blanket de Rafael Mardojai CM"
@@ -2598,7 +2604,7 @@
             "value" : "Tasti Rapidi"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Atalhos de teclado"
@@ -2657,7 +2663,7 @@
             "value" : "Lingua"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Idioma"
@@ -2698,7 +2704,7 @@
             "value" : "Langue modifiée"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Idioma alterado"
@@ -2733,7 +2739,7 @@
             "value" : "Plus tard"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mais tarde"
@@ -2787,7 +2793,7 @@
             "value" : "Prendi visione della licenza MIT"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saber mais sobre a Licença MIT"
@@ -2847,7 +2853,7 @@
             "value" : "Chiaro"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Claro"
@@ -2907,7 +2913,7 @@
             "value" : "Caricando le Configurazioni…"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "A carregar pré-definições..."
@@ -2967,7 +2973,7 @@
             "value" : "Menta"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Menta"
@@ -3027,7 +3033,7 @@
             "value" : "Nuova Configurazione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nova pré-definição"
@@ -3087,7 +3093,7 @@
             "value" : "Nuova Finestra"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nova janela"
@@ -3147,7 +3153,7 @@
             "value" : "Nessuna Configurazione Personalizzata"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sem pré-definições personalizadas"
@@ -3250,9 +3256,9 @@
             "value" : "OK"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "OK"
           }
         },
@@ -3310,7 +3316,7 @@
             "value" : "Arancione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Laranja"
@@ -3413,7 +3419,7 @@
             "value" : "Rosa"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cor-de-rosa"
@@ -3473,7 +3479,7 @@
             "value" : "Rumore Rosa"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ruído rosa"
@@ -3533,7 +3539,7 @@
             "value" : "Riproduci/Ferma i suoni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reproduzir/Pausa sons"
@@ -3593,7 +3599,7 @@
             "value" : "Riproduzione Ferma"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reprodução em pausa"
@@ -3653,7 +3659,7 @@
             "value" : "Impostazioni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferências"
@@ -3713,7 +3719,7 @@
             "value" : "Impostazioni…"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Preferências..."
@@ -3772,7 +3778,7 @@
             "value" : "Configurazione %d"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pré-definição %d"
@@ -3832,7 +3838,7 @@
             "value" : "Nome della Configurazione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nome da pré-definição"
@@ -3892,7 +3898,7 @@
             "value" : "Il Nome della Configurazione é obbligatorio"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "O nome da pré-definição não pode estar vazio"
@@ -3952,7 +3958,7 @@
             "value" : "Configurazioni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pré-definições"
@@ -4012,7 +4018,7 @@
             "value" : "Dominio Pubblico"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Domínio Público"
@@ -4072,7 +4078,7 @@
             "value" : "Viola"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Roxo"
@@ -4132,7 +4138,7 @@
             "value" : "Esci"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sair"
@@ -4192,7 +4198,7 @@
             "value" : "Esci da Blankie"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sair do Blankie"
@@ -4252,7 +4258,7 @@
             "value" : "Pioggia"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Chuva"
@@ -4312,7 +4318,7 @@
             "value" : "Rosso"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vermelho"
@@ -4372,7 +4378,7 @@
             "value" : "Rinomina Configurazione"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Renomear pré-definição"
@@ -4432,7 +4438,7 @@
             "value" : "Segnala un Problema"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comunicar um problema"
@@ -4492,7 +4498,7 @@
             "value" : "Azzera i Suoni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Repor sons"
@@ -4533,7 +4539,7 @@
             "value" : "Redémarrer maintenant"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reiniciar agora"
@@ -4587,7 +4593,7 @@
             "value" : "Salva"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guardar"
@@ -4647,7 +4653,7 @@
             "value" : "Salva la tua configurazione corrente come una configurazione personale per poterla usare anche dopo"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guarde a sua configuração atual de sons como pré-definição para aceder rapidamente mais tarde."
@@ -4707,7 +4713,7 @@
             "value" : "Mostra tutti i Suoni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar todos os sons"
@@ -4767,7 +4773,7 @@
             "value" : "Licenza Software"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Licença de software"
@@ -4827,7 +4833,7 @@
             "value" : "Riconoscimenti dei suoni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Créditos do som"
@@ -4887,7 +4893,7 @@
             "value" : "Metti una stella su GitHub"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Dar estrela no GitHub"
@@ -4947,7 +4953,7 @@
             "value" : "Tempesta"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tempestade"
@@ -5007,7 +5013,7 @@
             "value" : "Torrente"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Riacho"
@@ -5067,7 +5073,7 @@
             "value" : "Notte Estiva"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Noite de Verão"
@@ -5127,7 +5133,7 @@
             "value" : "Sistema"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sistema"
@@ -5187,7 +5193,7 @@
             "value" : "Blu Tè"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verde-azulado"
@@ -5290,7 +5296,7 @@
             "value" : "La configurazione predefinita non può essere rinominata"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "A pré-definição padrão não pode ser renomeada"
@@ -5436,7 +5442,7 @@
             "value" : "Treno"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Comboio"
@@ -5496,7 +5502,7 @@
             "value" : "Traduzioni"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Traduções"
@@ -5556,7 +5562,7 @@
             "value" : "Versione %@ (%@)"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Versão %@ (%@)"
@@ -5616,7 +5622,7 @@
             "value" : "Onde"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ondas"
@@ -5676,7 +5682,7 @@
             "value" : "Sito Web"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sítio"
@@ -5736,7 +5742,7 @@
             "value" : "Rumore Bianco"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ruído branco"
@@ -5796,7 +5802,7 @@
             "value" : "Vento"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vento"
@@ -5856,7 +5862,7 @@
             "value" : "Giallo"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Amarelo"
@@ -5897,7 +5903,7 @@
             "value" : "Vous devez redémarrer Blankie pour que le changement de langue prenne effet"
           }
         },
-        "pt" : {
+        "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Terá de reiniciar o Blankie para que a alteração de idioma tenha efeito."

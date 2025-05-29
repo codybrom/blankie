@@ -85,9 +85,9 @@ Blankie automatically uses your system language when available and has support f
 - 🇪🇸 Español (Spain) - *Thanks to **Chuskas***
 - 🇩🇪 Deutsch\*
 - 🇫🇷 Français - *Thanks to **Richard_M***
-- 🇮🇹 Italiano (Italian) - *Thanks to **davnr***
-- 🇵🇹 Português (Portuguese) - *Thanks to **Júlio Coelho***
-- 🇹🇷 Türkçe (Turkish) - *Thanks to **aybarsnazlica***
+- 🇮🇹 Italiano - *Thanks to **davnr***
+- 🇵🇹 Português (Portugal) - *Thanks to **Júlio Coelho***
+- 🇹🇷 Türkçe - *Thanks to **aybarsnazlica***
 - 🇨🇳 简体中文 (Chinese, Simplified) – *Thanks to **kur1k0***
 
 \* Currently seeking translators to verify and improve these translations. If you can help, please reach out!

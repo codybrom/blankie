@@ -1,7 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import languagesJson from "../../public/i18n/languages.json";
-import { getLanguageName, getNativeLanguageName, getTranslatorCredits } from "../utils/i18n-helpers";
+import {
+  getLanguageName,
+  getNativeLanguageName,
+  getTranslatorCredits,
+} from "../utils/i18n-helpers";
 
 const title = "Translation Status";
 
@@ -58,23 +62,24 @@ function getStatusText(stats: StringStats): string {
   const { translationPercentage, needsReviewPercentage } = stats;
   const combinedProgress = translationPercentage + needsReviewPercentage;
 
-  if (translationPercentage >= 90) return "Complete";
-  if (translationPercentage >= 70) return "Well Translated";
+  if (translationPercentage >= 99) return "Complete";
+  if (translationPercentage >= 90) return "Mostly Complete";
+  if (translationPercentage >= 85) return "Well Translated";
 
   if (combinedProgress >= 90) {
     if (needsReviewPercentage > translationPercentage)
-      return "Mostly in Review";
+      return "Almost Translated";
     return "Nearly Complete";
   }
 
   if (combinedProgress >= 50) {
     if (needsReviewPercentage > translationPercentage)
-      return "Mainly in Review";
+      return "Partially Translated";
     return "In Progress";
   }
 
   if (combinedProgress > 0) {
-    if (translationPercentage === 0) return "All Needs Review";
+    if (translationPercentage === 0) return "Translation Needs Review";
     return "Getting Started";
   }
 
@@ -206,7 +211,8 @@ function getStatusText(stats: StringStats): string {
                       {getLanguageName(langCode)}
                     </h2>
                     <p class="text-sm text-gray-400 mt-0.5">
-                      {getNativeLanguageName(langCode)} • <code class="text-yellow-500">{langCode}</code>
+                      {getNativeLanguageName(langCode)} •{" "}
+                      <code class="text-yellow-500">{langCode}</code>
                     </p>
                   </div>
                   <span class="px-2 py-1 text-xs rounded-full bg-black/30">

@@ -31,6 +31,7 @@ struct BlankieApp: App {
 
     @StateObject private var audioManager = AudioManager.shared
     @StateObject private var windowObserver = WindowObserver.shared
+    @StateObject private var globalSettings = GlobalSettings.shared
     @State private var showingAbout = false
     @State private var showingShortcuts = false
     @State private var showingNewPresetPopover = false
@@ -49,6 +50,7 @@ struct BlankieApp: App {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
         }
+        .accentColor(globalSettings.customAccentColor ?? .accentColor)
       }
       .modelContainer(modelContainer)
       .defaultPosition(.center)
@@ -71,9 +73,11 @@ struct BlankieApp: App {
     @StateObject private var audioManager = AudioManager.shared
     @StateObject private var presetManager = PresetManager.shared
     @StateObject private var globalSettings = GlobalSettings.shared
+    @StateObject private var timerManager = TimerManager.shared
 
     @State private var showingAbout = false
     @State private var showingSettings = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
       WindowGroup {
@@ -89,6 +93,9 @@ struct BlankieApp: App {
         .onAppear {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
+        }
+        .onChange(of: scenePhase) { _ in
+          timerManager.handleScenePhaseChange()
         }
       }
       .modelContainer(modelContainer)

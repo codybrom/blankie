@@ -15,20 +15,13 @@ struct TimerButton: View {
     Button(action: {
       showingTimerView = true
     }) {
-      HStack(spacing: 4) {
-        Image(systemName: timerManager.isTimerActive ? "timer" : "timer")
-          .foregroundColor(timerManager.isTimerActive ? .accentColor : .primary)
-
-        if timerManager.isTimerActive {
-          Text(timerManager.formatRemainingTime())
-            .font(.system(.caption, design: .monospaced))
-            .foregroundColor(.accentColor)
-        }
-      }
+      Image(systemName: "timer")
+        .fontWeight(timerManager.isTimerActive ? .bold : .regular)
+        .foregroundStyle(timerManager.isTimerActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
     }
     .buttonStyle(.borderless)
     #if os(macOS)
-      .popover(isPresented: $showingTimerView) {
+      .popover(isPresented: $showingTimerView, arrowEdge: .bottom) {
         TimerView()
       }
     #else
@@ -53,11 +46,12 @@ struct CompactTimerButton: View {
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(width: 20, height: 20)
-          .foregroundColor(timerManager.isTimerActive ? .accentColor : .primary)
+          .fontWeight(timerManager.isTimerActive ? .bold : .regular)
+          .foregroundStyle(timerManager.isTimerActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
 
         if timerManager.isTimerActive {
           Circle()
-            .fill(Color.accentColor)
+            .fill(.tint)
             .frame(width: 8, height: 8)
             .offset(x: 8, y: -8)
         }
@@ -65,7 +59,7 @@ struct CompactTimerButton: View {
     }
     .buttonStyle(.borderless)
     #if os(macOS)
-      .popover(isPresented: $showingTimerView) {
+      .popover(isPresented: $showingTimerView, arrowEdge: .bottom) {
         TimerView()
       }
     #else

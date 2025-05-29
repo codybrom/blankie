@@ -26,24 +26,6 @@ class TimerManager: ObservableObject {
     self.selectedHours = UserDefaults.standard.object(forKey: "timerLastSelectedHours") as? Int ?? 0
     self.selectedMinutes =
       UserDefaults.standard.object(forKey: "timerLastSelectedMinutes") as? Int ?? 30
-
-    #if os(iOS) || os(visionOS)
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.didEnterBackgroundNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        self?.handleBackgroundTransition()
-      }
-
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.willEnterForegroundNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        self?.handleForegroundTransition()
-      }
-    #endif
   }
 
   func startTimer(duration: TimeInterval) {
@@ -97,13 +79,8 @@ class TimerManager: ObservableObject {
     }
   }
 
-  private func handleBackgroundTransition() {
-    // Timer will continue running in the background
-    // No action needed
-  }
-
-  private func handleForegroundTransition() {
-    // Update the timer when returning from background
+  func handleScenePhaseChange() {
+    // Update the timer when scene phase changes
     if isTimerActive {
       updateTimer()
     }
@@ -123,6 +100,5 @@ class TimerManager: ObservableObject {
 
   deinit {
     stopTimer()
-    NotificationCenter.default.removeObserver(self)
   }
 }

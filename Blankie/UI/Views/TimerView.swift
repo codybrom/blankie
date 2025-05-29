@@ -10,13 +10,18 @@ import SwiftUI
 struct TimerView: View {
   @StateObject private var timerManager = TimerManager.shared
   @Environment(\.dismiss) private var dismiss
+  @Environment(\.colorScheme) private var colorScheme
+
+  private var accentColor: Color {
+    #if os(macOS)
+      return GlobalSettings.shared.customAccentColor ?? .accentColor
+    #else
+      return .accentColor
+    #endif
+  }
 
   var body: some View {
-    VStack(spacing: 20) {
-      Text("Timer")
-        .font(.title2)
-        .fontWeight(.semibold)
-
+    VStack(spacing: 16) {
       if timerManager.isTimerActive {
         activeTimerView
       } else {
@@ -24,50 +29,60 @@ struct TimerView: View {
       }
     }
     .padding()
-    .frame(width: 300, height: 350)
+    .frame(idealWidth: 250, maxWidth: 250, minHeight: 100)
     #if os(macOS)
       .background(Color(NSColor.windowBackgroundColor))
     #endif
   }
 
   private var activeTimerView: some View {
-    VStack(spacing: 25) {
-      Text("Time Remaining")
-        .font(.subheadline)
-        .foregroundColor(.secondary)
+    VStack(spacing: 16) {
+      Image(systemName: "timer")
+        .font(.system(size: 48))
+        .foregroundStyle(accentColor)
 
       Text(timerManager.formatRemainingTime())
-        .font(.system(size: 48, weight: .light, design: .rounded))
+        .font(.system(size: 32, weight: .light, design: .rounded))
         .monospacedDigit()
 
-      Text("Blankie will pause playback when timer expires")
+      Text("Blankie will pause when timer expires")
         .font(.caption)
-        .foregroundColor(.secondary)
+        .foregroundStyle(.secondary)
         .multilineTextAlignment(.center)
+        .lineLimit(nil)
 
       Button(action: {
         timerManager.stopTimer()
         dismiss()
       }) {
-        Label("Cancel Timer", systemImage: "xmark.circle.fill")
-          .frame(width: 140)
+        Label("Stop Timer", systemImage: "stop.fill")
       }
-      .controlSize(.large)
+      .buttonStyle(.borderedProminent)
+      .controlSize(.regular)
+      .accentColor(accentColor)
     }
   }
 
   private var timerSelectionView: some View {
-    VStack(spacing: 20) {
-      Text("Blankie will pause playback when timer expires")
-        .font(.caption)
-        .foregroundColor(.secondary)
-        .multilineTextAlignment(.center)
+    VStack(spacing: 16) {
+      Image(systemName: "timer.circle")
+        .font(.system(size: 48))
+        .foregroundStyle(accentColor)
 
-      HStack(spacing: 20) {
-        VStack {
+      Text("Set Timer")
+        .font(.headline)
+
+      Text("Blankie will pause when timer expires")
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .multilineTextAlignment(.center)
+        .lineLimit(nil)
+
+      HStack(spacing: 8) {
+        VStack(spacing: 4) {
           Text("Hours")
-            .font(.caption)
-            .foregroundColor(.secondary)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
           Picker("Hours", selection: $timerManager.selectedHours) {
             ForEach(0...23, id: \.self) { hour in
               Text(verbatim: "\(hour)")
@@ -75,21 +90,19 @@ struct TimerView: View {
             }
           }
           .labelsHidden()
+          .accentColor(accentColor)
           #if os(macOS)
-            .frame(width: 60)
+            .frame(width: 50)
           #else
             .pickerStyle(.wheel)
-            .frame(width: 80, height: 100)
+            .frame(width: 60, height: 80)
           #endif
         }
 
-        Text(verbatim: ":")
-          .font(.title2)
-
-        VStack {
+        VStack(spacing: 4) {
           Text("Minutes")
-            .font(.caption)
-            .foregroundColor(.secondary)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
           Picker("Minutes", selection: $timerManager.selectedMinutes) {
             ForEach(0...59, id: \.self) { minute in
               Text(verbatim: String(format: "%02d", minute))
@@ -97,40 +110,31 @@ struct TimerView: View {
             }
           }
           .labelsHidden()
+          .accentColor(accentColor)
           #if os(macOS)
-            .frame(width: 60)
+            .frame(width: 50)
           #else
             .pickerStyle(.wheel)
-            .frame(width: 80, height: 100)
+            .frame(width: 60, height: 80)
           #endif
         }
       }
 
-      HStack(spacing: 20) {
-        Button(action: {
+      Button(action: {
+        let totalSeconds = TimeInterval(
+          timerManager.selectedHours * 3600 + timerManager.selectedMinutes * 60)
+        if totalSeconds > 0 {
+          timerManager.startTimer(duration: totalSeconds)
           dismiss()
-        }) {
-          Text("Cancel")
-            .frame(width: 100)
         }
-        .controlSize(.large)
-        .keyboardShortcut(.cancelAction)
-
-        Button(action: {
-          let totalSeconds = TimeInterval(
-            timerManager.selectedHours * 3600 + timerManager.selectedMinutes * 60)
-          if totalSeconds > 0 {
-            timerManager.startTimer(duration: totalSeconds)
-            dismiss()
-          }
-        }) {
-          Label("Start Timer", systemImage: "timer")
-            .frame(width: 140)
-        }
-        .controlSize(.large)
-        .keyboardShortcut(.defaultAction)
-        .disabled(timerManager.selectedHours == 0 && timerManager.selectedMinutes == 0)
+      }) {
+        Label("Start Timer", systemImage: "play.fill")
       }
+      .buttonStyle(.borderedProminent)
+      .controlSize(.regular)
+      .accentColor(accentColor)
+      .keyboardShortcut(.defaultAction)
+      .disabled(timerManager.selectedHours == 0 && timerManager.selectedMinutes == 0)
     }
   }
 }
@@ -188,7 +192,7 @@ struct TimerView: View {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.red)
+            .background(.tint)
             .cornerRadius(10)
         }
         .padding(.horizontal)
@@ -252,7 +256,7 @@ struct TimerView: View {
             .foregroundColor(.white)
             .frame(maxWidth: .infinity)
             .padding()
-            .background(Color.accentColor)
+            .background(.tint)
             .cornerRadius(10)
         }
         .padding(.horizontal)

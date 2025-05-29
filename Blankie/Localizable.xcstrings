@@ -701,7 +701,7 @@
     "Blankie will pause playback when timer expires" : {
 
     },
-    "Blankie will pause playback when timer expires" : {
+    "Blankie will pause when timer expires" : {
 
     },
     "blankie.rest" : {
@@ -4684,6 +4684,9 @@
         }
       }
     },
+    "Set Timer" : {
+
+    },
     "Settings" : {
       "comment" : "Settings menu item",
       "localizations" : {
@@ -4959,6 +4962,9 @@
       }
     },
     "Start Timer" : {
+
+    },
+    "Stop Timer" : {
 
     },
     "Storm" : {

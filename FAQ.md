@@ -66,6 +66,7 @@ Blankie is currently available in the following languages:
 - Español (es)
 - Français (fr)
 - Italiano (it)
+- Português (pt-PT)
 - Türkçe (tr)
 - 简体中文 (zh-Hans)
 

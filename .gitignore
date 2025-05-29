@@ -75,11 +75,8 @@ iOSInjectionProject/
 # Ignore system junk files
 .DS_Store
 
-# Local configuration
+# Local configurations and caches
 Configuration.xcconfig
-.mcp.json
-
 releases/*
-docs/.jekyll-cache/
-docs/_site/
 .ignored
+.mcp.json

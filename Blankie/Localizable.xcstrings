@@ -659,7 +659,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Vögel"
           }
         },
@@ -985,7 +985,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Boot"
           }
         },
@@ -1165,7 +1165,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Abbrechen"
           }
         },
@@ -1225,7 +1225,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Stadt"
           }
         },
@@ -1508,7 +1508,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Café"
           }
         },
@@ -2168,8 +2168,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Kamin"
+            "state" : "translated",
+            "value" : "Feuerstelle"
           }
         },
         "en" : {
@@ -3445,7 +3445,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Rosa Rauschen"
           }
         },
@@ -3625,7 +3625,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Einstellungen"
           }
         },
@@ -4104,7 +4104,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Beenden"
           }
         },
@@ -4224,7 +4224,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Regen"
           }
         },
@@ -4559,7 +4559,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Speichern"
           }
         },
@@ -4919,8 +4919,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Sturm"
+            "state" : "translated",
+            "value" : "Gewitter"
           }
         },
         "en" : {
@@ -4979,8 +4979,8 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Bach"
+            "state" : "translated",
+            "value" : "Fluss"
           }
         },
         "en" : {
@@ -5039,7 +5039,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Sommernacht"
           }
         },
@@ -5408,7 +5408,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Zug"
           }
         },
@@ -5588,7 +5588,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Wellen"
           }
         },
@@ -5708,7 +5708,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Weißes Rauschen"
           }
         },
@@ -5768,7 +5768,7 @@
       "localizations" : {
         "de" : {
           "stringUnit" : {
-            "state" : "needs_review",
+            "state" : "translated",
             "value" : "Wind"
           }
         },

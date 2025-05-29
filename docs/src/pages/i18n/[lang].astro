@@ -1,6 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import ISO6391 from "iso-639-1-plus";
+import { getLanguageName, getNativeLanguageName, getTranslatorCredits } from "../../utils/i18n-helpers";
 
 // Define types for the language data
 interface StringItem {
@@ -24,28 +24,6 @@ interface LanguageFile {
     needsReviewPercentage: number;
   };
   strings: Record<string, StringItem>;
-}
-
-// Function to get language name - same as in i18n.astro
-function getLanguageName(localeCode: string): string {
-  // Special case for source language
-  if (localeCode === "en") {
-    return "English (Source)";
-  }
-
-  // Try to get the name from ISO6391
-  if (ISO6391.validate(localeCode)) {
-    return ISO6391.getName(localeCode);
-  }
-
-  // Fallback for special cases not in the ISO standard
-  const specialCases: Record<string, string> = {
-    "zh-Hans": "Chinese (Simplified)",
-    "zh-Hant": "Chinese (Traditional)",
-    // Add other special cases as needed
-  };
-
-  return specialCases[localeCode] || localeCode;
 }
 
 export async function getStaticPaths() {
@@ -161,14 +139,19 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
 
 <Layout title={title}>
   <main class="max-w-6xl mx-auto px-5 pt-28 pb-10">
-    <div class="flex items-center mb-6">
+    <div class="mb-6">
       <a
         href="/i18n"
-        class="text-yellow-500 hover:text-yellow-400 transition-colors mr-3"
+        class="text-yellow-500 hover:text-yellow-400 transition-colors inline-block mb-2"
       >
         ← All Languages
       </a>
-      <h1 class="text-4xl font-semibold">{langName} Translation</h1>
+      <div>
+        <h1 class="text-4xl font-semibold">{langName} Translation</h1>
+        <p class="text-lg text-gray-400 mt-1">
+          {getNativeLanguageName(lang || "")} • <code class="text-yellow-500">{lang}</code>
+        </p>
+      </div>
     </div>
 
     {
@@ -200,15 +183,24 @@ function formatStringForDisplay(str: string, maxLength: number = 100): string {
           <div class="bg-zinc-800 rounded-lg shadow-lg overflow-hidden border border-zinc-700">
             {/* Header */}
             <div class="bg-zinc-900 p-5 border-b border-zinc-700">
-              <p class="text-sm text-gray-400 mt-1">
-                Last updated:{" "}
-                <span
-                  id="localTime"
-                  data-timestamp={langData.metadata.extractedAt}
-                >
-                  {langData.metadata.extractedAt}
-                </span>
-              </p>
+              <div class="flex justify-between items-center">
+                {getTranslatorCredits(lang || "").length > 0 ? (
+                  <p class="text-sm text-gray-400">
+                    Translated by <span class="text-gray-200 font-medium">{getTranslatorCredits(lang || "").join(", ")}</span>
+                  </p>
+                ) : (
+                  <div></div>
+                )}
+                <p class="text-sm text-gray-400">
+                  Last updated:{" "}
+                  <span
+                    id="localTime"
+                    data-timestamp={langData.metadata.extractedAt}
+                  >
+                    {langData.metadata.extractedAt}
+                  </span>
+                </p>
+              </div>
             </div>
 
             {/* Content */}

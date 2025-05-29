@@ -1209,6 +1209,9 @@
         }
       }
     },
+    "Connected to CarPlay" : {
+
+    },
     "Contributors" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -2574,6 +2577,7 @@
     },
     "Manage Custom Sounds" : {
       "comment" : "Menu item to manage custom sounds",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

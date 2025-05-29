@@ -197,8 +197,15 @@ class AudioManager: ObservableObject {
   #if os(iOS) || os(visionOS)
     private func setupAudioSessionForPlayback() {
       do {
+        // Force exclusive audio when CarPlay is connected
+        #if CARPLAY_ENABLED
+          let isCarPlayConnected = CarPlayInterface.shared.isConnected
+        #else
+          let isCarPlayConnected = false
+        #endif
+
         // Only setup audio session when we actually start playing
-        if GlobalSettings.shared.mixWithOthers {
+        if GlobalSettings.shared.mixWithOthers && !isCarPlayConnected {
           try AVAudioSession.sharedInstance().setCategory(
             .playback,
             mode: .default,
@@ -213,7 +220,7 @@ class AudioManager: ObservableObject {
         }
         try AVAudioSession.sharedInstance().setActive(true)
         print(
-          "🎵 AudioManager: Audio session activated for playback (mixWithOthers: \(GlobalSettings.shared.mixWithOthers))"
+          "🎵 AudioManager: Audio session activated for playback (mixWithOthers: \(GlobalSettings.shared.mixWithOthers && !isCarPlayConnected), CarPlay: \(isCarPlayConnected))"
         )
       } catch {
         print("❌ AudioManager: Failed to setup audio session: \(error)")
@@ -223,6 +230,12 @@ class AudioManager: ObservableObject {
 
   private func setupMediaControls() {
     print("🎵 AudioManager: Setting up media controls")
+
+    // Enable the commands
+    commandCenter.playCommand.isEnabled = true
+    commandCenter.pauseCommand.isEnabled = true
+    commandCenter.togglePlayPauseCommand.isEnabled = true
+
     // Remove all previous handlers
     commandCenter.playCommand.removeTarget(nil)
     commandCenter.pauseCommand.removeTarget(nil)
@@ -232,14 +245,20 @@ class AudioManager: ObservableObject {
     commandCenter.playCommand.addTarget { [weak self] _ in
       print("🎵 AudioManager: Media key play command received")
       Task { @MainActor in
-        self?.togglePlayback()
+        // Only play if we're currently paused
+        if !(self?.isGloballyPlaying ?? false) {
+          self?.setGlobalPlaybackState(true)
+        }
       }
       return .success
     }
     commandCenter.pauseCommand.addTarget { [weak self] _ in
       print("🎵 AudioManager: Media key pause command received")
       Task { @MainActor in
-        self?.togglePlayback()
+        // Only pause if we're currently playing
+        if self?.isGloballyPlaying ?? false {
+          self?.setGlobalPlaybackState(false)
+        }
       }
       return .success
     }
@@ -297,6 +316,7 @@ class AudioManager: ObservableObject {
     print("🎵 AudioManager: Setting up Now Playing info")
     nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
+    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0.0  // Start as paused
 
     #if os(iOS) || os(visionOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
@@ -328,8 +348,6 @@ class AudioManager: ObservableObject {
   }
 
   private func updateNowPlayingInfo(presetName: String? = nil) {
-    var nowPlayingInfo = [String: Any]()
-
     // Get the current preset name for the title
     let displayTitle: String
     if let name = presetName {
@@ -385,10 +403,18 @@ class AudioManager: ObservableObject {
   }
 
   private func updatePlaybackState() {
+    // Ensure nowPlayingInfo dictionary exists
+    if nowPlayingInfo.isEmpty {
+      // Recreate basic info if needed
+      nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
+      nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
+    }
+
     // Update playback state
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
     nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
     nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 0  // Infinite for ambient sounds
+
     // Update the now playing info
     print(
       "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), playbackRate: \(nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? -1)"
@@ -405,6 +431,23 @@ class AudioManager: ObservableObject {
       ) { _ in
         self.handleAppTermination()
       }
+
+      #if CARPLAY_ENABLED
+        // Listen for CarPlay connection changes
+        NotificationCenter.default.addObserver(
+          forName: NSNotification.Name("CarPlayConnectionChanged"),
+          object: nil,
+          queue: .main
+        ) { [weak self] notification in
+          if let isConnected = notification.userInfo?["isConnected"] as? Bool {
+            print("🎵 AudioManager: CarPlay connection changed to: \(isConnected)")
+            // Reconfigure audio session if we're playing
+            if self?.isGloballyPlaying == true {
+              self?.setupAudioSessionForPlayback()
+            }
+          }
+        }
+      #endif
 
       // Background/foreground handling
       NotificationCenter.default.addObserver(

@@ -173,7 +173,7 @@ class CustomSoundManager {
 
     do {
       // Try to read the file data to verify access
-      let _ = try Data(contentsOf: url, options: .alwaysMapped)
+      _ = try Data(contentsOf: url, options: .alwaysMapped)
 
       // Try to create an AVAudioPlayer to verify file is valid
       let audioPlayer = try AVAudioPlayer(contentsOf: url)

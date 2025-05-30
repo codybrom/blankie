@@ -16,8 +16,7 @@ struct TimerButton: View {
       showingTimerView = true
     }) {
       Image(systemName: "timer")
-        .fontWeight(timerManager.isTimerActive ? .bold : .regular)
-        .foregroundStyle(timerManager.isTimerActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
+        .foregroundColor(timerManager.isTimerActive ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
     }
     .buttonStyle(.borderless)
     #if os(macOS)
@@ -41,25 +40,15 @@ struct CompactTimerButton: View {
     Button(action: {
       showingTimerView = true
     }) {
-      ZStack {
-        Image(systemName: "timer")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 20, height: 20)
-          .fontWeight(timerManager.isTimerActive ? .bold : .regular)
-          .foregroundStyle(timerManager.isTimerActive ? AnyShapeStyle(.tint) : AnyShapeStyle(.primary))
-
-        if timerManager.isTimerActive {
-          Circle()
-            .fill(.tint)
-            .frame(width: 8, height: 8)
-            .offset(x: 8, y: -8)
-        }
-      }
+      Image(systemName: "timer")
+        .resizable()
+        .aspectRatio(contentMode: .fit)
+        .frame(width: 20, height: 20)
+        .foregroundColor(timerManager.isTimerActive ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
     }
     .buttonStyle(.borderless)
     #if os(macOS)
-      .popover(isPresented: $showingTimerView, arrowEdge: .bottom) {
+      .popover(isPresented: $showingTimerView, arrowEdge: .top) {
         TimerView()
       }
     #else

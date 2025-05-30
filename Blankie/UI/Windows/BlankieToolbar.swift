@@ -28,10 +28,6 @@ import SwiftUI
       }
 
       ToolbarItem(placement: .primaryAction) {
-        TimerButton()
-      }
-
-      ToolbarItem(placement: .primaryAction) {
         Menu {
           Button {
             showingCustomSoundsView = true

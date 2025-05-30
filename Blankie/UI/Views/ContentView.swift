@@ -38,6 +38,23 @@ import SwiftUI
     private let itemWidth: CGFloat = 120  // Total width including padding
     private let minimumSpacing: CGFloat = 10
 
+    private var hideShowButton: some View {
+      Button(action: {
+        withAnimation {
+          appState.hideInactiveSounds.toggle()
+          UserDefaults.standard.set(appState.hideInactiveSounds, forKey: "hideInactiveSounds")
+        }
+      }) {
+        Image(systemName: appState.hideInactiveSounds ? "eye.slash" : "eye")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 20, height: 20)
+          .foregroundColor(.primary)
+      }
+      .buttonStyle(.borderless)
+      .help(appState.hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds")
+    }
+
     var body: some View {
       GeometryReader { geometry in
         VStack(spacing: 0) {
@@ -79,7 +96,11 @@ import SwiftUI
               .frame(height: 1)
               .foregroundColor(Color.gray.opacity(0.2))
 
-            HStack(spacing: 16) {
+            HStack(spacing: 24) {
+
+              // Timer button
+              CompactTimerButton()
+
               // Volume button with popover
               Button(action: {
                 showingVolumePopover.toggle()
@@ -132,6 +153,9 @@ import SwiftUI
                 ColorPickerView()
                   .padding()
               }
+
+              hideShowButton
+
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)

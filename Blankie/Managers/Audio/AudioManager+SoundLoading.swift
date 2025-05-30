@@ -63,7 +63,7 @@ extension AudioManager {
     }
   }
 
-  private func loadCustomSounds() {
+  func loadCustomSounds() {
     print("🎵 AudioManager: Loading custom sounds")
 
     // Get all custom sounds from the database

@@ -19,7 +19,7 @@ class AudioManager: ObservableObject {
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
 
-  private var modelContext: ModelContext?
+  var modelContext: ModelContext?
   let nowPlayingManager = NowPlayingManager()
   @MainActor private var isInitializing = true
   private var customSoundObserver: AnyCancellable?
@@ -65,7 +65,7 @@ class AudioManager: ObservableObject {
     }
   }
 
-  private func setupSoundObservers() {
+  func setupSoundObservers() {
     // Clear any existing observers
     cancellables.removeAll()
     // Set up new observers for each sound

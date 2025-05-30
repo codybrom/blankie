@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 #if os(macOS)
   struct ContentView: View {
@@ -22,6 +23,8 @@ import SwiftUI
     @State private var showingVolumePopover = false
     @State private var showingColorPicker = false
     @State private var showingPreferences = false
+    @State private var isDragTargeted = false
+    @StateObject private var dropzoneManager = DropzoneManager()
 
     // Use appState.hideInactiveSounds instead of the binding
     private var filteredSounds: [Sound] {
@@ -166,6 +169,11 @@ import SwiftUI
         }
         .background(.thinMaterial)
         .background(Color.black.opacity(0.05))
+        .dropzone(
+          manager: dropzoneManager,
+          isDragTargeted: $isDragTargeted,
+          globalSettings: globalSettings
+        )
       }
 
       .ignoresSafeArea(.container, edges: .horizontal)
@@ -177,6 +185,14 @@ import SwiftUI
       }
       .sheet(isPresented: $showingAbout) {
         AboutView()
+      }
+      .sheet(
+        isPresented: $dropzoneManager.showingSoundSheet,
+        onDismiss: {
+          dropzoneManager.hideSheet()
+        }
+      ) {
+        SoundSheet(mode: .add, preselectedFile: dropzoneManager.selectedFileURL)
       }
       .onAppear {
         setupResetHandler()

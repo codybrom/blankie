@@ -64,13 +64,15 @@ struct SoundSheet: View {
     }
   }
 
-  init(mode: SoundSheetMode) {
+  init(mode: SoundSheetMode, preselectedFile: URL? = nil) {
     self.mode = mode
 
     switch mode {
     case .add:
-      _soundName = State(initialValue: "")
+      let fileName = preselectedFile?.deletingPathExtension().lastPathComponent ?? ""
+      _soundName = State(initialValue: fileName)
       _selectedIcon = State(initialValue: "waveform.circle")
+      _selectedFile = State(initialValue: preselectedFile)
     case .edit(let sound):
       _soundName = State(initialValue: sound.title)
       _selectedIcon = State(initialValue: sound.systemIconName)

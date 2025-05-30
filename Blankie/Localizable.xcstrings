@@ -1818,6 +1818,9 @@
         }
       }
     },
+    "Drop audio file to import" : {
+
+    },
     "Edit Preset" : {
       "comment" : "Edit preset sheet title",
       "extractionState" : "manual",

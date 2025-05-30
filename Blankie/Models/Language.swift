@@ -137,8 +137,7 @@ struct Language: Hashable, Identifiable, Equatable {
         // Look through strings to collect language codes
         for (_, stringData) in strings {
           if let localizations = stringData["localizations"] as? [String: Any],
-            !localizations.isEmpty
-          {
+            !localizations.isEmpty {
             for langCode in localizations.keys {
               languageCodes.insert(langCode)
             }

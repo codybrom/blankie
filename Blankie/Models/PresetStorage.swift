@@ -58,8 +58,7 @@ struct PresetStorage {
   static func loadCustomPresets() -> [Preset] {
     print("💾 PresetStorage: Loading custom presets")
     if let data = UserDefaults.standard.data(forKey: customPresetsKey),
-      let presets = try? JSONDecoder().decode([Preset].self, from: data)
-    {
+      let presets = try? JSONDecoder().decode([Preset].self, from: data) {
       print("💾 PresetStorage: Loaded \(presets.count) custom presets")
       // Add debug logging
       presets.forEach { preset in

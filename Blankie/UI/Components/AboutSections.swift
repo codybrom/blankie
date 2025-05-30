@@ -113,8 +113,7 @@ struct TranslatorSection: View {
 
         // Centered last item if odd count
         if let lastLanguage = lastLanguage,
-          let translatorList = translators[lastLanguage], !translatorList.isEmpty
-        {
+          let translatorList = translators[lastLanguage], !translatorList.isEmpty {
           VStack(spacing: 4) {
             Text(lastLanguage)
               .font(.system(size: 12, weight: .medium))

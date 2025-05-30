@@ -47,8 +47,7 @@
 
     private func applySavedLanguagePreference() {
       if let languageCode = UserDefaults.standard.string(forKey: "languagePreference"),
-        languageCode != "system"
-      {
+        languageCode != "system" {
         print("🌐 AppDelegate: Applying saved language \(languageCode) at launch")
         UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
       }

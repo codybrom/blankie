@@ -122,8 +122,7 @@ class CustomSoundManager {
   }
 
   private func copyToCustomSoundsDirectory(source: URL, filename: String, extension ext: String)
-    throws -> URL?
-  {
+    throws -> URL? {
     guard let directoryURL = getCustomSoundsDirectoryURL() else {
       return nil
     }

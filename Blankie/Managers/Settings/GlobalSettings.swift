@@ -82,8 +82,7 @@ class GlobalSettings: ObservableObject {
     // Finally, try to set the saved language preference
     let savedLanguageCode = UserDefaults.standard.string(forKey: UserDefaultsKeys.language)
     if let code = savedLanguageCode,
-      let savedLanguage = availableLanguages.first(where: { $0.code == code })
-    {
+      let savedLanguage = availableLanguages.first(where: { $0.code == code }) {
       language = savedLanguage
     }
 

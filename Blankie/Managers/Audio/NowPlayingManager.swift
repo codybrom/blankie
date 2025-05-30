@@ -26,8 +26,7 @@ final class NowPlayingManager {
     #if os(iOS) || os(visionOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData)
-      {
+        let image = UIImage(data: imageData) {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -36,8 +35,7 @@ final class NowPlayingManager {
     #elseif os(macOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData)
-      {
+        let image = NSImage(data: imageData) {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -71,8 +69,7 @@ final class NowPlayingManager {
     #if os(iOS) || os(visionOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData)
-      {
+        let image = UIImage(data: imageData) {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -81,8 +78,7 @@ final class NowPlayingManager {
     #elseif os(macOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData)
-      {
+        let image = NSImage(data: imageData) {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }

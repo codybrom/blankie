@@ -334,8 +334,7 @@ extension PresetManager {
 
       // Load last active preset or default
       if let lastID = PresetStorage.loadLastActivePresetID(),
-        let lastPreset = presets.first(where: { $0.id == lastID })
-      {
+        let lastPreset = presets.first(where: { $0.id == lastID }) {
         print("\n🎛️ PresetManager: Loading last active preset:")
         logPresetState(lastPreset)
         try applyPreset(lastPreset, isInitialLoad: true)
@@ -358,8 +357,7 @@ extension PresetManager {
 
     // Update current preset's state before saving
     if let currentPreset = currentPreset,
-      let index = presets.firstIndex(where: { $0.id == currentPreset.id })
-    {
+      let index = presets.firstIndex(where: { $0.id == currentPreset.id }) {
       var updatedPreset = currentPreset
       updatedPreset.soundStates = AudioManager.shared.sounds.map { sound in
         PresetState(

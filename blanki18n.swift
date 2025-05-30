@@ -110,8 +110,7 @@ func updateTranslations(
 
   for translation in translations {
     if var entry = strings[translation.key],
-      var localizations = entry["localizations"] as? [String: [String: Any]]
-    {
+      var localizations = entry["localizations"] as? [String: [String: Any]] {
 
       // Check if the translation has a meaningful value
       let targetValue = translation.target.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -144,8 +143,7 @@ func writeUpdatedStrings(
 
   if let updatedData = try? JSONSerialization.data(
     withJSONObject: updatedJson, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]),
-    let updatedString = String(data: updatedData, encoding: .utf8)
-  {
+    let updatedString = String(data: updatedData, encoding: .utf8) {
     try? updatedString.write(to: xcstringsURL, atomically: true, encoding: .utf8)
     print("\nSuccess! Updated \(updatedCount) translations for language: \(langCode)")
   } else {

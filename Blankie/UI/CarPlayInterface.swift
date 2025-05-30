@@ -133,8 +133,7 @@
           print("🚗 CarPlay: Playback state changed to: \(isPlaying)")
           // Only update if we're showing the root template (not Now Playing)
           if let interfaceController = self?.interfaceController,
-            interfaceController.topTemplate === interfaceController.rootTemplate
-          {
+            interfaceController.topTemplate === interfaceController.rootTemplate {
             print("🚗 CarPlay: Updating interface for playback state change")
             self?.updateInterface()
           }

@@ -49,6 +49,15 @@ class PresetManager: ObservableObject {
     print("🎛️ PresetManager: --- End Initialization ---\n")
   }
 
+  deinit {
+    cancellables.forEach { $0.cancel() }
+    print("🎛️ PresetManager: Cleaned up")
+  }
+}
+
+// MARK: - Lifecycle Observers
+
+extension PresetManager {
   private func setupObservers() {
     // Observe app lifecycle for state changes that might affect presets
     #if os(iOS)
@@ -73,8 +82,11 @@ class PresetManager: ObservableObject {
     #endif
   }
 
-  // MARK: - Public Methods
+}
 
+// MARK: - Preset CRUD Operations
+
+extension PresetManager {
   @MainActor
   func saveNewPreset(name: String) {
     print("\n🎛️ PresetManager: --- Begin Creating New Preset ---")
@@ -178,6 +190,11 @@ class PresetManager: ObservableObject {
     print("🎛️ PresetManager: --- End Delete Preset ---\n")
   }
 
+}
+
+// MARK: - Preset State Management
+
+extension PresetManager {
   @MainActor
   func updateCurrentPresetState() {
     // Don't update during initialization
@@ -284,17 +301,11 @@ class PresetManager: ObservableObject {
     print("🎛️ PresetManager: --- End Apply Preset ---\n")
   }
 
-  // MARK: - Private Methods
+}
 
-  private func handleError(_ error: Error) {
-    print("❌ PresetManager: Error occurred: \(error.localizedDescription)")
-    self.error = error
-  }
+// MARK: - Persistence
 
-  private func updateCustomPresetStatus() {
-    hasCustomPresets = presets.contains { !$0.isDefault }
-  }
-
+extension PresetManager {
   @MainActor
   private func loadPresets() async {
     print("\n🎛️ PresetManager: --- Begin Loading Presets ---")
@@ -371,6 +382,20 @@ class PresetManager: ObservableObject {
     print("🎛️ PresetManager: --- End Saving Presets ---\n")
   }
 
+}
+
+// MARK: - Helper Methods
+
+extension PresetManager {
+  private func handleError(_ error: Error) {
+    print("❌ PresetManager: Error occurred: \(error.localizedDescription)")
+    self.error = error
+  }
+
+  private func updateCustomPresetStatus() {
+    hasCustomPresets = presets.contains { !$0.isDefault }
+  }
+
   private func createDefaultPreset() -> Preset {
     print("🎛️ PresetManager: Creating new default preset")
     return Preset(
@@ -430,10 +455,5 @@ class PresetManager: ObservableObject {
         print("    * \(state.fileName) (Volume: \(state.volume))")
       }
     }
-  }
-
-  deinit {
-    cancellables.forEach { $0.cancel() }
-    print("🎛️ PresetManager: Cleaned up")
   }
 }

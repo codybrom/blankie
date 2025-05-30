@@ -43,9 +43,18 @@ struct DropzoneModifier: ViewModifier {
           UTType.mp3,
           UTType.wav,
           UTType.mpeg4Audio,
-          UTType.item,
         ], isTargeted: $isDragTargeted
       ) { providers in
+        // Don't handle text-based drags (those are for sound reordering)
+        let hasTextOnly = providers.allSatisfy { provider in
+          provider.registeredTypeIdentifiers.contains("public.utf8-plain-text") &&
+          !provider.hasItemConformingToTypeIdentifier(UTType.fileURL.identifier)
+        }
+
+        if hasTextOnly {
+          return false
+        }
+
         return handleDroppedFiles(providers)
       }
   }

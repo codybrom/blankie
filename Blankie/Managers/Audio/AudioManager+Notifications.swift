@@ -156,8 +156,9 @@ extension AudioManager {
       case .oldDeviceUnavailable:
         print("🎵 AudioManager: Audio route changed - old device unavailable")
         if isGloballyPlaying {
-          isGloballyPlaying = false
-          nowPlayingManager.updatePlaybackState(isPlaying: false)
+          Task { @MainActor in
+            self.setGlobalPlaybackState(false)
+          }
         }
       case .newDeviceAvailable:
         print("🎵 AudioManager: Audio route changed - new device available")

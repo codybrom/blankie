@@ -5,16 +5,19 @@ import SwiftUI
     @Binding var showingAbout: Bool
     @Binding var showingSettings: Bool
 
-    @StateObject private var audioManager = AudioManager.shared
+    @StateObject var audioManager = AudioManager.shared
     @StateObject private var globalSettings = GlobalSettings.shared
     @StateObject private var presetManager = PresetManager.shared
 
     @State private var showingVolumeControls = false
     @State private var showingPresetPicker = false
-    @State private var hideInactiveSounds = false
+    @State var hideInactiveSounds = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
+    @State private var draggedIndex: Int?
+    @State private var hoveredIndex: Int?
+    @State private var dragResetTimer: Timer?
 
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     var body: some View {
       Group {
@@ -155,8 +158,55 @@ import SwiftUI
     private var mainSoundGridView: some View {
       ScrollView {
         LazyVGrid(columns: columns, spacing: 20) {
-          ForEach(filteredSounds) { sound in
+          ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
             SoundIcon(sound: sound, maxWidth: columnWidth)
+              .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
+              .opacity(draggedIndex == index ? 0.5 : 1.0)
+              .offset(calculateDodgeOffset(for: index))
+              .zIndex(draggedIndex == index ? 1 : 0)
+              .animation(.easeInOut(duration: 0.3), value: draggedIndex)
+              .animation(.easeInOut(duration: 0.3), value: hoveredIndex)
+              .overlay(
+                hoveredIndex == index && draggedIndex != index
+                  ? RoundedRectangle(cornerRadius: 16)
+                    .stroke(globalSettings.customAccentColor ?? .accentColor, lineWidth: 3)
+                    .background(
+                      RoundedRectangle(cornerRadius: 16)
+                        .fill((globalSettings.customAccentColor ?? .accentColor).opacity(0.2))
+                    )
+                    .overlay(
+                      VStack(spacing: 4) {
+                        Image(systemName: "plus.circle.fill")
+                          .font(.system(size: 24))
+                          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+                        Text("Drop here")
+                          .font(.caption)
+                          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+                      }
+                    )
+                    .allowsHitTesting(false)
+                  : nil
+              )
+              .onLongPressGesture(minimumDuration: 0.5) {
+                // Long press to start drag mode
+                draggedIndex = index
+                startDragResetTimer()
+              }
+              .onDrag {
+                draggedIndex = index
+                startDragResetTimer()
+                return NSItemProvider(object: "\(index)" as NSString)
+              }
+              .onDrop(
+                of: [.text],
+                delegate: SoundDropDelegate(
+                  audioManager: audioManager,
+                  targetIndex: index,
+                  sounds: filteredSounds,
+                  draggedIndex: $draggedIndex,
+                  hoveredIndex: $hoveredIndex,
+                  cancelTimer: cancelDragResetTimer
+                ))
           }
         }
         .padding()

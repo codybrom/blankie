@@ -49,23 +49,25 @@ struct SoundIcon: View {
 
   var body: some View {
     VStack(spacing: Configuration.spacing) {
-      Button(action: {
-        sound.toggle()
-      }) {
-        ZStack {
-          Circle()
-            .fill(backgroundFill)
-            .frame(width: Configuration.iconSize, height: Configuration.iconSize)
+      ZStack {
+        Circle()
+          .fill(backgroundFill)
+          .frame(width: Configuration.iconSize, height: Configuration.iconSize)
 
-          Image(systemName: sound.systemIconName)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(width: Configuration.iconSize * 0.64, height: Configuration.iconSize * 0.64)
-            .foregroundColor(iconColor)
-        }
+        Image(systemName: sound.systemIconName)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: Configuration.iconSize * 0.64, height: Configuration.iconSize * 0.64)
+          .foregroundColor(iconColor)
       }
-      .buttonStyle(.borderless)
       .frame(width: Configuration.iconSize, height: Configuration.iconSize)
+      .contentShape(Circle())
+      .gesture(
+        TapGesture()
+          .onEnded { _ in
+            sound.toggle()
+          }
+      )
       .accessibilityIdentifier("sound-\(sound.fileName)")
 
       Text(LocalizedStringKey(sound.title))
@@ -76,6 +78,7 @@ struct SoundIcon: View {
         .multilineTextAlignment(.center)
         .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))
         .foregroundColor(.primary)
+        .contentShape(Rectangle())
 
       Slider(
         value: Binding(
@@ -91,6 +94,10 @@ struct SoundIcon: View {
     .padding(.horizontal, Configuration.padding.leading)
     .frame(width: maxWidth)
     .contextMenu {
+      Button("Hide Sound", systemImage: "eye.slash") {
+        audioManager.hideSound(sound)
+      }
+
       if sound is CustomSound {
         Button("Edit Sound", systemImage: "pencil") {
           showingEditSheet = true
@@ -99,11 +106,27 @@ struct SoundIcon: View {
         Button("Delete Sound", systemImage: "trash", role: .destructive) {
           showingDeleteConfirmation = true
         }
+      } else {
+        // Built-in sound customization options
+        Button("Customize Sound", systemImage: "slider.horizontal.3") {
+          showingEditSheet = true
+        }
+
+        // Show reset option if sound has customizations
+        if SoundCustomizationManager.shared.getCustomization(for: sound.fileName)?.hasCustomizations
+          == true
+        {
+          Button("Reset to Default", systemImage: "arrow.counterclockwise") {
+            SoundCustomizationManager.shared.resetCustomizations(for: sound.fileName)
+          }
+        }
       }
     }
     .sheet(isPresented: $showingEditSheet) {
       if let customSound = sound as? CustomSound {
         SoundSheet(mode: .edit(customSound.customSoundData))
+      } else {
+        SoundSheet(mode: .customize(sound))
       }
     }
     .alert(

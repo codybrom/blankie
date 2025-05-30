@@ -50,12 +50,21 @@ extension AudioManager {
             title: soundData.title,
             systemIconName: soundData.systemIconName,
             fileName: cleanedFileName,
-            fileExtension: fileExtension
+            fileExtension: fileExtension,
+            defaultOrder: soundData.defaultOrder
           )
         }
 
       // Add built-in sounds to the sounds array
       self.sounds.append(contentsOf: builtInSounds)
+
+      // Initialize custom order for sounds that don't have one saved in UserDefaults
+      for (index, sound) in builtInSounds.enumerated()
+      where UserDefaults.standard.object(forKey: "\(sound.fileName)_customOrder") == nil
+      {
+        sound.customOrder = index
+      }
+
       print("🎵 AudioManager: Loaded \(builtInSounds.count) built-in sounds")
     } catch {
       print("❌ AudioManager: Failed to parse sounds.json: \(error)")

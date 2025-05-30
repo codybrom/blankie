@@ -5,7 +5,7 @@ struct SettingsView: View {
   @Environment(\.dismiss) private var dismiss
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       Form {
         Section(
           header: Text("Appearance", comment: "Settings section header for appearance options")
@@ -61,6 +61,44 @@ struct SettingsView: View {
               .foregroundColor(.secondary)
             }
           #endif
+        }
+
+        Section(
+          header: Text("Sounds", comment: "Settings section header for sound management")
+        ) {
+          NavigationLink(destination: SoundManagementView()) {
+            HStack {
+              Text("Manage Sounds", comment: "Sound management label")
+              Spacer()
+              let hiddenCount = AudioManager.shared.sounds.filter { $0.isHidden }.count
+              if hiddenCount > 0 {
+                Text("\(hiddenCount) hidden")
+                  .font(.caption)
+                  .padding(.horizontal, 6)
+                  .padding(.vertical, 2)
+                  .background(.secondary.opacity(0.3))
+                  .foregroundColor(.secondary)
+                  .clipShape(Capsule())
+              }
+            }
+          }
+
+          NavigationLink(destination: SoundCustomizationManagementView()) {
+            HStack {
+              Text("Sound Customizations", comment: "Sound customization management label")
+              Spacer()
+              let customizedCount = SoundCustomizationManager.shared.customizedSounds.count
+              if customizedCount > 0 {
+                Text("\(customizedCount) customized")
+                  .font(.caption)
+                  .padding(.horizontal, 6)
+                  .padding(.vertical, 2)
+                  .background(.secondary.opacity(0.3))
+                  .foregroundColor(.secondary)
+                  .clipShape(Capsule())
+              }
+            }
+          }
         }
 
         Section {

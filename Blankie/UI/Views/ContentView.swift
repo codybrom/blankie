@@ -26,9 +26,10 @@ import UniformTypeIdentifiers
     @State private var isDragTargeted = false
     @StateObject private var dropzoneManager = DropzoneManager()
 
-    // Use appState.hideInactiveSounds instead of the binding
+    // Use appState.hideInactiveSounds and visibility filtering
     private var filteredSounds: [Sound] {
-      audioManager.sounds.filter { sound in
+      let visibleSounds = audioManager.getVisibleSounds()
+      return visibleSounds.filter { sound in
         !appState.hideInactiveSounds || sound.isSelected
       }
     }
@@ -81,15 +82,19 @@ import UniformTypeIdentifiers
               columns: calculateColumns(for: geometry.size.width),
               spacing: minimumSpacing
             ) {
-              ForEach(
-                audioManager.sounds.filter { sound in
-                  !appState.hideInactiveSounds || sound.isSelected
-                }
-              ) { sound in
-                SoundIcon(sound: sound, maxWidth: itemWidth)
+              ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
+                DraggableSoundIcon(
+                  sound: sound,
+                  maxWidth: itemWidth,
+                  dragIndex: index,
+                  onDrop: { sourceIndex in
+                    audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                  }
+                )
               }
             }
             .padding()
+            .animation(.easeInOut, value: filteredSounds.count)
           }
           .frame(maxHeight: .infinity)
 
@@ -224,6 +229,49 @@ import UniformTypeIdentifiers
       }
     }
 
+  }
+
+  struct DraggableSoundIcon: View {
+    @ObservedObject var sound: Sound
+    let maxWidth: CGFloat
+    let dragIndex: Int
+    let onDrop: (Int) -> Void
+
+    @State private var isDragging = false
+    @State private var dragOffset = CGSize.zero
+
+    var body: some View {
+      SoundIcon(sound: sound, maxWidth: maxWidth)
+        .scaleEffect(isDragging ? 1.05 : 1.0)
+        .offset(dragOffset)
+        .opacity(isDragging ? 0.8 : 1.0)
+        .contentShape(Rectangle())
+        .onDrag {
+          DispatchQueue.main.async {
+            isDragging = true
+          }
+          return NSItemProvider(object: "\(dragIndex)" as NSString)
+        }
+        .onDrop(of: [.text], isTargeted: nil) { providers in
+          guard let provider = providers.first else { return false }
+
+          provider.loadObject(ofClass: NSString.self) { object, _ in
+            guard let sourceIndexString = object as? String,
+                  let sourceIndex = Int(sourceIndexString) else { return }
+
+            DispatchQueue.main.async {
+              if sourceIndex != dragIndex {
+                onDrop(sourceIndex)
+              }
+              isDragging = false
+              dragOffset = .zero
+            }
+          }
+          return true
+        }
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isDragging)
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: dragOffset)
+    }
   }
 
   struct ContentView_Previews: PreviewProvider {

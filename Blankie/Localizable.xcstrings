@@ -1,6 +1,15 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld" : {
+
+    },
+    "%lld customized" : {
+
+    },
+    "%lld hidden" : {
+
+    },
     "About Blankie" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -455,6 +464,9 @@
         }
       }
     },
+    "Are you sure you want to reset all sound customizations? This will restore all sound names and icons to their defaults. This action cannot be undone." : {
+
+    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -886,6 +898,9 @@
           }
         }
       }
+    },
+    "Built-in sound" : {
+
     },
     "By" : {
       "comment" : "Attribution label",
@@ -1407,6 +1422,12 @@
         }
       }
     },
+    "Custom" : {
+
+    },
+    "Custom imported sound" : {
+
+    },
     "Custom Sounds" : {
       "comment" : "Custom sounds view title",
       "localizations" : {
@@ -1423,6 +1444,12 @@
           }
         }
       }
+    },
+    "Customize Sound" : {
+
+    },
+    "Customized Sounds" : {
+
     },
     "Cyan" : {
       "comment" : "Accent color name",
@@ -1802,7 +1829,7 @@
       }
     },
     "Done" : {
-      "comment" : "Custom sounds done button\nSettings done button\nToolbar done button\nVolume controls done button",
+      "comment" : "Custom sounds done button\nSettings done button\nSound management done button\nToolbar done button\nVolume controls done button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1819,6 +1846,9 @@
       }
     },
     "Drop audio file to import" : {
+
+    },
+    "Edit" : {
 
     },
     "Edit Preset" : {
@@ -2215,6 +2245,9 @@
         }
       }
     },
+    "Hide Sound" : {
+
+    },
     "Hours" : {
 
     },
@@ -2297,6 +2330,9 @@
     },
     "If enabled, Blankie can be used at the same time as other apps but playback cannot be controlled using your device's Now Playing widget or audio device controls." : {
       "comment" : "Mix with others toggle caption"
+    },
+    "Import custom sounds and manage hidden sounds" : {
+
     },
     "Import Error" : {
       "comment" : "Import error alert title",
@@ -2856,6 +2892,7 @@
     },
     "Manage Custom Sounds" : {
       "comment" : "Menu item to manage custom sounds",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2870,6 +2907,9 @@
           }
         }
       }
+    },
+    "Manage Sounds" : {
+      "comment" : "Menu item to manage sounds\nSound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -3151,6 +3191,9 @@
         }
       }
     },
+    "No Customizations" : {
+
+    },
     "No matching icons found" : {
       "comment" : "No icon search results message",
       "localizations" : {
@@ -3287,6 +3330,9 @@
           }
         }
       }
+    },
+    "Original" : {
+
     },
     "Pink" : {
       "comment" : "Accent color name",
@@ -3892,6 +3938,7 @@
     },
     "Press Return or click \"Use Custom\" to use \"%@\" as a custom icon name" : {
       "comment" : "Custom icon usage instruction",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4387,6 +4434,18 @@
         }
       }
     },
+    "Reset" : {
+
+    },
+    "Reset %@" : {
+
+    },
+    "Reset All" : {
+
+    },
+    "Reset All Customizations" : {
+
+    },
     "Reset Sounds" : {
       "comment" : "Reset sounds button label",
       "extractionState" : "manual",
@@ -4446,6 +4505,9 @@
           }
         }
       }
+    },
+    "Reset to Default" : {
+
     },
     "Restart Now" : {
       "comment" : "Restart now button",
@@ -4636,8 +4698,12 @@
         }
       }
     },
+    "Saving customization..." : {
+
+    },
     "Search icons or enter custom name..." : {
       "comment" : "Icon search field placeholder",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -4652,6 +4718,9 @@
           }
         }
       }
+    },
+    "Search icons..." : {
+      "comment" : "Icon search field placeholder"
     },
     "Select Sound File" : {
       "comment" : "Select sound file button label",
@@ -4766,6 +4835,9 @@
           }
         }
       }
+    },
+    "Show Sound" : {
+
     },
     "Software License" : {
       "comment" : "About section title",
@@ -4887,6 +4959,9 @@
         }
       }
     },
+    "Sound Customizations" : {
+      "comment" : "Sound customization management label"
+    },
     "Sound File" : {
       "comment" : "Sound file section header",
       "localizations" : {
@@ -4903,6 +4978,12 @@
           }
         }
       }
+    },
+    "Sound Management" : {
+      "comment" : "Sound management view title"
+    },
+    "Sounds" : {
+      "comment" : "Settings section header for sound management\nSounds section header"
     },
     "Star on GitHub" : {
       "comment" : "Link label",
@@ -5347,6 +5428,12 @@
         }
       }
     },
+    "This will reset all sound names and icons to their defaults. This action cannot be undone." : {
+
+    },
+    "This will reset this sound's name and icon to their defaults. This action cannot be undone." : {
+
+    },
     "Time Remaining" : {
 
     },
@@ -5473,8 +5560,12 @@
         }
       }
     },
+    "Try a different search term" : {
+      "comment" : "No icon search results suggestion"
+    },
     "Use Custom" : {
       "comment" : "Use custom icon button",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5849,6 +5940,9 @@
           }
         }
       }
+    },
+    "You haven't customized any sounds yet. Long press on any built-in sound and select \"Customize Sound\" to get started." : {
+
     },
     "You will need to restart Blankie for the language change to take effect." : {
       "comment" : "Language change restart message",

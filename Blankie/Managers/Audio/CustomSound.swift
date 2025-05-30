@@ -21,7 +21,7 @@ class CustomSound: Sound {
     self.fileURL = fileURL
     self.customSoundData = customSoundData
     super.init(
-      title: title, systemIconName: systemIconName, fileName: fileName, fileExtension: fileExtension
+      title: title, systemIconName: systemIconName, fileName: fileName, fileExtension: fileExtension, defaultOrder: 1000
     )
   }
 

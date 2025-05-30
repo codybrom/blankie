@@ -13,15 +13,40 @@ import SwiftUI
 open class Sound: ObservableObject, Identifiable {
 
   public let id = UUID()
-  let title: String
-  let systemIconName: String
+  let originalTitle: String
+  let originalSystemIconName: String
   let fileName: String
   let fileExtension: String
+
+  // Computed properties that respect customizations
+  var title: String {
+    return SoundCustomizationManager.shared.getCustomization(for: fileName)?.effectiveTitle(
+      originalTitle: originalTitle) ?? originalTitle
+  }
+
+  var systemIconName: String {
+    return SoundCustomizationManager.shared.getCustomization(for: fileName)?.effectiveIconName(
+      originalIconName: originalSystemIconName) ?? originalSystemIconName
+  }
 
   @Published var isSelected = false {
     didSet {
       UserDefaults.standard.set(isSelected, forKey: "\(fileName)_isSelected")
       print("🔊 Sound: \(fileName) -  isSelected set to \(isSelected)")
+    }
+  }
+
+  @Published var isHidden = false {
+    didSet {
+      UserDefaults.standard.set(isHidden, forKey: "\(fileName)_isHidden")
+      print("🔊 Sound: \(fileName) -  isHidden set to \(isHidden)")
+    }
+  }
+
+  @Published var customOrder: Int = 0 {
+    didSet {
+      UserDefaults.standard.set(customOrder, forKey: "\(fileName)_customOrder")
+      print("🔊 Sound: \(fileName) -  customOrder set to \(customOrder)")
     }
   }
 
@@ -58,11 +83,15 @@ open class Sound: ObservableObject, Identifiable {
   private var fadeStartVolume: Float = 0
   private var targetVolume: Float = 1.0
   private var globalSettingsObserver: AnyCancellable?
+  private var customizationObserver: AnyCancellable?
   private var isResetting = false
 
-  init(title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3") {
-    self.title = title
-    self.systemIconName = systemIconName
+  init(
+    title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3",
+    defaultOrder: Int = 0
+  ) {
+    self.originalTitle = title
+    self.originalSystemIconName = systemIconName
     self.fileName = fileName
     self.fileExtension = fileExtension
 
@@ -74,11 +103,30 @@ open class Sound: ObservableObject, Identifiable {
 
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
+
+    // Restore hidden state
+    self.isHidden = UserDefaults.standard.bool(forKey: "\(fileName)_isHidden")
+
+    // Restore custom order (use default order if not set)
+    if UserDefaults.standard.object(forKey: "\(fileName)_customOrder") != nil {
+      self.customOrder = UserDefaults.standard.integer(forKey: "\(fileName)_customOrder")
+    } else {
+      self.customOrder = defaultOrder
+    }
     // Observe "All Sounds" volume changes
     globalSettingsObserver = GlobalSettings.shared.$volume
       .sink { [weak self] _ in
         self?.updateVolume()
       }
+
+    // Observe customization changes to trigger UI updates
+    customizationObserver = SoundCustomizationManager.shared.objectWillChange
+      .sink { [weak self] _ in
+        DispatchQueue.main.async {
+          self?.objectWillChange.send()
+        }
+      }
+
     loadSound()
   }
 
@@ -242,6 +290,7 @@ open class Sound: ObservableObject, Identifiable {
     player?.stop()
     player = nil
     globalSettingsObserver?.cancel()
+    customizationObserver?.cancel()
     print("🔊 Sound: Sound '\(fileName)' - Deinitialized")
   }
 }

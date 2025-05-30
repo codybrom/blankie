@@ -12,6 +12,7 @@ import UniformTypeIdentifiers
 enum SoundSheetMode {
   case add
   case edit(CustomSoundData)
+  case customize(Sound)
 }
 
 struct SoundSheet: View {
@@ -34,6 +35,17 @@ struct SoundSheet: View {
       return nil
     case .edit(let sound):
       return sound
+    case .customize:
+      return nil
+    }
+  }
+
+  private var builtInSound: Sound? {
+    switch mode {
+    case .customize(let sound):
+      return sound
+    default:
+      return nil
     }
   }
 
@@ -43,6 +55,8 @@ struct SoundSheet: View {
       return "Import Sound"
     case .edit:
       return "Edit Sound"
+    case .customize:
+      return "Customize Sound"
     }
   }
 
@@ -51,6 +65,8 @@ struct SoundSheet: View {
     case .add:
       return "Import Sound"
     case .edit:
+      return "Save"
+    case .customize:
       return "Save"
     }
   }
@@ -61,6 +77,8 @@ struct SoundSheet: View {
       return "Importing sound..."
     case .edit:
       return "Saving changes..."
+    case .customize:
+      return "Saving customization..."
     }
   }
 
@@ -76,6 +94,11 @@ struct SoundSheet: View {
     case .edit(let sound):
       _soundName = State(initialValue: sound.title)
       _selectedIcon = State(initialValue: sound.systemIconName)
+    case .customize(let sound):
+      let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
+      _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
+      _selectedIcon = State(
+        initialValue: customization?.customIconName ?? sound.originalSystemIconName)
     }
   }
 
@@ -217,7 +240,7 @@ struct SoundSheet: View {
     switch mode {
     case .add:
       return selectedFile == nil || nameTrimmed.isEmpty || isProcessing
-    case .edit:
+    case .edit, .customize:
       return nameTrimmed.isEmpty || isProcessing
     }
   }
@@ -228,6 +251,8 @@ struct SoundSheet: View {
       importSound()
     case .edit(let sound):
       saveChanges(sound)
+    case .customize(let sound):
+      saveCustomization(sound)
     }
   }
 
@@ -303,6 +328,26 @@ struct SoundSheet: View {
       isProcessing = false
     }
   }
+
+  private func saveCustomization(_ sound: Sound) {
+    guard !soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      return
+    }
+
+    isProcessing = true
+
+    let trimmedName = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+    // Save customizations
+    let titleToSave = trimmedName == sound.originalTitle ? nil : trimmedName
+    let iconToSave = selectedIcon == sound.originalSystemIconName ? nil : selectedIcon
+
+    SoundCustomizationManager.shared.setCustomTitle(titleToSave, for: sound.fileName)
+    SoundCustomizationManager.shared.setCustomIcon(iconToSave, for: sound.fileName)
+
+    isProcessing = false
+    dismiss()
+  }
 }
 
 // MARK: - Mode Extensions
@@ -312,7 +357,7 @@ extension SoundSheetMode {
     switch self {
     case .add:
       return true
-    case .edit:
+    case .edit, .customize:
       return false
     }
   }

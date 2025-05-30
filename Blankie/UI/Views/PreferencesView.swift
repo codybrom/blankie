@@ -11,6 +11,7 @@ import SwiftUI
 struct PreferencesView: View {
   @ObservedObject private var globalSettings = GlobalSettings.shared
   @State private var showingRestartAlert = false
+  @State private var showingHiddenSounds = false
   private let colorsPerRow = 6
 
   var accentColorForUI: Color {
@@ -147,6 +148,35 @@ struct PreferencesView: View {
       }
 
       Section {
+        Button(action: {
+          showingHiddenSounds = true
+        }) {
+          HStack(spacing: 16) {
+            Text("Manage Sounds", comment: "Sound management label")
+              .frame(width: 100, alignment: .leading)
+            VStack(alignment: .leading, spacing: 2) {
+              Text("Import custom sounds and manage hidden sounds")
+                .foregroundColor(.secondary)
+                .font(.caption)
+              let hiddenCount = AudioManager.shared.sounds.filter { $0.isHidden }.count
+              if hiddenCount > 0 {
+                Text("\(hiddenCount) hidden")
+                  .font(.caption2)
+                  .foregroundColor(.secondary)
+              }
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
+              .foregroundColor(.secondary)
+              .font(.caption)
+          }
+        }
+        .buttonStyle(.plain)
+      } header: {
+        Text("Sounds", comment: "Sounds section header")
+      }
+
+      Section {
         Toggle(
           LocalizedStringKey("Always Start Paused"),
           isOn: Binding(
@@ -188,6 +218,9 @@ struct PreferencesView: View {
       Text(
         "You will need to restart Blankie for the language change to take effect.",
         comment: "Language change restart message")
+    }
+    .sheet(isPresented: $showingHiddenSounds) {
+      SoundManagementView()
     }
   }
 }

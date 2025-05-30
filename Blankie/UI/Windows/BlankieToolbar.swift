@@ -14,7 +14,7 @@ import SwiftUI
     @Binding var showingNewPresetPopover: Bool
     @Binding var presetName: String
     @State private var showingImportSoundSheet = false
-    @State private var showingCustomSoundsView = false
+    @State private var showingSoundManagement = false
 
     @ObservedObject private var appState = AppState.shared
     @StateObject private var audioManager = AudioManager.shared
@@ -30,9 +30,9 @@ import SwiftUI
       ToolbarItem(placement: .primaryAction) {
         Menu {
           Button {
-            showingCustomSoundsView = true
+            showingSoundManagement = true
           } label: {
-            Text("Manage Custom Sounds", comment: "Menu item to manage custom sounds")
+            Text("Manage Sounds", comment: "Menu item to manage sounds")
           }
           .keyboardShortcut("o", modifiers: .command)
 
@@ -90,9 +90,9 @@ import SwiftUI
         .sheet(isPresented: $showingImportSoundSheet) {
           SoundSheet(mode: .add)
         }
-        .sheet(isPresented: $showingCustomSoundsView) {
-          CustomSoundsView()
-            .frame(width: 450, height: 500)
+        .sheet(isPresented: $showingSoundManagement) {
+          SoundManagementView()
+            .frame(width: 500, height: 600)
         }
       }
     }

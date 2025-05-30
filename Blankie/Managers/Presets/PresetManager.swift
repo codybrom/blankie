@@ -49,6 +49,35 @@ class PresetManager: ObservableObject {
     print("🎛️ PresetManager: --- End Initialization ---\n")
   }
 
+  // Helper methods for extensions to set private properties
+  func setLoading(_ loading: Bool) {
+    isLoading = loading
+  }
+
+  func setPresets(_ newPresets: [Preset]) {
+    presets = newPresets
+  }
+
+  func updatePresetAtIndex(_ index: Int, with preset: Preset) {
+    presets[index] = preset
+  }
+
+  func setCurrentPreset(_ preset: Preset?) {
+    currentPreset = preset
+  }
+
+  func setInitialLoad(_ initial: Bool) {
+    isInitialLoad = initial
+  }
+
+  func setError(_ error: Error?) {
+    self.error = error
+  }
+
+  func setHasCustomPresets(_ has: Bool) {
+    hasCustomPresets = has
+  }
+
   deinit {
     cancellables.forEach { $0.cancel() }
     print("🎛️ PresetManager: Cleaned up")

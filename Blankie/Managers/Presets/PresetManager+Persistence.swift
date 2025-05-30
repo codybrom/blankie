@@ -13,17 +13,19 @@ extension PresetManager {
   @MainActor
   func loadPresets() async {
     print("\n🎛️ PresetManager: --- Begin Loading Presets ---")
-    isLoading = true
+    setLoading(true)
 
     do {
       // Load or create default preset
       let defaultPreset = PresetStorage.loadDefaultPreset() ?? createDefaultPreset()
-      presets = [defaultPreset]
+      setPresets([defaultPreset])
 
       // Load custom presets
       let customPresets = PresetStorage.loadCustomPresets()
       if !customPresets.isEmpty {
-        presets.append(contentsOf: customPresets)
+        var allPresets = presets
+        allPresets.append(contentsOf: customPresets)
+        setPresets(allPresets)
       }
 
       updateCustomPresetStatus()
@@ -43,8 +45,8 @@ extension PresetManager {
       handleError(error)
     }
 
-    isLoading = false
-    isInitialLoad = false
+    setLoading(false)
+    setInitialLoad(false)
     print("🎛️ PresetManager: --- End Loading Presets ---\n")
   }
 
@@ -64,8 +66,8 @@ extension PresetManager {
           volume: sound.volume
         )
       }
-      presets[index] = updatedPreset
-      self.currentPreset = updatedPreset
+      updatePresetAtIndex(index, with: updatedPreset)
+      setCurrentPreset(updatedPreset)
 
       print("Saving current preset state for '\(updatedPreset.name)':")
       print("  - Active sounds:")

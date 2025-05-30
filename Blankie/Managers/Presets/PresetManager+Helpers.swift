@@ -12,11 +12,11 @@ import SwiftUI
 extension PresetManager {
   func handleError(_ error: Error) {
     print("❌ PresetManager: Error occurred: \(error.localizedDescription)")
-    self.error = error
+    setError(error)
   }
 
   func updateCustomPresetStatus() {
-    hasCustomPresets = presets.contains { !$0.isDefault }
+    setHasCustomPresets(presets.contains { !$0.isDefault })
   }
 
   func createDefaultPreset() -> Preset {
@@ -92,7 +92,7 @@ extension PresetManager {
       }
   }
 
-  func applySoundStates(_ targetStates: [SoundState]) {
+  func applySoundStates(_ targetStates: [PresetState]) {
     targetStates.forEach { state in
       if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == state.fileName }) {
         let selectionChanged = sound.isSelected != state.isSelected
@@ -113,3 +113,4 @@ extension PresetManager {
       }
     }
   }
+}

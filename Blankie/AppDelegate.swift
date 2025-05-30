@@ -11,20 +11,25 @@
   final class MacAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-      // Configure window for translucency
+      configureWindowAppearance()
+      setupNotificationObservers()
+      applySavedLanguagePreference()
+      clearRestartFlagIfNeeded()
+      applyUITestingConfigurationIfNeeded()
+    }
+
+    private func configureWindowAppearance() {
       DispatchQueue.main.async {
         if let window = NSApplication.shared.windows.first {
-          // Make window translucent
           window.isOpaque = false
           window.backgroundColor = NSColor.clear
           window.hasShadow = true
-
-          // Make the title bar transparent while keeping toolbar
           window.titlebarAppearsTransparent = false
         }
       }
+    }
 
-      // Listen for language change notifications
+    private func setupNotificationObservers() {
       NotificationCenter.default.addObserver(
         self,
         selector: #selector(languageDidChange),
@@ -32,72 +37,72 @@
         object: nil
       )
 
-      // Listen for locale changes
       NotificationCenter.default.addObserver(
         self,
         selector: #selector(localeDidChange),
         name: NSLocale.currentLocaleDidChangeNotification,
         object: nil
       )
+    }
 
-      // If there's a saved language preference, apply it at launch
+    private func applySavedLanguagePreference() {
       if let languageCode = UserDefaults.standard.string(forKey: "languagePreference"),
         languageCode != "system"
       {
         print("🌐 AppDelegate: Applying saved language \(languageCode) at launch")
         UserDefaults.standard.set([languageCode], forKey: "AppleLanguages")
       }
+    }
 
-      // Clear restart flag if we're coming back from a restart
+    private func clearRestartFlagIfNeeded() {
       if UserDefaults.standard.bool(forKey: "AppIsRestarting") {
         print("🔄 App detected post-restart state for language change")
         UserDefaults.standard.removeObject(forKey: "AppIsRestarting")
       }
+    }
 
-      // Apply window frame if in UI testing mode
-      if ProcessInfo.processInfo.arguments.contains("-UITestingResetDefaults") {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-          if let window = NSApplication.shared.windows.first {
-            let frame = NSRect(x: 485, y: 277, width: 950, height: 540)
-            window.setFrame(frame, display: true, animate: false)
-            print("🪟 AppDelegate: Set window frame for UI testing to \(frame)")
-          }
+    private func applyUITestingConfigurationIfNeeded() {
+      guard ProcessInfo.processInfo.arguments.contains("-UITestingResetDefaults") else { return }
 
-          // Force playback to start for screenshots
-          if ProcessInfo.processInfo.arguments.contains("-ScreenshotMode") {
-            // Apply screenshot settings directly to sounds
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-              let audioManager = AudioManager.shared
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        if let window = NSApplication.shared.windows.first {
+          let frame = NSRect(x: 485, y: 277, width: 950, height: 540)
+          window.setFrame(frame, display: true, animate: false)
+          print("🪟 AppDelegate: Set window frame for UI testing to \(frame)")
+        }
 
-              // Configure specific sounds for screenshots
-              let soundsToActivate = [
-                ("rain", 0.8),
-                ("storm", 0.6),
-                ("wind", 0.9),
-                ("waves", 0.4),
-                ("boat", 0.7),
-              ]
+        // Force playback to start for screenshots
+        if ProcessInfo.processInfo.arguments.contains("-ScreenshotMode") {
+          self.configureScreenshotMode()
+        }
+      }
+    }
 
-              // First deselect all sounds
-              for sound in audioManager.sounds {
-                sound.isSelected = false
-              }
+    private func configureScreenshotMode() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        let audioManager = AudioManager.shared
 
-              // Then activate and set volumes for specific sounds
-              for (fileName, volume) in soundsToActivate {
-                if let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) {
-                  sound.isSelected = true
-                  sound.volume = Float(volume)
-                  print("🔊 Activated \(fileName) with volume \(volume)")
-                }
-              }
+        // Configure specific sounds for screenshots
+        let soundsToActivate = [
+          ("rain", 0.8),
+          ("storm", 0.6),
+          ("wind", 0.9),
+          ("waves", 0.4),
+          ("boat", 0.7),
+        ]
 
-              // Start playback
-              audioManager.setPlaybackState(true, forceUpdate: true)
-              print("🎵 AppDelegate: Started playback for screenshot mode")
-            }
+        audioManager.sounds.forEach { $0.isSelected = false }
+
+        for (fileName, volume) in soundsToActivate {
+          if let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) {
+            sound.isSelected = true
+            sound.volume = Float(volume)
+            print("🔊 Activated \(fileName) with volume \(volume)")
           }
         }
+
+        audioManager.setPlaybackState(true, forceUpdate: true)
+        print("🎵 AppDelegate: Started playback for screenshot mode")
       }
     }
 

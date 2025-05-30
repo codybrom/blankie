@@ -21,98 +21,117 @@ enum UITestingHelper {
 
     print("🧹 UITestingHelper: Resetting all UserDefaults for UI testing")
 
-    // Reset all UserDefaults for the app bundle
+    resetAppBundle()
+    resetPresetDefaults()
+    resetWindowFrameData()
+    resetGlobalSettings()
+    configureUITestingDefaults()
+    configureAppearanceMode()
+    setConsistentWindowSize()
+    resetSoundDefaults()
+
+    UserDefaults.standard.synchronize()
+    verifyWindowFrame()
+
+    print("🧹 UITestingHelper: UserDefaults reset complete")
+  }
+
+  private static func resetAppBundle() {
     if let bundleId = Bundle.main.bundleIdentifier {
       UserDefaults.standard.removePersistentDomain(forName: bundleId)
       UserDefaults.standard.synchronize()
     }
+  }
 
-    // Reset preset manager defaults
+  private static func resetPresetDefaults() {
     UserDefaults.standard.removeObject(forKey: "presets")
     UserDefaults.standard.removeObject(forKey: "currentPresetID")
+  }
 
-    // Reset any existing window frame data
+  private static func resetWindowFrameData() {
     UserDefaults.standard.removeObject(forKey: "LastWindowFrame")
     UserDefaults.standard.removeObject(forKey: "NSWindow Frame main")
     UserDefaults.standard.removeObject(forKey: "HasSavedWindowPosition")
+  }
 
-    // Reset global settings
+  private static func resetGlobalSettings() {
     UserDefaults.standard.removeObject(forKey: "globalVolume")
     UserDefaults.standard.removeObject(forKey: "customAccentColor")
     UserDefaults.standard.removeObject(forKey: "enableHaptics")
     UserDefaults.standard.removeObject(forKey: "colorScheme")
+  }
 
-    // Explicitly set these to false for UI testing
+  private static func configureUITestingDefaults() {
     UserDefaults.standard.set(false, forKey: "alwaysStartPaused")
     UserDefaults.standard.set(false, forKey: "hideInactiveSounds")
 
-    // Force playback to start for screenshots
     if ProcessInfo.processInfo.arguments.contains("-ScreenshotMode") {
       UserDefaults.standard.set(true, forKey: "forceStartPlayback")
     }
+  }
 
-    // Check if we should force dark mode
+  private static func configureAppearanceMode() {
     if ProcessInfo.processInfo.arguments.contains("-ForceDarkMode") {
       UserDefaults.standard.set("dark", forKey: "appearanceMode")
     } else {
-      // Default to light mode for consistency in screenshots
       UserDefaults.standard.set("light", forKey: "appearanceMode")
     }
+  }
 
-    // Set consistent window size for screenshots
+  private static func setConsistentWindowSize() {
     let windowFrameDict: [String: Double] = [
-      "x": 485.0,  // Center on a 1920px wide screen
-      "y": 277.0,  // Center on a 1080px tall screen
+      "x": 485.0,
+      "y": 277.0,
       "width": 950.0,
       "height": 540.0,
     ]
     UserDefaults.standard.set(windowFrameDict, forKey: "LastWindowFrame")
     UserDefaults.standard.set(true, forKey: "HasSavedWindowPosition")
+  }
 
-    // Reset all sound-related defaults
+  private static func resetSoundDefaults() {
     let soundNames = [
       "rain", "storm", "wind", "waves", "stream", "birds", "summer-night",
       "train", "boat", "city", "coffee-shop", "fireplace", "pink-noise", "white-noise",
     ]
 
-    // For screenshot mode, set specific sounds as selected
     if ProcessInfo.processInfo.arguments.contains("-ScreenshotMode") {
-      // Reset all sounds first
-      for soundName in soundNames {
-        UserDefaults.standard.removeObject(forKey: "\(soundName)_volume")
-        UserDefaults.standard.set(false, forKey: "\(soundName)_isSelected")
-      }
-
-      // Then activate and set volumes for our specific sounds
-      UserDefaults.standard.set(true, forKey: "rain_isSelected")
-      UserDefaults.standard.set(0.8, forKey: "rain_volume")
-
-      UserDefaults.standard.set(true, forKey: "storm_isSelected")
-      UserDefaults.standard.set(0.6, forKey: "storm_volume")
-
-      UserDefaults.standard.set(true, forKey: "wind_isSelected")
-      UserDefaults.standard.set(0.9, forKey: "wind_volume")
-
-      UserDefaults.standard.set(true, forKey: "waves_isSelected")
-      UserDefaults.standard.set(0.4, forKey: "waves_volume")
-
-      UserDefaults.standard.set(true, forKey: "boat_isSelected")
-      UserDefaults.standard.set(0.7, forKey: "boat_volume")
+      configureScreenshotSounds(soundNames: soundNames)
     } else {
-      // Normal reset - clear everything
-      for soundName in soundNames {
-        UserDefaults.standard.removeObject(forKey: "\(soundName)_volume")
-        UserDefaults.standard.removeObject(forKey: "\(soundName)_isSelected")
-      }
+      clearAllSounds(soundNames: soundNames)
+    }
+  }
+
+  private static func configureScreenshotSounds(soundNames: [String]) {
+    for soundName in soundNames {
+      UserDefaults.standard.removeObject(forKey: "\(soundName)_volume")
+      UserDefaults.standard.set(false, forKey: "\(soundName)_isSelected")
     }
 
-    UserDefaults.standard.synchronize()
+    let screenshotSounds: [(name: String, volume: Double)] = [
+      ("rain", 0.8),
+      ("storm", 0.6),
+      ("wind", 0.9),
+      ("waves", 0.4),
+      ("boat", 0.7),
+    ]
 
-    // Verify the window frame was set
+    for (name, volume) in screenshotSounds {
+      UserDefaults.standard.set(true, forKey: "\(name)_isSelected")
+      UserDefaults.standard.set(volume, forKey: "\(name)_volume")
+    }
+  }
+
+  private static func clearAllSounds(soundNames: [String]) {
+    for soundName in soundNames {
+      UserDefaults.standard.removeObject(forKey: "\(soundName)_volume")
+      UserDefaults.standard.removeObject(forKey: "\(soundName)_isSelected")
+    }
+  }
+
+  private static func verifyWindowFrame() {
     if let savedFrame = UserDefaults.standard.dictionary(forKey: "LastWindowFrame") {
       print("🧹 UITestingHelper: Window frame set to: \(savedFrame)")
     }
-
-    print("🧹 UITestingHelper: UserDefaults reset complete")
   }
 }

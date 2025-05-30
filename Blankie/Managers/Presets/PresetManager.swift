@@ -232,15 +232,7 @@ extension PresetManager {
 
   @MainActor
   func applyPreset(_ preset: Preset, isInitialLoad: Bool = false) throws {
-    print("\n🎛️ PresetManager: --- Begin Apply Preset ---")
-    print("🎛️ PresetManager: Applying preset '\(preset.name)':")
-    print("  - ID: \(preset.id)")
-    print("  - Is Default: \(preset.isDefault)")
-    print("  - Active Sounds:")
-    preset.soundStates
-      .filter { $0.isSelected }.forEach { state in
-        print("    * \(state.fileName) (Volume: \(state.volume))")
-      }
+    logPresetApplication(preset)
 
     guard preset.validate() else {
       throw PresetError.invalidPreset
@@ -268,25 +260,7 @@ extension PresetManager {
       }
 
       // Apply states all at once
-      targetStates.forEach { state in
-        if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == state.fileName }) {
-          let selectionChanged = sound.isSelected != state.isSelected
-          let volumeChanged = sound.volume != state.volume
-
-          if selectionChanged || volumeChanged {
-            print("  - Configuring '\(sound.fileName)':")
-            if selectionChanged {
-              print("    * Selection: \(sound.isSelected) -> \(state.isSelected)")
-            }
-            if volumeChanged {
-              print("    * Volume: \(sound.volume) -> \(state.volume)")
-            }
-
-            sound.isSelected = state.isSelected
-            sound.volume = state.volume
-          }
-        }
-      }
+      applySoundStates(targetStates)
 
       // Wait a bit for states to settle
       try? await Task.sleep(nanoseconds: 100_000_000)
@@ -299,6 +273,40 @@ extension PresetManager {
     }
 
     print("🎛️ PresetManager: --- End Apply Preset ---\n")
+  }
+
+  private func logPresetApplication(_ preset: Preset) {
+    print("\n🎛️ PresetManager: --- Begin Apply Preset ---")
+    print("🎛️ PresetManager: Applying preset '\(preset.name)':")
+    print("  - ID: \(preset.id)")
+    print("  - Is Default: \(preset.isDefault)")
+    print("  - Active Sounds:")
+    preset.soundStates
+      .filter { $0.isSelected }.forEach { state in
+        print("    * \(state.fileName) (Volume: \(state.volume))")
+      }
+  }
+
+  private func applySoundStates(_ targetStates: [SoundState]) {
+    targetStates.forEach { state in
+      if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == state.fileName }) {
+        let selectionChanged = sound.isSelected != state.isSelected
+        let volumeChanged = sound.volume != state.volume
+
+        if selectionChanged || volumeChanged {
+          print("  - Configuring '\(sound.fileName)':")
+          if selectionChanged {
+            print("    * Selection: \(sound.isSelected) -> \(state.isSelected)")
+          }
+          if volumeChanged {
+            print("    * Volume: \(sound.volume) -> \(state.volume)")
+          }
+
+          sound.isSelected = state.isSelected
+          sound.volume = state.volume
+        }
+      }
+    }
   }
 
 }

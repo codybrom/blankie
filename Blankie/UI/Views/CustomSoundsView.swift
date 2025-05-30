@@ -122,9 +122,6 @@ struct CustomSoundsView: View {
             VStack(alignment: .leading, spacing: 2) {
               Text(sound.title)
                 .fontWeight(.medium)
-              Text(sound.originalFileName ?? sound.fileName)
-                .font(.caption)
-                .foregroundStyle(.secondary)
             }
 
             Spacer()

@@ -5,6 +5,7 @@
 //  Created by Cody Bromley on 1/1/25.
 //
 
+import SwiftData
 import SwiftUI
 
 struct SoundIcon: View {
@@ -12,6 +13,9 @@ struct SoundIcon: View {
   @ObservedObject var globalSettings = GlobalSettings.shared
   @ObservedObject var audioManager = AudioManager.shared
   let maxWidth: CGFloat
+
+  @State private var showingEditSheet = false
+  @State private var showingDeleteConfirmation = false
 
   private struct Configuration {
     static let iconSize: CGFloat = 100
@@ -86,6 +90,46 @@ struct SoundIcon: View {
     .padding(.vertical, Configuration.padding.top)
     .padding(.horizontal, Configuration.padding.leading)
     .frame(width: maxWidth)
+    .contextMenu {
+      if sound is CustomSound {
+        Button("Edit Sound", systemImage: "pencil") {
+          showingEditSheet = true
+        }
+
+        Button("Delete Sound", systemImage: "trash", role: .destructive) {
+          showingDeleteConfirmation = true
+        }
+      }
+    }
+    .sheet(isPresented: $showingEditSheet) {
+      if let customSound = sound as? CustomSound {
+        SoundSheet(mode: .edit(customSound.customSoundData))
+      }
+    }
+    .alert(
+      Text("Delete Sound", comment: "Delete sound confirmation alert title"),
+      isPresented: $showingDeleteConfirmation
+    ) {
+      Button("Cancel", role: .cancel) {}
+      Button("Delete", role: .destructive) {
+        if let customSound = sound as? CustomSound {
+          deleteCustomSound(customSound)
+        }
+      }
+    } message: {
+      Text(
+        "Are you sure you want to delete '\(sound.title)'? This action cannot be undone.",
+        comment: "Delete custom sound confirmation message"
+      )
+    }
+  }
+
+  private func deleteCustomSound(_ customSound: CustomSound) {
+    let result = CustomSoundManager.shared.deleteCustomSound(customSound.customSoundData)
+
+    if case .failure(let error) = result {
+      print("❌ SoundIcon: Failed to delete custom sound: \(error)")
+    }
   }
 }
 

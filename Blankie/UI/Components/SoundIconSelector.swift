@@ -161,14 +161,8 @@ struct SoundIconSelector: View {
                   Image(systemName: iconName)
                     .font(.system(size: 24))
                     .frame(height: 30)
-                  if !iconSearchText.isEmpty {
-                    Text(iconName)
-                      .font(.system(size: 8))
-                      .lineLimit(1)
-                      .truncationMode(.middle)
-                  }
                 }
-                .frame(width: 50, height: iconSearchText.isEmpty ? 50 : 60)
+                .frame(width: 50, height: 50)
                 .background(
                   selectedIcon == iconName
                     ? Color.accentColor.opacity(0.2)

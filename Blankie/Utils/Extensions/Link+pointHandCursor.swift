@@ -26,3 +26,21 @@ extension Link {
     }
   #endif
 }
+
+struct HandCursorOnHover: ViewModifier {
+  func body(content: Content) -> some View {
+    #if os(macOS)
+      content.onHover { hovering in
+        if hovering { NSCursor.pointingHand.push() } else { NSCursor.pop() }
+      }
+    #else
+      content
+    #endif
+  }
+}
+
+extension View {
+  func handCursor() -> some View {
+    self.modifier(HandCursorOnHover())
+  }
+}

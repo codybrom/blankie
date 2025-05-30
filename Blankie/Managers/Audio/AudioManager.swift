@@ -22,7 +22,7 @@ class AudioManager: ObservableObject {
   private var modelContext: ModelContext?
   private let commandCenter = MPRemoteCommandCenter.shared()
   private var nowPlayingInfo: [String: Any] = [:]
-  private var isInitializing = true
+  @MainActor private var isInitializing = true
   private var customSoundObserver: AnyCancellable?
 
   private init() {
@@ -82,12 +82,13 @@ class AudioManager: ObservableObject {
     }
   }
   func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
-    guard !isInitializing || forceUpdate else {
-      print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
-      return
-    }
-    DispatchQueue.main.async { [weak self] in
+    Task { @MainActor [weak self] in
       guard let self = self else { return }
+
+      guard !self.isInitializing || forceUpdate else {
+        print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
+        return
+      }
 
       if self.isGloballyPlaying != playing {
         print(
@@ -424,162 +425,188 @@ class AudioManager: ObservableObject {
 
   private func setupNotificationObservers() {
     #if os(iOS) || os(visionOS)
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.willTerminateNotification,
-        object: nil,
-        queue: .main
-      ) { _ in
-        self.handleAppTermination()
-      }
-
-      #if CARPLAY_ENABLED
-        // Listen for CarPlay connection changes
-        NotificationCenter.default.addObserver(
-          forName: NSNotification.Name("CarPlayConnectionChanged"),
-          object: nil,
-          queue: .main
-        ) { [weak self] notification in
-          if let isConnected = notification.userInfo?["isConnected"] as? Bool {
-            print("🎵 AudioManager: CarPlay connection changed to: \(isConnected)")
-            // Reconfigure audio session if we're playing
-            if self?.isGloballyPlaying == true {
-              self?.setupAudioSessionForPlayback()
-            }
-          }
-        }
-      #endif
-
-      // Background/foreground handling
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.didEnterBackgroundNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        self?.saveState()
-      }
-
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.willEnterForegroundNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        // Ensure audio session is active with proper configuration
-        do {
-          // Reconfigure based on current settings
-          if GlobalSettings.shared.mixWithOthers {
-            try AVAudioSession.sharedInstance().setCategory(
-              .playback,
-              mode: .default,
-              options: [.mixWithOthers, .duckOthers]
-            )
-          } else {
-            try AVAudioSession.sharedInstance().setCategory(
-              .playback,
-              mode: .default,
-              options: []
-            )
-          }
-          try AVAudioSession.sharedInstance().setActive(true)
-
-          // Update Now Playing if playing
-          if self?.isGloballyPlaying == true {
-            self?.updateNowPlayingInfo()
-          }
-        } catch {
-          print("Failed to reactivate audio session: \(error)")
-        }
-      }
-
-      // Handle audio session interruptions (when other apps start playing)
-      NotificationCenter.default.addObserver(
-        forName: AVAudioSession.interruptionNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] notification in
-        guard let self = self,
-          let userInfo = notification.userInfo,
-          let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
-          let type = AVAudioSession.InterruptionType(rawValue: typeValue)
-        else {
-          return
-        }
-
-        switch type {
-        case .began:
-          // Another app started playing audio - pause our playback
-          print("🎵 AudioManager: Audio interruption began - pausing playback")
-          if self.isGloballyPlaying {
-            Task { @MainActor in
-              self.setGlobalPlaybackState(false)
-            }
-          }
-
-        case .ended:
-          // Interruption ended - check if we should resume
-          if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
-            let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-            if options.contains(.shouldResume) {
-              print("🎵 AudioManager: Audio interruption ended with shouldResume flag")
-              // Only resume if we're not in mixWithOthers mode
-              // In exclusive mode, we let the user manually resume
-              if !GlobalSettings.shared.mixWithOthers {
-                print("🎵 AudioManager: Not resuming automatically in exclusive mode")
-              }
-            }
-          }
-
-        @unknown default:
-          break
-        }
-      }
-
-      // Handle audio route changes (headphones connected/disconnected)
-      NotificationCenter.default.addObserver(
-        forName: AVAudioSession.routeChangeNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] notification in
-        guard let self = self,
-          let userInfo = notification.userInfo,
-          let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
-          let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)
-        else {
-          return
-        }
-
-        switch reason {
-        case .oldDeviceUnavailable:
-          // Headphones were disconnected - iOS automatically pauses
-          print("🎵 AudioManager: Audio route changed - old device unavailable")
-          if self.isGloballyPlaying {
-            // The system will have paused our audio, update our state
-            self.isGloballyPlaying = false
-            self.updatePlaybackState()
-          }
-
-        case .newDeviceAvailable:
-          print("🎵 AudioManager: Audio route changed - new device available")
-        // Don't auto-resume when headphones are connected
-
-        default:
-          break
-        }
-      }
+      setupIOSNotificationObservers()
     #elseif os(macOS)
+      setupMacOSNotificationObservers()
+    #endif
+  }
+
+  #if os(iOS) || os(visionOS)
+  private func setupIOSNotificationObservers() {
+    setupTerminationObserver()
+    setupCarPlayObserver()
+    setupBackgroundObservers()
+    setupAudioInterruptionObserver()
+    setupAudioRouteChangeObserver()
+  }
+
+  private func setupTerminationObserver() {
+    NotificationCenter.default.addObserver(
+      forName: UIApplication.willTerminateNotification,
+      object: nil,
+      queue: .main
+    ) { _ in
+      self.handleAppTermination()
+    }
+  }
+
+  private func setupCarPlayObserver() {
+    #if CARPLAY_ENABLED
       NotificationCenter.default.addObserver(
-        forName: NSApplication.willTerminateNotification,
+        forName: NSNotification.Name("CarPlayConnectionChanged"),
         object: nil,
         queue: .main
-      ) { _ in
-        self.handleAppTermination()
-      }
-
-      // On macOS, save state periodically since there's no direct background notification
-      Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
-        self?.saveState()
+      ) { [weak self] notification in
+        if let isConnected = notification.userInfo?["isConnected"] as? Bool {
+          print("🎵 AudioManager: CarPlay connection changed to: \(isConnected)")
+          if self?.isGloballyPlaying == true {
+            self?.setupAudioSessionForPlayback()
+          }
+        }
       }
     #endif
   }
+
+  private func setupBackgroundObservers() {
+    NotificationCenter.default.addObserver(
+      forName: UIApplication.didEnterBackgroundNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      self?.saveState()
+    }
+
+    NotificationCenter.default.addObserver(
+      forName: UIApplication.willEnterForegroundNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] _ in
+      self?.handleWillEnterForeground()
+    }
+  }
+
+  private func handleWillEnterForeground() {
+    do {
+      if GlobalSettings.shared.mixWithOthers {
+        try AVAudioSession.sharedInstance().setCategory(
+          .playback,
+          mode: .default,
+          options: [.mixWithOthers, .duckOthers]
+        )
+      } else {
+        try AVAudioSession.sharedInstance().setCategory(
+          .playback,
+          mode: .default,
+          options: []
+        )
+      }
+      try AVAudioSession.sharedInstance().setActive(true)
+
+      if isGloballyPlaying {
+        updateNowPlayingInfo()
+      }
+    } catch {
+      print("Failed to reactivate audio session: \(error)")
+    }
+  }
+
+  private func setupAudioInterruptionObserver() {
+    NotificationCenter.default.addObserver(
+      forName: AVAudioSession.interruptionNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] notification in
+      self?.handleAudioInterruption(notification)
+    }
+  }
+
+  private func handleAudioInterruption(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+          let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+          let type = AVAudioSession.InterruptionType(rawValue: typeValue)
+    else {
+      return
+    }
+
+    switch type {
+    case .began:
+      handleInterruptionBegan()
+    case .ended:
+      handleInterruptionEnded(userInfo: userInfo)
+    @unknown default:
+      break
+    }
+  }
+
+  private func handleInterruptionBegan() {
+    print("🎵 AudioManager: Audio interruption began - pausing playback")
+    if isGloballyPlaying {
+      Task { @MainActor in
+        self.setGlobalPlaybackState(false)
+      }
+    }
+  }
+
+  private func handleInterruptionEnded(userInfo: [AnyHashable: Any]) {
+    if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
+      let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+      if options.contains(.shouldResume) {
+        print("🎵 AudioManager: Audio interruption ended with shouldResume flag")
+        if !GlobalSettings.shared.mixWithOthers {
+          print("🎵 AudioManager: Not resuming automatically in exclusive mode")
+        }
+      }
+    }
+  }
+
+  private func setupAudioRouteChangeObserver() {
+    NotificationCenter.default.addObserver(
+      forName: AVAudioSession.routeChangeNotification,
+      object: nil,
+      queue: .main
+    ) { [weak self] notification in
+      self?.handleAudioRouteChange(notification)
+    }
+  }
+
+  private func handleAudioRouteChange(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+          let reasonValue = userInfo[AVAudioSessionRouteChangeReasonKey] as? UInt,
+          let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue)
+    else {
+      return
+    }
+
+    switch reason {
+    case .oldDeviceUnavailable:
+      print("🎵 AudioManager: Audio route changed - old device unavailable")
+      if isGloballyPlaying {
+        isGloballyPlaying = false
+        updatePlaybackState()
+      }
+    case .newDeviceAvailable:
+      print("🎵 AudioManager: Audio route changed - new device available")
+    default:
+      break
+    }
+  }
+  #endif
+
+  #if os(macOS)
+  private func setupMacOSNotificationObservers() {
+    NotificationCenter.default.addObserver(
+      forName: NSApplication.willTerminateNotification,
+      object: nil,
+      queue: .main
+    ) { _ in
+      self.handleAppTermination()
+    }
+
+    Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { [weak self] _ in
+      self?.saveState()
+    }
+  }
+  #endif
 
   private func handleAppTermination() {
     print("🎵 AudioManager: App is terminating, cleaning up")
@@ -642,7 +669,7 @@ class AudioManager: ObservableObject {
       print("  - Stopping '\(sound.fileName)'")
       sound.pause(immediate: true)
     }
-    setPlaybackState(false)
+    setGlobalPlaybackState(false)
     // Reset all sounds
     sounds.forEach { sound in
       sound.volume = 1.0

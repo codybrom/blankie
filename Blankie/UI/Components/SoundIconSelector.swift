@@ -99,15 +99,9 @@ struct SoundIconSelector: View {
           Image(systemName: "magnifyingglass")
             .foregroundStyle(.secondary)
           TextField(text: $iconSearchText) {
-            Text("Search icons or enter custom name...", comment: "Icon search field placeholder")
+            Text("Search icons...", comment: "Icon search field placeholder")
           }
           .textFieldStyle(.plain)
-          .onSubmit {
-            // If search text is not empty and no results, use it as custom icon
-            if !iconSearchText.isEmpty && searchResults.isEmpty {
-              selectedIcon = iconSearchText
-            }
-          }
         }
         .padding(6)
         .background(
@@ -133,14 +127,6 @@ struct SoundIconSelector: View {
           .pickerStyle(.menu)
           .labelsHidden()
           .frame(width: 120)
-        } else if searchResults.isEmpty {
-          Button {
-            selectedIcon = iconSearchText
-          } label: {
-            Text("Use Custom", comment: "Use custom icon button")
-          }
-          .buttonStyle(.bordered)
-          .controlSize(.small)
         }
       }
 
@@ -153,8 +139,8 @@ struct SoundIconSelector: View {
             Text("No matching icons found", comment: "No icon search results message")
               .font(.headline)
             Text(
-              "Press Return or click \"Use Custom\" to use \"\(iconSearchText)\" as a custom icon name",
-              comment: "Custom icon usage instruction"
+              "Try a different search term",
+              comment: "No icon search results suggestion"
             )
             .font(.caption)
             .foregroundStyle(.secondary)

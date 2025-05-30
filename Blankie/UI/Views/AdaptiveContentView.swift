@@ -16,45 +16,6 @@ import SwiftUI
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-    // Calculate filtered sounds based on hideInactiveSounds preference
-    private var filteredSounds: [Sound] {
-      // Simplified expression that's easier for the compiler to type-check
-      let sounds = audioManager.sounds
-      return sounds.filter { sound in
-        if hideInactiveSounds {
-          return sound.isSelected
-        } else {
-          return true
-        }
-      }
-    }
-
-    // Determine if we're on iPad or Mac
-    private var isLargeDevice: Bool {
-      horizontalSizeClass == .regular
-    }
-
-    // Computed properties for columns and columnWidth
-    private var columns: [GridItem] {
-      if isLargeDevice {
-        return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 16)]
-      } else {
-        return Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
-      }
-    }
-
-    private var columnWidth: CGFloat {
-      if isLargeDevice {
-        return 150
-      } else {
-        #if os(iOS)
-          return (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
-        #else
-          return 100  // Fallback for other platforms
-        #endif
-      }
-    }
-
     var body: some View {
       Group {
         if isLargeDevice {
@@ -105,89 +66,12 @@ import SwiftUI
 
     // Sidebar content for split view
     private var sidebarContent: some View {
-      List {
-        Section("Presets") {
-          ForEach(presetManager.presets) { preset in
-            presetRow(preset)
-          }
-
-          Button(action: {
-            showingPresetPicker = true
-          }) {
-            Label("Add Preset", systemImage: "plus")
-          }
-        }
-
-        Section("Settings") {
-          settingsButtons
-        }
-      }
-      .navigationTitle("Blankie")
-    }
-
-    // Settings buttons in sidebar
-    private var settingsButtons: some View {
-      Group {
-        Button(action: {
-          showingSettings = true
-        }) {
-          Label("Preferences", systemImage: "gear")
-        }
-
-        Button(action: {
-          showingAbout = true
-        }) {
-          Label {
-            Text("About Blankie", comment: "About menu item")
-          } icon: {
-            Image(systemName: "info.circle")
-          }
-        }
-
-        Button(action: {
-          withAnimation {
-            hideInactiveSounds.toggle()
-          }
-        }) {
-          let iconName = hideInactiveSounds ? "eye" : "eye.slash"
-          let labelText = hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds"
-          Label(labelText, systemImage: iconName)
-        }
-      }
-    }
-
-    // Single preset row
-    private func presetRow(_ preset: Preset) -> some View {
-      Button(action: {
-        Task {
-          do {
-            try presetManager.applyPreset(preset)
-          } catch {
-            print("Error applying preset: \(error)")
-          }
-        }
-      }) {
-        HStack {
-          Text(preset.name)
-            .foregroundColor(.primary)
-
-          Spacer()
-
-          if presetManager.currentPreset?.id == preset.id {
-            Image(systemName: "checkmark")
-              .foregroundColor(.accentColor)
-          }
-        }
-      }
-      .contextMenu {
-        if !preset.isDefault {
-          Button(role: .destructive) {
-            presetManager.deletePreset(preset)
-          } label: {
-            Label("Delete", systemImage: "trash")
-          }
-        }
-      }
+      SidebarContentView(
+        showingPresetPicker: $showingPresetPicker,
+        showingSettings: $showingSettings,
+        showingAbout: $showingAbout,
+        hideInactiveSounds: $hideInactiveSounds
+      )
     }
 
     // iPhone layout
@@ -282,82 +166,10 @@ import SwiftUI
 
     // Bottom playback controls for iPhone layout
     private var playbackControlsView: some View {
-      VStack(spacing: 0) {
-        Divider()
-
-        HStack(spacing: 20) {
-          // Volume button
-          volumeButton
-
-          // Timer button
-          timerButton
-
-          // Play/Pause button
-          playPauseButton
-
-          // Options button
-          hideShowButton
-        }
-        .padding(.vertical, 8)
-        .background(.ultraThinMaterial)
-      }
-    }
-
-    // Volume control button
-    private var volumeButton: some View {
-      Button(action: {
-        showingVolumeControls.toggle()
-      }) {
-        Image(systemName: "speaker.wave.2.fill")
-          .font(.system(size: 22))
-          .foregroundColor(.primary)
-          .padding()
-      }
-    }
-
-    // Play/pause button
-    private var playPauseButton: some View {
-      Button(action: {
-        audioManager.togglePlayback()
-      }) {
-        ZStack {
-          Circle()
-            .fill(
-              globalSettings.customAccentColor?.opacity(0.2) ?? Color.accentColor.opacity(0.2)
-            )
-            .frame(width: 60, height: 60)
-
-          let imageName = audioManager.isGloballyPlaying ? "pause.fill" : "play.fill"
-          let xOffset: CGFloat = audioManager.isGloballyPlaying ? 0 : 2
-
-          Image(systemName: imageName)
-            .font(.system(size: 26))
-            .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-            .offset(x: xOffset)
-        }
-      }
-    }
-
-    // Hide/show inactive sounds button
-    private var hideShowButton: some View {
-      Button(action: {
-        withAnimation {
-          hideInactiveSounds.toggle()
-        }
-      }) {
-        let iconName = hideInactiveSounds ? "eye.slash.fill" : "eye.fill"
-
-        Image(systemName: iconName)
-          .font(.system(size: 22))
-          .foregroundColor(.primary)
-          .padding()
-      }
-    }
-
-    // Timer button
-    private var timerButton: some View {
-      CompactTimerButton()
-        .padding()
+      PlaybackControlsView(
+        showingVolumeControls: $showingVolumeControls,
+        hideInactiveSounds: $hideInactiveSounds
+      )
     }
   }
 

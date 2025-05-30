@@ -140,6 +140,8 @@ import SwiftUI
           .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
           .background(.ultraThinMaterial)
         }
+        .background(.thinMaterial)
+        .background(Color.black.opacity(0.05))
       }
 
       .ignoresSafeArea(.container, edges: .horizontal)

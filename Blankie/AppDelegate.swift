@@ -11,6 +11,19 @@
   final class MacAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+      // Configure window for translucency
+      DispatchQueue.main.async {
+        if let window = NSApplication.shared.windows.first {
+          // Make window translucent
+          window.isOpaque = false
+          window.backgroundColor = NSColor.clear
+          window.hasShadow = true
+
+          // Make the title bar transparent while keeping toolbar
+          window.titlebarAppearsTransparent = false
+        }
+      }
+
       // Listen for language change notifications
       NotificationCenter.default.addObserver(
         self,

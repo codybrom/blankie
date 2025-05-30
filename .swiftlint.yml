@@ -5,6 +5,3 @@ disabled_rules:
   - multiple_closures_with_trailing_closure
   - trailing_comma
   - opening_brace
-  - file_length
-  - type_body_length
-  - function_body_length

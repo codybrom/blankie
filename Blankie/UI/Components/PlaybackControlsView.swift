@@ -4,6 +4,9 @@ import SwiftUI
   struct PlaybackControlsView: View {
     @Binding var showingVolumeControls: Bool
     @Binding var hideInactiveSounds: Bool
+    @Binding var showingPresetPicker: Bool
+    @Binding var showingSettings: Bool
+    @Binding var showingAbout: Bool
 
     @StateObject private var audioManager = AudioManager.shared
     @StateObject private var globalSettings = GlobalSettings.shared
@@ -13,6 +16,7 @@ import SwiftUI
         Divider()
 
         HStack(spacing: 20) {
+
           // Volume button
           volumeButton
 
@@ -22,8 +26,11 @@ import SwiftUI
           // Play/Pause button
           playPauseButton
 
-          // Options button
-          hideShowButton
+          // Presets button
+          presetsButton
+
+          // Menu button
+          menuButton
         }
         .padding(.vertical, 8)
         .background(.ultraThinMaterial)
@@ -85,6 +92,58 @@ import SwiftUI
     private var timerButton: some View {
       CompactTimerButton()
         .padding()
+    }
+
+    // Presets button
+    private var presetsButton: some View {
+      Button(action: {
+        showingPresetPicker.toggle()
+      }) {
+        Image(systemName: "music.note.list")
+          .font(.system(size: 22))
+          .foregroundColor(.primary)
+          .padding()
+      }
+    }
+
+    // Menu button with all options
+    private var menuButton: some View {
+      Menu {
+        Button(action: {
+          withAnimation {
+            hideInactiveSounds.toggle()
+          }
+        }) {
+          let labelText = hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds"
+          let iconName = hideInactiveSounds ? "eye" : "eye.slash"
+          Label(labelText, systemImage: iconName)
+        }
+
+        Button(action: {
+          showingSettings = true
+        }) {
+          Label {
+            Text("Settings", comment: "Settings menu item")
+          } icon: {
+            Image(systemName: "gear")
+          }
+        }
+
+        Button(action: {
+          showingAbout = true
+        }) {
+          Label {
+            Text("About Blankie", comment: "About menu item")
+          } icon: {
+            Image(systemName: "info.circle")
+          }
+        }
+      } label: {
+        Image(systemName: "ellipsis.circle")
+          .font(.system(size: 22))
+          .foregroundColor(.primary)
+          .padding()
+      }
     }
   }
 #endif

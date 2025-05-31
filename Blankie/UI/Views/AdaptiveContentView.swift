@@ -16,6 +16,7 @@ import SwiftUI
     @State var draggedIndex: Int?
     @State var hoveredIndex: Int?
     @State var dragResetTimer: Timer?
+    @State private var showingAboutInMenu = false
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
@@ -90,11 +91,6 @@ import SwiftUI
           playbackControlsView
         }
         .navigationTitle("Blankie")
-        .toolbar {
-          ToolbarItem(placement: .primaryAction) {
-            menuButton
-          }
-        }
       }
     }
 
@@ -218,7 +214,10 @@ import SwiftUI
     private var playbackControlsView: some View {
       PlaybackControlsView(
         showingVolumeControls: $showingVolumeControls,
-        hideInactiveSounds: $hideInactiveSounds
+        hideInactiveSounds: $hideInactiveSounds,
+        showingPresetPicker: $showingPresetPicker,
+        showingSettings: $showingSettings,
+        showingAbout: $showingAbout
       )
     }
   }

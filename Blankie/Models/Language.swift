@@ -137,8 +137,7 @@ struct Language: Hashable, Identifiable, Equatable {
         // Look through strings to collect language codes
         for (_, stringData) in strings {
           if let localizations = stringData["localizations"] as? [String: Any],
-            !localizations.isEmpty
-          {
+            !localizations.isEmpty {
             for langCode in localizations.keys {
               languageCodes.insert(langCode)
             }
@@ -200,19 +199,26 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static func restartApp() {
-    let url = Bundle.main.bundleURL
-    let task = Process()
-    task.launchPath = "/usr/bin/open"
-    task.arguments = ["-n", url.path]
+    #if os(macOS)
+      let url = Bundle.main.bundleURL
+      let task = Process()
+      task.launchPath = "/usr/bin/open"
+      task.arguments = ["-n", url.path]
 
-    // Store a flag to indicate we're restarting
-    UserDefaults.standard.set(true, forKey: "AppIsRestarting")
-    UserDefaults.standard.synchronize()
+      // Store a flag to indicate we're restarting
+      UserDefaults.standard.set(true, forKey: "AppIsRestarting")
+      UserDefaults.standard.synchronize()
 
-    // Allow some time for UserDefaults to sync before quitting
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      task.launch()
-      NSApplication.shared.terminate(nil)
-    }
+      // Allow some time for UserDefaults to sync before quitting
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        task.launch()
+        NSApplication.shared.terminate(nil)
+      }
+    #else
+      // iOS doesn't support app restart - show message to user instead
+      UserDefaults.standard.set(true, forKey: "LanguageChangePending")
+      UserDefaults.standard.synchronize()
+    // On iOS, the language change will take effect when the app is relaunched
+    #endif
   }
 }

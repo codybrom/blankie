@@ -27,6 +27,7 @@
 - 📖 [FAQ](FAQ.md)
 - 🤝 [Contributing](CONTRIBUTING.md)
 - 💻 [Development Setup](DEVELOPMENT.md)
+- 🚀 [Release Process](RELEASING.md)
 - 📋 [Changelog](CHANGELOG.md)
 - 🌐 [Website](https://blankie.rest)
 

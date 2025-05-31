@@ -94,7 +94,7 @@ struct BlankieApp: App {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
         }
-        .onChange(of: scenePhase) { _ in
+        .onChange(of: scenePhase) {
           timerManager.handleScenePhaseChange()
         }
       }

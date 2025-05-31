@@ -13,9 +13,9 @@ import SwiftUI
     @State private var showingPresetPicker = false
     @State var hideInactiveSounds = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
-    @State private var draggedIndex: Int?
-    @State private var hoveredIndex: Int?
-    @State private var dragResetTimer: Timer?
+    @State var draggedIndex: Int?
+    @State var hoveredIndex: Int?
+    @State var dragResetTimer: Timer?
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 

@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%lld" : {
-
-    },
     "%lld customized" : {
 
     },
@@ -2016,6 +2013,9 @@
     "Drop audio file to import" : {
 
     },
+    "Drop here" : {
+
+    },
     "Edit" : {
 
     },
@@ -3173,7 +3173,7 @@
       }
     },
     "Manage Sounds" : {
-      "comment" : "Menu item to manage sounds\nSound management label"
+      "comment" : "Sound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",

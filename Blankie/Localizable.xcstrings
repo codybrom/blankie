@@ -3154,24 +3154,6 @@
         }
       }
     },
-    "Manage Custom Sounds" : {
-      "comment" : "Menu item to manage custom sounds",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Custom Sounds"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Manage Custom Sounds"
-          }
-        }
-      }
-    },
     "Manage Sounds" : {
       "comment" : "Sound management label"
     },
@@ -4296,24 +4278,6 @@
         }
       }
     },
-    "Press Return or click \"Use Custom\" to use \"%@\" as a custom icon name" : {
-      "comment" : "Custom icon usage instruction",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Press Return or click \"Use Custom\" to use \"%@\" as a custom icon name"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Press Return or click \"Use Custom\" to use \"%@\" as a custom icon name"
-          }
-        }
-      }
-    },
     "Public Domain" : {
       "comment" : "Audio license type",
       "extractionState" : "manual",
@@ -5132,24 +5096,6 @@
     },
     "Saving customization..." : {
 
-    },
-    "Search icons or enter custom name..." : {
-      "comment" : "Icon search field placeholder",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search icons or enter custom name..."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Search icons or enter custom name..."
-          }
-        }
-      }
     },
     "Search icons..." : {
       "comment" : "Icon search field placeholder"
@@ -6066,24 +6012,6 @@
     },
     "Try a different search term" : {
       "comment" : "No icon search results suggestion"
-    },
-    "Use Custom" : {
-      "comment" : "Use custom icon button",
-      "extractionState" : "stale",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Custom"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Use Custom"
-          }
-        }
-      }
     },
     "Version %@ (%@)" : {
       "comment" : "Version string",

@@ -1,7 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ISO6391 from "iso-639-1-plus";
 import languagesJson from "../../public/i18n/languages.json";
+import {
+  getLanguageName,
+  getNativeLanguageName,
+  getTranslatorCredits,
+} from "../utils/i18n-helpers";
 
 const title = "Translation Status";
 
@@ -32,28 +36,6 @@ const sortedLanguages = Object.entries(languageData.statistics).sort(
   ([, a], [, b]) => b.translationPercentage - a.translationPercentage
 );
 
-// Get language names (you could expand this map as needed)
-function getLanguageName(localeCode: string): string {
-  // Special case for source language
-  if (localeCode === "en") {
-    return "English (Source)";
-  }
-
-  // Try to get the name from ISO6391
-  if (ISO6391.validate(localeCode)) {
-    return ISO6391.getName(localeCode);
-  }
-
-  // Fallback for special cases not in the ISO standard
-  const specialCases: Record<string, string> = {
-    "zh-Hans": "Chinese (Simplified)",
-    "zh-Hant": "Chinese (Traditional)",
-    // Add other special cases as needed
-  };
-
-  return specialCases[localeCode] || localeCode;
-}
-
 const extractionTimestamp = languageData.metadata.extractedAt;
 
 // Function to calculate combined progress (translated + needs review)
@@ -80,23 +62,24 @@ function getStatusText(stats: StringStats): string {
   const { translationPercentage, needsReviewPercentage } = stats;
   const combinedProgress = translationPercentage + needsReviewPercentage;
 
-  if (translationPercentage >= 90) return "Complete";
-  if (translationPercentage >= 70) return "Well Translated";
+  if (translationPercentage >= 99) return "Complete";
+  if (translationPercentage >= 90) return "Mostly Complete";
+  if (translationPercentage >= 85) return "Well Translated";
 
   if (combinedProgress >= 90) {
     if (needsReviewPercentage > translationPercentage)
-      return "Mostly in Review";
+      return "Almost Translated";
     return "Nearly Complete";
   }
 
   if (combinedProgress >= 50) {
     if (needsReviewPercentage > translationPercentage)
-      return "Mainly in Review";
+      return "Partially Translated";
     return "In Progress";
   }
 
   if (combinedProgress > 0) {
-    if (translationPercentage === 0) return "All Needs Review";
+    if (translationPercentage === 0) return "Translation Needs Review";
     return "Getting Started";
   }
 
@@ -223,9 +206,15 @@ function getStatusText(stats: StringStats): string {
             >
               <div class="p-4 flex flex-col h-full">
                 <div class="flex justify-between items-start">
-                  <h2 class="text-xl font-semibold">
-                    {getLanguageName(langCode)}
-                  </h2>
+                  <div>
+                    <h2 class="text-xl font-semibold">
+                      {getLanguageName(langCode)}
+                    </h2>
+                    <p class="text-sm text-gray-400 mt-0.5">
+                      {getNativeLanguageName(langCode)} •{" "}
+                      <code class="text-yellow-500">{langCode}</code>
+                    </p>
+                  </div>
                   <span class="px-2 py-1 text-xs rounded-full bg-black/30">
                     {getStatusText(stats)}
                   </span>
@@ -274,6 +263,18 @@ function getStatusText(stats: StringStats): string {
                     </div>
                   )}
                 </div>
+
+                {/* Translator credits */}
+                {getTranslatorCredits(langCode).length > 0 && (
+                  <div class="mt-3 pt-3 border-t border-zinc-700/50">
+                    <p class="text-xs text-gray-400">
+                      Translated by:{" "}
+                      <span class="text-gray-300">
+                        {getTranslatorCredits(langCode).join(", ")}
+                      </span>
+                    </p>
+                  </div>
+                )}
 
                 <a
                   href={`/i18n/${langCode}`}

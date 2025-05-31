@@ -8,7 +8,7 @@
 /// This script is used to update the Localizable.xcstrings file with single-language translations in JSON or CSV format
 /// To learn more, visit blankie.rest/i18n
 ///
-///  Usage: ./blanki18n.swift path/to/translation.[json|csv] [language_code]
+///  Usage: ./blanki18n.swift path/to/translation.[json|csv] [language_code] [--preserve-states]
 ///
 
 import Foundation
@@ -48,7 +48,7 @@ func parseCSV(data: String) -> [CSVRow] {
 func getFilePath() -> String {
   guard CommandLine.arguments.count > 1 else {
     print("Error: Please provide a translation file path")
-    print("Usage: ./blanki8n.swift path/to/translation.[json|csv]")
+    print("Usage: ./blanki8n.swift path/to/translation.[json|csv] [language_code] [--preserve-states]")
     exit(1)
   }
 
@@ -56,7 +56,7 @@ func getFilePath() -> String {
 }
 
 func getLanguageCode() -> String {
-  if CommandLine.arguments.count > 2 {
+  if CommandLine.arguments.count > 2 && !CommandLine.arguments[2].starts(with: "--") {
     return CommandLine.arguments[2]
   } else {
     print("\nEnter the language code for these translations (e.g. de, es, fr):")
@@ -70,18 +70,45 @@ func getLanguageCode() -> String {
   }
 }
 
+func shouldPreserveStates() -> Bool {
+  return CommandLine.arguments.contains("--preserve-states")
+}
+
+func parseJSON(data: Data) -> [CSVRow] {
+  var rows: [CSVRow] = []
+
+  guard let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+        let strings = json["strings"] as? [String: [String: Any]] else {
+    return rows
+  }
+
+  for (key, value) in strings {
+    if let target = value["target"] as? String,
+       let state = value["state"] as? String {
+      rows.append(CSVRow(key: key, target: target, state: state))
+    }
+  }
+
+  return rows
+}
+
 func readTranslationFile(at path: String) -> [CSVRow] {
-  guard let fileData = try? String(contentsOfFile: path, encoding: .utf8) else {
-    print("Error: Could not read file at \(path)")
+  if path.hasSuffix(".json") {
+    guard let fileData = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+      print("Error: Could not read file at \(path)")
+      exit(1)
+    }
+    return parseJSON(data: fileData)
+  } else if path.hasSuffix(".csv") {
+    guard let fileData = try? String(contentsOfFile: path, encoding: .utf8) else {
+      print("Error: Could not read file at \(path)")
+      exit(1)
+    }
+    return parseCSV(data: fileData)
+  } else {
+    print("Error: Only CSV and JSON files are supported")
     exit(1)
   }
-
-  guard path.hasSuffix(".csv") else {
-    print("Error: Only CSV files are supported")
-    exit(1)
-  }
-
-  return parseCSV(data: fileData)
 }
 
 func readXCStringsFile() -> (json: [String: Any], strings: [String: [String: Any]]) {
@@ -103,7 +130,7 @@ func readXCStringsFile() -> (json: [String: Any], strings: [String: [String: Any
 }
 
 func updateTranslations(
-  in strings: [String: [String: Any]], with translations: [CSVRow], for langCode: String
+  in strings: [String: [String: Any]], with translations: [CSVRow], for langCode: String, preserveStates: Bool
 ) -> ([String: [String: Any]], Int) {
   var updatedStrings = strings
   var updatedCount = 0
@@ -117,17 +144,35 @@ func updateTranslations(
       let hasValidTranslation = !targetValue.isEmpty && targetValue != translation.key
 
       // Add or update the localization for this language
-      localizations[langCode] = [
-        "stringUnit": [
-          "state": hasValidTranslation ? "translated" : "needs_review",
-          "value": translation.target,
-        ]
-      ]
+      let state: String
+      if preserveStates {
+        state = translation.state
+      } else {
+        // Default behavior: mark all valid translations as "translated"
+        state = hasValidTranslation ? "translated" : "translated"
+      }
 
-      // Update the entry
-      entry["localizations"] = localizations
-      updatedStrings[translation.key] = entry
-      updatedCount += 1
+      // Check if this is actually a change
+      let existingLocalization = localizations[langCode]
+      let existingStringUnit = existingLocalization?["stringUnit"] as? [String: Any]
+      let existingValue = existingStringUnit?["value"] as? String
+      let existingState = existingStringUnit?["state"] as? String
+
+      let isChanged = existingValue != translation.target || existingState != state
+
+      if isChanged {
+        localizations[langCode] = [
+          "stringUnit": [
+            "state": state,
+            "value": translation.target,
+          ]
+        ]
+
+        // Update the entry
+        entry["localizations"] = localizations
+        updatedStrings[translation.key] = entry
+        updatedCount += 1
+      }
     }
   }
 
@@ -161,10 +206,15 @@ func main() {
   let filePath = getFilePath()
   let translations = readTranslationFile(at: filePath)
   let langCode = getLanguageCode()
+  let preserveStates = shouldPreserveStates()
+
+  if preserveStates {
+    print("\nPreserving translation states from imported file")
+  }
 
   let (json, strings) = readXCStringsFile()
   let (updatedStrings, updatedCount) = updateTranslations(
-    in: strings, with: translations, for: langCode)
+    in: strings, with: translations, for: langCode, preserveStates: preserveStates)
 
   if updatedCount == 0 {
     print("No translations were updated. Check if your keys match the ones in the xcstrings file.")

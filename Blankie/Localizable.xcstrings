@@ -2629,6 +2629,12 @@
             "value" : "Se disabilitato, Blankie riprodurrà immediatamente il configurazione più recente all'avvio"
           }
         },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "無効にすると、Blankieは起動時に直前のプリセットを再生します。"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",

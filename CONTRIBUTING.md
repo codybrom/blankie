@@ -114,9 +114,56 @@ You can submit translations in three ways:
 
 For general translation feedback or to report issues with existing translations, you can create a GitHub issue or email us at the address above. If you have any other questions about translations or need clarification on specific strings, please don't hesitate to reach out. We're here to help!
 
+### Adding Support for New Languages (Technical Guide)
+
+When adding support for a new language to Blankie, you need to update several files across the codebase. This guide outlines all the locations that must be modified:
+
+#### Necessary File Updates (Roughly in order of importance)
+
+1. **`Blankie/Localizable.xcstrings`**
+   * This is the main translation file containing all localized strings
+   * Add your new language code as a new localization
+   * Use the `blanki18n` tool to import translations from a JSON or CSV file
+
+2. **`Blankie.xcodeproj/project.pbxproj`**
+   * Add the language to the project's known regions
+   * **Important**: Regional language codes (e.g., `en-GB`, `zh-Hans`) must be wrapped in quotes
+   * Standard language codes (e.g., `es`, `fr`) don't need quotes
+
+3. **`FAQ.md`**
+   * Add the language with its language code to the available languages list
+   * Format: `Language Name (language-code)`
+
+4. **`Blankie/credits.json`**
+   * Add translator credits if provided
+   * Include translator name and optional link
+
+5. **`CHANGELOG.md`**
+   * Document the addition of the new language in the appropriate version section
+   * Format: `- Added [Language] translation support thanks to [Contributor Name]`
+
+6. **`docs/src/utils/i18n-helpers.ts`**
+   * Only update if adding a regional language code (e.g., `en-GB`, `zh-Hans`)
+   * Add the regional code mapping to ensure proper handling
+
+7. **`docs/src/pages/index.astro`**
+   * Update the header language list (temporary location) to showcase support for the new language
+
+8. **`.vscode/settings.json`** (for cspell)
+   * Add the native language name and contributor to the words list to prevent them from being flagged as typos
+
+#### Testing Your Changes
+
+After updating all the files:
+
+1. Build the project in Xcode to ensure all language files are properly recognized
+2. If the language is different from your system langauge, you can change your system language, switch to the new language in Blankie's Preferences or create a new scheme in Xcode to verify the app displays correctly
+3. Check that the translation status page reflects the new language
+4. Verify all credits appear correctly on the About screen
+
 ## Credit and Attribution
 
-It is important to give credit where credit is due. Contributors to Blankie may be credited on the [Credits](https://blankie.rest/credits) page of the Blankie website and on the app's About screen. If you would prefer not to be credited, please let us know in your pull request.
+It is important to give credit where credit is due. Contributors to Blankie may be credited on the [Credits](https://blankie.rest/credits) page of the Blankie website and on the app's About screen. Credits for the app and website are controlled by `Blankie/credits.json`. If you would prefer not to be credited, please let us know in your pull request.
 
 ## Documentation and Website Contributions
 

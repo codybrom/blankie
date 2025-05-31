@@ -49,7 +49,7 @@ _**Why does this matter if you're not a programmer?**_
 
 Even if you don't write code, Blankie being open source benefits you in several important ways:
 
-- **Transparency:** You can trust Blankie because nothing is hidden. Anyone can verify exactly how it works, what data it collects (or doesn't collect), and help identify and fix problems. Blankie can also be downloaded for use seperate of the Mac App Store in an official version that is still scanned and signed by Apple to safely run as a trusted app.
+- **Transparency:** You can trust Blankie because nothing is hidden. Anyone can verify exactly how it works, what data it collects (or doesn't collect), and help identify and fix problems. Blankie can also be downloaded for use separate of the Mac App Store in an official version that is still scanned and signed by Apple to safely run as a trusted app.
 
 - **Community:** Blankie exists thanks to a collaborative ecosystem. From sounds, to icons, to developer resources and inspirations, Blankie builds upon contributions from creators around the world who've shared their work openly. By also being open source, Blankie honors this tradition and ensures it can continue to evolve even if the original developer moves on.
 
@@ -66,6 +66,7 @@ Blankie is currently available in the following languages:
 - Español (es)
 - Français (fr)
 - Italiano (it)
+- 日本語 (ja)
 - Português (pt-PT)
 - Türkçe (tr)
 - 简体中文 (zh-Hans)

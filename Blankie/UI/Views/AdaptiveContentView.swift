@@ -155,54 +155,21 @@ import SwiftUI
       ScrollView {
         LazyVGrid(columns: columns, spacing: 20) {
           ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
-            SoundIcon(sound: sound, maxWidth: columnWidth)
-              .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
-              .opacity(draggedIndex == index ? 0.5 : 1.0)
-              .offset(calculateDodgeOffset(for: index))
-              .zIndex(draggedIndex == index ? 1 : 0)
-              .animation(.easeInOut(duration: 0.3), value: draggedIndex)
-              .animation(.easeInOut(duration: 0.3), value: hoveredIndex)
-              .overlay(
-                hoveredIndex == index && draggedIndex != index
-                  ? RoundedRectangle(cornerRadius: 16)
-                    .stroke(globalSettings.customAccentColor ?? .accentColor, lineWidth: 3)
-                    .background(
-                      RoundedRectangle(cornerRadius: 16)
-                        .fill((globalSettings.customAccentColor ?? .accentColor).opacity(0.2))
-                    )
-                    .overlay(
-                      VStack(spacing: 4) {
-                        Image(systemName: "plus.circle.fill")
-                          .font(.system(size: 24))
-                          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-                        Text("Drop here")
-                          .font(.caption)
-                          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-                      }
-                    )
-                    .allowsHitTesting(false)
-                  : nil
-              )
-              .onLongPressGesture(minimumDuration: 0.5) {
-                // Long press to start drag mode
+            DraggableSoundIcon(
+              sound: sound,
+              maxWidth: columnWidth,
+              index: index,
+              draggedIndex: $draggedIndex,
+              hoveredIndex: $hoveredIndex,
+              onDragStart: {
                 draggedIndex = index
                 startDragResetTimer()
+              },
+              onDrop: { sourceIndex in
+                audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                cancelDragResetTimer()
               }
-              .onDrag {
-                draggedIndex = index
-                startDragResetTimer()
-                return NSItemProvider(object: "\(index)" as NSString)
-              }
-              .onDrop(
-                of: [.text],
-                delegate: SoundDropDelegate(
-                  audioManager: audioManager,
-                  targetIndex: index,
-                  sounds: filteredSounds,
-                  draggedIndex: $draggedIndex,
-                  hoveredIndex: $hoveredIndex,
-                  cancelTimer: cancelDragResetTimer
-                ))
+            )
           }
         }
         .padding()
@@ -241,6 +208,165 @@ import SwiftUI
         .previewDevice("iPad Pro (11-inch)")
         .previewDisplayName("iPad")
       }
+    }
+  }
+
+  // Custom draggable sound icon that only applies drag gesture to the icon area
+  struct DraggableSoundIcon: View {
+    @ObservedObject var sound: Sound
+    let maxWidth: CGFloat
+    let index: Int
+    @Binding var draggedIndex: Int?
+    @Binding var hoveredIndex: Int?
+    let onDragStart: () -> Void
+    let onDrop: (Int) -> Void
+    
+    @ObservedObject private var globalSettings = GlobalSettings.shared
+    @State private var isDraggingIcon = false
+    
+    private var filteredSounds: [Sound] {
+      AudioManager.shared.getVisibleSounds()
+    }
+    
+    var body: some View {
+      VStack(spacing: 8) {
+        // Icon area with drag gesture
+        ZStack {
+          Circle()
+            .fill(backgroundFill)
+            .frame(width: 100, height: 100)
+          
+          Image(systemName: sound.systemIconName)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 64, height: 64)
+            .foregroundColor(iconColor)
+        }
+        .frame(width: 100, height: 100)
+        .contentShape(Circle())
+        .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
+        .opacity(draggedIndex == index ? 0.5 : 1.0)
+        .overlay(dropOverlay)
+        .gesture(
+          TapGesture()
+            .onEnded { _ in
+              sound.toggle()
+            }
+        )
+        .onLongPressGesture(minimumDuration: 0.5) {
+          onDragStart()
+        }
+        .onDrag {
+          onDragStart()
+          return NSItemProvider(object: "\(index)" as NSString)
+        }
+        
+        // Title (not draggable)
+        Text(LocalizedStringKey(sound.title))
+          .font(
+            Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
+          )
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .frame(maxWidth: maxWidth - 20)
+          .foregroundColor(.primary)
+        
+        // Slider (not draggable)
+        Slider(
+          value: Binding(
+            get: { Double(sound.volume) },
+            set: { sound.volume = Float($0) }
+          ), in: 0...1
+        )
+        .frame(width: 85)
+        .tint(AudioManager.shared.isGloballyPlaying ? (sound.isSelected ? accentColor : .gray) : .gray)
+        .disabled(!sound.isSelected)
+      }
+      .padding(.vertical, 12)
+      .padding(.horizontal, 10)
+      .frame(width: maxWidth)
+      .offset(calculateDodgeOffset(for: index))
+      .zIndex(draggedIndex == index ? 1 : 0)
+      .animation(.easeInOut(duration: 0.3), value: draggedIndex)
+      .animation(.easeInOut(duration: 0.3), value: hoveredIndex)
+      .onDrop(
+        of: [.text],
+        delegate: SoundDropDelegate(
+          audioManager: AudioManager.shared,
+          targetIndex: index,
+          sounds: filteredSounds,
+          draggedIndex: $draggedIndex,
+          hoveredIndex: $hoveredIndex,
+          cancelTimer: { draggedIndex = nil }
+        )
+      )
+    }
+    
+    private var accentColor: Color {
+      globalSettings.customAccentColor ?? .accentColor
+    }
+    
+    private var iconColor: Color {
+      if !AudioManager.shared.isGloballyPlaying {
+        return .gray
+      }
+      return sound.isSelected ? accentColor : .gray
+    }
+    
+    private var backgroundFill: Color {
+      if !AudioManager.shared.isGloballyPlaying {
+        return sound.isSelected ? Color.gray.opacity(0.2) : .clear
+      }
+      return sound.isSelected ? accentColor.opacity(0.2) : .clear
+    }
+    
+    @ViewBuilder
+    private var dropOverlay: some View {
+      if hoveredIndex == index && draggedIndex != index {
+        RoundedRectangle(cornerRadius: 50)
+          .stroke(accentColor, lineWidth: 3)
+          .background(
+            RoundedRectangle(cornerRadius: 50)
+              .fill(accentColor.opacity(0.2))
+          )
+          .overlay(
+            VStack(spacing: 4) {
+              Image(systemName: "plus.circle.fill")
+                .font(.system(size: 24))
+                .foregroundColor(accentColor)
+              Text("Drop here")
+                .font(.caption)
+                .foregroundColor(accentColor)
+            }
+          )
+          .allowsHitTesting(false)
+      }
+    }
+    
+    private func calculateDodgeOffset(for index: Int) -> CGSize {
+      guard let draggedIndex = draggedIndex,
+            let hoveredIndex = hoveredIndex,
+            draggedIndex != index else {
+        return .zero
+      }
+      
+      // If we're hovering over this item, no offset needed
+      if hoveredIndex == index {
+        return .zero
+      }
+      
+      // Calculate if we need to dodge
+      let isDraggedBeforeHovered = draggedIndex < hoveredIndex
+      let isIndexBetween = isDraggedBeforeHovered
+        ? (index > draggedIndex && index <= hoveredIndex)
+        : (index < draggedIndex && index >= hoveredIndex)
+      
+      if isIndexBetween {
+        // Dodge in the opposite direction of the drag
+        return CGSize(width: isDraggedBeforeHovered ? -120 : 120, height: 0)
+      }
+      
+      return .zero
     }
   }
 #endif

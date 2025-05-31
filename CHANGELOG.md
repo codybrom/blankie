@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## Fixed
+
+- Fixed missing Japanese translation for a help label in the Preferences window
+
 ## [1.0.11] - 2025-05-30
 
 ### Added

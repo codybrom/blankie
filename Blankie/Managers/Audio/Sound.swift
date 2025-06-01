@@ -247,8 +247,19 @@ open class Sound: ObservableObject, Identifiable {
     }
   }
 
+  @MainActor
   func toggle() {
     print("🔊 Sound: Sound '\(fileName)' - toggle called, currently selected \(isSelected)")
+
+    // Check if we're in solo mode
+    let isInSoloMode = AudioManager.shared.soloModeSound?.id == self.id
+
+    if isInSoloMode {
+      // In solo mode, just toggle global playback state
+      // This will pause/resume the solo sound without changing its selection
+      AudioManager.shared.togglePlayback()
+      return
+    }
 
     let wasSelected = isSelected
 

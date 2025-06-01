@@ -36,9 +36,15 @@
       )
     }
 
+    @MainActor
     func disconnect() {
       interfaceController = nil
       isConnected = false
+
+      // Exit solo mode if active
+      if AudioManager.shared.soloModeSound != nil {
+        AudioManager.shared.exitSoloMode()
+      }
 
       // Post notification about CarPlay disconnection
       NotificationCenter.default.post(
@@ -65,12 +71,65 @@
     // MARK: - Template Creation
 
     private func createPresetsTemplate() -> CPTemplate {
-      let presets = PresetManager.shared.presets
+      var sections: [CPListSection] = []
 
-      // Just show the preset list
-      let presetItems = presets.map { createPresetListItem($0) }
+      // Get custom presets (non-default)
+      let customPresets = PresetManager.shared.presets.filter { !$0.isDefault }
+      let defaultPreset = PresetManager.shared.presets.first { $0.isDefault }
 
-      return CPListTemplate(title: "Blankie", sections: [CPListSection(items: presetItems)])
+      if customPresets.isEmpty && defaultPreset != nil {
+        // No custom presets - show default as "Current Soundscape"
+        if let defaultPreset = defaultPreset {
+          let currentSoundscapeItem = createCurrentSoundscapeItem(defaultPreset)
+          sections.append(
+            CPListSection(items: [currentSoundscapeItem], header: "Presets", sectionIndexTitle: "P")
+          )
+        }
+      } else if !customPresets.isEmpty {
+        // Has custom presets - only show custom presets, not default
+        let presetItems = customPresets.map { createPresetListItem($0) }
+        sections.append(
+          CPListSection(items: presetItems, header: "Presets", sectionIndexTitle: "P"))
+      }
+
+      // Individual sounds section
+      let allSounds = AudioManager.shared.sounds.filter { !$0.isHidden }
+      let soundItems = allSounds.map { createSoundListItem($0) }
+      if !soundItems.isEmpty {
+        sections.append(
+          CPListSection(items: soundItems, header: "Individual Sounds", sectionIndexTitle: "S"))
+      }
+
+      return CPListTemplate(title: "Blankie", sections: sections)
+    }
+
+    private func createCurrentSoundscapeItem(_ preset: Preset) -> CPListItem {
+      let currentPresetId = PresetManager.shared.currentPreset?.id
+      let isActive = preset.id == currentPresetId
+      let activeIndicator = isActive ? " ✓" : ""
+
+      let item = CPListItem(
+        text: "Current Soundscape\(activeIndicator)", detailText: getPresetDetailText(preset))
+
+      // Use a weak capture to avoid the 'self' in concurrently-executing code error
+      let weakSelf = self
+      item.handler = { _, completion in
+        Task {
+          do {
+            try await PresetManager.shared.applyPreset(preset)
+            await MainActor.run {
+              // Always ensure playback starts when selecting a preset in CarPlay
+              AudioManager.shared.setGlobalPlaybackState(true)
+              weakSelf.updateInterface()
+            }
+          } catch {
+            print("🚗 CarPlay: Error applying preset: \(error)")
+          }
+          completion()
+        }
+      }
+
+      return item
     }
 
     private func createPresetListItem(_ preset: Preset) -> CPListItem {
@@ -124,6 +183,43 @@
       }
     }
 
+    private func createSoundListItem(_ sound: Sound) -> CPListItem {
+      let isInSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      let activeIndicator = isInSoloMode ? " ✓" : ""
+
+      let item = CPListItem(
+        text: "\(sound.title)\(activeIndicator)",
+        detailText: sound is CustomSound ? "Custom sound" : nil
+      )
+
+      // Use a weak capture to avoid the 'self' in concurrently-executing code error
+      let weakSelf = self
+      item.handler = { _, completion in
+        Task {
+          await weakSelf.playIndividualSound(sound)
+          completion()
+        }
+      }
+
+      return item
+    }
+
+    @MainActor
+    private func playIndividualSound(_ sound: Sound) async {
+      print("🚗 CarPlay: Playing individual sound '\(sound.title)'")
+
+      // Toggle solo mode for this sound
+      AudioManager.shared.toggleSoloMode(for: sound)
+
+      // Show Now Playing screen
+      if let interfaceController = interfaceController {
+        interfaceController.pushTemplate(
+          CPNowPlayingTemplate.shared, animated: true, completion: nil)
+      }
+
+      updateInterface()
+    }
+
     // MARK: - Observers
 
     private func observeAudioManagerChanges() {
@@ -133,7 +229,8 @@
           print("🚗 CarPlay: Playback state changed to: \(isPlaying)")
           // Only update if we're showing the root template (not Now Playing)
           if let interfaceController = self?.interfaceController,
-            interfaceController.topTemplate === interfaceController.rootTemplate {
+            interfaceController.topTemplate === interfaceController.rootTemplate
+          {
             print("🚗 CarPlay: Updating interface for playback state change")
             self?.updateInterface()
           }

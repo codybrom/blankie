@@ -20,6 +20,17 @@ import SwiftUI
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
+    private var navigationTitleText: String {
+      if let preset = presetManager.currentPreset {
+        // Show "Blankie" instead of "Default" for the default preset
+        if preset.isDefault {
+          return "Blankie"
+        }
+        return preset.name
+      }
+      return "Blankie"
+    }
+
     var body: some View {
       Group {
         if isLargeDevice {
@@ -51,7 +62,10 @@ import SwiftUI
         sidebarContent
       } detail: {
         mainSoundGridView
-          .navigationTitle(presetManager.currentPreset?.name ?? "Sounds")
+          .safeAreaInset(edge: .top, spacing: 0) {
+            navigationHeader
+          }
+          .navigationTitle(navigationTitleText)
           .toolbar {
             ToolbarItem(placement: .primaryAction) {
               Button(action: {
@@ -81,30 +95,147 @@ import SwiftUI
     // iPhone layout
     private var smallDeviceLayout: some View {
       NavigationView {
-        VStack(spacing: 0) {
-          // Playback paused indicator
-          if !audioManager.isGloballyPlaying {
-            pausedIndicator
+        ZStack {
+          VStack(spacing: 0) {
+            // Spacer for the header
+            Color.clear
+              .frame(height: headerHeight)
+
+            mainSoundGridView
+            playbackControlsView
           }
 
-          mainSoundGridView
-          playbackControlsView
+          // Custom navigation header overlay
+          VStack(spacing: 0) {
+            navigationHeader
+            Spacer()
+          }
         }
-        .navigationTitle("Blankie")
+        .navigationBarHidden(true)
+        .ignoresSafeArea(.all, edges: .top)
       }
+    }
+
+    // Navigation header with status indicators
+    @ViewBuilder
+    private var navigationHeader: some View {
+      VStack(spacing: 0) {
+        // Safe area extension
+        if !isLargeDevice {
+          Color.clear
+            .frame(height: safeAreaTop)
+        }
+        // Title and controls
+        HStack {
+          if !isLargeDevice {
+            Text(navigationTitleText)
+              .font(.largeTitle)
+              .fontWeight(.bold)
+              .padding(.leading)
+          }
+          Spacer()
+
+          if !isLargeDevice {
+            HStack(spacing: 16) {
+              TimerButton()
+              menuButton
+            }
+            .padding(.trailing)
+          }
+        }
+        .frame(height: isLargeDevice ? 0 : 44)
+        // Status indicators
+        statusIndicatorView
+      }
+      .background(
+        isLargeDevice ? AnyShapeStyle(Color.clear) : AnyShapeStyle(Material.ultraThinMaterial)
+      )
+    }
+    // Safe area insets helper
+    private var safeAreaTop: CGFloat {
+      #if os(iOS)
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+          let window = windowScene.windows.first
+        {
+          return window.safeAreaInsets.top
+        }
+      #endif
+      return 0
+    }
+    // Header height for spacing
+    private var headerHeight: CGFloat {
+      var height: CGFloat = 44  // Title bar height
+      if audioManager.soloModeSound != nil {
+        height += 32  // Solo mode indicator height
+      } else if !audioManager.isGloballyPlaying {
+        height += 32  // Paused indicator height
+      }
+      return height + safeAreaTop
+    }
+    // Combined status indicator view
+    @ViewBuilder
+    private var statusIndicatorView: some View {
+      VStack(spacing: 0) {
+        if let soloSound = audioManager.soloModeSound {
+          soloModeIndicator(for: soloSound)
+            .transition(
+              .asymmetric(
+                insertion: .move(edge: .top).combined(with: .opacity),
+                removal: .move(edge: .top).combined(with: .opacity)
+              )
+            )
+        } else if !audioManager.isGloballyPlaying {
+          pausedIndicator
+            .transition(
+              .asymmetric(
+                insertion: .move(edge: .top).combined(with: .opacity),
+                removal: .move(edge: .top).combined(with: .opacity)
+              )
+            )
+        }
+      }
+      .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
+      .animation(.easeInOut(duration: 0.2), value: audioManager.isGloballyPlaying)
     }
 
     // Paused indicator banner
     private var pausedIndicator: some View {
-      HStack {
+      HStack(spacing: 8) {
         Image(systemName: "pause.circle.fill")
+          .font(.system(size: 16))
         Text("Playback Paused")
-          .font(.system(.subheadline, design: .rounded))
+          .font(.system(.subheadline, design: .rounded, weight: .medium))
       }
       .frame(maxWidth: .infinity)
-      .padding(.vertical, 6)
-      .background(.ultraThinMaterial)
+      .padding(.vertical, 8)
       .foregroundStyle(.secondary)
+    }
+
+    // Solo mode indicator banner
+    private func soloModeIndicator(for sound: Sound) -> some View {
+      let accentColor = GlobalSettings.shared.customAccentColor ?? Color.accentColor
+
+      return HStack(spacing: 8) {
+        Image(systemName: "headphones.circle.fill")
+          .font(.system(size: 16))
+        Text("Solo Mode")
+          .font(.system(.subheadline, design: .rounded, weight: .medium))
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, 8)
+      .foregroundStyle(accentColor)
+      .overlay(alignment: .trailing) {
+        // Exit button positioned on the right
+        Button(action: {
+          audioManager.exitSoloMode()
+        }) {
+          Image(systemName: "xmark.circle.fill")
+            .font(.system(size: 16))
+            .foregroundColor(accentColor)
+        }
+        .buttonStyle(.plain)
+        .padding(.trailing, 16)
+      }
     }
 
     // Menu button for small devices
@@ -152,29 +283,63 @@ import SwiftUI
 
     // Main sound grid that's shared between layouts
     private var mainSoundGridView: some View {
-      ScrollView {
-        LazyVGrid(columns: columns, spacing: 20) {
-          ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
+      Group {
+        if let soloSound = audioManager.soloModeSound {
+          // Solo mode: Show only the solo sound centered
+          VStack {
+            Spacer()
             DraggableSoundIcon(
-              sound: sound,
-              maxWidth: columnWidth,
-              index: index,
-              draggedIndex: $draggedIndex,
-              hoveredIndex: $hoveredIndex,
-              onDragStart: {
-                draggedIndex = index
-                startDragResetTimer()
-              },
-              onDrop: { sourceIndex in
-                audioManager.moveVisibleSound(from: sourceIndex, to: index)
-                cancelDragResetTimer()
-              }
+              sound: soloSound,
+              maxWidth: 200,
+              index: 0,
+              draggedIndex: .constant(nil),
+              hoveredIndex: .constant(nil),
+              onDragStart: {},
+              onDrop: { _ in }
             )
+            .scaleEffect(1.2)
+            .transition(
+              .asymmetric(
+                insertion: .scale.combined(with: .opacity),
+                removal: .scale.combined(with: .opacity)
+              ))
+            Spacer()
           }
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+          .padding()
+        } else {
+          // Normal mode: Show all sounds in grid
+          ScrollView {
+            LazyVGrid(columns: columns, spacing: 20) {
+              ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
+                DraggableSoundIcon(
+                  sound: sound,
+                  maxWidth: columnWidth,
+                  index: index,
+                  draggedIndex: $draggedIndex,
+                  hoveredIndex: $hoveredIndex,
+                  onDragStart: {
+                    draggedIndex = index
+                    startDragResetTimer()
+                  },
+                  onDrop: { sourceIndex in
+                    audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                    cancelDragResetTimer()
+                  }
+                )
+              }
+            }
+            .padding()
+            .animation(.easeInOut, value: filteredSounds.count)
+          }
+          .transition(
+            .asymmetric(
+              insertion: .opacity,
+              removal: .opacity
+            ))
         }
-        .padding()
-        .animation(.easeInOut, value: filteredSounds.count)
       }
+      .animation(.easeInOut(duration: 0.3), value: audioManager.soloModeSound?.id)
     }
 
     // Bottom playback controls for iPhone layout
@@ -220,14 +385,14 @@ import SwiftUI
     @Binding var hoveredIndex: Int?
     let onDragStart: () -> Void
     let onDrop: (Int) -> Void
-    
+
     @ObservedObject private var globalSettings = GlobalSettings.shared
     @State private var isDraggingIcon = false
-    
+
     private var filteredSounds: [Sound] {
       AudioManager.shared.getVisibleSounds()
     }
-    
+
     var body: some View {
       VStack(spacing: 8) {
         // Icon area with drag gesture
@@ -235,7 +400,7 @@ import SwiftUI
           Circle()
             .fill(backgroundFill)
             .frame(width: 100, height: 100)
-          
+
           Image(systemName: sound.systemIconName)
             .resizable()
             .aspectRatio(contentMode: .fit)
@@ -247,20 +412,51 @@ import SwiftUI
         .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
         .opacity(draggedIndex == index ? 0.5 : 1.0)
         .overlay(dropOverlay)
-        .gesture(
-          TapGesture()
-            .onEnded { _ in
-              sound.toggle()
-            }
-        )
-        .onLongPressGesture(minimumDuration: 0.5) {
-          onDragStart()
+        .onTapGesture {
+          sound.toggle()
         }
+        .contextMenu {
+          Button(action: {
+            // Haptic feedback for solo mode
+            if GlobalSettings.shared.enableHaptics {
+              #if os(iOS)
+                let generator = UIImpactFeedbackGenerator(style: .medium)
+                generator.impactOccurred()
+              #endif
+            }
+
+            withAnimation(.easeInOut(duration: 0.3)) {
+              AudioManager.shared.toggleSoloMode(for: sound)
+            }
+          }) {
+            Label("Solo Mode", systemImage: "headphones")
+          }
+        }
+        .onLongPressGesture(
+          minimumDuration: 0.0, maximumDistance: .infinity,
+          pressing: { pressing in
+            if pressing && GlobalSettings.shared.enableHaptics {
+              // Haptic feedback when context menu is about to appear
+              #if os(iOS)
+                let generator = UIImpactFeedbackGenerator(style: .light)
+                generator.impactOccurred()
+              #endif
+            }
+          }, perform: {}
+        )
         .onDrag {
+          // Haptic feedback for drag start
+          if GlobalSettings.shared.enableHaptics {
+            #if os(iOS)
+              let generator = UIImpactFeedbackGenerator(style: .light)
+              generator.impactOccurred()
+            #endif
+          }
+
           onDragStart()
           return NSItemProvider(object: "\(index)" as NSString)
         }
-        
+
         // Title (not draggable)
         Text(LocalizedStringKey(sound.title))
           .font(
@@ -270,7 +466,7 @@ import SwiftUI
           .multilineTextAlignment(.center)
           .frame(maxWidth: maxWidth - 20)
           .foregroundColor(.primary)
-        
+
         // Slider (not draggable)
         Slider(
           value: Binding(
@@ -279,8 +475,8 @@ import SwiftUI
           ), in: 0...1
         )
         .frame(width: 85)
-        .tint(AudioManager.shared.isGloballyPlaying ? (sound.isSelected ? accentColor : .gray) : .gray)
-        .disabled(!sound.isSelected)
+        .tint(sliderTintColor)
+        .disabled(!isSliderEnabled)
       }
       .padding(.vertical, 12)
       .padding(.horizontal, 10)
@@ -301,25 +497,56 @@ import SwiftUI
         )
       )
     }
-    
+
     private var accentColor: Color {
       globalSettings.customAccentColor ?? .accentColor
     }
-    
+
     private var iconColor: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+
+      if isSoloMode {
+        return accentColor  // Solo mode color
+      }
+
       if !AudioManager.shared.isGloballyPlaying {
         return .gray
       }
       return sound.isSelected ? accentColor : .gray
     }
-    
+
     private var backgroundFill: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+
+      if isSoloMode {
+        return accentColor.opacity(0.3)  // Solo mode background
+      }
+
       if !AudioManager.shared.isGloballyPlaying {
         return sound.isSelected ? Color.gray.opacity(0.2) : .clear
       }
       return sound.isSelected ? accentColor.opacity(0.2) : .clear
     }
-    
+
+    private var isSliderEnabled: Bool {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      return isSoloMode || sound.isSelected
+    }
+
+    private var sliderTintColor: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+
+      if !AudioManager.shared.isGloballyPlaying {
+        return .gray
+      }
+
+      if isSoloMode {
+        return accentColor
+      }
+
+      return sound.isSelected ? accentColor : .gray
+    }
+
     @ViewBuilder
     private var dropOverlay: some View {
       if hoveredIndex == index && draggedIndex != index {
@@ -342,30 +569,32 @@ import SwiftUI
           .allowsHitTesting(false)
       }
     }
-    
+
     private func calculateDodgeOffset(for index: Int) -> CGSize {
       guard let draggedIndex = draggedIndex,
-            let hoveredIndex = hoveredIndex,
-            draggedIndex != index else {
+        let hoveredIndex = hoveredIndex,
+        draggedIndex != index
+      else {
         return .zero
       }
-      
+
       // If we're hovering over this item, no offset needed
       if hoveredIndex == index {
         return .zero
       }
-      
+
       // Calculate if we need to dodge
       let isDraggedBeforeHovered = draggedIndex < hoveredIndex
-      let isIndexBetween = isDraggedBeforeHovered
+      let isIndexBetween =
+        isDraggedBeforeHovered
         ? (index > draggedIndex && index <= hoveredIndex)
         : (index < draggedIndex && index >= hoveredIndex)
-      
+
       if isIndexBetween {
         // Dodge in the opposite direction of the drag
         return CGSize(width: isDraggedBeforeHovered ? -120 : 120, height: 0)
       }
-      
+
       return .zero
     }
   }

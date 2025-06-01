@@ -17,6 +17,13 @@ struct SoundDropDelegate: DropDelegate {
 
   func dropEntered(info: DropInfo) {
     hoveredIndex = targetIndex
+
+    if GlobalSettings.shared.enableHaptics {
+      #if os(iOS)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+      #endif
+    }
   }
 
   func dropExited(info: DropInfo) {
@@ -42,6 +49,13 @@ struct SoundDropDelegate: DropDelegate {
       DispatchQueue.main.async {
         if sourceIndex != targetIndex {
           audioManager.moveVisibleSound(from: sourceIndex, to: targetIndex)
+
+          if GlobalSettings.shared.enableHaptics {
+            #if os(iOS)
+              let generator = UINotificationFeedbackGenerator()
+              generator.notificationOccurred(.success)
+            #endif
+          }
         }
         cancelTimer()
         draggedIndex = nil

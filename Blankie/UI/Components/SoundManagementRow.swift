@@ -55,9 +55,12 @@ struct SoundManagementRow: View {
   private var soundInfo: some View {
     VStack(alignment: .leading, spacing: 2) {
       HStack {
-        Text(isCustomSound ? sound.title : LocalizedStringKey(sound.title))
-          .fontWeight(.medium)
-          .foregroundColor(sound.isHidden ? .secondary : .primary)
+        Text(
+          isCustomSound
+            ? LocalizedStringKey(stringLiteral: sound.title) : LocalizedStringKey(sound.title)
+        )
+        .fontWeight(.medium)
+        .foregroundColor(sound.isHidden ? .secondary : .primary)
 
         if SoundCustomizationManager.shared.getCustomization(for: sound.fileName)?
           .hasCustomizations == true

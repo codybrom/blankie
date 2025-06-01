@@ -16,18 +16,18 @@ enum SoundSheetMode {
 }
 
 struct SoundSheet: View {
-  @Environment(\.dismiss) private var dismiss
-  @Environment(\.modelContext) private var modelContext
+  @Environment(\.dismiss) var dismiss
+  @Environment(\.modelContext) var modelContext
 
   let mode: SoundSheetMode
 
-  @State private var soundName: String = ""
-  @State private var selectedIcon: String = "waveform.circle"
-  @State private var selectedFile: URL?
-  @State private var isImporting = false
-  @State private var importError: Error?
-  @State private var showingError = false
-  @State private var isProcessing = false
+  @State var soundName: String = ""
+  @State var selectedIcon: String = "waveform.circle"
+  @State var selectedFile: URL?
+  @State var isImporting = false
+  @State var importError: Error?
+  @State var showingError = false
+  @State var isProcessing = false
 
   private var sound: CustomSoundData? {
     switch mode {
@@ -115,30 +115,13 @@ struct SoundSheet: View {
       Divider()
 
       // Content
-      VStack(alignment: .leading, spacing: 20) {
-        // File selection (only for add mode)
-        if case .add = mode {
-          SoundFileSelector(
-            selectedFile: $selectedFile,
-            soundName: $soundName,
-            isImporting: $isImporting
-          )
-        }
-
-        // Name Input
-        VStack(alignment: .leading, spacing: 8) {
-          Text("Name", comment: "Display name field label")
-            .font(.headline)
-          TextField(text: $soundName) {
-            Text("Enter a name for this sound", comment: "Sound name text field placeholder")
-          }
-          .textFieldStyle(.roundedBorder)
-        }
-
-        // Icon Selection
-        SoundIconSelector(selectedIcon: $selectedIcon)
-      }
-      .padding(20)
+      SoundSheetForm(
+        mode: mode,
+        soundName: $soundName,
+        selectedIcon: $selectedIcon,
+        selectedFile: $selectedFile,
+        isImporting: $isImporting
+      )
 
       Spacer()
 
@@ -208,29 +191,7 @@ struct SoundSheet: View {
   // MARK: - Processing Overlay
 
   private var processingOverlay: some View {
-    ZStack {
-      Color.black.opacity(0.3)
-        .ignoresSafeArea()
-
-      VStack(spacing: 12) {
-        ProgressView()
-          .scaleEffect(1.5)
-        Text(progressMessage)
-          .font(.headline)
-      }
-      .padding(24)
-      .background(
-        Group {
-          #if os(macOS)
-            Color(NSColor.windowBackgroundColor)
-          #else
-            Color(UIColor.systemBackground)
-          #endif
-        }
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-      .shadow(radius: 20)
-    }
+    SoundSheetProcessingOverlay(progressMessage: progressMessage)
   }
 
   // MARK: - Helper Methods
@@ -243,110 +204,6 @@ struct SoundSheet: View {
     case .edit, .customize:
       return nameTrimmed.isEmpty || isProcessing
     }
-  }
-
-  private func performAction() {
-    switch mode {
-    case .add:
-      importSound()
-    case .edit(let sound):
-      saveChanges(sound)
-    case .customize(let sound):
-      saveCustomization(sound)
-    }
-  }
-
-  private func importSound() {
-    guard let selectedFile = selectedFile,
-      !soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-    else {
-      return
-    }
-
-    isProcessing = true
-
-    // Capture values before Task to avoid sendability issues
-    let file = selectedFile
-    let title = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
-    let icon = selectedIcon
-
-    Task.detached {
-      let result = await CustomSoundManager.shared.importSound(
-        from: file,
-        title: title,
-        iconName: icon
-      )
-
-      // Extract sendable values from the result
-      let success: Bool
-      let errorMessage: String?
-
-      switch result {
-      case .success:
-        success = true
-        errorMessage = nil
-      case .failure(let error):
-        success = false
-        errorMessage = error.localizedDescription
-      }
-
-      await MainActor.run {
-        isProcessing = false
-
-        if success {
-          dismiss()
-        } else if let message = errorMessage {
-          importError = NSError(
-            domain: "ImportError", code: -1, userInfo: [NSLocalizedDescriptionKey: message])
-          showingError = true
-        }
-      }
-    }
-  }
-
-  private func saveChanges(_ sound: CustomSoundData) {
-    guard !soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-      return
-    }
-
-    isProcessing = true
-
-    // Update the sound data
-    sound.title = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
-    sound.systemIconName = selectedIcon
-
-    do {
-      try modelContext.save()
-
-      // Notify that a sound was updated
-      NotificationCenter.default.post(name: .customSoundAdded, object: nil)
-
-      // Dismiss the sheet
-      dismiss()
-    } catch {
-      print("❌ SoundSheet: Failed to save changes: \(error)")
-      isProcessing = false
-    }
-  }
-
-  private func saveCustomization(_ sound: Sound) {
-    guard !soundName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-      return
-    }
-
-    isProcessing = true
-
-    let trimmedName = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
-
-    // Save customizations
-    let titleToSave = trimmedName == sound.originalTitle ? nil : trimmedName
-    let iconToSave = selectedIcon == sound.originalSystemIconName ? nil : selectedIcon
-
-    SoundCustomizationManager.shared.setCustomTitle(titleToSave, for: sound.fileName)
-    SoundCustomizationManager.shared.setCustomIcon(iconToSave, for: sound.fileName)
-
-    isProcessing = false
-    dismiss()
   }
 }
 

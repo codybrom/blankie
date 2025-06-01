@@ -247,6 +247,12 @@ open class Sound: ObservableObject, Identifiable {
     }
   }
 
+  /// Update the sound to reflect any customization changes
+  func updateFromCustomization() {
+    // Just trigger objectWillChange to update the UI
+    objectWillChange.send()
+  }
+
   @MainActor
   func toggle() {
     print("🔊 Sound: Sound '\(fileName)' - toggle called, currently selected \(isSelected)")

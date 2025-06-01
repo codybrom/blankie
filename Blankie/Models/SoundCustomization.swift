@@ -71,7 +71,7 @@ class SoundCustomizationManager: ObservableObject {
       customizations.removeValue(forKey: fileName)
     }
 
-    saveCustomizations()
+    saveCustomizationsInternal()
   }
 
   /// Set custom icon for a sound
@@ -90,19 +90,41 @@ class SoundCustomizationManager: ObservableObject {
       customizations.removeValue(forKey: fileName)
     }
 
-    saveCustomizations()
+    saveCustomizationsInternal()
   }
 
   /// Reset all customizations for a specific sound
   func resetCustomizations(for fileName: String) {
     customizations.removeValue(forKey: fileName)
-    saveCustomizations()
+    saveCustomizationsInternal()
   }
 
   /// Reset all customizations for all sounds
   func resetAllCustomizations() {
     customizations.removeAll()
-    saveCustomizations()
+    saveCustomizationsInternal()
+  }
+
+  /// Get or create customization for a specific sound file name
+  func getOrCreateCustomization(for fileName: String) -> SoundCustomization {
+    if let existing = customizations[fileName] {
+      return existing
+    } else {
+      let new = SoundCustomization(fileName: fileName)
+      customizations[fileName] = new
+      return new
+    }
+  }
+
+  /// Remove customization for a specific sound
+  func removeCustomization(for fileName: String) {
+    customizations.removeValue(forKey: fileName)
+    saveCustomizationsInternal()
+  }
+
+  /// Save customizations manually (public version)
+  func saveCustomizations() {
+    saveCustomizationsInternal()
   }
 
   /// Get all customized sound file names
@@ -117,7 +139,7 @@ class SoundCustomizationManager: ObservableObject {
 
   // MARK: - Persistence
 
-  private func saveCustomizations() {
+  private func saveCustomizationsInternal() {
     do {
       let data = try JSONEncoder().encode(Array(customizations.values))
       UserDefaults.standard.set(data, forKey: userDefaultsKey)

@@ -21,7 +21,8 @@ class CustomSound: Sound {
     self.fileURL = fileURL
     self.customSoundData = customSoundData
     super.init(
-      title: title, systemIconName: systemIconName, fileName: fileName, fileExtension: fileExtension, defaultOrder: 1000
+      title: title, systemIconName: systemIconName, fileName: fileName,
+      fileExtension: fileExtension, defaultOrder: 1000
     )
   }
 
@@ -38,6 +39,13 @@ class CustomSound: Sound {
       print("❌ CustomSound: Failed to load '\(fileName).\(fileExtension)': \(error)")
       ErrorReporter.shared.report(AudioError.loadFailed(error))
     }
+  }
+
+  /// Update this sound from changes in customSoundData
+  func updateFromData() {
+    // The title and icon are already computed properties that read from customSoundData
+    // Just trigger objectWillChange to update the UI
+    objectWillChange.send()
   }
 
   /// Delete the custom sound

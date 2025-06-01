@@ -18,9 +18,9 @@ class AudioManager: ObservableObject {
 
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
-  @Published private(set) var soloModeSound: Sound?
-  private var soloModeOriginalVolume: Float?
-  private var soloModeOriginalSelection: Bool?
+  @Published var soloModeSound: Sound?
+  var soloModeOriginalVolume: Float?
+  var soloModeOriginalSelection: Bool?
 
   var modelContext: ModelContext?
   let nowPlayingManager = NowPlayingManager()
@@ -130,7 +130,7 @@ class AudioManager: ObservableObject {
   #endif
 
   // Update playSelected to check global state
-  private func playSelected() {
+  func playSelected() {
     print("🎵 AudioManager: Playing selected sounds")
     guard isGloballyPlaying else {
       print("🎵 AudioManager: Not playing sounds because global playback is disabled")

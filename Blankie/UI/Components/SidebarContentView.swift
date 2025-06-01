@@ -12,7 +12,7 @@ import SwiftUI
     var body: some View {
       List {
         Section("Presets") {
-          ForEach(presetManager.presets) { preset in
+          ForEach(presetManager.presets.filter { !$0.isDefault }) { preset in
             presetRow(preset)
           }
 

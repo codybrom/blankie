@@ -22,8 +22,10 @@ struct PresetPicker: View {
         HStack(spacing: 4) {
           Text(
             presetManager.hasCustomPresets
-              ? (presetManager.currentPreset?.name
-                ?? String(localized: "Default", comment: "Default preset name"))
+              ? (presetManager.currentPreset?.isDefault == true
+                ? String(localized: "Blankie", comment: "Default preset displayed as Blankie")
+                : (presetManager.currentPreset?.name
+                  ?? String(localized: "Blankie", comment: "Default preset displayed as Blankie")))
               : String(localized: "Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)

@@ -87,33 +87,6 @@ struct PresetPickerView: View {
               }
             }
           }
-
-          // Default preset
-          if let defaultPreset = presetManager.presets.first(where: { $0.isDefault }) {
-            Button {
-              // Apply the default preset
-              Task {
-                do {
-                  try presetManager.applyPreset(defaultPreset)
-                  dismiss()
-                } catch {
-                  print("Error applying preset: \(error)")
-                }
-              }
-            } label: {
-              HStack {
-                Text("Default", comment: "Default preset name")
-                  .foregroundColor(.primary)
-
-                Spacer()
-
-                if presetManager.currentPreset?.id == defaultPreset.id {
-                  Image(systemName: "checkmark")
-                    .foregroundColor(.accentColor)
-                }
-              }
-            }
-          }
         }
       }
       .navigationTitle("Presets")

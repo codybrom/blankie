@@ -117,7 +117,8 @@ struct SoundManagementView: View {
     let hiddenCount = builtInSounds.filter { $0.isHidden }.count
     sectionHeader(
       title: "Built-in Sounds",
-      subtitle: hiddenCount > 0 ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds"
+      subtitle: hiddenCount > 0
+        ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds"
     )
 
     ForEach(Array(builtInSounds.enumerated()), id: \.element.id) { index, sound in
@@ -133,7 +134,11 @@ struct SoundManagementView: View {
       let hiddenCount = customSounds.filter { $0.isHidden }.count
       sectionHeader(
         title: "Custom Sounds",
-        subtitle: customSounds.isEmpty ? "No custom sounds" : hiddenCount > 0 ? "\(customSounds.count) sounds (\(hiddenCount) hidden)" : "\(customSounds.count) sounds"
+        subtitle: customSounds.isEmpty
+          ? "No custom sounds"
+          : hiddenCount > 0
+            ? "\(customSounds.count) sounds (\(hiddenCount) hidden)"
+            : "\(customSounds.count) sounds"
       )
 
       if customSounds.isEmpty {
@@ -149,179 +154,34 @@ struct SoundManagementView: View {
   }
 
   private func builtInSoundRow(sound: Sound, isLast: Bool) -> some View {
-    VStack(spacing: 0) {
-      HStack {
-        Image(systemName: sound.systemIconName)
-          .font(.title2)
-          .frame(width: 32)
-          .foregroundStyle(sound.isHidden ? .secondary : .primary)
-
-        VStack(alignment: .leading, spacing: 2) {
-          HStack {
-            Text(LocalizedStringKey(sound.title))
-              .fontWeight(.medium)
-              .foregroundColor(sound.isHidden ? .secondary : .primary)
-
-            if SoundCustomizationManager.shared.getCustomization(for: sound.fileName)?.hasCustomizations == true {
-              Image(systemName: "slider.horizontal.3")
-                .font(.caption2)
-                .foregroundColor(.accentColor)
-            }
-          }
-
-          Text("Built-in sound")
-            .font(.caption)
-            .foregroundColor(.secondary)
-        }
-
-        Spacer()
-
-        HStack(spacing: 8) {
-          Button {
-            selectedBuiltInSound = sound
-            selectedSound = nil
-            showingEditSheet = true
-          } label: {
-            Image(systemName: "slider.horizontal.3")
-              .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .help("Customize Sound")
-
-          Button {
-            withAnimation {
-              if sound.isHidden {
-                audioManager.showSound(sound)
-              } else {
-                audioManager.hideSound(sound)
-              }
-            }
-          } label: {
-            Image(systemName: sound.isHidden ? "eye.slash" : "eye")
-              .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .help(sound.isHidden ? "Show Sound" : "Hide Sound")
-        }
-      }
-      .padding(.horizontal)
-      .padding(.vertical, 12)
-      .background(
-        Group {
-          if sound.isHidden {
-            hiddenSoundRowBackground
-          } else {
-            Color.clear
-          }
-        }
-      )
-      .contentShape(Rectangle())
-
-      if !isLast {
-        Divider()
-          .padding(.leading, 60)
-      }
-    }
+    SoundManagementRow(
+      sound: sound,
+      isLast: isLast,
+      onCustomize: {
+        selectedBuiltInSound = sound
+        selectedSound = nil
+        showingEditSheet = true
+      },
+      onEdit: {},
+      onDelete: {}
+    )
   }
 
   private func customSoundRow(sound: CustomSound, isLast: Bool) -> some View {
-    VStack(spacing: 0) {
-      HStack {
-        Image(systemName: sound.systemIconName)
-          .font(.title2)
-          .frame(width: 32)
-          .foregroundStyle(sound.isHidden ? .secondary : .primary)
-
-        VStack(alignment: .leading, spacing: 2) {
-          Text(sound.title)
-            .fontWeight(.medium)
-            .foregroundColor(sound.isHidden ? .secondary : .primary)
-          Text("Custom imported sound")
-            .font(.caption)
-            .foregroundColor(.secondary)
-        }
-
-        Spacer()
-
-        HStack(spacing: 8) {
-          Button {
-            selectedSound = sound.customSoundData
-            selectedBuiltInSound = nil
-            showingEditSheet = true
-          } label: {
-            Image(systemName: "pencil")
-              .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .help("Edit Sound")
-
-          Button {
-            withAnimation {
-              if sound.isHidden {
-                audioManager.showSound(sound)
-              } else {
-                audioManager.hideSound(sound)
-              }
-            }
-          } label: {
-            Image(systemName: sound.isHidden ? "eye.slash" : "eye")
-              .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .help(sound.isHidden ? "Show Sound" : "Hide Sound")
-
-          Button {
-            selectedSound = sound.customSoundData
-            showingDeleteConfirmation = true
-          } label: {
-            Image(systemName: "trash")
-              .foregroundColor(.red)
-              .contentShape(Rectangle())
-          }
-          .buttonStyle(.plain)
-          .help("Delete Sound")
-        }
+    SoundManagementRow(
+      sound: sound,
+      isLast: isLast,
+      onCustomize: {},
+      onEdit: {
+        selectedSound = sound.customSoundData
+        selectedBuiltInSound = nil
+        showingEditSheet = true
+      },
+      onDelete: {
+        selectedSound = sound.customSoundData
+        showingDeleteConfirmation = true
       }
-      .padding(.horizontal)
-      .padding(.vertical, 12)
-      .background(
-        Group {
-          if sound.isHidden {
-            hiddenSoundRowBackground
-          } else {
-            customSoundRowBackground
-          }
-        }
-      )
-      .contentShape(Rectangle())
-      .contextMenu {
-        Button("Edit Sound", systemImage: "pencil") {
-          selectedSound = sound.customSoundData
-          selectedBuiltInSound = nil
-          showingEditSheet = true
-        }
-
-        Button(sound.isHidden ? "Show Sound" : "Hide Sound", systemImage: sound.isHidden ? "eye" : "eye.slash") {
-          withAnimation {
-            if sound.isHidden {
-              audioManager.showSound(sound)
-            } else {
-              audioManager.hideSound(sound)
-            }
-          }
-        }
-
-        Button("Delete Sound", systemImage: "trash", role: .destructive) {
-          selectedSound = sound.customSoundData
-          showingDeleteConfirmation = true
-        }
-      }
-
-      if !isLast {
-        Divider()
-          .padding(.leading, 60)
-      }
-    }
+    )
   }
 
   private func sectionHeader(title: String, subtitle: String) -> some View {
@@ -368,37 +228,15 @@ struct SoundManagementView: View {
     .frame(maxWidth: .infinity)
     .padding(.vertical, 24)
     .padding(.horizontal)
-    .background(customSoundRowBackground)
-  }
-
-  private var hiddenSoundRowBackground: some View {
-    Group {
-      #if os(macOS)
-        Color(NSColor.controlBackgroundColor).opacity(0.3)
-      #else
-        Color(UIColor.secondarySystemBackground).opacity(0.5)
-      #endif
-    }
-  }
-
-  private var builtInSoundRowBackground: some View {
-    Group {
-      #if os(macOS)
-        Color(NSColor.controlBackgroundColor).opacity(0.3)
-      #else
-        Color(UIColor.systemBackground).opacity(0.3)
-      #endif
-    }
-  }
-
-  private var customSoundRowBackground: some View {
-    Group {
-      #if os(macOS)
-        Color(NSColor.controlBackgroundColor).opacity(0.5)
-      #else
-        Color(UIColor.systemBackground).opacity(0.5)
-      #endif
-    }
+    .background(
+      Group {
+        #if os(macOS)
+          Color(NSColor.controlBackgroundColor).opacity(0.5)
+        #else
+          Color(UIColor.systemBackground).opacity(0.5)
+        #endif
+      }
+    )
   }
 
   private var listBackground: some View {

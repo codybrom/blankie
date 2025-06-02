@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 90;
 	objects = {
 
 /* Begin PBXContainerItemProxy section */
@@ -26,13 +26,11 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		F9ED6F802D32292D00240F13 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolder = Frameworks;
 			files = (
 			);
 			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
@@ -68,24 +66,18 @@
 /* Begin PBXFrameworksBuildPhase section */
 		F913505C2D233A43003C85BE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED6BA72D321D3300240F13 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED70DB2D3229AD00240F13 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
@@ -142,14 +134,10 @@
 			);
 			buildRules = (
 			);
-			dependencies = (
-			);
 			fileSystemSynchronizedGroups = (
 				F9BC93262D41457D00E450FC /* Blankie */,
 			);
 			name = Blankie;
-			packageProductDependencies = (
-			);
 			productName = Blankie;
 			productReference = F913505F2D233A43003C85BE /* Blankie.app */;
 			productType = "com.apple.product-type.application";
@@ -172,8 +160,6 @@
 				F9ED6DAB2D321F5D00240F13 /* BlankieTests */,
 			);
 			name = BlankieTests;
-			packageProductDependencies = (
-			);
 			productName = BlankieTests;
 			productReference = F9ED6BAA2D321D3300240F13 /* BlankieTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -195,8 +181,6 @@
 				F9ED70DF2D3229AD00240F13 /* BlankieUITests */,
 			);
 			name = BlankieUITests;
-			packageProductDependencies = (
-			);
 			productName = BlankieUITests;
 			productReference = F9ED70DE2D3229AD00240F13 /* BlankieUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -244,7 +228,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 			);
-			preferredProjectObjectVersion = 77;
+			preferredProjectObjectVersion = 90;
 			productRefGroup = F91350602D233A43003C85BE /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -265,24 +249,18 @@
 /* Begin PBXResourcesBuildPhase section */
 		F913505D2D233A43003C85BE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED6BA82D321D3300240F13 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED70DC2D3229AD00240F13 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
@@ -290,47 +268,51 @@
 		F921EDC02D27408E00D4F3D3 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
 			name = "Run Script";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(INFOPLIST_FILE)",
 				"$(PROJECT_DIR)/Configuration.xcconfig",
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nset -e\nset -x\n\n# Get paths\nCONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"\nTEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"\n\n# Get current build number from xcconfig\nbuildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')\n\n# Increment the build number\nbuildNumber=$((buildNumber + 1))\necho \"New build number: $buildNumber\"\n\n# Update xcconfig using a temp file\nsed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"\ncp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"\n";
+			shellScript = (
+				"#!/bin/sh",
+				"set -e",
+				"set -x",
+				"",
+				"# Get paths",
+				"CONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"",
+				"TEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"",
+				"",
+				"# Get current build number from xcconfig",
+				"buildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')",
+				"",
+				"# Increment the build number",
+				"buildNumber=$((buildNumber + 1))",
+				"echo \"New build number: $buildNumber\"",
+				"",
+				"# Update xcconfig using a temp file",
+				"sed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"",
+				"cp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"",
+				"",
+			);
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F913505B2D233A43003C85BE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED6BA62D321D3300240F13 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F9ED70DA2D3229AD00240F13 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
 			files = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
@@ -348,7 +330,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		F91350842D233A44003C85BE /* Debug */ = {
+		F91350842D233A44003C85BE /* Debug configuration for PBXProject "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				AGVTOOL_KEYCHAIN = "";
@@ -415,7 +397,7 @@
 			};
 			name = Debug;
 		};
-		F91350852D233A44003C85BE /* Release */ = {
+		F91350852D233A44003C85BE /* Release configuration for PBXProject "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				AGVTOOL_KEYCHAIN = "";
@@ -474,7 +456,7 @@
 			};
 			name = Release;
 		};
-		F91350872D233A44003C85BE /* Debug */ = {
+		F91350872D233A44003C85BE /* Debug configuration for PBXNativeTarget "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -525,7 +507,7 @@
 			};
 			name = Debug;
 		};
-		F91350882D233A44003C85BE /* Release */ = {
+		F91350882D233A44003C85BE /* Release configuration for PBXNativeTarget "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -577,7 +559,7 @@
 			};
 			name = Release;
 		};
-		F9E62BDE2DE8BD360004A3F8 /* Debug-CarPlay */ = {
+		F9E62BDE2DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXProject "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				AGVTOOL_KEYCHAIN = "";
@@ -644,7 +626,7 @@
 			};
 			name = "Debug-CarPlay";
 		};
-		F9E62BDF2DE8BD360004A3F8 /* Debug-CarPlay */ = {
+		F9E62BDF2DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -696,7 +678,7 @@
 			};
 			name = "Debug-CarPlay";
 		};
-		F9E62BE02DE8BD360004A3F8 /* Debug-CarPlay */ = {
+		F9E62BE02DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "BlankieTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -724,7 +706,7 @@
 			};
 			name = "Debug-CarPlay";
 		};
-		F9E62BE12DE8BD360004A3F8 /* Debug-CarPlay */ = {
+		F9E62BE12DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "BlankieUITests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -750,7 +732,7 @@
 			};
 			name = "Debug-CarPlay";
 		};
-		F9E62BE22DE8BD410004A3F8 /* Release-CarPlay */ = {
+		F9E62BE22DE8BD410004A3F8 /* Release-CarPlay configuration for PBXProject "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				AGVTOOL_KEYCHAIN = "";
@@ -809,7 +791,7 @@
 			};
 			name = "Release-CarPlay";
 		};
-		F9E62BE32DE8BD410004A3F8 /* Release-CarPlay */ = {
+		F9E62BE32DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "Blankie" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -862,7 +844,7 @@
 			};
 			name = "Release-CarPlay";
 		};
-		F9E62BE42DE8BD410004A3F8 /* Release-CarPlay */ = {
+		F9E62BE42DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "BlankieTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -890,7 +872,7 @@
 			};
 			name = "Release-CarPlay";
 		};
-		F9E62BE52DE8BD410004A3F8 /* Release-CarPlay */ = {
+		F9E62BE52DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "BlankieUITests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -916,7 +898,7 @@
 			};
 			name = "Release-CarPlay";
 		};
-		F9ED6BB12D321D3300240F13 /* Debug */ = {
+		F9ED6BB12D321D3300240F13 /* Debug configuration for PBXNativeTarget "BlankieTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -944,7 +926,7 @@
 			};
 			name = Debug;
 		};
-		F9ED6BB22D321D3300240F13 /* Release */ = {
+		F9ED6BB22D321D3300240F13 /* Release configuration for PBXNativeTarget "BlankieTests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -972,7 +954,7 @@
 			};
 			name = Release;
 		};
-		F9ED70E72D3229AD00240F13 /* Debug */ = {
+		F9ED70E72D3229AD00240F13 /* Debug configuration for PBXNativeTarget "BlankieUITests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -998,7 +980,7 @@
 			};
 			name = Debug;
 		};
-		F9ED70E82D3229AD00240F13 /* Release */ = {
+		F9ED70E82D3229AD00240F13 /* Release configuration for PBXNativeTarget "BlankieUITests" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F921ED992D272AE300D4F3D3 /* Configuration.xcconfig */;
 			buildSettings = {
@@ -1030,45 +1012,41 @@
 		F913505A2D233A43003C85BE /* Build configuration list for PBXProject "Blankie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F91350842D233A44003C85BE /* Debug */,
-				F9E62BDE2DE8BD360004A3F8 /* Debug-CarPlay */,
-				F91350852D233A44003C85BE /* Release */,
-				F9E62BE22DE8BD410004A3F8 /* Release-CarPlay */,
+				F91350842D233A44003C85BE /* Debug configuration for PBXProject "Blankie" */,
+				F9E62BDE2DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXProject "Blankie" */,
+				F91350852D233A44003C85BE /* Release configuration for PBXProject "Blankie" */,
+				F9E62BE22DE8BD410004A3F8 /* Release-CarPlay configuration for PBXProject "Blankie" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		F91350862D233A44003C85BE /* Build configuration list for PBXNativeTarget "Blankie" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F91350872D233A44003C85BE /* Debug */,
-				F9E62BDF2DE8BD360004A3F8 /* Debug-CarPlay */,
-				F91350882D233A44003C85BE /* Release */,
-				F9E62BE32DE8BD410004A3F8 /* Release-CarPlay */,
+				F91350872D233A44003C85BE /* Debug configuration for PBXNativeTarget "Blankie" */,
+				F9E62BDF2DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "Blankie" */,
+				F91350882D233A44003C85BE /* Release configuration for PBXNativeTarget "Blankie" */,
+				F9E62BE32DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "Blankie" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		F9ED6BB02D321D3300240F13 /* Build configuration list for PBXNativeTarget "BlankieTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F9ED6BB12D321D3300240F13 /* Debug */,
-				F9E62BE02DE8BD360004A3F8 /* Debug-CarPlay */,
-				F9ED6BB22D321D3300240F13 /* Release */,
-				F9E62BE42DE8BD410004A3F8 /* Release-CarPlay */,
+				F9ED6BB12D321D3300240F13 /* Debug configuration for PBXNativeTarget "BlankieTests" */,
+				F9E62BE02DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "BlankieTests" */,
+				F9ED6BB22D321D3300240F13 /* Release configuration for PBXNativeTarget "BlankieTests" */,
+				F9E62BE42DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "BlankieTests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 		F9ED70E62D3229AD00240F13 /* Build configuration list for PBXNativeTarget "BlankieUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F9ED70E72D3229AD00240F13 /* Debug */,
-				F9E62BE12DE8BD360004A3F8 /* Debug-CarPlay */,
-				F9ED70E82D3229AD00240F13 /* Release */,
-				F9E62BE52DE8BD410004A3F8 /* Release-CarPlay */,
+				F9ED70E72D3229AD00240F13 /* Debug configuration for PBXNativeTarget "BlankieUITests" */,
+				F9E62BE12DE8BD360004A3F8 /* Debug-CarPlay configuration for PBXNativeTarget "BlankieUITests" */,
+				F9ED70E82D3229AD00240F13 /* Release configuration for PBXNativeTarget "BlankieUITests" */,
+				F9E62BE52DE8BD410004A3F8 /* Release-CarPlay configuration for PBXNativeTarget "BlankieUITests" */,
 			);
-			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */

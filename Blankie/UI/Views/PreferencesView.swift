@@ -178,14 +178,14 @@ struct PreferencesView: View {
 
       Section {
         Toggle(
-          LocalizedStringKey("Always Start Paused"),
+          LocalizedStringKey("Auto-play on Launch"),
           isOn: Binding(
-            get: { globalSettings.alwaysStartPaused },
-            set: { globalSettings.setAlwaysStartPaused($0) }
+            get: { globalSettings.autoPlayOnLaunch },
+            set: { globalSettings.setAutoPlayOnLaunch($0) }
           )
         )
         #if os(macOS)
-          .help("If disabled, Blankie will immediately play your most recent preset on launch")
+          .help("If enabled, Blankie will immediately play your most recent preset on launch")
         #endif
         .tint(accentColorForUI)
       } header: {

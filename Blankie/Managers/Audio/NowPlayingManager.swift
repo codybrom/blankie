@@ -13,12 +13,17 @@ import SwiftUI
 final class NowPlayingManager {
   private var nowPlayingInfo: [String: Any] = [:]
 
+  private var isSetup = false
+
   init() {
-    setupNowPlaying()
+    // Don't setup immediately to avoid triggering audio session
   }
 
   private func setupNowPlaying() {
+    guard !isSetup else { return }
     print("🎵 NowPlayingManager: Setting up Now Playing info")
+    isSetup = true
+
     nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0.0  // Start as paused
@@ -26,7 +31,8 @@ final class NowPlayingManager {
     #if os(iOS) || os(visionOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData) {
+        let image = UIImage(data: imageData)
+      {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -35,18 +41,19 @@ final class NowPlayingManager {
     #elseif os(macOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData) {
+        let image = NSImage(data: imageData)
+      {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
         nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
       }
     #endif
-
-    updatePlaybackState(isPlaying: false)
   }
 
   func updateInfo(presetName: String? = nil, isPlaying: Bool) {
+    setupNowPlaying()  // Ensure setup is done before updating
+
     // Get the current preset name for the title
     let displayTitle: String
     if let name = presetName {
@@ -69,7 +76,8 @@ final class NowPlayingManager {
     #if os(iOS) || os(visionOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData) {
+        let image = UIImage(data: imageData)
+      {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -78,7 +86,8 @@ final class NowPlayingManager {
     #elseif os(macOS)
       if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
         let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData) {
+        let image = NSImage(data: imageData)
+      {
         let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
           return image
         }
@@ -90,6 +99,8 @@ final class NowPlayingManager {
   }
 
   func updatePlaybackState(isPlaying: Bool) {
+    setupNowPlaying()  // Ensure setup is done before updating
+
     // Ensure nowPlayingInfo dictionary exists
     if nowPlayingInfo.isEmpty {
       // Recreate basic info if needed

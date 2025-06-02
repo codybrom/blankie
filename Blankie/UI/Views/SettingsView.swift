@@ -34,16 +34,16 @@ struct SettingsView: View {
           header: Text("Playback", comment: "Settings section header for behavior options"),
         ) {
           Toggle(
-            "Always Start Paused",
+            "Auto-play on Launch",
             isOn: Binding(
-              get: { globalSettings.alwaysStartPaused },
-              set: { globalSettings.setAlwaysStartPaused($0) }
+              get: { globalSettings.autoPlayOnLaunch },
+              set: { globalSettings.setAutoPlayOnLaunch($0) }
             )
           )
           .tint(globalSettings.customAccentColor ?? .accentColor)
 
           #if os(iOS) || os(visionOS)
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 8) {
               Toggle(
                 "Mix with Other Audio",
                 isOn: Binding(
@@ -53,12 +53,50 @@ struct SettingsView: View {
               )
               .tint(globalSettings.customAccentColor ?? .accentColor)
 
-              Text(
-                "If enabled, Blankie can be used at the same time as other apps but playback cannot be controlled using your device's Now Playing widget or audio device controls.",
-                comment: "Mix with others toggle caption"
-              )
-              .font(.caption)
-              .foregroundColor(.secondary)
+              if globalSettings.mixWithOthers {
+                VStack(alignment: .leading, spacing: 8) {
+                  HStack {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                      .foregroundColor(.orange)
+                      .font(.caption)
+                    Text("Device media controls won't pause Blankie")
+                      .font(.caption)
+                      .foregroundColor(.secondary)
+                  }
+                  .padding(.vertical, 4)
+                  .padding(.horizontal, 8)
+                  .background(.orange.opacity(0.1))
+                  .cornerRadius(6)
+                  
+                  VStack(alignment: .leading, spacing: 8) {
+                    HStack {
+                      Text("Blankie Volume with Media")
+                        .font(.subheadline)
+                      Spacer()
+                      Text("\(Int(globalSettings.volumeWithOtherAudio * 100))%")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    }
+
+                    Slider(
+                      value: Binding(
+                        get: { globalSettings.volumeWithOtherAudio },
+                        set: { globalSettings.setVolumeWithOtherAudio($0) }
+                      ),
+                      in: 0.0...1.0
+                    )
+                    .tint(globalSettings.customAccentColor ?? .accentColor)
+                    
+                    Text("Other media plays at system volume")
+                      .font(.caption)
+                      .foregroundColor(.secondary)
+                  }
+                }
+              } else {
+                Text("Blankie pauses other audio and responds to device media controls")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
             }
           #endif
         }
@@ -234,6 +272,7 @@ struct ThemePicker: View {
     #endif
   }
 }
+
 
 // Preview Provider
 struct SettingsView_Previews: PreviewProvider {

@@ -7,6 +7,9 @@
     "%lld hidden" : {
 
     },
+    "%lld%%" : {
+
+    },
     "About Blankie" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -506,6 +509,9 @@
     "Are you sure you want to reset all sound customizations? This will restore all sound names and icons to their defaults. This action cannot be undone." : {
 
     },
+    "Auto-play on Launch" : {
+
+    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -708,6 +714,9 @@
         }
       }
     },
+    "Blankie pauses other audio and responds to device media controls" : {
+
+    },
     "Blankie Settings" : {
       "comment" : "Preferences menu label",
       "extractionState" : "manual",
@@ -773,6 +782,9 @@
           }
         }
       }
+    },
+    "Blankie Volume with Media" : {
+
     },
     "Blankie will pause playback when timer expires" : {
 
@@ -1994,6 +2006,9 @@
         }
       }
     },
+    "Device media controls won't pause Blankie" : {
+
+    },
     "Done" : {
       "comment" : "Custom sounds done button\nSettings done button\nSound management done button\nToolbar done button\nVolume controls done button",
       "localizations" : {
@@ -2251,6 +2266,9 @@
           }
         }
       }
+    },
+    "Exit Solo Mode" : {
+
     },
     "Fireplace" : {
       "comment" : "Sound name",
@@ -2538,9 +2556,6 @@
           }
         }
       }
-    },
-    "If enabled, Blankie can be used at the same time as other apps but playback cannot be controlled using your device's Now Playing widget or audio device controls." : {
-      "comment" : "Mix with others toggle caption"
     },
     "Import custom sounds and manage hidden sounds" : {
 
@@ -3379,6 +3394,9 @@
         }
       }
     },
+    "No Active Sounds" : {
+
+    },
     "No Custom Presets" : {
       "comment" : "Empty state title",
       "extractionState" : "manual",
@@ -3481,6 +3499,12 @@
           }
         }
       }
+    },
+    "No Sounds Selected" : {
+
+    },
+    "No Visible Sounds" : {
+
     },
     "OK" : {
       "comment" : "OK button label",
@@ -3615,6 +3639,9 @@
       }
     },
     "Original" : {
+
+    },
+    "Other media plays at system volume" : {
 
     },
     "Pink" : {
@@ -4808,7 +4835,7 @@
       }
     },
     "Reset" : {
-
+      "comment" : "Reset sounds button"
     },
     "Reset %@" : {
 
@@ -4817,6 +4844,9 @@
 
     },
     "Reset All Customizations" : {
+
+    },
+    "Reset all customizations using the \"Reset All\" button in the top left." : {
 
     },
     "Reset Sounds" : {
@@ -5221,6 +5251,9 @@
         }
       }
     },
+    "Show Inactive Sounds" : {
+
+    },
     "Show Sound" : {
 
     },
@@ -5291,6 +5324,9 @@
       }
     },
     "Solo Mode" : {
+
+    },
+    "Solo Mode - %@" : {
 
     },
     "Sound Credits" : {
@@ -5870,9 +5906,6 @@
         }
       }
     },
-    "This will reset all sound names and icons to their defaults. This action cannot be undone." : {
-
-    },
     "This will reset this sound's name and icon to their defaults. This action cannot be undone." : {
 
     },
@@ -6082,6 +6115,9 @@
           }
         }
       }
+    },
+    "Volume" : {
+      "comment" : "Volume section header\nVolume slider label"
     },
     "Waves" : {
       "comment" : "Sound name",

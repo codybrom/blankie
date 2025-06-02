@@ -66,14 +66,21 @@ extension AudioManager {
   func exitSoloMode() {
     guard let soloSound = soloModeSound else { return }
     print("🎵 AudioManager: Exiting solo mode for '\(soloSound.title)'")
+    print("🎵 AudioManager: Global playing state: \(isGloballyPlaying)")
+
+    // Always pause the solo sound first
+    print("🎵 AudioManager: Pausing all sounds before restoring state")
+    pauseAll()
 
     // Restore original state
     if let originalVolume = soloModeOriginalVolume {
+      print("🎵 AudioManager: Restoring original volume: \(originalVolume)")
       soloSound.volume = originalVolume
       soloModeOriginalVolume = nil
     }
 
     if let originalSelection = soloModeOriginalSelection {
+      print("🎵 AudioManager: Restoring original selection: \(originalSelection)")
       soloSound.isSelected = originalSelection
       soloModeOriginalSelection = nil
     }
@@ -81,10 +88,12 @@ extension AudioManager {
     // Clear solo mode
     soloModeSound = nil
 
-    // Restore normal playback (playing the sounds that were selected in the preset)
+    // Restore normal playback only if global playback is enabled
     if isGloballyPlaying {
-      pauseAll()
+      print("🎵 AudioManager: Global playback is enabled, playing selected sounds")
       playSelected()  // This will play according to the preset's actual state
+    } else {
+      print("🎵 AudioManager: Global playback is paused, keeping all sounds paused")
     }
 
     // Update Now Playing info
@@ -92,5 +101,7 @@ extension AudioManager {
       presetName: PresetManager.shared.currentPreset?.name,
       isPlaying: isGloballyPlaying
     )
+
+    print("🎵 AudioManager: Exit solo mode complete")
   }
 }

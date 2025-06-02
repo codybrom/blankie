@@ -20,10 +20,14 @@
         // Force exclusive audio when CarPlay is connected
         // Only setup audio session when we actually start playing
         if mixWithOthers && !isCarPlayConnected {
+          // Use manual volume control when mixing
+          let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
+          print("🎵 AudioSessionManager: Setting options to [.mixWithOthers] - MANUAL VOLUME CONTROL")
+
           try AVAudioSession.sharedInstance().setCategory(
             .playback,
             mode: .default,
-            options: [.mixWithOthers, .duckOthers]
+            options: options
           )
         } else {
           try AVAudioSession.sharedInstance().setCategory(
@@ -34,7 +38,7 @@
         }
         try AVAudioSession.sharedInstance().setActive(true)
         print(
-          "🎵 AudioSessionManager: Audio session activated for playback (mixWithOthers: \(mixWithOthers && !isCarPlayConnected), CarPlay: \(isCarPlayConnected))"
+          "🎵 AudioSessionManager: Audio session activated for playback (mixWithOthers: \(mixWithOthers && !isCarPlayConnected), lowerVolumeWithOtherAudio: \(GlobalSettings.shared.lowerVolumeWithOtherAudio), CarPlay: \(isCarPlayConnected))"
         )
       } catch {
         print("❌ AudioSessionManager: Failed to setup audio session: \(error)")
@@ -51,13 +55,23 @@
       }
     }
 
-    func reactivateForForeground(mixWithOthers: Bool) {
+    func reactivateForForeground(mixWithOthers: Bool, isPlaying: Bool) {
+      // Only configure and activate the audio session if we're actually playing
+      guard isPlaying else {
+        print("🎵 AudioSessionManager: Skipping audio session setup - not playing")
+        return
+      }
+
       do {
         if mixWithOthers {
+          // Use manual volume control when mixing
+          let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
+          print("🎵 AudioSessionManager: Reactivating with [.mixWithOthers] - MANUAL VOLUME CONTROL")
+
           try AVAudioSession.sharedInstance().setCategory(
             .playback,
             mode: .default,
-            options: [.mixWithOthers, .duckOthers]
+            options: options
           )
         } else {
           try AVAudioSession.sharedInstance().setCategory(
@@ -66,9 +80,11 @@
             options: []
           )
         }
+
         try AVAudioSession.sharedInstance().setActive(true)
+        print("🎵 AudioSessionManager: Audio session reactivated for foreground")
       } catch {
-        print("Failed to reactivate audio session: \(error)")
+        print("❌ AudioSessionManager: Failed to reactivate audio session: \(error)")
       }
     }
   }

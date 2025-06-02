@@ -17,10 +17,24 @@ import SwiftUI
     @State var hoveredIndex: Int?
     @State var dragResetTimer: Timer?
     @State private var showingAboutInMenu = false
+    @State private var showingThemePicker = false
+    @State private var showingSoundManagement = false
+    @State private var soundToEdit: Sound?
+    @State var soundsUpdateTrigger = 0
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
+    // Check if any sounds are selected (use AudioManager's published property)
+    private var hasSelectedSounds: Bool {
+      audioManager.hasSelectedSounds
+    }
+
     private var navigationTitleText: String {
+      // In solo mode, show the sound name
+      if let soloSound = audioManager.soloModeSound {
+        return soloSound.title
+      }
+
       if let preset = presetManager.currentPreset {
         // Show "Blankie" instead of "Default" for the default preset
         if preset.isDefault {
@@ -52,6 +66,9 @@ import SwiftUI
       .sheet(isPresented: $showingPresetPicker) {
         PresetPickerView()
           .presentationDetents([.medium, .large])
+      }
+      .sheet(item: $soundToEdit) { sound in
+        SoundSheet(mode: .customize(sound))
       }
       .modifier(AudioErrorHandler())
     }
@@ -96,14 +113,84 @@ import SwiftUI
     private var smallDeviceLayout: some View {
       NavigationView {
         ZStack {
-          VStack(spacing: 0) {
-            // Spacer for the header
-            Color.clear
-              .frame(height: headerHeight)
+          mainSoundGridView
+            .safeAreaInset(edge: .top, spacing: 0) {
+              Color.clear.frame(height: headerHeight)
+            }
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+              VStack(spacing: 0) {
+                statusIndicatorView
 
-            mainSoundGridView
-            playbackControlsView
-          }
+                HStack(spacing: 0) {
+                  // Volume button or Exit Solo Mode button
+                  Spacer()
+                  if audioManager.soloModeSound != nil {
+                    Button(action: {
+                      withAnimation(.easeInOut(duration: 0.3)) {
+                        audioManager.exitSoloMode()
+                      }
+                    }) {
+                      Image(systemName: "headphones.slash")
+                        .font(.system(size: 22))
+                        .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+                    }
+                    .buttonStyle(.plain)
+                  } else {
+                    Button(action: {
+                      showingVolumeControls.toggle()
+                    }) {
+                      Image(systemName: "speaker.wave.2.fill")
+                        .font(.system(size: 22))
+                        .foregroundColor(.primary)
+                    }
+                    .buttonStyle(.plain)
+                  }
+                  Spacer()
+
+                  // Play/Pause button
+                  Spacer()
+                  Button(action: {
+                    if audioManager.hasSelectedSounds {
+                      audioManager.togglePlayback()
+                    }
+                  }) {
+                    ZStack {
+                      Circle()
+                        .fill(
+                          audioManager.hasSelectedSounds
+                            ? (globalSettings.customAccentColor?.opacity(0.2)
+                              ?? Color.accentColor.opacity(0.2))
+                            : Color.secondary.opacity(0.1)
+                        )
+                        .frame(width: 60, height: 60)
+
+                      let imageName = audioManager.isGloballyPlaying ? "pause.fill" : "play.fill"
+                      let xOffset: CGFloat = audioManager.isGloballyPlaying ? 0 : 2
+
+                      Image(systemName: imageName)
+                        .font(.system(size: 26))
+                        .foregroundColor(
+                          audioManager.hasSelectedSounds
+                            ? (globalSettings.customAccentColor ?? .accentColor)
+                            : .secondary
+                        )
+                        .offset(x: xOffset)
+                    }
+                  }
+                  .buttonStyle(.plain)
+                  .disabled(!audioManager.hasSelectedSounds)
+                  Spacer()
+
+                  // Menu button
+                  Spacer()
+                  playbackMenuButton
+                  Spacer()
+                }
+                .padding(.vertical, 12)
+                .padding(.horizontal, 16)
+                .background(.regularMaterial, ignoresSafeAreaEdges: .bottom)
+              }
+            }
 
           // Custom navigation header overlay
           VStack(spacing: 0) {
@@ -113,6 +200,13 @@ import SwiftUI
         }
         .navigationBarHidden(true)
         .ignoresSafeArea(.all, edges: .top)
+        .onChange(of: audioManager.hasSelectedSounds) { oldValue, newValue in
+          print("🎨 UI: hasSelectedSounds changed from \(oldValue) to \(newValue)")
+          // Auto-pause when no sounds are selected
+          if !newValue && audioManager.isGloballyPlaying {
+            audioManager.setGlobalPlaybackState(false)
+          }
+        }
       }
     }
 
@@ -128,24 +222,38 @@ import SwiftUI
         // Title and controls
         HStack {
           if !isLargeDevice {
-            Text(navigationTitleText)
-              .font(.largeTitle)
-              .fontWeight(.bold)
-              .padding(.leading)
+            Button(action: {
+              showingPresetPicker = true
+            }) {
+              HStack(spacing: 8) {
+                HStack(spacing: 6) {
+                  if audioManager.soloModeSound != nil {
+                    Image(systemName: "headphones.circle.fill")
+                      .font(.system(size: 24))
+                      .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+                  }
+                  Text(navigationTitleText)
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                }
+                Image(systemName: "chevron.down")
+                  .font(.system(size: 16, weight: .medium))
+                  .foregroundColor(.secondary)
+              }
+            }
+            .buttonStyle(.plain)
+            .padding(.leading)
           }
           Spacer()
 
           if !isLargeDevice {
             HStack(spacing: 16) {
               TimerButton()
-              menuButton
             }
             .padding(.trailing)
           }
         }
-        .frame(height: isLargeDevice ? 0 : 44)
-        // Status indicators
-        statusIndicatorView
+        .frame(height: isLargeDevice ? 0 : 50)
       }
       .background(
         isLargeDevice ? AnyShapeStyle(Color.clear) : AnyShapeStyle(Material.ultraThinMaterial)
@@ -164,78 +272,41 @@ import SwiftUI
     }
     // Header height for spacing
     private var headerHeight: CGFloat {
-      var height: CGFloat = 44  // Title bar height
-      if audioManager.soloModeSound != nil {
-        height += 32  // Solo mode indicator height
-      } else if !audioManager.isGloballyPlaying {
-        height += 32  // Paused indicator height
-      }
+      let height: CGFloat = 50  // Title bar height (fixed)
       return height + safeAreaTop
     }
     // Combined status indicator view
     @ViewBuilder
     private var statusIndicatorView: some View {
       VStack(spacing: 0) {
-        if let soloSound = audioManager.soloModeSound {
-          soloModeIndicator(for: soloSound)
-            .transition(
-              .asymmetric(
-                insertion: .move(edge: .top).combined(with: .opacity),
-                removal: .move(edge: .top).combined(with: .opacity)
-              )
-            )
-        } else if !audioManager.isGloballyPlaying {
-          pausedIndicator
-            .transition(
-              .asymmetric(
-                insertion: .move(edge: .top).combined(with: .opacity),
-                removal: .move(edge: .top).combined(with: .opacity)
-              )
-            )
+        if !audioManager.hasSelectedSounds {
+          noSoundsSelectedIndicator
+            .transition(.opacity)
+            .onAppear {
+              print("🎨 UI: No sounds selected banner appeared")
+            }
+            .onDisappear {
+              print("🎨 UI: No sounds selected banner disappeared")
+            }
         }
       }
       .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
       .animation(.easeInOut(duration: 0.2), value: audioManager.isGloballyPlaying)
+      .animation(.easeInOut(duration: 0.2), value: audioManager.sounds.map(\.isSelected))
     }
 
-    // Paused indicator banner
-    private var pausedIndicator: some View {
+    // No sounds selected indicator banner
+    private var noSoundsSelectedIndicator: some View {
       HStack(spacing: 8) {
-        Image(systemName: "pause.circle.fill")
+        Image(systemName: "speaker.slash.fill")
           .font(.system(size: 16))
-        Text("Playback Paused")
+        Text("No Sounds Selected")
           .font(.system(.subheadline, design: .rounded, weight: .medium))
       }
       .frame(maxWidth: .infinity)
       .padding(.vertical, 8)
       .foregroundStyle(.secondary)
-    }
-
-    // Solo mode indicator banner
-    private func soloModeIndicator(for sound: Sound) -> some View {
-      let accentColor = GlobalSettings.shared.customAccentColor ?? Color.accentColor
-
-      return HStack(spacing: 8) {
-        Image(systemName: "headphones.circle.fill")
-          .font(.system(size: 16))
-        Text("Solo Mode")
-          .font(.system(.subheadline, design: .rounded, weight: .medium))
-      }
-      .frame(maxWidth: .infinity)
-      .padding(.vertical, 8)
-      .foregroundStyle(accentColor)
-      .overlay(alignment: .trailing) {
-        // Exit button positioned on the right
-        Button(action: {
-          audioManager.exitSoloMode()
-        }) {
-          Image(systemName: "xmark.circle.fill")
-            .font(.system(size: 16))
-            .foregroundColor(accentColor)
-        }
-        .buttonStyle(.plain)
-        .padding(.trailing, 16)
-      }
+      .background(.regularMaterial)
     }
 
     // Menu button for small devices
@@ -290,14 +361,31 @@ import SwiftUI
             Spacer()
             DraggableSoundIcon(
               sound: soloSound,
-              maxWidth: 200,
+              maxWidth: 280,
               index: 0,
               draggedIndex: .constant(nil),
               hoveredIndex: .constant(nil),
               onDragStart: {},
-              onDrop: { _ in }
+              onDrop: { _ in },
+              onEditSound: { sound in
+                soundToEdit = sound
+              },
+              onHideSound: { sound in
+                sound.isHidden.toggle()
+                // If hiding a sound that's currently playing, stop it
+                if sound.isHidden && sound.isSelected {
+                  sound.pause()
+                }
+                // If hiding the solo mode sound, exit solo mode
+                if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
+                  audioManager.exitSoloMode()
+                }
+                // Update hasSelectedSounds to reflect changes in hidden sounds
+                audioManager.updateHasSelectedSounds()
+                soundsUpdateTrigger += 1
+              }
             )
-            .scaleEffect(1.2)
+            .scaleEffect(1.5)
             .transition(
               .asymmetric(
                 insertion: .scale.combined(with: .opacity),
@@ -308,10 +396,63 @@ import SwiftUI
           .frame(maxWidth: .infinity, maxHeight: .infinity)
           .padding()
         } else {
-          // Normal mode: Show all sounds in grid
-          ScrollView {
-            LazyVGrid(columns: columns, spacing: 20) {
-              ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
+          // Normal mode: Show all sounds in grid or empty state
+          if filteredSounds.isEmpty {
+            // Empty state - either no active sounds or all sounds hidden
+            VStack(spacing: 20) {
+              Spacer()
+
+              VStack(spacing: 12) {
+                Image(systemName: audioManager.getVisibleSounds().isEmpty ? "eye.slash.circle" : "speaker.slash.circle")
+                  .font(.system(size: 48))
+                  .foregroundStyle(.secondary)
+
+                Text(audioManager.getVisibleSounds().isEmpty ? "No Visible Sounds" : "No Active Sounds")
+                  .font(.headline)
+                  .foregroundColor(.primary)
+              }
+
+              if audioManager.getVisibleSounds().isEmpty {
+                // All sounds are hidden - button to manage sounds
+                Button(action: {
+                  showingSoundManagement = true
+                }) {
+                  Text("Manage Sounds")
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .background(globalSettings.customAccentColor ?? .accentColor)
+                    .cornerRadius(8)
+                }
+                .buttonStyle(.plain)
+              } else {
+                // Some sounds are active but hidden by filter - button to show inactive
+                Button(action: {
+                  withAnimation {
+                    hideInactiveSounds = false
+                  }
+                }) {
+                  Text("Show Inactive Sounds")
+                    .font(.system(.subheadline, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    .background(globalSettings.customAccentColor ?? .accentColor)
+                    .cornerRadius(8)
+                }
+                .buttonStyle(.plain)
+              }
+
+              Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .transition(.opacity)
+          } else {
+            // Normal grid view
+            ScrollView {
+              LazyVGrid(columns: columns, spacing: 20) {
+                ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
                 DraggableSoundIcon(
                   sound: sound,
                   maxWidth: columnWidth,
@@ -325,6 +466,23 @@ import SwiftUI
                   onDrop: { sourceIndex in
                     audioManager.moveVisibleSound(from: sourceIndex, to: index)
                     cancelDragResetTimer()
+                  },
+                  onEditSound: { sound in
+                    soundToEdit = sound
+                  },
+                  onHideSound: { sound in
+                    sound.isHidden.toggle()
+                    // If hiding a sound that's currently playing, stop it
+                    if sound.isHidden && sound.isSelected {
+                      sound.pause()
+                    }
+                    // If hiding the solo mode sound, exit solo mode
+                    if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
+                      audioManager.exitSoloMode()
+                    }
+                    // Update hasSelectedSounds to reflect changes in hidden sounds
+                    audioManager.updateHasSelectedSounds()
+                    soundsUpdateTrigger += 1
                   }
                 )
               }
@@ -337,20 +495,173 @@ import SwiftUI
               insertion: .opacity,
               removal: .opacity
             ))
+          }
         }
       }
       .animation(.easeInOut(duration: 0.3), value: audioManager.soloModeSound?.id)
     }
 
-    // Bottom playback controls for iPhone layout
-    private var playbackControlsView: some View {
-      PlaybackControlsView(
-        showingVolumeControls: $showingVolumeControls,
-        hideInactiveSounds: $hideInactiveSounds,
-        showingPresetPicker: $showingPresetPicker,
-        showingSettings: $showingSettings,
-        showingAbout: $showingAbout
-      )
+    // Menu button for bottom toolbar
+    private var playbackMenuButton: some View {
+      Menu {
+        // Exit Solo Mode option (only shown when in solo mode)
+        if audioManager.soloModeSound != nil {
+          Button(action: {
+            withAnimation(.easeInOut(duration: 0.3)) {
+              audioManager.exitSoloMode()
+            }
+          }) {
+            Label("Exit Solo Mode", systemImage: "headphones.slash")
+          }
+        }
+
+        Button(action: {
+          withAnimation {
+            hideInactiveSounds.toggle()
+          }
+        }) {
+          let labelText = hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds"
+          let iconName = hideInactiveSounds ? "eye" : "eye.slash"
+          Label(labelText, systemImage: iconName)
+        }
+        .disabled(
+          audioManager.soloModeSound == nil
+            && !hideInactiveSounds
+            && audioManager.sounds.allSatisfy { $0.isSelected || $0.isHidden }
+        )
+
+        Button(action: {
+          showingSoundManagement = true
+        }) {
+          Label("Manage Sounds", systemImage: "waveform")
+        }
+
+        Button(action: {
+          showingThemePicker = true
+        }) {
+          Label("Theme", systemImage: "paintbrush")
+        }
+
+        Button(action: {
+          showingSettings = true
+        }) {
+          Label("Settings", systemImage: "gear")
+        }
+      } label: {
+        Image(systemName: "ellipsis.circle")
+          .font(.system(size: 22))
+          .foregroundColor(.primary)
+      }
+      .sheet(isPresented: $showingThemePicker) {
+        NavigationView {
+          VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 12) {
+              Text("Appearance")
+                .font(.headline)
+
+              HStack {
+                Spacer()
+                HStack(spacing: 8) {
+                  ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                    Button(action: {
+                      globalSettings.setAppearance(mode)
+                    }) {
+                      HStack(spacing: 4) {
+                        Image(systemName: mode.icon)
+                        Text(mode.localizedName)
+                      }
+                      .padding(.horizontal, 12)
+                      .padding(.vertical, 8)
+                      .background(
+                        globalSettings.appearance == mode
+                          ? (globalSettings.customAccentColor ?? .accentColor)
+                          : Color.secondary.opacity(0.2)
+                      )
+                      .foregroundColor(
+                        globalSettings.appearance == mode ? .white : .primary
+                      )
+                      .cornerRadius(8)
+                    }
+                    .buttonStyle(.plain)
+                  }
+                }
+                Spacer()
+              }
+            }
+
+            VStack(alignment: .leading, spacing: 12) {
+              Text("Accent Color")
+                .font(.headline)
+
+              let availableColors = Array(AccentColor.allCases.dropFirst())
+              let colorsPerRow = 6
+
+              VStack(alignment: .center, spacing: 12) {
+                ForEach(0..<2, id: \.self) { row in
+                  HStack(spacing: 12) {
+                    Spacer()
+                    ForEach(0..<colorsPerRow, id: \.self) { col in
+                      let index = row * colorsPerRow + col
+                      if index < availableColors.count {
+                        let color = availableColors[index]
+                        Button(action: {
+                          globalSettings.setAccentColor(color.color)
+                        }) {
+                          Circle()
+                            .fill(color.color ?? .accentColor)
+                            .frame(width: 44, height: 44)
+                            .overlay(
+                              Circle()
+                                .stroke(
+                                  globalSettings.customAccentColor == color.color ? .white : .clear,
+                                  lineWidth: 3
+                                )
+                            )
+                            .overlay(
+                              globalSettings.customAccentColor == color.color
+                                ? Image(systemName: "checkmark")
+                                  .foregroundColor(.white)
+                                  .font(.system(size: 16, weight: .bold))
+                                : nil
+                            )
+                        }
+                        .buttonStyle(.plain)
+                      }
+                    }
+                    Spacer()
+                  }
+                }
+              }
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+          .navigationTitle("Theme")
+          .navigationBarTitleDisplayMode(.inline)
+          .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+              let needsReset =
+                globalSettings.appearance != .system || globalSettings.customAccentColor != nil
+              if needsReset {
+                Button("Reset") {
+                  globalSettings.setAppearance(.system)
+                  globalSettings.setAccentColor(nil)
+                }
+              }
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+              Button("Done") {
+                showingThemePicker = false
+              }
+            }
+          }
+        }
+        .presentationDetents([.fraction(0.45)])
+      }
+      .sheet(isPresented: $showingSoundManagement) {
+        SoundManagementView()
+      }
     }
   }
 
@@ -385,6 +696,8 @@ import SwiftUI
     @Binding var hoveredIndex: Int?
     let onDragStart: () -> Void
     let onDrop: (Int) -> Void
+    let onEditSound: (Sound) -> Void
+    let onHideSound: (Sound) -> Void
 
     @ObservedObject private var globalSettings = GlobalSettings.shared
     @State private var isDraggingIcon = false
@@ -413,23 +726,50 @@ import SwiftUI
         .opacity(draggedIndex == index ? 0.5 : 1.0)
         .overlay(dropOverlay)
         .onTapGesture {
-          sound.toggle()
+          // If this sound is in solo mode, exit solo mode
+          if AudioManager.shared.soloModeSound?.id == sound.id {
+            withAnimation(.easeInOut(duration: 0.3)) {
+              AudioManager.shared.exitSoloMode()
+            }
+          } else {
+            // Normal behavior: toggle sound selection
+            sound.toggle()
+          }
         }
         .contextMenu {
-          Button(action: {
-            // Haptic feedback for solo mode
-            if GlobalSettings.shared.enableHaptics {
-              #if os(iOS)
-                let generator = UIImpactFeedbackGenerator(style: .medium)
-                generator.impactOccurred()
-              #endif
-            }
+          // Solo Mode - only show if not already in solo mode
+          if AudioManager.shared.soloModeSound?.id != sound.id {
+            Button(action: {
+              // Haptic feedback for solo mode
+              if GlobalSettings.shared.enableHaptics {
+                #if os(iOS)
+                  let generator = UIImpactFeedbackGenerator(style: .medium)
+                  generator.impactOccurred()
+                #endif
+              }
 
-            withAnimation(.easeInOut(duration: 0.3)) {
-              AudioManager.shared.toggleSoloMode(for: sound)
+              withAnimation(.easeInOut(duration: 0.3)) {
+                AudioManager.shared.toggleSoloMode(for: sound)
+              }
+            }) {
+              Label("Solo Mode", systemImage: "headphones")
             }
+          }
+
+          // Hide Sound
+          Button(action: {
+            onHideSound(sound)
           }) {
-            Label("Solo Mode", systemImage: "headphones")
+            let labelText = sound.isHidden ? "Show Sound" : "Hide Sound"
+            let iconName = sound.isHidden ? "eye" : "eye.slash"
+            Label(labelText, systemImage: iconName)
+          }
+
+          // Edit Sound (all sounds can be edited/customized)
+          Button(action: {
+            onEditSound(sound)
+          }) {
+            Label("Edit Sound", systemImage: "pencil")
           }
         }
         .onLongPressGesture(
@@ -457,15 +797,18 @@ import SwiftUI
           return NSItemProvider(object: "\(index)" as NSString)
         }
 
-        // Title (not draggable)
-        Text(LocalizedStringKey(sound.title))
-          .font(
-            Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
-          )
-          .lineLimit(2)
-          .multilineTextAlignment(.center)
-          .frame(maxWidth: maxWidth - 20)
-          .foregroundColor(.primary)
+        // Title (not draggable) - hidden in solo mode since it's shown in navigation title
+        if AudioManager.shared.soloModeSound == nil {
+          Text(LocalizedStringKey(sound.title))
+            .font(
+              Locale.current.identifier.hasPrefix("zh")
+                ? .system(size: 16, weight: .thin) : .callout
+            )
+            .lineLimit(2)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: maxWidth - 20)
+            .foregroundColor(.primary)
+        }
 
         // Slider (not draggable)
         Slider(
@@ -474,7 +817,7 @@ import SwiftUI
             set: { sound.volume = Float($0) }
           ), in: 0...1
         )
-        .frame(width: 85)
+        .frame(width: min(maxWidth * 0.7, 140))
         .tint(sliderTintColor)
         .disabled(!isSliderEnabled)
       }

@@ -21,15 +21,9 @@ struct SoundCustomizationManagementView: View {
           }
         } header: {
           Text("Customized Sounds")
-        }
-
-        Section {
-          Button("Reset All Customizations", role: .destructive) {
-            showingResetAllConfirmation = true
-          }
         } footer: {
           Text(
-            "This will reset all sound names and icons to their defaults. This action cannot be undone."
+            "Reset all customizations using the \"Reset All\" button in the top left."
           )
         }
       } else {
@@ -43,6 +37,15 @@ struct SoundCustomizationManagementView: View {
       }
     }
     .navigationTitle("Sound Customizations")
+    .toolbar {
+      ToolbarItem(placement: .cancellationAction) {
+        if customizationManager.hasAnyCustomizations {
+          Button("Reset All", role: .destructive) {
+            showingResetAllConfirmation = true
+          }
+        }
+      }
+    }
     .alert(
       "Reset All Customizations",
       isPresented: $showingResetAllConfirmation

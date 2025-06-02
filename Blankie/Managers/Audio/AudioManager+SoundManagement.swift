@@ -90,4 +90,14 @@ extension AudioManager {
     objectWillChange.send()
     print("🎵 AudioManager: Showed sound '\(sound.fileName)'")
   }
+
+  /// Apply volume settings to all playing sounds by triggering volume updates
+  func applyVolumeSettings() {
+    print("🎵 AudioManager: Updating volumes for volume settings change")
+
+    for sound in sounds where sound.isSelected && !sound.isHidden {
+      // Trigger volume recalculation which will include custom volume settings
+      sound.updateVolume()
+    }
+  }
 }

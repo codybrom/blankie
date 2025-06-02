@@ -4,6 +4,8 @@ import SwiftUI
   extension AdaptiveContentView {
     // Calculate filtered sounds based on hideInactiveSounds preference and visibility
     var filteredSounds: [Sound] {
+      // Include soundsUpdateTrigger to force updates when sounds change
+      _ = soundsUpdateTrigger
       let visibleSounds = audioManager.getVisibleSounds()
       return visibleSounds.filter { sound in
         if hideInactiveSounds {

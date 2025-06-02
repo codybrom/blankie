@@ -24,8 +24,18 @@ extension AudioManager {
       setupTerminationObserver()
       setupCarPlayObserver()
       setupBackgroundObservers()
+      // Delay audio session observers until first playback to avoid interrupting other apps
+      // setupAudioInterruptionObserver()
+      // setupAudioRouteChangeObserver()
+    }
+
+    // Call this when we first start playing to setup audio session observers
+    func setupAudioSessionObservers() {
+      guard !audioSessionObserversSetup else { return }
+      print("🎵 AudioManager: Setting up audio session observers on first playback")
       setupAudioInterruptionObserver()
       setupAudioRouteChangeObserver()
+      audioSessionObserversSetup = true
     }
 
     private func setupTerminationObserver() {
@@ -74,8 +84,13 @@ extension AudioManager {
     }
 
     func handleWillEnterForeground() {
+      print(
+        "🎵 AudioManager: handleWillEnterForeground called - isGloballyPlaying: \(isGloballyPlaying)"
+      )
+
       AudioSessionManager.shared.reactivateForForeground(
-        mixWithOthers: GlobalSettings.shared.mixWithOthers)
+        mixWithOthers: GlobalSettings.shared.mixWithOthers,
+        isPlaying: isGloballyPlaying)
 
       if isGloballyPlaying {
         nowPlayingManager.updateInfo(

@@ -23,6 +23,15 @@ struct VolumeControlsView: View {
     globalSettings.customAccentColor ?? .accentColor
   }
 
+  // Check if all volumes are at their default values
+  private var isAtDefaultVolumes: Bool {
+    // Check global volume (default is 1.0)
+    guard globalSettings.volume == 1.0 else { return false }
+
+    // Check all individual sound volumes (default is 1.0)
+    return audioManager.sounds.allSatisfy { $0.volume == 1.0 }
+  }
+
   var body: some View {
     if style == .sheet {
       NavigationView {
@@ -30,11 +39,32 @@ struct VolumeControlsView: View {
           sheetContent
             .padding(.bottom, 30)
         }
-        .navigationTitle("All Sounds")
+        .navigationTitle("Volume")
         #if os(iOS)
           .navigationBarTitleDisplayMode(.inline)
         #endif
         .toolbar {
+          ToolbarItem(placement: .cancellationAction) {
+            Button(action: {
+              // TODO: Implement preset default volume restoration
+              // This should restore volumes to the current preset's default settings
+              // For now, reset to global defaults
+
+              // Provide haptic feedback if enabled (iOS only)
+              if globalSettings.enableHaptics {
+                #if os(iOS)
+                  let generator = UINotificationFeedbackGenerator()
+                  generator.notificationOccurred(.success)
+                #endif
+              }
+
+              audioManager.resetSounds()
+            }) {
+              Text("Reset", comment: "Reset sounds button")
+            }
+            .disabled(isAtDefaultVolumes)
+          }
+
           ToolbarItem(placement: .primaryAction) {
             Button {
               dismiss()
@@ -53,7 +83,7 @@ struct VolumeControlsView: View {
   private var popoverContent: some View {
     VStack(spacing: 16) {
       VStack(alignment: .leading, spacing: 4) {
-        Text("All Sounds", comment: "All Sounds slider label")
+        Text("All Sounds", comment: "Volume slider label")
           .font(.caption)
         Slider(
           value: Binding(
@@ -89,11 +119,15 @@ struct VolumeControlsView: View {
       Divider()
 
       Button {
+        // TODO: Implement preset default volume restoration
+        // This should restore volumes to the current preset's default settings
+        // For now, reset to global defaults
         audioManager.resetSounds()
       } label: {
-        Text("Reset Sounds", comment: "Reset sounds button")
+        Text("Reset", comment: "Reset sounds button")
       }
       .font(.caption)
+      .disabled(isAtDefaultVolumes)
     }
     .padding()
   }
@@ -103,7 +137,7 @@ struct VolumeControlsView: View {
     VStack(spacing: 24) {
       // All Sounds slider
       VStack(alignment: .leading, spacing: 8) {
-        Text("All Sounds", comment: "All sounds volume section header")
+        Text("All Sounds", comment: "Volume section header")
           .font(.headline)
 
         HStack {
@@ -170,27 +204,6 @@ struct VolumeControlsView: View {
         }
       }
 
-      Divider()
-        .padding(.horizontal)
-
-      // Reset button
-      Button(action: {
-        // Provide haptic feedback if enabled (iOS only)
-        if globalSettings.enableHaptics {
-          #if os(iOS)
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.success)
-          #endif
-        }
-
-        audioManager.resetSounds()
-        dismiss()
-      }) {
-        Text("Reset Sounds", comment: "Reset sounds button label")
-          .foregroundColor(.red)
-      }
-      .padding()
-      .buttonStyle(.bordered)
     }
     .padding()
   }

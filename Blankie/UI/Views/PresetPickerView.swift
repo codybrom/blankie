@@ -2,12 +2,21 @@ import SwiftUI
 
 struct PresetPickerView: View {
   @ObservedObject private var presetManager = PresetManager.shared
+  @ObservedObject private var audioManager = AudioManager.shared
   @State private var showingNewPresetAlert = false
   @State private var newPresetName = ""
   @State private var presetToRename: Preset?
   @State private var updatedPresetName = ""
   @State private var presetToDelete: Preset?
+  @State private var isEditMode = false
   @Environment(\.dismiss) private var dismiss
+
+  private func deletePresets(at offsets: IndexSet) {
+    let presetsToDelete = offsets.map { presetManager.presets.filter { !$0.isDefault }[$0] }
+    for preset in presetsToDelete {
+      presetManager.deletePreset(preset)
+    }
+  }
 
   var body: some View {
     NavigationView {
@@ -46,12 +55,35 @@ struct PresetPickerView: View {
           }
           .listRowBackground(Color.clear)
         } else {
+          // Solo mode indicator (if active)
+          if let soloSound = audioManager.soloModeSound {
+            HStack {
+              HStack(spacing: 8) {
+                Image(systemName: "headphones.circle.fill")
+                  .foregroundColor(.accentColor)
+                Text("Solo Mode - \(soloSound.title)")
+                  .foregroundColor(.secondary)
+              }
+              
+              Spacer()
+              
+              Image(systemName: "checkmark")
+                .foregroundColor(.accentColor)
+            }
+            .listRowBackground(Color.secondary.opacity(0.1))
+          }
+          
           // List of presets
           ForEach(presetManager.presets.filter { !$0.isDefault }) { preset in
             Button {
-              // Apply the preset
+              // Exit solo mode if active, then apply the preset
               Task {
                 do {
+                  // Exit solo mode first if we're in it
+                  if audioManager.soloModeSound != nil {
+                    audioManager.exitSoloMode()
+                  }
+                  
                   try presetManager.applyPreset(preset)
                   dismiss()
                 } catch {
@@ -65,28 +97,36 @@ struct PresetPickerView: View {
 
                 Spacer()
 
-                if presetManager.currentPreset?.id == preset.id {
+                // Only show checkmark if not in solo mode AND this is the current preset
+                let isSoloModeActive = audioManager.soloModeSound != nil
+                let isCurrentPreset = presetManager.currentPreset?.id == preset.id
+                
+                if !isSoloModeActive && isCurrentPreset {
                   Image(systemName: "checkmark")
                     .foregroundColor(.accentColor)
                 }
               }
             }
             .swipeActions {
-              Button {
-                presetToRename = preset
-                updatedPresetName = preset.name
-              } label: {
-                Label("Rename Preset", systemImage: "pencil")
-              }
-              .tint(.blue)
+              if !isEditMode {
+                Button {
+                  presetToRename = preset
+                  updatedPresetName = preset.name
+                } label: {
+                  Label("Rename Preset", systemImage: "pencil")
+                }
+                .tint(.blue)
 
-              Button(role: .destructive) {
-                presetToDelete = preset
-              } label: {
-                Label("Delete Preset", systemImage: "trash")
+                Button(role: .destructive) {
+                  presetToDelete = preset
+                } label: {
+                  Label("Delete Preset", systemImage: "trash")
+                }
               }
             }
+            .deleteDisabled(!isEditMode)
           }
+          .onDelete(perform: isEditMode ? deletePresets : nil)
         }
       }
       .navigationTitle("Presets")
@@ -94,6 +134,16 @@ struct PresetPickerView: View {
         .navigationBarTitleDisplayMode(.inline)
       #endif
       .toolbar {
+        ToolbarItem(placement: .cancellationAction) {
+          if presetManager.hasCustomPresets {
+            Button {
+              isEditMode.toggle()
+            } label: {
+              Text(isEditMode ? "Cancel" : "Edit", comment: "Edit mode toggle button")
+            }
+          }
+        }
+
         ToolbarItem(placement: .primaryAction) {
           Button {
             showingNewPresetAlert = true
@@ -102,7 +152,7 @@ struct PresetPickerView: View {
           }
         }
 
-        ToolbarItem(placement: .cancellationAction) {
+        ToolbarItem(placement: .confirmationAction) {
           Button {
             dismiss()
           } label: {
@@ -110,6 +160,7 @@ struct PresetPickerView: View {
           }
         }
       }
+      .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
       .sheet(item: $presetToRename) { preset in
         RenamePresetView(
           preset: preset,

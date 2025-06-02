@@ -127,16 +127,22 @@ open class Sound: ObservableObject, Identifiable {
         }
       }
 
-    loadSound()
+    // Don't load sound immediately to avoid triggering audio session during initialization
+    // loadSound() will be called lazily when needed
   }
 
   private func scaledVolume(_ linear: Float) -> Float {
     return pow(linear, 3)
   }
 
-  private func updateVolume() {
+  func updateVolume() {
     let scaledVol = scaledVolume(volume)
-    let effectiveVolume = scaledVol * Float(GlobalSettings.shared.volume)
+    var effectiveVolume = scaledVol * Float(GlobalSettings.shared.volume)
+
+    // Apply custom volume level when mixing with other audio
+    if GlobalSettings.shared.mixWithOthers {
+      effectiveVolume *= Float(GlobalSettings.shared.volumeWithOtherAudio)
+    }
 
     // Update volume immediately
     if player?.volume != effectiveVolume {
@@ -187,7 +193,7 @@ open class Sound: ObservableObject, Identifiable {
   func play(completion: ((Result<Void, AudioError>) -> Void)? = nil) {
     print("🔊 Sound: Attempting to play '\(fileName)'")
     updateVolume()
-    guard let player = player else {
+    guard let player = loadedPlayer else {
       print("❌ Sound: Player not available for '\(fileName)'")
       completion?(.failure(.fileNotFound))
       return

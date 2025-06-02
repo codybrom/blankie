@@ -16,7 +16,10 @@ struct TimerButton: View {
       showingTimerView = true
     }) {
       Image(systemName: "timer")
-        .foregroundColor(timerManager.isTimerActive ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
+        .font(.system(size: 22))
+        .foregroundColor(
+          timerManager.isTimerActive
+            ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
     }
     .buttonStyle(.borderless)
     #if os(macOS)
@@ -44,7 +47,9 @@ struct CompactTimerButton: View {
         .resizable()
         .aspectRatio(contentMode: .fit)
         .frame(width: 20, height: 20)
-        .foregroundColor(timerManager.isTimerActive ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
+        .foregroundColor(
+          timerManager.isTimerActive
+            ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
     }
     .buttonStyle(.borderless)
     #if os(macOS)

@@ -19,6 +19,7 @@ class AudioManager: ObservableObject {
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
   @Published var soloModeSound: Sound?
+  @Published private(set) var hasSelectedSounds: Bool = false
   var soloModeOriginalVolume: Float?
   var soloModeOriginalSelection: Bool?
 
@@ -26,23 +27,34 @@ class AudioManager: ObservableObject {
   let nowPlayingManager = NowPlayingManager()
   @MainActor private var isInitializing = true
   private var customSoundObserver: AnyCancellable?
+  #if os(iOS) || os(visionOS)
+    var audioSessionObserversSetup = false
+  #endif
 
   private init() {
-    print("🎵 AudioManager: Initializing")
-    loadSounds()
-    loadSavedState()
-    setupMediaControls()
-    setupNotificationObservers()
-    setupSoundObservers()
+    print("🎵 AudioManager: Initializing - START")
 
-    // Handle autoplay behavior after a slight delay to ensure proper initialization
+    // Only load sounds and state immediately - delay media controls and observers
+    print("🎵 AudioManager: About to loadSounds()")
+    loadSounds()
+    print("🎵 AudioManager: About to loadSavedState()")
+    loadSavedState()
+
+    // Delay media controls and notification setup to avoid triggering audio session
     Task { @MainActor in
-      // Short delay to allow everything to initialize
-      try? await Task.sleep(nanoseconds: 100_000_000)  // 0.1 seconds
+      // Longer delay to allow app to fully launch first
+      try? await Task.sleep(nanoseconds: 500_000_000)  // 0.5 seconds
+
+      print("🎵 AudioManager: About to setupMediaControls() (delayed)")
+      self.setupMediaControls()
+      print("🎵 AudioManager: About to setupNotificationObservers() (delayed)")
+      self.setupNotificationObservers()
+      print("🎵 AudioManager: About to setupSoundObservers() (delayed)")
+      self.setupSoundObservers()
 
       self.isInitializing = false
 
-      if !GlobalSettings.shared.alwaysStartPaused {
+      if GlobalSettings.shared.autoPlayOnLaunch {
         let hasSelectedSounds = self.sounds.contains { $0.isSelected }
         if hasSelectedSounds {
           // Set initial state
@@ -68,6 +80,14 @@ class AudioManager: ObservableObject {
     }
   }
 
+  func updateHasSelectedSounds() {
+    let newValue = sounds.contains { $0.isSelected && !$0.isHidden }
+    if hasSelectedSounds != newValue {
+      print("🎵 AudioManager: hasSelectedSounds changed from \(hasSelectedSounds) to \(newValue)")
+      hasSelectedSounds = newValue
+    }
+  }
+
   func setupSoundObservers() {
     // Clear any existing observers
     cancellables.removeAll()
@@ -76,13 +96,16 @@ class AudioManager: ObservableObject {
       sound.objectWillChange
         .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
         .sink { [weak self] _ in
-          guard self != nil else { return }
+          guard let self = self else { return }
           Task { @MainActor in
+            self.updateHasSelectedSounds()
             PresetManager.shared.updateCurrentPresetState()
           }
         }
         .store(in: &cancellables)
     }
+    // Update initial state
+    updateHasSelectedSounds()
   }
   func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
     Task { @MainActor [weak self] in
@@ -140,6 +163,8 @@ class AudioManager: ObservableObject {
     #if os(iOS) || os(visionOS)
       // Setup audio session when starting playback
       setupAudioSessionForPlayback()
+      // Setup audio session observers on first playback
+      setupAudioSessionObservers()
     #endif
 
     // If in solo mode, play only the solo sound
@@ -255,6 +280,9 @@ class AudioManager: ObservableObject {
     }
     // Reset "All Sounds" volume
     GlobalSettings.shared.setVolume(1.0)
+
+    // Update hasSelectedSounds after resetting
+    updateHasSelectedSounds()
 
     // Call the reset callback
     onReset?()

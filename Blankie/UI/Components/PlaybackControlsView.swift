@@ -4,36 +4,51 @@ import SwiftUI
   struct PlaybackControlsView: View {
     @Binding var showingVolumeControls: Bool
     @Binding var hideInactiveSounds: Bool
-    @Binding var showingPresetPicker: Bool
     @Binding var showingSettings: Bool
     @Binding var showingAbout: Bool
+
+    @State private var showingThemePicker = false
+    @State private var showingSoundManagement = false
 
     @StateObject private var audioManager = AudioManager.shared
     @StateObject private var globalSettings = GlobalSettings.shared
 
     var body: some View {
       VStack(spacing: 0) {
-        Divider()
+        // Subtle separator
+        Rectangle()
+          .frame(height: 0.5)
+          .foregroundColor(Color.primary.opacity(0.1))
 
-        HStack(spacing: 20) {
-
-          // Volume button
-          volumeButton
-
-          // Timer button
-          timerButton
+        HStack(spacing: 0) {
+          // Volume button or Exit Solo Mode button
+          Spacer()
+          if audioManager.soloModeSound != nil {
+            exitSoloModeButton
+              .onAppear {
+                print("🎨 UI: Exit solo mode button appeared")
+              }
+          } else {
+            volumeButton
+              .onAppear {
+                print("🎨 UI: Volume button appeared")
+              }
+          }
+          Spacer()
 
           // Play/Pause button
+          Spacer()
           playPauseButton
-
-          // Presets button
-          presetsButton
+          Spacer()
 
           // Menu button
+          Spacer()
           menuButton
+          Spacer()
         }
-        .padding(.vertical, 8)
-        .background(.ultraThinMaterial)
+        .padding(.vertical, 12)
+        .padding(.horizontal, 16)
+        .background(.thickMaterial)
       }
     }
 
@@ -57,7 +72,9 @@ import SwiftUI
         ZStack {
           Circle()
             .fill(
-              globalSettings.customAccentColor?.opacity(0.2) ?? Color.accentColor.opacity(0.2)
+              audioManager.hasSelectedSounds 
+                ? (globalSettings.customAccentColor?.opacity(0.2) ?? Color.accentColor.opacity(0.2))
+                : Color.secondary.opacity(0.1)
             )
             .frame(width: 60, height: 60)
 
@@ -66,10 +83,29 @@ import SwiftUI
 
           Image(systemName: imageName)
             .font(.system(size: 26))
-            .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+            .foregroundColor(
+              audioManager.hasSelectedSounds 
+                ? (globalSettings.customAccentColor ?? .accentColor)
+                : Color.secondary
+            )
             .offset(x: xOffset)
         }
       }
+      .disabled(!audioManager.hasSelectedSounds)
+    }
+
+    // Exit solo mode button
+    private var exitSoloModeButton: some View {
+      Button(action: {
+        withAnimation(.easeInOut(duration: 0.3)) {
+          audioManager.exitSoloMode()
+        }
+      }) {
+        Image(systemName: "headphones.slash")
+          .font(.system(size: 22))
+          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+      }
+      .buttonStyle(.plain)
     }
 
     // Hide/show inactive sounds button
@@ -82,24 +118,6 @@ import SwiftUI
         let iconName = hideInactiveSounds ? "eye.slash.fill" : "eye.fill"
 
         Image(systemName: iconName)
-          .font(.system(size: 22))
-          .foregroundColor(.primary)
-          .padding()
-      }
-    }
-
-    // Timer button
-    private var timerButton: some View {
-      CompactTimerButton()
-        .padding()
-    }
-
-    // Presets button
-    private var presetsButton: some View {
-      Button(action: {
-        showingPresetPicker.toggle()
-      }) {
-        Image(systemName: "music.note.list")
           .font(.system(size: 22))
           .foregroundColor(.primary)
           .padding()
@@ -120,6 +138,18 @@ import SwiftUI
         }
 
         Button(action: {
+          showingSoundManagement = true
+        }) {
+          Label("Manage Sounds", systemImage: "waveform")
+        }
+
+        Button(action: {
+          showingThemePicker = true
+        }) {
+          Label("Theme", systemImage: "paintbrush")
+        }
+
+        Button(action: {
           showingSettings = true
         }) {
           Label {
@@ -128,21 +158,121 @@ import SwiftUI
             Image(systemName: "gear")
           }
         }
-
-        Button(action: {
-          showingAbout = true
-        }) {
-          Label {
-            Text("About Blankie", comment: "About menu item")
-          } icon: {
-            Image(systemName: "info.circle")
-          }
-        }
       } label: {
         Image(systemName: "ellipsis.circle")
           .font(.system(size: 22))
           .foregroundColor(.primary)
           .padding()
+      }
+      .sheet(isPresented: $showingThemePicker) {
+        NavigationView {
+          VStack(alignment: .leading, spacing: 20) {
+            VStack(alignment: .leading, spacing: 12) {
+              Text("Appearance")
+                .font(.headline)
+
+              HStack {
+                Spacer()
+                HStack(spacing: 8) {
+                  ForEach(AppearanceMode.allCases, id: \.self) { mode in
+                    Button(action: {
+                      globalSettings.setAppearance(mode)
+                    }) {
+                      HStack(spacing: 4) {
+                        Image(systemName: mode.icon)
+                        Text(mode.localizedName)
+                      }
+                      .padding(.horizontal, 12)
+                      .padding(.vertical, 8)
+                      .background(
+                        globalSettings.appearance == mode
+                          ? (globalSettings.customAccentColor ?? .accentColor)
+                          : Color.secondary.opacity(0.2)
+                      )
+                      .foregroundColor(
+                        globalSettings.appearance == mode ? .white : .primary
+                      )
+                      .cornerRadius(8)
+                    }
+                    .buttonStyle(.plain)
+                  }
+                }
+                Spacer()
+              }
+            }
+
+            VStack(alignment: .leading, spacing: 12) {
+              Text("Accent Color")
+                .font(.headline)
+
+              let availableColors = Array(AccentColor.allCases.dropFirst())
+              let colorsPerRow = 6
+
+              VStack(alignment: .center, spacing: 12) {
+                ForEach(0..<2, id: \.self) { row in
+                  HStack(spacing: 12) {
+                    Spacer()
+                    ForEach(0..<colorsPerRow, id: \.self) { col in
+                      let index = row * colorsPerRow + col
+                      if index < availableColors.count {
+                        let color = availableColors[index]
+                        Button(action: {
+                          globalSettings.setAccentColor(color.color)
+                        }) {
+                          Circle()
+                            .fill(color.color ?? .accentColor)
+                            .frame(width: 44, height: 44)
+                            .overlay(
+                              Circle()
+                                .stroke(
+                                  globalSettings.customAccentColor == color.color ? .white : .clear,
+                                  lineWidth: 3
+                                )
+                            )
+                            .overlay(
+                              globalSettings.customAccentColor == color.color
+                                ? Image(systemName: "checkmark")
+                                  .foregroundColor(.white)
+                                  .font(.system(size: 16, weight: .bold))
+                                : nil
+                            )
+                        }
+                        .buttonStyle(.plain)
+                      }
+                    }
+                    Spacer()
+                  }
+                }
+              }
+            }
+          }
+          .padding(.horizontal, 24)
+          .padding(.vertical, 16)
+          .navigationTitle("Theme")
+          .navigationBarTitleDisplayMode(.inline)
+          .toolbar {
+            ToolbarItem(placement: .cancellationAction) {
+              let needsReset =
+                globalSettings.appearance != .system || globalSettings.customAccentColor != nil
+              if needsReset {
+                Button("Reset") {
+                  globalSettings.setAppearance(.system)
+                  globalSettings.setAccentColor(nil)
+                }
+              }
+            }
+
+            ToolbarItem(placement: .confirmationAction) {
+              Button("Done") {
+                showingThemePicker = false
+              }
+            }
+          }
+        }
+        .presentationDetents([.fraction(0.45)])
+      }
+      .sheet(isPresented: $showingSoundManagement) {
+        SoundManagementView()
       }
     }
   }

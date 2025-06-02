@@ -10,6 +10,7 @@
     "extract-i18n": "node prebuild.js"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.4.0",
     "@playform/compress": "^0.1.9",
     "@tailwindcss/vite": "^4.1.2",
     "astro": "^5.8.1",

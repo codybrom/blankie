@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.12] - 2025-06-01
+
 ### Added
 
 - Korean (한국어) translation support - thanks to **Jinhwan Kim**
@@ -184,6 +186,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - TestFlight availability
 
 [Unreleased]: https://github.com/codybrom/blankie/compare/v1.0.10...HEAD
+[1.0.12]: https://github.com/codybrom/blankie/compare/v1.0.11...v1.0.12
 [1.0.11]: https://github.com/codybrom/blankie/compare/v1.0.10...v1.0.11
 [1.0.10]: https://github.com/codybrom/blankie/compare/v1.0.9...v1.0.10
 [1.0.9]: https://github.com/codybrom/blankie/compare/v1.0.8...v1.0.9

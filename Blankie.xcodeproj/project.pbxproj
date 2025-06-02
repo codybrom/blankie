@@ -240,6 +240,7 @@
 				it,
 				"pt-PT",
 				ja,
+				ko,
 			);
 			mainGroup = F91350562D233A43003C85BE;
 			minimizedProjectReferenceProxies = 1;

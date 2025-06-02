@@ -219,6 +219,12 @@
             "value" : "Blankieについて"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blankie 소개"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -283,6 +289,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アクセントカラー"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "포인트 색상"
           }
         },
         "pt-PT" : {
@@ -351,6 +363,12 @@
             "value" : "サウンドを追加（近日公開）"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소리 추가 (준비 중!)"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -415,6 +433,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "すべてのサウンド"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 소리"
           }
         },
         "pt-PT" : {
@@ -483,6 +507,12 @@
             "value" : "常に一時停止状態で開始"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "항상 일시정지로 시작"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -547,6 +577,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "外観"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "테마 설정"
           }
         },
         "pt-PT" : {
@@ -615,6 +651,12 @@
             "value" : "「%@」を本当に削除しますか？この操作は取り消せません。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "'%@'을(를) 삭제하시겠어요? 이 작업은 취소할 수 없습니다."
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -681,6 +723,12 @@
             "value" : "挙動"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "동작 설정"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -745,6 +793,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "鳥"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새소리"
           }
         },
         "pt-PT" : {
@@ -856,6 +910,12 @@
             "value" : "Blankieのヘルプ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blankie 도움말"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -920,6 +980,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Blankieの設定"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blankie 설정"
           }
         },
         "pt-PT" : {
@@ -1031,6 +1097,12 @@
             "value" : "青"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파랑"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1095,6 +1167,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "船"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "배"
           }
         },
         "pt-PT" : {
@@ -1163,6 +1241,12 @@
             "value" : "茶色"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "갈색"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1227,6 +1311,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fooより"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "제작"
           }
         },
         "pt-PT" : {
@@ -1295,6 +1385,12 @@
             "value" : "キャンセル"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "취소"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1359,6 +1455,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "街"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "도시 소리"
           }
         },
         "pt-PT" : {
@@ -1427,6 +1529,12 @@
             "value" : "閉じる"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "닫기"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1491,6 +1599,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ウィンドウを閉じる"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "창 닫기"
           }
         },
         "pt-PT" : {
@@ -1602,6 +1716,12 @@
             "value" : "Cody Bromleyと貢献者。無断転載を禁じます。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cody Bromley 및 기여자. 모든 권리 보유."
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1666,6 +1786,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "カフェ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "카페"
           }
         },
         "pt-PT" : {
@@ -1734,6 +1860,12 @@
             "value" : "コントリビューター"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기여자"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1798,6 +1930,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "シアン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "청록"
           }
         },
         "pt-PT" : {
@@ -1866,6 +2004,12 @@
             "value" : "ダーク"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "다크 모드"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1930,6 +2074,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "デフォルト"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기본"
           }
         },
         "pt-PT" : {
@@ -1998,6 +2148,12 @@
             "value" : "削除"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "삭제"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2062,6 +2218,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセットを削除"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 삭제"
           }
         },
         "pt-PT" : {
@@ -2130,6 +2292,12 @@
             "value" : "開発者："
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "만든 사람"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2194,6 +2362,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセットを編集"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 편집"
           }
         },
         "pt-PT" : {
@@ -2262,6 +2436,12 @@
             "value" : "編集："
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "편집자"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2328,6 +2508,12 @@
             "value" : "エラー"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "오류"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2392,6 +2578,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "暖炉"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "벽난로"
           }
         },
         "pt-PT" : {
@@ -2503,6 +2695,12 @@
             "value" : "緑"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "초록"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2567,6 +2765,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "非アクティブなサウンドを非表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "사용하지 않는 소리 숨기기"
           }
         },
         "pt-PT" : {
@@ -2635,6 +2839,12 @@
             "value" : "無効にすると、Blankieは起動時に直前のプリセットを再生します。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "비활성화하면 Blankie 실행 시 최근 프리셋이 바로 재생됩니다."
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2701,6 +2911,12 @@
             "value" : "インディゴ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "남색"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2764,6 +2980,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rafael Mardojai CM氏の「Blanket」にインスパイアされています。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "이 앱은 Rafael Mardojai CM의 Blanket에서 영감을 받았습니다."
           }
         },
         "pt-PT" : {
@@ -2832,6 +3054,12 @@
             "value" : "キーボードショートカット"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "단축키"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2897,6 +3125,12 @@
             "value" : "言語"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어 설정"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2944,6 +3178,12 @@
             "value" : "言語が変更されました"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어가 변경되었습니다"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2983,6 +3223,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "後で"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "나중에"
           }
         },
         "pt-PT" : {
@@ -3043,6 +3289,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MITライセンスの詳細はこちら"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MIT 라이선스 자세히 알아보기"
           }
         },
         "pt-PT" : {
@@ -3111,6 +3363,12 @@
             "value" : "ライト"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "라이트 모드"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3175,6 +3433,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセットを読み込み中..."
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 불러오는 중..."
           }
         },
         "pt-PT" : {
@@ -3243,6 +3507,12 @@
             "value" : "ミント"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "민트"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3307,6 +3577,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新しいプリセット"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 프리셋 만들기"
           }
         },
         "pt-PT" : {
@@ -3375,6 +3651,12 @@
             "value" : "新規ウィンドウ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "새 창 열기"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3439,6 +3721,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "カスタムプリセットなし"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋이 없습니다"
           }
         },
         "pt-PT" : {
@@ -3550,6 +3838,12 @@
             "value" : "OK"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "확인"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3614,6 +3908,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "オレンジ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "주황"
           }
         },
         "pt-PT" : {
@@ -3725,6 +4025,12 @@
             "value" : "ピンク"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "분홍"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3789,6 +4095,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ピンクノイズ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "핑크 노이즈"
           }
         },
         "pt-PT" : {
@@ -3857,6 +4169,12 @@
             "value" : "サウンドの再生／一時停止"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "재생/일시정지"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3921,6 +4239,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "再生を一時停止中"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "일시정지 중"
           }
         },
         "pt-PT" : {
@@ -3989,6 +4313,12 @@
             "value" : "設定"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4055,6 +4385,12 @@
             "value" : "設定..."
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "설정..."
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4118,6 +4454,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセット %d"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 %d"
           }
         },
         "pt-PT" : {
@@ -4186,6 +4528,12 @@
             "value" : "プリセット名"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 이름"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4250,6 +4598,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセット名は空にできません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 이름을 입력해 주세요"
           }
         },
         "pt-PT" : {
@@ -4318,6 +4672,12 @@
             "value" : "プリセット"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4382,6 +4742,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "パブリックドメイン"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public Domain"
           }
         },
         "pt-PT" : {
@@ -4450,6 +4816,12 @@
             "value" : "紫"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "보라"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4514,6 +4886,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "終了"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "종료"
           }
         },
         "pt-PT" : {
@@ -4582,6 +4960,12 @@
             "value" : "Blankieを終了"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blankie 종료"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4646,6 +5030,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "雨"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빗소리"
           }
         },
         "pt-PT" : {
@@ -4714,6 +5104,12 @@
             "value" : "赤"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "빨강"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4778,6 +5174,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プリセットの名前を変更"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "프리셋 이름 변경"
           }
         },
         "pt-PT" : {
@@ -4846,6 +5248,12 @@
             "value" : "問題を報告"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "문제 신고"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4912,6 +5320,12 @@
             "value" : "サウンドをリセット"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소리 초기화"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -4957,6 +5371,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "今すぐ再起動"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "지금 재시작"
           }
         },
         "pt-PT" : {
@@ -5017,6 +5437,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "保存"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "저장"
           }
         },
         "pt-PT" : {
@@ -5085,6 +5511,12 @@
             "value" : "現在のサウンド設定をプリセットとして保存して、すばやく呼び出せるようにします。"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "현재 소리 설정을 프리셋으로 저장해 두면, 나중에 바로 불러올 수 있어요."
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5149,6 +5581,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "すべてのサウンドを表示"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "모든 소리 보기"
           }
         },
         "pt-PT" : {
@@ -5217,6 +5655,12 @@
             "value" : "ソフトウェアライセンス"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소프트웨어 라이선스"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5281,6 +5725,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "サウンドの著作情報"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "소리 출처"
           }
         },
         "pt-PT" : {
@@ -5349,6 +5799,12 @@
             "value" : "GitHubでスターを付ける"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GitHub에 별 남기기"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5413,6 +5869,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "嵐"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "폭풍"
           }
         },
         "pt-PT" : {
@@ -5481,6 +5943,12 @@
             "value" : "川の流れ"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시냇물"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5545,6 +6013,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "夏の夜"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "여름 밤"
           }
         },
         "pt-PT" : {
@@ -5613,6 +6087,12 @@
             "value" : "システム"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "시스템"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -5677,6 +6157,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ティール"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "청록"
           }
         },
         "pt-PT" : {
@@ -5786,6 +6272,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "デフォルトのプリセットは名前を変更できません"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기본 프리셋은 이름을 바꿀 수 없습니다"
           }
         },
         "pt-PT" : {
@@ -5940,6 +6432,12 @@
             "value" : "電車"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "기차"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6004,6 +6502,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "翻訳"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "번역"
           }
         },
         "pt-PT" : {
@@ -6072,6 +6576,12 @@
             "value" : "バージョン %@（%@）"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "버전 %@ (%@)"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6136,6 +6646,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "波"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "파도"
           }
         },
         "pt-PT" : {
@@ -6204,6 +6720,12 @@
             "value" : "ウェブサイト"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "웹사이트"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6268,6 +6790,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "ホワイトノイズ"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "화이트 노이즈"
           }
         },
         "pt-PT" : {
@@ -6336,6 +6864,12 @@
             "value" : "風"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "바람"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6402,6 +6936,12 @@
             "value" : "黄色"
           }
         },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "노랑"
+          }
+        },
         "pt-PT" : {
           "stringUnit" : {
             "state" : "translated",
@@ -6447,6 +6987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "言語の変更を反映するにはBlankieを再起動する必要があります。"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "언어 변경을 적용하려면 Blankie를 다시 시작해 주세요."
           }
         },
         "pt-PT" : {

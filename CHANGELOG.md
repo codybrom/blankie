@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## Fixed
+### Added
+
+- Korean (한국어) translation support - thanks to **Jinhwan Kim**
+
+### Fixed
 
 - Fixed missing Japanese translation for a help label in the Preferences window
 

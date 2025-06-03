@@ -19,6 +19,7 @@ import SwiftUI
     let onDrop: (Int) -> Void
     let onEditSound: (Sound) -> Void
     let onHideSound: (Sound) -> Void
+    var isSoloMode: Bool = false
 
     @ObservedObject private var globalSettings = GlobalSettings.shared
     @State private var isDraggingIcon = false
@@ -27,21 +28,53 @@ import SwiftUI
       AudioManager.shared.getVisibleSounds()
     }
 
+    private var iconSize: CGFloat {
+      // Solo mode has fixed larger size
+      if isSoloMode {
+        return 200
+      }
+
+      // Normal mode uses settings
+      switch globalSettings.iconSize {
+      case .small:
+        return 75  // Increased from 65 to 75
+      case .medium:
+        return 100
+      case .large:
+        return maxWidth * 0.85
+      }
+    }
+
+    private var innerIconScale: CGFloat {
+      return 0.64
+    }
+
+    private var sliderWidth: CGFloat {
+      switch globalSettings.iconSize {
+      case .small:
+        return 70  // Increased from 65 to 70
+      case .medium:
+        return 85
+      case .large:
+        return maxWidth * 0.75
+      }
+    }
+
     var body: some View {
-      VStack(spacing: 8) {
+      VStack(spacing: globalSettings.iconSize == .small ? 4 : 8) {
         // Icon area with drag gesture
         ZStack {
           Circle()
             .fill(backgroundFill)
-            .frame(width: 100, height: 100)
+            .frame(width: iconSize, height: iconSize)
 
           Image(systemName: sound.systemIconName)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(width: 64, height: 64)
+            .frame(width: iconSize * innerIconScale, height: iconSize * innerIconScale)
             .foregroundColor(iconColor)
         }
-        .frame(width: 100, height: 100)
+        .frame(width: iconSize, height: iconSize)
         .contentShape(Circle())
         .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
         .opacity(draggedIndex == index ? 0.5 : 1.0)
@@ -119,28 +152,38 @@ import SwiftUI
         }
 
         // Title (not draggable) - hidden in solo mode since it's shown in navigation title
-        if AudioManager.shared.soloModeSound == nil && globalSettings.showSoundNames {
-          Text(LocalizedStringKey(sound.title))
-            .font(
-              Locale.current.identifier.hasPrefix("zh")
-                ? .system(size: 16, weight: .thin) : .callout
-            )
-            .lineLimit(2)
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: maxWidth - 20)
-            .foregroundColor(.primary)
+        if AudioManager.shared.soloModeSound == nil {
+          Group {
+            if globalSettings.showSoundNames {
+              Text(LocalizedStringKey(sound.title))
+                .font(
+                  globalSettings.iconSize == .small
+                    ? .caption2.weight(
+                      Locale.current.scriptCategory == .standard ? .regular : .thin)
+                    : .callout.weight(Locale.current.scriptCategory == .standard ? .regular : .thin)
+                )
+                .lineLimit(2)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.primary)
+            } else {
+              Color.clear  // Spacer to maintain consistent height
+            }
+          }
+          .frame(maxWidth: maxWidth - 20, minHeight: 32)  // Fixed min height for 2 lines
         }
 
-        // Slider (not draggable)
-        Slider(
-          value: Binding(
-            get: { Double(sound.volume) },
-            set: { sound.volume = Float($0) }
-          ), in: 0...1
-        )
-        .frame(width: min(maxWidth * 0.7, 140))
-        .tint(sliderTintColor)
-        .disabled(!isSliderEnabled)
+        // Slider (not draggable) - hide in solo mode
+        if !isSoloMode {
+          Slider(
+            value: Binding(
+              get: { Double(sound.volume) },
+              set: { sound.volume = Float($0) }
+            ), in: 0...1
+          )
+          .frame(width: sliderWidth)
+          .tint(sliderTintColor)
+          .disabled(!isSliderEnabled)
+        }
       }
       .padding(.vertical, 12)
       .padding(.horizontal, 10)

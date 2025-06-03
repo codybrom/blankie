@@ -37,6 +37,18 @@ struct SettingsView: View {
             )
           )
           .tint(globalSettings.customAccentColor ?? .accentColor)
+
+          Picker(
+            "Icon Size",
+            selection: Binding(
+              get: { globalSettings.iconSize },
+              set: { globalSettings.setIconSize($0) }
+            )
+          ) {
+            ForEach(IconSize.allCases, id: \.self) { size in
+              Text(size.label).tag(size)
+            }
+          }
         }
 
         Section(

@@ -17,16 +17,44 @@ struct SoundIcon: View {
   @State private var showingEditSheet = false
   @State private var showingDeleteConfirmation = false
 
+  private var configuration: Configuration {
+    switch globalSettings.iconSize {
+    case .small:
+      let iconSize: CGFloat = 75  // Increased to match DraggableSoundIcon
+      return Configuration(
+        iconSize: iconSize,
+        sliderWidth: 70,  // Keep slider width the same
+        spacing: 1,
+        padding: EdgeInsets(top: 2, leading: 1, bottom: 2, trailing: 1),
+        fontSizeOffset: -7  // Smaller text for small icons
+      )
+    case .medium:
+      return Configuration(
+        iconSize: 100,
+        sliderWidth: 85,
+        spacing: 8,
+        padding: EdgeInsets(top: 12, leading: 10, bottom: 12, trailing: 10),
+        fontSizeOffset: 0
+      )
+    case .large:
+      let iconSize = maxWidth * 0.85
+      let sliderWidth = maxWidth * 0.75
+      return Configuration(
+        iconSize: iconSize,
+        sliderWidth: sliderWidth,
+        spacing: 16,
+        padding: EdgeInsets(top: 24, leading: 20, bottom: 24, trailing: 20),
+        fontSizeOffset: 6
+      )
+    }
+  }
+
   private struct Configuration {
-    static let iconSize: CGFloat = 100
-    static let sliderWidth: CGFloat = 85
-    static let spacing: CGFloat = 8
-    static let padding = EdgeInsets(
-      top: 12,
-      leading: 10,
-      bottom: 12,
-      trailing: 10
-    )
+    let iconSize: CGFloat
+    let sliderWidth: CGFloat
+    let spacing: CGFloat
+    let padding: EdgeInsets
+    let fontSizeOffset: CGFloat
   }
 
   var accentColor: Color {
@@ -47,20 +75,50 @@ struct SoundIcon: View {
     return sound.isSelected ? (sound.customColor ?? accentColor).opacity(0.2) : .clear
   }
 
+  // Get the script category for proper font styling
+  var scriptCategory: Locale.ScriptCategory {
+    Locale.current.scriptCategory
+  }
+
+  // Compute the appropriate font based on icon size and script category
+  var titleFont: Font {
+    let baseFont: Font
+
+    // Start with callout and apply size adjustments
+    switch globalSettings.iconSize {
+    case .small:
+      baseFont = .caption
+    case .medium:
+      baseFont = .callout
+    case .large:
+      baseFont = .body
+    }
+
+    // Apply weight based on script category
+    let weightedFont = baseFont.weight(scriptCategory == .standard ? .regular : .thin)
+
+    // Apply additional size increase for dense scripts
+    if scriptCategory == .dense {
+      return weightedFont.leading(.tight)
+    }
+
+    return weightedFont
+  }
+
   var body: some View {
-    VStack(spacing: Configuration.spacing) {
+    VStack(spacing: configuration.spacing) {
       ZStack {
         Circle()
           .fill(backgroundFill)
-          .frame(width: Configuration.iconSize, height: Configuration.iconSize)
+          .frame(width: configuration.iconSize, height: configuration.iconSize)
 
         Image(systemName: sound.systemIconName)
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(width: Configuration.iconSize * 0.64, height: Configuration.iconSize * 0.64)
+          .frame(width: configuration.iconSize * 0.64, height: configuration.iconSize * 0.64)
           .foregroundColor(iconColor)
       }
-      .frame(width: Configuration.iconSize, height: Configuration.iconSize)
+      .frame(width: configuration.iconSize, height: configuration.iconSize)
       .contentShape(Circle())
       .gesture(
         TapGesture()
@@ -72,12 +130,10 @@ struct SoundIcon: View {
 
       if globalSettings.showSoundNames {
         Text(LocalizedStringKey(sound.title))
-          .font(
-            Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
-          )
+          .font(titleFont)
           .lineLimit(2)
           .multilineTextAlignment(.center)
-          .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))
+          .frame(maxWidth: maxWidth - (configuration.padding.leading * 2))
           .foregroundColor(.primary)
           .contentShape(Rectangle())
       }
@@ -88,15 +144,15 @@ struct SoundIcon: View {
           set: { sound.volume = Float($0) }
         ), in: 0...1
       )
-      .frame(width: Configuration.sliderWidth)
+      .frame(width: configuration.sliderWidth)
       .tint(
         audioManager.isGloballyPlaying
           ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
       )
       .disabled(!sound.isSelected)
     }
-    .padding(.vertical, Configuration.padding.top)
-    .padding(.horizontal, Configuration.padding.leading)
+    .padding(.vertical, configuration.padding.top)
+    .padding(.horizontal, configuration.padding.leading)
     .frame(width: maxWidth)
     .contextMenu {
       Button("Hide Sound", systemImage: "eye.slash") {

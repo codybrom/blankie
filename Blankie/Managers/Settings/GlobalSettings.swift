@@ -10,6 +10,14 @@ import Combine
 import Foundation
 import SwiftUI
 
+enum IconSize: String, CaseIterable {
+  case small = "Small"
+  case medium = "Medium"
+  case large = "Large"
+
+  var label: String { rawValue }
+}
+
 enum UserDefaultsKeys {
   static let volume = "globalVolume"
   static let appearance = "appearanceMode"
@@ -23,6 +31,8 @@ enum UserDefaultsKeys {
   static let lowerVolumeWithOtherAudio = "lowerVolumeWithOtherAudio"
   static let volumeWithOtherAudio = "volumeWithOtherAudio"
   static let showSoundNames = "showSoundNames"
+  static let iconSize = "iconSize"
+  static let soloModeSoundFileName = "soloModeSoundFileName"
 }
 
 class GlobalSettings: ObservableObject {
@@ -35,6 +45,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var autoPlayOnLaunch: Bool
   @Published private(set) var hideInactiveSounds: Bool
   @Published private(set) var showSoundNames: Bool
+  @Published private(set) var iconSize: IconSize
   @Published private(set) var language: Language
   @Published private(set) var availableLanguages: [Language] = []
 
@@ -74,6 +85,15 @@ class GlobalSettings: ObservableObject {
     // Show sound names preference (default to true)
     showSoundNames =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.showSoundNames) as? Bool ?? true
+
+    // Icon size preference (default to medium)
+    if let savedSize = UserDefaults.standard.string(forKey: UserDefaultsKeys.iconSize),
+      let size = IconSize(rawValue: savedSize)
+    {
+      iconSize = size
+    } else {
+      iconSize = .medium
+    }
 
     // Load platform-specific preferences
     enableHaptics =
@@ -171,6 +191,13 @@ class GlobalSettings: ObservableObject {
   }
 
   @MainActor
+  func setIconSize(_ value: IconSize) {
+    iconSize = value
+    UserDefaults.standard.set(iconSize.rawValue, forKey: UserDefaultsKeys.iconSize)
+    logCurrentSettings()
+  }
+
+  @MainActor
   func setEnableHaptics(_ value: Bool) {
     enableHaptics = value
     UserDefaults.standard.set(value, forKey: UserDefaultsKeys.enableHaptics)
@@ -236,6 +263,23 @@ class GlobalSettings: ObservableObject {
     needsRestartForLanguageChange = true
     Language.applyLanguage(newLanguage)
     logCurrentSettings()
+  }
+
+  // MARK: - Solo Mode Persistence
+
+  @MainActor
+  func saveSoloModeSound(fileName: String?) {
+    if let fileName = fileName {
+      UserDefaults.standard.set(fileName, forKey: UserDefaultsKeys.soloModeSoundFileName)
+      print("💾 GlobalSettings: Saved solo mode sound: \(fileName)")
+    } else {
+      UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.soloModeSoundFileName)
+      print("💾 GlobalSettings: Cleared solo mode sound")
+    }
+  }
+
+  func getSavedSoloModeFileName() -> String? {
+    return UserDefaults.standard.string(forKey: UserDefaultsKeys.soloModeSoundFileName)
   }
 
   private func updateAppAppearance() {

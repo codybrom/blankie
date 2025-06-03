@@ -295,6 +295,8 @@
 				"cp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"",
 				"",
 				"",
+				"",
+				"",
 			);
 		};
 /* End PBXShellScriptBuildPhase section */

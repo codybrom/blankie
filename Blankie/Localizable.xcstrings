@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@%%" : {
+
+    },
     "%lld customized" : {
 
     },
@@ -2408,6 +2411,9 @@
         }
       }
     },
+    "Grid View" : {
+
+    },
     "Hide Inactive Sounds" : {
       "comment" : "Hide inactive sounds menu item",
       "extractionState" : "manual",
@@ -2474,7 +2480,13 @@
         }
       }
     },
+    "Hide Names" : {
+
+    },
     "Hide Sound" : {
+
+    },
+    "Hide Sound Names" : {
 
     },
     "Hours" : {
@@ -2496,6 +2508,9 @@
           }
         }
       }
+    },
+    "Icon Size" : {
+      "comment" : "Icon size picker label"
     },
     "If disabled, Blankie will immediately play your most recent preset on launch" : {
       "comment" : "Help for \"Always start paused\" toggle",
@@ -3180,7 +3195,7 @@
       }
     },
     "Manage Sounds" : {
-      "comment" : "Menu item to manage sounds\nSound management label"
+      "comment" : "Sound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -4645,6 +4660,9 @@
         }
       }
     },
+    "Randomize Start Position" : {
+      "comment" : "Toggle label for randomizing sound start position"
+    },
     "Red" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -5263,11 +5281,14 @@
     "Show Inactive Sounds" : {
 
     },
+    "Show Names" : {
+
+    },
     "Show Sound" : {
 
     },
     "Show Sound Names" : {
-
+      "comment" : "Toggle to show/hide sound names"
     },
     "Software License" : {
       "comment" : "About section title",
@@ -5334,6 +5355,9 @@
           }
         }
       }
+    },
+    "Solo" : {
+
     },
     "Solo Mode" : {
 
@@ -5498,6 +5522,9 @@
           }
         }
       }
+    },
+    "Start playback from a random position each time" : {
+      "comment" : "Description for randomize start position toggle"
     },
     "Start Timer" : {
 

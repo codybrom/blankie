@@ -61,9 +61,12 @@ class CustomSoundManager {
   ///   - sourceURL: URL of the sound file to import
   ///   - title: Display name for the sound
   ///   - iconName: SF Symbol name to use for the sound
+  ///   - randomizeStartPosition: Whether to randomize the start position when playing
   /// - Returns: A Result with the created CustomSoundData or an error
   @Sendable
-  func importSound(from sourceURL: URL, title: String, iconName: String) async -> Result<
+  func importSound(
+    from sourceURL: URL, title: String, iconName: String, randomizeStartPosition: Bool = true
+  ) async -> Result<
     CustomSoundData, CustomSoundError
   > {
     // Generate a unique filename to prevent conflicts
@@ -104,7 +107,8 @@ class CustomSoundManager {
         systemIconName: iconName,
         fileName: uniqueFileName,
         fileExtension: fileExtension,
-        originalFileName: sourceURL.lastPathComponent
+        originalFileName: sourceURL.lastPathComponent,
+        randomizeStartPosition: randomizeStartPosition
       )
 
       // Save to SwiftData

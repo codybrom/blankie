@@ -52,4 +52,9 @@ class CustomSound: Sound {
   func delete() -> Result<Void, Error> {
     return CustomSoundManager.shared.deleteCustomSound(customSoundData)
   }
+
+  /// Override to use customSoundData's randomization setting
+  override func shouldRandomizeStartPosition() -> Bool {
+    return customSoundData.randomizeStartPosition
+  }
 }

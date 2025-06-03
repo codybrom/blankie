@@ -29,6 +29,7 @@ struct SoundSheet: View {
   @State var importError: Error?
   @State var showingError = false
   @State var isProcessing = false
+  @State var randomizeStartPosition: Bool = true
 
   private var sound: CustomSoundData? {
     switch mode {
@@ -95,6 +96,7 @@ struct SoundSheet: View {
     case .edit(let sound):
       _soundName = State(initialValue: sound.title)
       _selectedIcon = State(initialValue: sound.systemIconName)
+      _randomizeStartPosition = State(initialValue: sound.randomizeStartPosition)
       // Load color customization if it exists
       let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
       if let colorName = customization?.customColorName,
@@ -107,6 +109,7 @@ struct SoundSheet: View {
       _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
       _selectedIcon = State(
         initialValue: customization?.customIconName ?? sound.originalSystemIconName)
+      _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
       if let colorName = customization?.customColorName,
         let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
       {
@@ -134,7 +137,8 @@ struct SoundSheet: View {
         selectedIcon: $selectedIcon,
         selectedFile: $selectedFile,
         isImporting: $isImporting,
-        selectedColor: $selectedColor
+        selectedColor: $selectedColor,
+        randomizeStartPosition: $randomizeStartPosition
       )
 
       Spacer()
@@ -162,7 +166,7 @@ struct SoundSheet: View {
       }
       .padding()
     }
-    .frame(width: 450, height: mode.isAdd ? 580 : 560)
+    .frame(width: 450, height: mode.isAdd ? 620 : 600)
     .fileImporter(
       isPresented: $isImporting,
       allowedContentTypes: [

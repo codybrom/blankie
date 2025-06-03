@@ -16,6 +16,7 @@ class CustomSoundData {
   var fileName: String
   var fileExtension: String
   var dateAdded: Date
+  var randomizeStartPosition: Bool = true
 
   // We don't need full credit info for custom sounds, but we'll track some basic info
   var originalFileName: String?
@@ -25,7 +26,8 @@ class CustomSoundData {
     systemIconName: String,
     fileName: String,
     fileExtension: String,
-    originalFileName: String? = nil
+    originalFileName: String? = nil,
+    randomizeStartPosition: Bool = true
   ) {
     self.title = title
     self.systemIconName = systemIconName
@@ -33,6 +35,7 @@ class CustomSoundData {
     self.fileExtension = fileExtension
     self.dateAdded = Date()
     self.originalFileName = originalFileName
+    self.randomizeStartPosition = randomizeStartPosition
   }
 
   // Convert to SoundData for compatibility with existing system

@@ -14,6 +14,7 @@ struct SoundSheetForm: View {
   @Binding var selectedFile: URL?
   @Binding var isImporting: Bool
   @Binding var selectedColor: AccentColor?
+  @Binding var randomizeStartPosition: Bool
 
   @ObservedObject private var globalSettings = GlobalSettings.shared
 
@@ -155,6 +156,26 @@ struct SoundSheetForm: View {
         }
       case .add:
         EmptyView()
+      }
+
+      // Randomize Start Position Toggle
+      VStack(alignment: .leading, spacing: 8) {
+        Toggle(isOn: $randomizeStartPosition) {
+          VStack(alignment: .leading, spacing: 2) {
+            Text(
+              "Randomize Start Position",
+              comment: "Toggle label for randomizing sound start position"
+            )
+            .font(.headline)
+            Text(
+              "Start playback from a random position each time",
+              comment: "Description for randomize start position toggle"
+            )
+            .font(.caption)
+            .foregroundColor(.secondary)
+          }
+        }
+        .toggleStyle(.switch)
       }
     }
     .padding(20)

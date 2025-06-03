@@ -202,6 +202,17 @@ open class Sound: ObservableObject, Identifiable {
       completion?(.failure(.fileNotFound))
       return
     }
+
+    // Check if we should randomize start position
+    let shouldRandomize = shouldRandomizeStartPosition()
+    if shouldRandomize && player.duration > 0 {
+      let randomTime = Double.random(in: 0..<player.duration)
+      player.currentTime = randomTime
+      print(
+        "🔊 Sound: Randomized start position for '\(fileName)' to \(randomTime)s of \(player.duration)s"
+      )
+    }
+
     print(
       "🔊 Sound: Starting playback for '\(fileName)' with volume \(player.volume), global: \(GlobalSettings.shared.volume)"
     )
@@ -263,6 +274,29 @@ open class Sound: ObservableObject, Identifiable {
     objectWillChange.send()
   }
 
+  /// Check if this sound should randomize its start position
+  func shouldRandomizeStartPosition() -> Bool {
+    // For built-in sounds, check customization settings (default to true if not set)
+    let customization = SoundCustomizationManager.shared.getCustomization(for: fileName)
+    return customization?.randomizeStartPosition ?? true
+  }
+
+  deinit {
+    fadeTimer?.invalidate()
+    volumeDebounceTimer?.invalidate()
+    updateVolumeLogTimer?.invalidate()
+    player?.stop()
+    player = nil
+    globalSettingsObserver?.cancel()
+    customizationObserver?.cancel()
+    print("🔊 Sound: Sound '\(fileName)' - Deinitialized")
+  }
+}
+
+// MARK: - Sound Playback Control
+
+extension Sound {
+
   @MainActor
   func toggle() {
     print("🔊 Sound: Sound '\(fileName)' - toggle called, currently selected \(isSelected)")
@@ -308,16 +342,5 @@ open class Sound: ObservableObject, Identifiable {
     }
 
     print("🔊 Sound: Sound '\(fileName)' - toggled to \(isSelected)")
-  }
-
-  deinit {
-    fadeTimer?.invalidate()
-    volumeDebounceTimer?.invalidate()
-    updateVolumeLogTimer?.invalidate()
-    player?.stop()
-    player = nil
-    globalSettingsObserver?.cancel()
-    customizationObserver?.cancel()
-    print("🔊 Sound: Sound '\(fileName)' - Deinitialized")
   }
 }

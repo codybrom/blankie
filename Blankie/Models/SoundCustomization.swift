@@ -15,16 +15,18 @@ struct SoundCustomization: Codable, Identifiable {
   var customTitle: String?
   var customIconName: String?
   var customColorName: String?
+  var randomizeStartPosition: Bool?
 
   init(
     fileName: String, customTitle: String? = nil, customIconName: String? = nil,
-    customColorName: String? = nil
+    customColorName: String? = nil, randomizeStartPosition: Bool? = nil
   ) {
     self.id = UUID()
     self.fileName = fileName
     self.customTitle = customTitle
     self.customIconName = customIconName
     self.customColorName = customColorName
+    self.randomizeStartPosition = randomizeStartPosition
   }
 
   /// Returns the effective title (custom or original)
@@ -46,6 +48,7 @@ struct SoundCustomization: Codable, Identifiable {
   /// Whether this customization has any custom values
   var hasCustomizations: Bool {
     return customTitle != nil || customIconName != nil || customColorName != nil
+      || randomizeStartPosition != nil
   }
 }
 
@@ -113,6 +116,20 @@ class SoundCustomizationManager: ObservableObject {
 
     var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
     customization.customColorName = colorName
+
+    if customization.hasCustomizations {
+      customizations[fileName] = customization
+    } else {
+      customizations.removeValue(forKey: fileName)
+    }
+
+    saveCustomizationsInternal()
+  }
+
+  /// Set randomize start position for a sound
+  func setRandomizeStartPosition(_ randomize: Bool?, for fileName: String) {
+    var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
+    customization.randomizeStartPosition = randomize
 
     if customization.hasCustomizations {
       customizations[fileName] = customization

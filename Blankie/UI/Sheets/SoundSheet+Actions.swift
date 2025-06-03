@@ -35,12 +35,14 @@ extension SoundSheet {
     let file = selectedFile
     let title = soundName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     let icon = selectedIcon
+    let randomize = randomizeStartPosition
 
     Task.detached {
       let result = await CustomSoundManager.shared.importSound(
         from: file,
         title: title,
-        iconName: icon
+        iconName: icon,
+        randomizeStartPosition: randomize
       )
 
       // Extract sendable values from the result
@@ -76,6 +78,7 @@ extension SoundSheet {
   func saveChanges(_ sound: CustomSoundData) {
     sound.title = soundName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     sound.systemIconName = selectedIcon
+    sound.randomizeStartPosition = randomizeStartPosition
 
     do {
       try modelContext.save()
@@ -109,8 +112,9 @@ extension SoundSheet {
     let hasCustomName = soundName != sound.originalTitle
     let hasCustomIcon = selectedIcon != sound.originalSystemIconName
     let hasCustomColor = selectedColor != nil
+    let hasCustomRandomization = randomizeStartPosition != true  // Default is true
 
-    if hasCustomName || hasCustomIcon || hasCustomColor {
+    if hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization {
       // Use the manager's methods to set customizations
       if hasCustomName {
         SoundCustomizationManager.shared.setCustomTitle(soundName, for: sound.fileName)
@@ -129,6 +133,13 @@ extension SoundSheet {
           selectedColor?.color?.toString, for: sound.fileName)
       } else {
         SoundCustomizationManager.shared.setCustomColor(nil, for: sound.fileName)
+      }
+
+      if hasCustomRandomization {
+        SoundCustomizationManager.shared.setRandomizeStartPosition(
+          randomizeStartPosition, for: sound.fileName)
+      } else {
+        SoundCustomizationManager.shared.setRandomizeStartPosition(nil, for: sound.fileName)
       }
     } else {
       // Remove all customizations if there are no changes

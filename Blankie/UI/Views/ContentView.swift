@@ -38,9 +38,28 @@ import UniformTypeIdentifiers
       audioManager.isGloballyPlaying ? .primary : .secondary
     }
 
-    // Define constant sizes
-    private let itemWidth: CGFloat = 120  // Total width including padding
-    private let minimumSpacing: CGFloat = 10
+    // Define constant sizes based on icon size preference
+    private var itemWidth: CGFloat {
+      switch globalSettings.iconSize {
+      case .small:
+        return 100
+      case .medium:
+        return 120
+      case .large:
+        return 150
+      }
+    }
+
+    private var minimumSpacing: CGFloat {
+      switch globalSettings.iconSize {
+      case .small:
+        return 8
+      case .medium:
+        return 10
+      case .large:
+        return 12
+      }
+    }
 
     private var hideShowButton: some View {
       Button(action: {
@@ -59,22 +78,6 @@ import UniformTypeIdentifiers
       .help(appState.hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds")
     }
 
-    private var hideNamesButton: some View {
-      Button(action: {
-        withAnimation {
-          globalSettings.setShowSoundNames(!globalSettings.showSoundNames)
-        }
-      }) {
-        Image(systemName: globalSettings.showSoundNames ? "textformat" : "textformat.slash")
-          .resizable()
-          .aspectRatio(contentMode: .fit)
-          .frame(width: 20, height: 20)
-          .foregroundColor(.primary)
-      }
-      .buttonStyle(.borderless)
-      .help(globalSettings.showSoundNames ? "Hide Names" : "Show Names")
-    }
-
     var body: some View {
       GeometryReader { geometry in
         VStack(spacing: 0) {
@@ -82,10 +85,7 @@ import UniformTypeIdentifiers
             HStack {
               Image(systemName: "pause.circle.fill")
               Text("Playback Paused", comment: "Playback paused banner")
-                .font(
-                  Locale.current.identifier.hasPrefix("zh")
-                    ? .system(size: 16, weight: .medium, design: .rounded)
-                    : .system(.subheadline, design: .rounded))
+                .font(.subheadline.weight(.medium))
             }
             .frame(maxWidth: .infinity)
             .padding(.vertical, 6)
@@ -179,8 +179,6 @@ import UniformTypeIdentifiers
               }
 
               hideShowButton
-
-              hideNamesButton
 
             }
             .padding(.vertical, 12)

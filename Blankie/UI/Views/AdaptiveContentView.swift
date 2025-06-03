@@ -9,7 +9,7 @@ import SwiftUI
     @StateObject var globalSettings = GlobalSettings.shared
     @StateObject var presetManager = PresetManager.shared
 
-    @State var showingVolumeControls = false
+    @State var showingListView = false
     @State var showingPresetPicker = false
     @State var hideInactiveSounds = false
     @State var columnVisibility: NavigationSplitViewVisibility = .automatic
@@ -52,10 +52,6 @@ import SwiftUI
         } else {
           smallDeviceLayout
         }
-      }
-      .sheet(isPresented: $showingVolumeControls) {
-        VolumeControlsView(style: .sheet)
-          .presentationDetents([.medium, .large])
       }
       .sheet(isPresented: $showingSettings) {
         SettingsView()

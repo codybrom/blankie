@@ -24,18 +24,72 @@ import SwiftUI
     // Computed properties for columns and columnWidth
     var columns: [GridItem] {
       if isLargeDevice {
-        return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 16)]
+        // iPad/larger screens
+        switch globalSettings.iconSize {
+        case .small:
+          return [GridItem(.adaptive(minimum: 50, maximum: 60), spacing: 4)]
+        case .medium:
+          return [GridItem(.adaptive(minimum: 150, maximum: 180), spacing: 16)]
+        case .large:
+          return [GridItem(.adaptive(minimum: 240, maximum: 280), spacing: 24)]
+        }
       } else {
-        return Array(repeating: GridItem(.flexible(), spacing: 10), count: 3)
+        // iPhone
+        let columnCount: Int
+        switch globalSettings.iconSize {
+        case .small:
+          columnCount = 4
+        case .medium:
+          columnCount = 3
+        case .large:
+          columnCount = 2
+        }
+        let spacing: CGFloat
+        switch globalSettings.iconSize {
+        case .small:
+          spacing = 1
+        case .medium:
+          spacing = 10
+        case .large:
+          spacing = 8
+        }
+        return Array(repeating: GridItem(.flexible(), spacing: spacing), count: columnCount)
       }
     }
 
     var columnWidth: CGFloat {
       if isLargeDevice {
-        return 150
+        switch globalSettings.iconSize {
+        case .small:
+          return 60
+        case .medium:
+          return 150
+        case .large:
+          return 300
+        }
       } else {
         #if os(iOS)
-          return (UIScreen.main.bounds.width - 40) / 3  // 40 for padding/spacing
+          let screenWidth = UIScreen.main.bounds.width
+          let columnCount: CGFloat
+          switch globalSettings.iconSize {
+          case .small:
+            columnCount = 4
+          case .medium:
+            columnCount = 3
+          case .large:
+            columnCount = 2
+          }
+          let spacing: CGFloat
+          switch globalSettings.iconSize {
+          case .small:
+            spacing = 1
+          case .medium:
+            spacing = 10
+          case .large:
+            spacing = 8
+          }
+          let width = (screenWidth - (40 + (spacing * (columnCount - 1)))) / columnCount
+          return width
         #else
           return 100  // Fallback for other platforms
         #endif

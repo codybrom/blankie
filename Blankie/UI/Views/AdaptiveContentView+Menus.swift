@@ -34,7 +34,7 @@ import SwiftUI
           }
         }) {
           let labelText = globalSettings.showSoundNames ? "Hide Names" : "Show Names"
-          let iconName = globalSettings.showSoundNames ? "textformat" : "textformat.slash"
+          let iconName = globalSettings.showSoundNames ? "text.page.slash" : "textformat"
           Label(labelText, systemImage: iconName)
         }
 
@@ -76,6 +76,17 @@ import SwiftUI
           }
         }
 
+        // Grid View option (only shown when in list view)
+        if showingListView {
+          Button(action: {
+            withAnimation {
+              showingListView = false
+            }
+          }) {
+            Label("Grid View", systemImage: "square.grid.3x3")
+          }
+        }
+
         Button(action: {
           withAnimation {
             hideInactiveSounds.toggle()
@@ -97,7 +108,7 @@ import SwiftUI
           }
         }) {
           let labelText = globalSettings.showSoundNames ? "Hide Names" : "Show Names"
-          let iconName = globalSettings.showSoundNames ? "textformat" : "textformat.slash"
+          let iconName = globalSettings.showSoundNames ? "text.page.slash" : "textformat"
           Label(labelText, systemImage: iconName)
         }
 

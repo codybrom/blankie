@@ -63,6 +63,21 @@ extension AudioManager {
     )
   }
 
+  /// Move visible sounds from source indices to destination (for List's onMove)
+  @MainActor
+  func moveVisibleSounds(from source: IndexSet, to destination: Int) {
+    var visibleSounds = getVisibleSounds()
+    visibleSounds.move(fromOffsets: source, toOffset: destination)
+
+    // Assign new order values
+    for (index, sound) in visibleSounds.enumerated() {
+      sound.customOrder = index
+    }
+
+    objectWillChange.send()
+    print("🎵 AudioManager: Moved sounds from \(source) to \(destination)")
+  }
+
   /// Toggle the hidden state of a sound
   func toggleSoundVisibility(_ sound: Sound) {
     sound.isHidden.toggle()

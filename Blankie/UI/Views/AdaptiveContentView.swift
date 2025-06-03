@@ -403,13 +403,18 @@ import SwiftUI
               Spacer()
 
               VStack(spacing: 12) {
-                Image(systemName: audioManager.getVisibleSounds().isEmpty ? "eye.slash.circle" : "speaker.slash.circle")
-                  .font(.system(size: 48))
-                  .foregroundStyle(.secondary)
+                Image(
+                  systemName: audioManager.getVisibleSounds().isEmpty
+                    ? "eye.slash.circle" : "speaker.slash.circle"
+                )
+                .font(.system(size: 48))
+                .foregroundStyle(.secondary)
 
-                Text(audioManager.getVisibleSounds().isEmpty ? "No Visible Sounds" : "No Active Sounds")
-                  .font(.headline)
-                  .foregroundColor(.primary)
+                Text(
+                  audioManager.getVisibleSounds().isEmpty ? "No Visible Sounds" : "No Active Sounds"
+                )
+                .font(.headline)
+                .foregroundColor(.primary)
               }
 
               if audioManager.getVisibleSounds().isEmpty {
@@ -453,48 +458,48 @@ import SwiftUI
             ScrollView {
               LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
-                DraggableSoundIcon(
-                  sound: sound,
-                  maxWidth: columnWidth,
-                  index: index,
-                  draggedIndex: $draggedIndex,
-                  hoveredIndex: $hoveredIndex,
-                  onDragStart: {
-                    draggedIndex = index
-                    startDragResetTimer()
-                  },
-                  onDrop: { sourceIndex in
-                    audioManager.moveVisibleSound(from: sourceIndex, to: index)
-                    cancelDragResetTimer()
-                  },
-                  onEditSound: { sound in
-                    soundToEdit = sound
-                  },
-                  onHideSound: { sound in
-                    sound.isHidden.toggle()
-                    // If hiding a sound that's currently playing, stop it
-                    if sound.isHidden && sound.isSelected {
-                      sound.pause()
+                  DraggableSoundIcon(
+                    sound: sound,
+                    maxWidth: columnWidth,
+                    index: index,
+                    draggedIndex: $draggedIndex,
+                    hoveredIndex: $hoveredIndex,
+                    onDragStart: {
+                      draggedIndex = index
+                      startDragResetTimer()
+                    },
+                    onDrop: { sourceIndex in
+                      audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                      cancelDragResetTimer()
+                    },
+                    onEditSound: { sound in
+                      soundToEdit = sound
+                    },
+                    onHideSound: { sound in
+                      sound.isHidden.toggle()
+                      // If hiding a sound that's currently playing, stop it
+                      if sound.isHidden && sound.isSelected {
+                        sound.pause()
+                      }
+                      // If hiding the solo mode sound, exit solo mode
+                      if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
+                        audioManager.exitSoloMode()
+                      }
+                      // Update hasSelectedSounds to reflect changes in hidden sounds
+                      audioManager.updateHasSelectedSounds()
+                      soundsUpdateTrigger += 1
                     }
-                    // If hiding the solo mode sound, exit solo mode
-                    if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
-                      audioManager.exitSoloMode()
-                    }
-                    // Update hasSelectedSounds to reflect changes in hidden sounds
-                    audioManager.updateHasSelectedSounds()
-                    soundsUpdateTrigger += 1
-                  }
-                )
+                  )
+                }
               }
+              .padding()
+              .animation(.easeInOut, value: filteredSounds.count)
             }
-            .padding()
-            .animation(.easeInOut, value: filteredSounds.count)
-          }
-          .transition(
-            .asymmetric(
-              insertion: .opacity,
-              removal: .opacity
-            ))
+            .transition(
+              .asymmetric(
+                insertion: .opacity,
+                removal: .opacity
+              ))
           }
         }
       }

@@ -10,8 +10,7 @@ import Combine
 import Foundation
 import SwiftUI
 
-
-private enum UserDefaultsKeys {
+enum UserDefaultsKeys {
   static let volume = "globalVolume"
   static let appearance = "appearanceMode"
   static let accentColor = "customAccentColor"
@@ -44,8 +43,8 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var lowerVolumeWithOtherAudio: Bool = false
   @Published private(set) var volumeWithOtherAudio: Double = 0.5  // 0.0 = silent, 1.0 = full volume
 
-  private var observers = Set<AnyCancellable>()
-  private var volumeDebounceTimer: Timer?
+  var observers = Set<AnyCancellable>()
+  var volumeDebounceTimer: Timer?
 
   private init() {
     // Initialize properties directly
@@ -78,7 +77,8 @@ class GlobalSettings: ObservableObject {
     mixWithOthers =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.mixWithOthers) as? Bool ?? false
     lowerVolumeWithOtherAudio =
-      UserDefaults.standard.object(forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio) as? Bool ?? false
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio) as? Bool
+      ?? false
     volumeWithOtherAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.volumeWithOtherAudio) as? Double ?? 0.5
 
@@ -106,75 +106,8 @@ class GlobalSettings: ObservableObject {
       UserDefaults.standard.removeObject(forKey: "alwaysStartPaused")  // Remove old key
     }
 
-    // After initialization, setup observers
-    setupObservers()
+    // After initialization, log current settings
     logCurrentSettings()
-  }
-
-  private func validateVolume(_ volume: Double) -> Double {
-    min(max(volume, 0.0), 1.0)
-  }
-
-  private func setupObservers() {
-    _appearance.projectedValue.sink { [weak self] newValue in
-      UserDefaults.standard.setValue(newValue.rawValue, forKey: UserDefaultsKeys.appearance)
-      self?.updateAppAppearance()
-    }.store(in: &observers)
-
-    _customAccentColor.projectedValue.sink { newColor in
-      if let color = newColor {
-        UserDefaults.standard.set(color.toString, forKey: UserDefaultsKeys.accentColor)
-      } else {
-        UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.accentColor)
-      }
-    }.store(in: &observers)
-
-    _autoPlayOnLaunch.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.autoPlayOnLaunch)
-    }.store(in: &observers)
-
-    _hideInactiveSounds.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.hideInactiveSounds)
-    }.store(in: &observers)
-
-    _enableHaptics.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableHaptics)
-    }.store(in: &observers)
-
-    _enableSpatialAudio.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.enableSpatialAudio)
-    }.store(in: &observers)
-
-    _mixWithOthers.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.mixWithOthers)
-    }.store(in: &observers)
-
-    _lowerVolumeWithOtherAudio.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio)
-    }.store(in: &observers)
-
-    _volumeWithOtherAudio.projectedValue.sink { newValue in
-      UserDefaults.standard.set(newValue, forKey: UserDefaultsKeys.volumeWithOtherAudio)
-    }.store(in: &observers)
-
-    _language.projectedValue.sink { newValue in
-      UserDefaults.standard.setValue(newValue.code, forKey: UserDefaultsKeys.language)
-    }.store(in: &observers)
-  }
-
-  private func debouncedSaveVolume(_ newVolume: Double) {
-    volumeDebounceTimer?.invalidate()
-    volumeDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
-      [weak self] _ in
-      self?.saveVolume(newVolume)
-    }
-  }
-
-  private func saveVolume(_ newVolume: Double) {
-    let validVolume = validateVolume(newVolume)
-    UserDefaults.standard.set(validVolume, forKey: UserDefaultsKeys.volume)
-    print("⚙️ GlobalSettings: Saved volume: \(validVolume)")
-
   }
 
   @MainActor
@@ -187,18 +120,26 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setAppearance(_ newAppearance: AppearanceMode) {
     appearance = newAppearance
+    UserDefaults.standard.setValue(newAppearance.rawValue, forKey: UserDefaultsKeys.appearance)
+    updateAppAppearance()
     logCurrentSettings()
   }
 
   @MainActor
   func setAccentColor(_ newColor: Color?) {
     customAccentColor = newColor
+    if let color = newColor {
+      UserDefaults.standard.set(color.toString, forKey: UserDefaultsKeys.accentColor)
+    } else {
+      UserDefaults.standard.removeObject(forKey: UserDefaultsKeys.accentColor)
+    }
     logCurrentSettings()
   }
 
   @MainActor
   func setAutoPlayOnLaunch(_ value: Bool) {
     autoPlayOnLaunch = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.autoPlayOnLaunch)
     logCurrentSettings()
   }
 
@@ -219,12 +160,14 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setEnableHaptics(_ value: Bool) {
     enableHaptics = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.enableHaptics)
     logCurrentSettings()
   }
 
   @MainActor
   func setEnableSpatialAudio(_ value: Bool) {
     enableSpatialAudio = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.enableSpatialAudio)
     // Here we would also update the audio engine to enable/disable spatial audio
     logCurrentSettings()
   }
@@ -232,6 +175,7 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setMixWithOthers(_ value: Bool) {
     mixWithOthers = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.mixWithOthers)
     #if os(iOS) || os(visionOS)
       // Update audio session configuration
       updateAudioSession()
@@ -242,6 +186,7 @@ class GlobalSettings: ObservableObject {
   @MainActor
   func setLowerVolumeWithOtherAudio(_ value: Bool) {
     lowerVolumeWithOtherAudio = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio)
     #if os(iOS) || os(visionOS)
       // Update audio session configuration
       updateAudioSession()
@@ -255,58 +200,14 @@ class GlobalSettings: ObservableObject {
 
   @MainActor
   func setVolumeWithOtherAudio(_ level: Double) {
-    volumeWithOtherAudio = max(0.0, min(1.0, level)) // Clamp between 0.0 and 1.0
+    volumeWithOtherAudio = max(0.0, min(1.0, level))  // Clamp between 0.0 and 1.0
+    UserDefaults.standard.set(volumeWithOtherAudio, forKey: UserDefaultsKeys.volumeWithOtherAudio)
     // Apply the new volume level to currently playing sounds
     if AudioManager.shared.isGloballyPlaying {
       AudioManager.shared.applyVolumeSettings()
     }
     logCurrentSettings()
   }
-
-  #if os(iOS) || os(visionOS)
-    private func updateAudioSession() {
-      do {
-        let wasPlaying = AudioManager.shared.isGloballyPlaying
-
-        // Configure the session based on mixWithOthers setting
-        if mixWithOthers {
-          // Allow mixing with other apps - we handle volume manually
-          let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
-          print("⚙️ GlobalSettings: Setting Mix mode with manual volume control")
-
-          try AVAudioSession.sharedInstance().setCategory(
-            .playback,
-            mode: .default,
-            options: options
-          )
-        } else {
-          // Exclusive playback mode - no mixing
-          try AVAudioSession.sharedInstance().setCategory(
-            .playback,
-            mode: .default,
-            options: []  // No options means exclusive playback
-          )
-        }
-
-        // Always activate if we're currently playing to ensure we take over
-        if wasPlaying {
-          try AVAudioSession.sharedInstance().setActive(true)
-
-          // Restart playback since changing to exclusive mode may have interrupted it
-          AudioManager.shared.playSelected()
-
-          // Update Now Playing info
-          AudioManager.shared.updateNowPlayingState()
-        }
-
-        print(
-          "⚙️ GlobalSettings: Updated audio session with mixWithOthers: \(mixWithOthers), volumeWithOtherAudio: \(volumeWithOtherAudio), activated: \(wasPlaying)"
-        )
-      } catch {
-        print("❌ GlobalSettings: Failed to update audio session: \(error)")
-      }
-    }
-  #endif
 
   @MainActor
   func setLanguage(_ newLanguage: Language) {
@@ -317,25 +218,11 @@ class GlobalSettings: ObservableObject {
 
     print("🌐 GlobalSettings: Changing language from \(language.code) to \(newLanguage.code)")
     language = newLanguage
+    UserDefaults.standard.setValue(newLanguage.code, forKey: UserDefaultsKeys.language)
 
     needsRestartForLanguageChange = true
     Language.applyLanguage(newLanguage)
     logCurrentSettings()
-  }
-
-  func logCurrentSettings() {
-    print("\n⚙️ GlobalSettings: Current State")
-    print("  - Volume: \(volume)")
-    print("  - Appearance: \(appearance.rawValue)")
-    print("  - Custom Accent Color: \(customAccentColor?.toString ?? "System")")
-    print("  - Auto-play on Launch: \(autoPlayOnLaunch)")
-    print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
-    print("  - Enable Haptics: \(enableHaptics)")
-    print("  - Enable Spatial Audio: \(enableSpatialAudio)")
-    print("  - Mix With Others: \(mixWithOthers)")
-    print("  - Volume With Other Audio: \(volumeWithOtherAudio)")
-    print("  - Language: \(language.code)")
-    print("  - Available Languages: \(availableLanguages.map { $0.code }.joined(separator: ", "))")
   }
 
   private func updateAppAppearance() {

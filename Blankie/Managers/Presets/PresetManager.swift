@@ -298,7 +298,7 @@ extension PresetManager {
       // 1. Not an initial load (user manually selected preset)
       // 2. OR initial load and auto-play is enabled
       let shouldAutoPlay = !isInitialLoad || GlobalSettings.shared.autoPlayOnLaunch
-      
+
       if shouldAutoPlay && targetStates.contains(where: { $0.isSelected }) {
         AudioManager.shared.setGlobalPlaybackState(true)
       }

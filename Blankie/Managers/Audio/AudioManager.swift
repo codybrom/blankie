@@ -12,21 +12,21 @@ import SwiftData
 import SwiftUI
 
 class AudioManager: ObservableObject {
-  private var cancellables = Set<AnyCancellable>()
+  var cancellables = Set<AnyCancellable>()
   static let shared = AudioManager()
   var onReset: (() -> Void)?
 
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
   @Published var soloModeSound: Sound?
-  @Published private(set) var hasSelectedSounds: Bool = false
+  @Published var hasSelectedSounds: Bool = false
   var soloModeOriginalVolume: Float?
   var soloModeOriginalSelection: Bool?
 
   var modelContext: ModelContext?
   let nowPlayingManager = NowPlayingManager()
   @MainActor private var isInitializing = true
-  private var customSoundObserver: AnyCancellable?
+  var customSoundObserver: AnyCancellable?
   #if os(iOS) || os(visionOS)
     var audioSessionObserversSetup = false
   #endif
@@ -80,33 +80,6 @@ class AudioManager: ObservableObject {
     }
   }
 
-  func updateHasSelectedSounds() {
-    let newValue = sounds.contains { $0.isSelected && !$0.isHidden }
-    if hasSelectedSounds != newValue {
-      print("🎵 AudioManager: hasSelectedSounds changed from \(hasSelectedSounds) to \(newValue)")
-      hasSelectedSounds = newValue
-    }
-  }
-
-  func setupSoundObservers() {
-    // Clear any existing observers
-    cancellables.removeAll()
-    // Set up new observers for each sound
-    for sound in sounds {
-      sound.objectWillChange
-        .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-        .sink { [weak self] _ in
-          guard let self = self else { return }
-          Task { @MainActor in
-            self.updateHasSelectedSounds()
-            PresetManager.shared.updateCurrentPresetState()
-          }
-        }
-        .store(in: &cancellables)
-    }
-    // Update initial state
-    updateHasSelectedSounds()
-  }
   func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
     Task { @MainActor [weak self] in
       guard let self = self else { return }
@@ -136,21 +109,6 @@ class AudioManager: ObservableObject {
       }
     }
   }
-
-  #if os(iOS) || os(visionOS)
-    func setupAudioSessionForPlayback() {
-      #if CARPLAY_ENABLED
-        let isCarPlayConnected = CarPlayInterface.shared.isConnected
-      #else
-        let isCarPlayConnected = false
-      #endif
-
-      AudioSessionManager.shared.setupForPlayback(
-        mixWithOthers: GlobalSettings.shared.mixWithOthers,
-        isCarPlayConnected: isCarPlayConnected
-      )
-    }
-  #endif
 
   // Update playSelected to check global state
   func playSelected() {
@@ -195,32 +153,6 @@ class AudioManager: ObservableObject {
     )
   }
 
-  private func loadSavedState() {
-    guard let state = UserDefaults.standard.array(forKey: "soundState") as? [[String: Any]] else {
-      return
-    }
-    for savedState in state {
-      guard let fileName = savedState["fileName"] as? String,
-        let sound = sounds.first(where: { $0.fileName == fileName })
-      else {
-        continue
-      }
-      sound.isSelected = savedState["isSelected"] as? Bool ?? false
-      sound.volume = savedState["volume"] as? Float ?? 1.0
-    }
-  }
-
-  public func updateNowPlayingInfoForPreset(presetName: String? = nil) {
-    nowPlayingManager.updateInfo(
-      presetName: presetName,
-      isPlaying: isGloballyPlaying
-    )
-  }
-
-  func updateNowPlayingState() {
-    nowPlayingManager.updatePlaybackState(isPlaying: isGloballyPlaying)
-  }
-
   func pauseAll() {
     print("🎵 AudioManager: Pausing all sounds")
     print("  - Current global play state: \(isGloballyPlaying)")
@@ -243,50 +175,6 @@ class AudioManager: ObservableObject {
     #endif
 
     print("🎵 AudioManager: Pause all complete")
-  }
-  func saveState() {
-    let state = sounds.map { sound in
-      [
-        "id": sound.id.uuidString,
-        "fileName": sound.fileName,
-        "isSelected": sound.isSelected,
-        "volume": sound.volume,
-      ]
-    }
-    UserDefaults.standard.set(state, forKey: "soundState")
-  }
-  /// Toggles the playback state of all selected sounds
-  @MainActor func togglePlayback() {
-    print("🎵 AudioManager: Toggling playback")
-    print("  - Current state (pre-toggle): \(isGloballyPlaying)")
-    setGlobalPlaybackState(!isGloballyPlaying)
-    print("  - New state (post-toggle): \(isGloballyPlaying)")
-  }
-
-  @MainActor
-  func resetSounds() {
-    print("🎵 AudioManager: Resetting all sounds")
-
-    // First pause all sounds immediately
-    sounds.forEach { sound in
-      print("  - Stopping '\(sound.fileName)'")
-      sound.pause(immediate: true)
-    }
-    setGlobalPlaybackState(false)
-    // Reset all sounds
-    sounds.forEach { sound in
-      sound.volume = 1.0
-      sound.isSelected = false
-    }
-    // Reset "All Sounds" volume
-    GlobalSettings.shared.setVolume(1.0)
-
-    // Update hasSelectedSounds after resetting
-    updateHasSelectedSounds()
-
-    // Call the reset callback
-    onReset?()
-    print("🎵 AudioManager: Reset complete")
   }
 
   // Public method for changing playback state
@@ -319,27 +207,6 @@ class AudioManager: ObservableObject {
       presetName: presetName,
       isPlaying: isGloballyPlaying
     )
-  }
-
-  // MARK: - SwiftData Integration
-
-  /// Set up the model context for accessing custom sounds
-  func setModelContext(_ context: ModelContext) {
-    self.modelContext = context
-    CustomSoundManager.shared.setModelContext(context)
-    setupCustomSoundObservers()
-    loadCustomSounds()
-  }
-
-  private func setupCustomSoundObservers() {
-    // Observe custom sound changes
-    customSoundObserver = NotificationCenter.default.publisher(for: .customSoundAdded)
-      .merge(with: NotificationCenter.default.publisher(for: .customSoundDeleted))
-      .sink { [weak self] _ in
-        Task { @MainActor in
-          self?.loadCustomSounds()
-        }
-      }
   }
 
   deinit {

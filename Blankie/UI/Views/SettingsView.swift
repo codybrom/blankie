@@ -67,7 +67,7 @@ struct SettingsView: View {
                   .padding(.horizontal, 8)
                   .background(.orange.opacity(0.1))
                   .cornerRadius(6)
-                  
+
                   VStack(alignment: .leading, spacing: 8) {
                     HStack {
                       Text("Blankie Volume with Media")
@@ -86,7 +86,7 @@ struct SettingsView: View {
                       in: 0.0...1.0
                     )
                     .tint(globalSettings.customAccentColor ?? .accentColor)
-                    
+
                     Text("Other media plays at system volume")
                       .font(.caption)
                       .foregroundColor(.secondary)
@@ -272,7 +272,6 @@ struct ThemePicker: View {
     #endif
   }
 }
-
 
 // Preview Provider
 struct SettingsView_Previews: PreviewProvider {

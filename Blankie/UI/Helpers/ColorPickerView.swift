@@ -65,7 +65,8 @@ struct ColorPickerView: View {
             Spacer()
 
             if (color == .system && globalSettings.customAccentColor == nil)
-              || (color.color == globalSettings.customAccentColor) {
+              || (color.color == globalSettings.customAccentColor)
+            {
               Image(systemName: "checkmark")
                 .foregroundColor(.blue)
             }

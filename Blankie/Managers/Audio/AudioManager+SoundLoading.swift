@@ -60,8 +60,7 @@ extension AudioManager {
 
       // Initialize custom order for sounds that don't have one saved in UserDefaults
       for (index, sound) in builtInSounds.enumerated()
-      where UserDefaults.standard.object(forKey: "\(sound.fileName)_customOrder") == nil
-      {
+      where UserDefaults.standard.object(forKey: "\(sound.fileName)_customOrder") == nil {
         sound.customOrder = index
       }
 

@@ -72,7 +72,7 @@ import SwiftUI
         ZStack {
           Circle()
             .fill(
-              audioManager.hasSelectedSounds 
+              audioManager.hasSelectedSounds
                 ? (globalSettings.customAccentColor?.opacity(0.2) ?? Color.accentColor.opacity(0.2))
                 : Color.secondary.opacity(0.1)
             )
@@ -84,7 +84,7 @@ import SwiftUI
           Image(systemName: imageName)
             .font(.system(size: 26))
             .foregroundColor(
-              audioManager.hasSelectedSounds 
+              audioManager.hasSelectedSounds
                 ? (globalSettings.customAccentColor ?? .accentColor)
                 : Color.secondary
             )

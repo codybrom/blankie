@@ -294,6 +294,7 @@
 				"sed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"",
 				"cp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"",
 				"",
+				"",
 			);
 		};
 /* End PBXShellScriptBuildPhase section */

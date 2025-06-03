@@ -64,15 +64,15 @@ struct PresetPickerView: View {
                 Text("Solo Mode - \(soloSound.title)")
                   .foregroundColor(.secondary)
               }
-              
+
               Spacer()
-              
+
               Image(systemName: "checkmark")
                 .foregroundColor(.accentColor)
             }
             .listRowBackground(Color.secondary.opacity(0.1))
           }
-          
+
           // List of presets
           ForEach(presetManager.presets.filter { !$0.isDefault }) { preset in
             Button {
@@ -83,7 +83,7 @@ struct PresetPickerView: View {
                   if audioManager.soloModeSound != nil {
                     audioManager.exitSoloMode()
                   }
-                  
+
                   try presetManager.applyPreset(preset)
                   dismiss()
                 } catch {
@@ -100,7 +100,7 @@ struct PresetPickerView: View {
                 // Only show checkmark if not in solo mode AND this is the current preset
                 let isSoloModeActive = audioManager.soloModeSound != nil
                 let isCurrentPreset = presetManager.currentPreset?.id == preset.id
-                
+
                 if !isSoloModeActive && isCurrentPreset {
                   Image(systemName: "checkmark")
                     .foregroundColor(.accentColor)
@@ -160,7 +160,9 @@ struct PresetPickerView: View {
           }
         }
       }
-      .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
+      #if os(iOS)
+        .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
+      #endif
       .sheet(item: $presetToRename) { preset in
         RenamePresetView(
           preset: preset,

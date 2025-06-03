@@ -1,5 +1,6 @@
 opt_in_rules: []
 disabled_rules:
+  - todo
   - line_length
   - closure_parameter_position
   - multiple_closures_with_trailing_closure

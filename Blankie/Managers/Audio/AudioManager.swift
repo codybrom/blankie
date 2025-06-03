@@ -54,7 +54,12 @@ class AudioManager: ObservableObject {
 
       self.isInitializing = false
 
-      if GlobalSettings.shared.autoPlayOnLaunch {
+      // Restore solo mode if it was saved
+      if let savedSoloFileName = GlobalSettings.shared.getSavedSoloModeFileName(),
+         let soloSound = self.sounds.first(where: { $0.fileName == savedSoloFileName }) {
+        print("🎵 AudioManager: Restoring solo mode for '\(soloSound.title)'")
+        self.enterSoloMode(for: soloSound)
+      } else if GlobalSettings.shared.autoPlayOnLaunch {
         let hasSelectedSounds = self.sounds.contains { $0.isSelected }
         if hasSelectedSounds {
           // Set initial state

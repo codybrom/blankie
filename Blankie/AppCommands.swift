@@ -65,6 +65,13 @@ import SwiftUI
           }
         }
         .keyboardShortcut("h", modifiers: [.control, .command])
+
+        Button(GlobalSettings.shared.showSoundNames ? "Hide Sound Names" : "Show Sound Names") {
+          withAnimation {
+            GlobalSettings.shared.setShowSoundNames(!GlobalSettings.shared.showSoundNames)
+          }
+        }
+        .keyboardShortcut("n", modifiers: [.control, .command])
       }
 
       // Add Help menu command

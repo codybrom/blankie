@@ -52,6 +52,21 @@ import SwiftUI
           }
           .keyboardShortcut("h", modifiers: [.control, .command])
 
+          Button {
+            withAnimation {
+              GlobalSettings.shared.setShowSoundNames(!GlobalSettings.shared.showSoundNames)
+            }
+          } label: {
+            HStack {
+              Text("Show Sound Names", comment: "Toggle to show/hide sound names")
+              if GlobalSettings.shared.showSoundNames {
+                Spacer()
+                Image(systemName: "checkmark")
+              }
+            }
+          }
+          .keyboardShortcut("n", modifiers: [.control, .command])
+
           Divider()
 
           Button {

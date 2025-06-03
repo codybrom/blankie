@@ -152,6 +152,24 @@ struct PreferencesView: View {
           )
         )
         .tint(accentColorForUI)
+
+        HStack(spacing: 16) {
+          Text("Icon Size", comment: "Icon size picker label")
+            .frame(width: 100, alignment: .leading)
+          Picker(
+            "Icon Size",
+            selection: Binding(
+              get: { globalSettings.iconSize },
+              set: { globalSettings.setIconSize($0) }
+            )
+          ) {
+            ForEach(IconSize.allCases, id: \.self) { size in
+              Text(size.label).tag(size)
+            }
+          }
+          .pickerStyle(.segmented)
+          .labelsHidden()
+        }
       } header: {
         Text("Appearance", comment: "Appearance section header")
       }

@@ -307,4 +307,39 @@ extension PresetManager {
     print("🎛️ PresetManager: --- End Apply Preset ---\n")
   }
 
+  /// Remove deleted custom sounds from all presets
+  @MainActor
+  func cleanupDeletedCustomSounds() {
+    print("🎛️ PresetManager: Cleaning up deleted custom sounds from presets")
+
+    // Get current valid sound file names
+    let validSoundFileNames = Set(AudioManager.shared.sounds.map(\.fileName))
+
+    // Update each preset to remove invalid sound states
+    for (index, preset) in presets.enumerated() {
+      let validSoundStates = preset.soundStates.filter { soundState in
+        validSoundFileNames.contains(soundState.fileName)
+      }
+
+      // Only update if there were changes
+      if validSoundStates.count != preset.soundStates.count {
+        var updatedPreset = preset
+        updatedPreset.soundStates = validSoundStates
+        presets[index] = updatedPreset
+
+        // Update current preset if needed
+        if currentPreset?.id == preset.id {
+          currentPreset = updatedPreset
+        }
+
+        print(
+          "🎛️ PresetManager: Removed \(preset.soundStates.count - validSoundStates.count) deleted sounds from preset '\(preset.name)'"
+        )
+      }
+    }
+
+    // Save the cleaned up presets
+    savePresets()
+  }
+
 }

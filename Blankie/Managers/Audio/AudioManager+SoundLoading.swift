@@ -110,6 +110,11 @@ extension AudioManager {
 
     // Re-setup observers for the new sounds
     setupSoundObservers()
+
+    // Clean up deleted custom sounds from presets
+    Task { @MainActor in
+      PresetManager.shared.cleanupDeletedCustomSounds()
+    }
   }
 
   private struct SoundsContainer: Codable {

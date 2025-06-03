@@ -37,14 +37,14 @@ struct SoundIcon: View {
     if !audioManager.isGloballyPlaying {
       return .gray
     }
-    return sound.isSelected ? accentColor : .gray
+    return sound.isSelected ? (sound.customColor ?? accentColor) : .gray
   }
 
   var backgroundFill: Color {
     if !audioManager.isGloballyPlaying {
       return sound.isSelected ? Color.gray.opacity(0.2) : .clear
     }
-    return sound.isSelected ? accentColor.opacity(0.2) : .clear
+    return sound.isSelected ? (sound.customColor ?? accentColor).opacity(0.2) : .clear
   }
 
   var body: some View {
@@ -87,7 +87,10 @@ struct SoundIcon: View {
         ), in: 0...1
       )
       .frame(width: Configuration.sliderWidth)
-      .tint(audioManager.isGloballyPlaying ? (sound.isSelected ? accentColor : .gray) : .gray)
+      .tint(
+        audioManager.isGloballyPlaying
+          ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
+      )
       .disabled(!sound.isSelected)
     }
     .padding(.vertical, Configuration.padding.top)

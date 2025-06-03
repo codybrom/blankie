@@ -1495,6 +1495,9 @@
         }
       }
     },
+    "Color" : {
+      "comment" : "Custom color field label"
+    },
     "Connected to CarPlay" : {
 
     },
@@ -1563,6 +1566,9 @@
           }
         }
       }
+    },
+    "Current Theme" : {
+      "comment" : "Current theme color option"
     },
     "Custom" : {
 
@@ -2557,6 +2563,9 @@
         }
       }
     },
+    "If enabled, Blankie will immediately play your most recent preset on launch" : {
+
+    },
     "Import custom sounds and manage hidden sounds" : {
 
     },
@@ -3171,7 +3180,7 @@
       }
     },
     "Manage Sounds" : {
-      "comment" : "Sound management label"
+      "comment" : "Menu item to manage sounds\nSound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",

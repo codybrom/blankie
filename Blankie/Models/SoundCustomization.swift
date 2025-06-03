@@ -14,12 +14,17 @@ struct SoundCustomization: Codable, Identifiable {
   let fileName: String
   var customTitle: String?
   var customIconName: String?
+  var customColorName: String?
 
-  init(fileName: String, customTitle: String? = nil, customIconName: String? = nil) {
+  init(
+    fileName: String, customTitle: String? = nil, customIconName: String? = nil,
+    customColorName: String? = nil
+  ) {
     self.id = UUID()
     self.fileName = fileName
     self.customTitle = customTitle
     self.customIconName = customIconName
+    self.customColorName = customColorName
   }
 
   /// Returns the effective title (custom or original)
@@ -32,9 +37,15 @@ struct SoundCustomization: Codable, Identifiable {
     return customIconName ?? originalIconName
   }
 
+  /// Returns the effective color (custom or nil for default)
+  var effectiveColor: Color? {
+    guard let colorName = customColorName else { return nil }
+    return Color(fromString: colorName)
+  }
+
   /// Whether this customization has any custom values
   var hasCustomizations: Bool {
-    return customTitle != nil || customIconName != nil
+    return customTitle != nil || customIconName != nil || customColorName != nil
   }
 }
 
@@ -83,6 +94,25 @@ class SoundCustomizationManager: ObservableObject {
 
     var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
     customization.customIconName = iconName
+
+    if customization.hasCustomizations {
+      customizations[fileName] = customization
+    } else {
+      customizations.removeValue(forKey: fileName)
+    }
+
+    saveCustomizationsInternal()
+  }
+
+  /// Set custom color for a sound
+  func setCustomColor(_ colorName: String?, for fileName: String) {
+    if colorName?.isEmpty == true {
+      setCustomColor(nil, for: fileName)
+      return
+    }
+
+    var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
+    customization.customColorName = colorName
 
     if customization.hasCustomizations {
       customizations[fileName] = customization

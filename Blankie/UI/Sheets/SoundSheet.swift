@@ -23,6 +23,7 @@ struct SoundSheet: View {
 
   @State var soundName: String = ""
   @State var selectedIcon: String = "waveform.circle"
+  @State var selectedColor: AccentColor?
   @State var selectedFile: URL?
   @State var isImporting = false
   @State var importError: Error?
@@ -99,6 +100,11 @@ struct SoundSheet: View {
       _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
       _selectedIcon = State(
         initialValue: customization?.customIconName ?? sound.originalSystemIconName)
+      if let colorName = customization?.customColorName,
+        let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
+      {
+        _selectedColor = State(initialValue: color)
+      }
     }
   }
 
@@ -120,7 +126,8 @@ struct SoundSheet: View {
         soundName: $soundName,
         selectedIcon: $selectedIcon,
         selectedFile: $selectedFile,
-        isImporting: $isImporting
+        isImporting: $isImporting,
+        selectedColor: $selectedColor
       )
 
       Spacer()
@@ -148,7 +155,7 @@ struct SoundSheet: View {
       }
       .padding()
     }
-    .frame(width: 450, height: mode.isAdd ? 580 : 520)
+    .frame(width: 450, height: mode.isAdd ? 580 : 560)
     .fileImporter(
       isPresented: $isImporting,
       allowedContentTypes: [

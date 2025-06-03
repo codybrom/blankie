@@ -98,8 +98,9 @@ extension SoundSheet {
     // Only save if there are actual customizations
     let hasCustomName = soundName != sound.originalTitle
     let hasCustomIcon = selectedIcon != sound.originalSystemIconName
+    let hasCustomColor = selectedColor != nil
 
-    if hasCustomName || hasCustomIcon {
+    if hasCustomName || hasCustomIcon || hasCustomColor {
       // Use the manager's methods to set customizations
       if hasCustomName {
         SoundCustomizationManager.shared.setCustomTitle(soundName, for: sound.fileName)
@@ -111,6 +112,13 @@ extension SoundSheet {
         SoundCustomizationManager.shared.setCustomIcon(selectedIcon, for: sound.fileName)
       } else {
         SoundCustomizationManager.shared.setCustomIcon(nil, for: sound.fileName)
+      }
+
+      if hasCustomColor {
+        SoundCustomizationManager.shared.setCustomColor(
+          selectedColor?.color?.toString, for: sound.fileName)
+      } else {
+        SoundCustomizationManager.shared.setCustomColor(nil, for: sound.fileName)
       }
     } else {
       // Remove all customizations if there are no changes

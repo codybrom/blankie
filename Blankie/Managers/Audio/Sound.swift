@@ -29,6 +29,10 @@ open class Sound: ObservableObject, Identifiable {
       originalIconName: originalSystemIconName) ?? originalSystemIconName
   }
 
+  var customColor: Color? {
+    return SoundCustomizationManager.shared.getCustomization(for: fileName)?.effectiveColor
+  }
+
   @Published var isSelected = false {
     didSet {
       UserDefaults.standard.set(isSelected, forKey: "\(fileName)_isSelected")

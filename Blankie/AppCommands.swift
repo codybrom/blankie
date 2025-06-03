@@ -72,6 +72,23 @@ import SwiftUI
           }
         }
         .keyboardShortcut("n", modifiers: [.control, .command])
+
+        Divider()
+
+        Menu("Icon Size") {
+          ForEach(IconSize.allCases, id: \.self) { size in
+            Button(size.label) {
+              withAnimation {
+                GlobalSettings.shared.setIconSize(size)
+              }
+            }
+            .keyboardShortcut(
+              size == .small ? "1" : size == .medium ? "2" : "3",
+              modifiers: [.control, .command]
+            )
+            .disabled(GlobalSettings.shared.iconSize == size)
+          }
+        }
       }
 
       // Add Help menu command

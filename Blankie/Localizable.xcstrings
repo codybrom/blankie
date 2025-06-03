@@ -3195,7 +3195,7 @@
       }
     },
     "Manage Sounds" : {
-      "comment" : "Sound management label"
+      "comment" : "Menu item to manage sounds\nSound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",

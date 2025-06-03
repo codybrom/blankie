@@ -122,7 +122,8 @@ class CustomSoundManager {
   }
 
   private func copyToCustomSoundsDirectory(source: URL, filename: String, extension ext: String)
-    throws -> URL? {
+    throws -> URL?
+  {
     guard let directoryURL = getCustomSoundsDirectoryURL() else {
       return nil
     }
@@ -184,8 +185,8 @@ class CustomSoundManager {
         return .failure(CustomSoundError.fileTooLarge)
       }
 
-      // Check duration (limit to 10 minutes)
-      if audioPlayer.duration > 600 {
+      // Check duration (limit to 120 minutes)
+      if audioPlayer.duration > 7200 {
         return .failure(CustomSoundError.durationTooLong)
       }
 
@@ -284,7 +285,7 @@ enum CustomSoundError: Error, LocalizedError, Sendable {
     case .fileTooLarge:
       return "Audio file is too large. Maximum size is 50MB."
     case .durationTooLong:
-      return "Audio file is too long. Maximum duration is 10 minutes."
+      return "Audio file is too long. Maximum duration is 120 minutes."
     case .invalidAudioFile(let error):
       return "Invalid audio file: \(error.localizedDescription)"
     case .databaseError:

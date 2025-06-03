@@ -119,7 +119,7 @@ import SwiftUI
         }
 
         // Title (not draggable) - hidden in solo mode since it's shown in navigation title
-        if AudioManager.shared.soloModeSound == nil {
+        if AudioManager.shared.soloModeSound == nil && globalSettings.showSoundNames {
           Text(LocalizedStringKey(sound.title))
             .font(
               Locale.current.identifier.hasPrefix("zh")

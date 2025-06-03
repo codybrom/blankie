@@ -95,6 +95,13 @@ struct SoundSheet: View {
     case .edit(let sound):
       _soundName = State(initialValue: sound.title)
       _selectedIcon = State(initialValue: sound.systemIconName)
+      // Load color customization if it exists
+      let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
+      if let colorName = customization?.customColorName,
+        let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
+      {
+        _selectedColor = State(initialValue: color)
+      }
     case .customize(let sound):
       let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
       _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)

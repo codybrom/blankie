@@ -176,8 +176,10 @@ struct VolumeControlsView: View {
                 Image(systemName: sound.systemIconName)
                   .foregroundColor(accentColor)
 
-                Text(LocalizedStringKey(sound.title))
-                  .font(.callout)
+                if globalSettings.showSoundNames {
+                  Text(LocalizedStringKey(sound.title))
+                    .font(.callout)
+                }
               }
 
               HStack {

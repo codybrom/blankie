@@ -5266,6 +5266,9 @@
     "Show Sound" : {
 
     },
+    "Show Sound Names" : {
+
+    },
     "Software License" : {
       "comment" : "About section title",
       "extractionState" : "manual",

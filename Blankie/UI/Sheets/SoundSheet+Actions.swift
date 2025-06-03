@@ -80,11 +80,21 @@ extension SoundSheet {
     do {
       try modelContext.save()
 
+      // Handle color customization
+      if let selectedColor = selectedColor {
+        SoundCustomizationManager.shared.setCustomColor(
+          selectedColor.color?.toString, for: sound.fileName)
+      } else {
+        // Remove color customization if "Current Theme" is selected
+        SoundCustomizationManager.shared.setCustomColor(nil, for: sound.fileName)
+      }
+
       // Update the active sound object if it exists
       if let customSound = AudioManager.shared.sounds.first(where: {
         ($0 as? CustomSound)?.customSoundData.id == sound.id
       }) as? CustomSound {
         customSound.updateFromData()
+        customSound.updateFromCustomization()
       }
 
       dismiss()

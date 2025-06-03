@@ -73,8 +73,9 @@ struct SoundSheetForm: View {
       // Icon Selection
       SoundIconSelector(selectedIcon: $selectedIcon)
 
-      // Color Selection (only for customize mode)
-      if case .customize = mode {
+      // Color Selection (for customize and edit modes)
+      switch mode {
+      case .customize, .edit:
         VStack(alignment: .leading, spacing: 8) {
           Text("Color", comment: "Custom color field label")
             .font(.headline)
@@ -90,7 +91,8 @@ struct SoundSheetForm: View {
                     .padding(.vertical, 4)
                     .background(
                       selectedColor == nil
-                        ? (globalSettings.customAccentColor ?? Color.accentColor) : Color.secondary.opacity(0.2)
+                        ? (globalSettings.customAccentColor ?? Color.accentColor)
+                        : Color.secondary.opacity(0.2)
                     )
                     .foregroundColor(
                       selectedColor == nil ? textColorForCurrentTheme : .primary
@@ -101,7 +103,8 @@ struct SoundSheetForm: View {
               .buttonStyle(.plain)
 
               // First row of colors
-              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.prefix(5)), id: \.self) { accentColor in
+              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.prefix(5)), id: \.self) {
+                accentColor in
                 Button(action: {
                   selectedColor = accentColor
                 }) {
@@ -125,7 +128,8 @@ struct SoundSheetForm: View {
 
             // Second row of colors
             HStack(spacing: 8) {
-              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.dropFirst(5)), id: \.self) { accentColor in
+              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.dropFirst(5)), id: \.self)
+              { accentColor in
                 Button(action: {
                   selectedColor = accentColor
                 }) {
@@ -149,6 +153,8 @@ struct SoundSheetForm: View {
           }
           .padding(.vertical, 4)
         }
+      case .add:
+        EmptyView()
       }
     }
     .padding(20)

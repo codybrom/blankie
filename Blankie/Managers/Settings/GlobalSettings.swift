@@ -22,6 +22,7 @@ enum UserDefaultsKeys {
   static let mixWithOthers = "mixWithOthers"
   static let lowerVolumeWithOtherAudio = "lowerVolumeWithOtherAudio"
   static let volumeWithOtherAudio = "volumeWithOtherAudio"
+  static let showSoundNames = "showSoundNames"
 }
 
 class GlobalSettings: ObservableObject {
@@ -33,6 +34,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var customAccentColor: Color?
   @Published private(set) var autoPlayOnLaunch: Bool
   @Published private(set) var hideInactiveSounds: Bool
+  @Published private(set) var showSoundNames: Bool
   @Published private(set) var language: Language
   @Published private(set) var availableLanguages: [Language] = []
 
@@ -68,6 +70,10 @@ class GlobalSettings: ObservableObject {
 
     // Hide inactive sounds preference
     hideInactiveSounds = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hideInactiveSounds)
+
+    // Show sound names preference (default to true)
+    showSoundNames =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.showSoundNames) as? Bool ?? true
 
     // Load platform-specific preferences
     enableHaptics =
@@ -154,6 +160,13 @@ class GlobalSettings: ObservableObject {
   func setHideInactiveSounds(_ value: Bool) {
     hideInactiveSounds = value
     UserDefaults.standard.set(hideInactiveSounds, forKey: UserDefaultsKeys.hideInactiveSounds)
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setShowSoundNames(_ value: Bool) {
+    showSoundNames = value
+    UserDefaults.standard.set(showSoundNames, forKey: UserDefaultsKeys.showSoundNames)
     logCurrentSettings()
   }
 

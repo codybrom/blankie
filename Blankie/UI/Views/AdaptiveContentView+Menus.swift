@@ -29,6 +29,16 @@ import SwiftUI
         }
 
         Button(action: {
+          withAnimation {
+            globalSettings.setShowSoundNames(!globalSettings.showSoundNames)
+          }
+        }) {
+          let labelText = globalSettings.showSoundNames ? "Hide Names" : "Show Names"
+          let iconName = globalSettings.showSoundNames ? "textformat" : "textformat.slash"
+          Label(labelText, systemImage: iconName)
+        }
+
+        Button(action: {
           showingSettings = true
         }) {
           Label {
@@ -80,6 +90,16 @@ import SwiftUI
             && !hideInactiveSounds
             && audioManager.sounds.allSatisfy { $0.isSelected || $0.isHidden }
         )
+
+        Button(action: {
+          withAnimation {
+            globalSettings.setShowSoundNames(!globalSettings.showSoundNames)
+          }
+        }) {
+          let labelText = globalSettings.showSoundNames ? "Hide Names" : "Show Names"
+          let iconName = globalSettings.showSoundNames ? "textformat" : "textformat.slash"
+          Label(labelText, systemImage: iconName)
+        }
 
         Button(action: {
           showingSoundManagement = true

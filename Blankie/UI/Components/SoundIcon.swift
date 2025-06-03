@@ -70,15 +70,17 @@ struct SoundIcon: View {
       )
       .accessibilityIdentifier("sound-\(sound.fileName)")
 
-      Text(LocalizedStringKey(sound.title))
-        .font(
-          Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
-        )
-        .lineLimit(2)
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))
-        .foregroundColor(.primary)
-        .contentShape(Rectangle())
+      if globalSettings.showSoundNames {
+        Text(LocalizedStringKey(sound.title))
+          .font(
+            Locale.current.identifier.hasPrefix("zh") ? .system(size: 16, weight: .thin) : .callout
+          )
+          .lineLimit(2)
+          .multilineTextAlignment(.center)
+          .frame(maxWidth: maxWidth - (Configuration.padding.leading * 2))
+          .foregroundColor(.primary)
+          .contentShape(Rectangle())
+      }
 
       Slider(
         value: Binding(

@@ -143,6 +143,15 @@ struct PreferencesView: View {
             .frame(width: 100, alignment: .leading)
           languageMenu
         }
+
+        Toggle(
+          "Show Sound Names",
+          isOn: Binding(
+            get: { globalSettings.showSoundNames },
+            set: { globalSettings.setShowSoundNames($0) }
+          )
+        )
+        .tint(accentColorForUI)
       } header: {
         Text("Appearance", comment: "Appearance section header")
       }

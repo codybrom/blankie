@@ -28,6 +28,15 @@ struct SettingsView: View {
                 .frame(width: 20, height: 20)
             }
           }
+
+          Toggle(
+            "Show Sound Names",
+            isOn: Binding(
+              get: { globalSettings.showSoundNames },
+              set: { globalSettings.setShowSoundNames($0) }
+            )
+          )
+          .tint(globalSettings.customAccentColor ?? .accentColor)
         }
 
         Section(

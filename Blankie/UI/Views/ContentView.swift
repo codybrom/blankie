@@ -59,6 +59,22 @@ import UniformTypeIdentifiers
       .help(appState.hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds")
     }
 
+    private var hideNamesButton: some View {
+      Button(action: {
+        withAnimation {
+          globalSettings.setShowSoundNames(!globalSettings.showSoundNames)
+        }
+      }) {
+        Image(systemName: globalSettings.showSoundNames ? "textformat" : "textformat.slash")
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(width: 20, height: 20)
+          .foregroundColor(.primary)
+      }
+      .buttonStyle(.borderless)
+      .help(globalSettings.showSoundNames ? "Hide Names" : "Show Names")
+    }
+
     var body: some View {
       GeometryReader { geometry in
         VStack(spacing: 0) {
@@ -164,6 +180,8 @@ import UniformTypeIdentifiers
 
               hideShowButton
 
+              hideNamesButton
+
             }
             .padding(.vertical, 12)
             .padding(.horizontal, 16)
@@ -257,7 +275,8 @@ import UniformTypeIdentifiers
 
           provider.loadObject(ofClass: NSString.self) { object, _ in
             guard let sourceIndexString = object as? String,
-                  let sourceIndex = Int(sourceIndexString) else { return }
+              let sourceIndex = Int(sourceIndexString)
+            else { return }
 
             DispatchQueue.main.async {
               if sourceIndex != dragIndex {

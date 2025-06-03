@@ -187,8 +187,11 @@
       let isInSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
       let activeIndicator = isInSoloMode ? " ✓" : ""
 
+      // Use icon name if sound names are hidden
+      let displayText = GlobalSettings.shared.showSoundNames ? sound.title : sound.systemIconName
+
       let item = CPListItem(
-        text: "\(sound.title)\(activeIndicator)",
+        text: "\(displayText)\(activeIndicator)",
         detailText: sound is CustomSound ? "Custom sound" : nil
       )
 

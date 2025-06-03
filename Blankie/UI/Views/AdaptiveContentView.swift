@@ -6,30 +6,30 @@ import SwiftUI
     @Binding var showingSettings: Bool
 
     @StateObject var audioManager = AudioManager.shared
-    @StateObject private var globalSettings = GlobalSettings.shared
-    @StateObject private var presetManager = PresetManager.shared
+    @StateObject var globalSettings = GlobalSettings.shared
+    @StateObject var presetManager = PresetManager.shared
 
-    @State private var showingVolumeControls = false
-    @State private var showingPresetPicker = false
+    @State var showingVolumeControls = false
+    @State var showingPresetPicker = false
     @State var hideInactiveSounds = false
-    @State private var columnVisibility: NavigationSplitViewVisibility = .automatic
+    @State var columnVisibility: NavigationSplitViewVisibility = .automatic
     @State var draggedIndex: Int?
     @State var hoveredIndex: Int?
     @State var dragResetTimer: Timer?
-    @State private var showingAboutInMenu = false
-    @State private var showingThemePicker = false
-    @State private var showingSoundManagement = false
-    @State private var soundToEdit: Sound?
+    @State var showingAboutInMenu = false
+    @State var showingThemePicker = false
+    @State var showingSoundManagement = false
+    @State var soundToEdit: Sound?
     @State var soundsUpdateTrigger = 0
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     // Check if any sounds are selected (use AudioManager's published property)
-    private var hasSelectedSounds: Bool {
+    var hasSelectedSounds: Bool {
       audioManager.hasSelectedSounds
     }
 
-    private var navigationTitleText: String {
+    var navigationTitleText: String {
       // In solo mode, show the sound name
       if let soloSound = audioManager.soloModeSound {
         return soloSound.title

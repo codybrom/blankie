@@ -77,6 +77,13 @@ extension AudioManager {
     // Get all custom sounds from the database
     let customSoundData = CustomSoundManager.shared.getAllCustomSounds()
 
+    // Before removing custom sounds, stop any that are playing
+    let customSoundsToRemove = sounds.filter { $0 is CustomSound }
+    for sound in customSoundsToRemove where sound.isSelected {
+      sound.pause(immediate: true)
+      sound.isSelected = false
+    }
+
     // Remove any existing custom sounds from the array
     sounds.removeAll(where: { $0 is CustomSound })
 

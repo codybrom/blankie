@@ -66,7 +66,7 @@ import SwiftUI
         }
         .keyboardShortcut("h", modifiers: [.control, .command])
 
-        Button(GlobalSettings.shared.showSoundNames ? "Hide Sound Names" : "Show Sound Names") {
+        Button(GlobalSettings.shared.showSoundNames ? "Hide Labels" : "Show Labels") {
           withAnimation {
             GlobalSettings.shared.setShowSoundNames(!GlobalSettings.shared.showSoundNames)
           }

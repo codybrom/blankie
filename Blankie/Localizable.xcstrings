@@ -1,6 +1,19 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "-50%" : {
+      "comment" : "Volume decrease label"
+    },
+    "(Peak: %@, Gain: %@)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "(Peak: %1$@, Gain: %2$@)"
+          }
+        }
+      }
+    },
     "%@ (Built-in%@)" : {
       "localizations" : {
         "en" : {
@@ -22,6 +35,12 @@
     },
     "%lld%%" : {
 
+    },
+    "+50%" : {
+      "comment" : "Volume increase label"
+    },
+    "+700%" : {
+      "comment" : "Volume increase label"
     },
     "About Blankie" : {
       "comment" : "About section title",
@@ -522,7 +541,13 @@
     "Are you sure you want to reset all sound customizations? This will restore all sound names and icons to their defaults. This action cannot be undone." : {
 
     },
-    "Auto-play on Launch" : {
+    "Audio" : {
+      "comment" : "Audio options section header"
+    },
+    "Automatically balance volume levels" : {
+      "comment" : "Description for audio normalization toggle"
+    },
+    "Autoplay When Opened" : {
 
     },
     "Behavior" : {
@@ -1178,6 +1203,9 @@
         }
       }
     },
+    "Choose Icon" : {
+
+    },
     "City" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -1509,7 +1537,7 @@
       }
     },
     "Color" : {
-      "comment" : "Custom color field label"
+      "comment" : "Color picker label\nCustom color field label"
     },
     "Connected to CarPlay" : {
 
@@ -1591,6 +1619,7 @@
     },
     "Custom Sounds" : {
       "comment" : "Custom sounds view title",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2029,7 +2058,7 @@
 
     },
     "Done" : {
-      "comment" : "Custom sounds done button\nSettings done button\nToolbar done button\nVolume controls done button",
+      "comment" : "Settings done button\nToolbar done button\nVolume controls done button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3537,6 +3566,9 @@
     "No Visible Sounds" : {
 
     },
+    "Normalize Audio" : {
+      "comment" : "Toggle label for audio normalization"
+    },
     "OK" : {
       "comment" : "OK button label",
       "extractionState" : "manual",
@@ -4336,6 +4368,12 @@
           }
         }
       }
+    },
+    "Preview" : {
+
+    },
+    "Preview Sound" : {
+
     },
     "Public Domain" : {
       "comment" : "Audio license type",
@@ -5294,11 +5332,11 @@
     "Show Inactive Sounds" : {
 
     },
+    "Show Labels" : {
+      "comment" : "Toggle to show/hide labels"
+    },
     "Show Sound" : {
 
-    },
-    "Show Sound Names" : {
-      "comment" : "Toggle to show/hide sound names"
     },
     "Software License" : {
       "comment" : "About section title",
@@ -5374,6 +5412,12 @@
     },
     "Solo Mode - %@" : {
 
+    },
+    "Sound Check" : {
+      "comment" : "Toggle label for Sound Check (audio normalization)"
+    },
+    "Sound Check adjusts the loudness between different sounds to play at the same volume." : {
+      "comment" : "Description for Sound Check toggle"
     },
     "Sound Credits" : {
       "comment" : "About section title",
@@ -5464,6 +5508,9 @@
     "Sound Management" : {
       "comment" : "Sound management view title"
     },
+    "Sound Name" : {
+      "comment" : "Sound name text field placeholder"
+    },
     "Sounds" : {
       "comment" : "Settings section header for sound management\nSounds section header"
     },
@@ -5537,6 +5584,9 @@
       "comment" : "Description for randomize start position toggle"
     },
     "Start Timer" : {
+
+    },
+    "Stop Preview" : {
 
     },
     "Stop Timer" : {
@@ -5939,7 +5989,7 @@
       }
     },
     "Theme" : {
-      "comment" : "Appearance theme picker label",
+      "comment" : "Appearance theme picker label\nTheme color option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6167,6 +6217,9 @@
     },
     "Volume" : {
       "comment" : "Volume section header\nVolume slider label"
+    },
+    "Volume Adjustment" : {
+      "comment" : "Volume adjustment field label"
     },
     "Waves" : {
       "comment" : "Sound name",

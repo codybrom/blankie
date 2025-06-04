@@ -43,18 +43,14 @@ import SwiftUI
               }
             }
             .contextMenu {
-              // Metadata Section - Single line with bold title and right-aligned info
-              HStack {
-                Text(sound.title)
-                  .font(.title2)
-                  .fontWeight(.bold)
-                Spacer()
-                Text(
-                  "\(isCustomSound(sound) ? "Custom" : "Built-in")\(getSoundAuthor(for: sound).map { " • \($0)" } ?? "")"
-                )
-                .font(.caption)
-                .foregroundColor(.secondary)
-              }
+              // Metadata Section - Single text line with bold title and metadata
+              Text(
+                isCustomSound(sound)
+                  ? "\(sound.title) (Custom • Added By You)"
+                  : "\(sound.title) (Built-in\(getSoundAuthor(for: sound).map { " • By \($0)" } ?? ""))"
+              )
+              .font(.title2)
+              .fontWeight(.bold)
 
               Divider()
 

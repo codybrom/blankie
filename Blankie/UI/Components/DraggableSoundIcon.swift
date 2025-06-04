@@ -91,6 +91,22 @@ import SwiftUI
           }
         }
         .contextMenu {
+          // Metadata Section - Single line with bold title and right-aligned info
+          HStack {
+            Text(sound.title)
+              .font(.title2)
+              .fontWeight(.bold)
+            Spacer()
+            Text(
+              "\(isCustomSound(sound) ? "Custom" : "Built-in")\(getSoundAuthor(for: sound).map { " • \($0)" } ?? "")"
+            )
+            .font(.caption)
+            .foregroundColor(.secondary)
+          }
+
+          Divider()
+
+          // Actions Section
           // Solo Mode - only show if not already in solo mode
           if AudioManager.shared.soloModeSound?.id != sound.id {
             Button(action: {
@@ -110,6 +126,13 @@ import SwiftUI
             }
           }
 
+          // Edit Sound (all sounds can be edited/customized)
+          Button(action: {
+            onEditSound(sound)
+          }) {
+            Label("Edit Sound", systemImage: "pencil")
+          }
+
           // Hide Sound
           Button(action: {
             onHideSound(sound)
@@ -117,13 +140,6 @@ import SwiftUI
             let labelText = sound.isHidden ? "Show Sound" : "Hide Sound"
             let iconName = sound.isHidden ? "eye" : "eye.slash"
             Label(labelText, systemImage: iconName)
-          }
-
-          // Edit Sound (all sounds can be edited/customized)
-          Button(action: {
-            onEditSound(sound)
-          }) {
-            Label("Edit Sound", systemImage: "pencil")
           }
         }
         .onLongPressGesture(
@@ -152,24 +168,18 @@ import SwiftUI
         }
 
         // Title (not draggable) - hidden in solo mode since it's shown in navigation title
-        if AudioManager.shared.soloModeSound == nil {
-          Group {
-            if globalSettings.showSoundNames {
-              Text(LocalizedStringKey(sound.title))
-                .font(
-                  globalSettings.iconSize == .small
-                    ? .caption2.weight(
-                      Locale.current.scriptCategory == .standard ? .regular : .thin)
-                    : .callout.weight(Locale.current.scriptCategory == .standard ? .regular : .thin)
-                )
-                .lineLimit(2)
-                .multilineTextAlignment(.center)
-                .foregroundColor(.primary)
-            } else {
-              Color.clear  // Spacer to maintain consistent height
-            }
-          }
-          .frame(maxWidth: maxWidth - 20, minHeight: 32)  // Fixed min height for 2 lines
+        if AudioManager.shared.soloModeSound == nil && globalSettings.showSoundNames {
+          Text(LocalizedStringKey(sound.title))
+            .font(
+              globalSettings.iconSize == .small
+                ? .caption2.weight(
+                  Locale.current.scriptCategory == .standard ? .regular : .thin)
+                : .callout.weight(Locale.current.scriptCategory == .standard ? .regular : .thin)
+            )
+            .lineLimit(2)
+            .multilineTextAlignment(.center)
+            .foregroundColor(.primary)
+            .frame(maxWidth: maxWidth - 20, minHeight: 32)  // Fixed min height for 2 lines
         }
 
         // Slider (not draggable) - hide in solo mode
@@ -203,55 +213,6 @@ import SwiftUI
           cancelTimer: { draggedIndex = nil }
         )
       )
-    }
-
-    private var accentColor: Color {
-      globalSettings.customAccentColor ?? .accentColor
-    }
-
-    private var iconColor: Color {
-      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
-
-      if isSoloMode {
-        return accentColor  // Solo mode color
-      }
-
-      if !AudioManager.shared.isGloballyPlaying {
-        return .gray
-      }
-      return sound.isSelected ? accentColor : .gray
-    }
-
-    private var backgroundFill: Color {
-      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
-
-      if isSoloMode {
-        return accentColor.opacity(0.3)  // Solo mode background
-      }
-
-      if !AudioManager.shared.isGloballyPlaying {
-        return sound.isSelected ? Color.gray.opacity(0.2) : .clear
-      }
-      return sound.isSelected ? accentColor.opacity(0.2) : .clear
-    }
-
-    private var isSliderEnabled: Bool {
-      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
-      return isSoloMode || sound.isSelected
-    }
-
-    private var sliderTintColor: Color {
-      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
-
-      if !AudioManager.shared.isGloballyPlaying {
-        return .gray
-      }
-
-      if isSoloMode {
-        return accentColor
-      }
-
-      return sound.isSelected ? accentColor : .gray
     }
 
     @ViewBuilder
@@ -303,6 +264,82 @@ import SwiftUI
       }
 
       return .zero
+    }
+  }
+
+  // MARK: - Helper Methods
+  extension DraggableSoundIcon {
+    private var accentColor: Color {
+      globalSettings.customAccentColor ?? .accentColor
+    }
+
+    private var iconColor: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      let effectiveColor = sound.customColor ?? accentColor
+
+      if isSoloMode {
+        return effectiveColor  // Solo mode color
+      }
+
+      if !AudioManager.shared.isGloballyPlaying {
+        return .gray
+      }
+      return sound.isSelected ? effectiveColor : .gray
+    }
+
+    private var backgroundFill: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      let effectiveColor = sound.customColor ?? accentColor
+
+      if isSoloMode {
+        return effectiveColor.opacity(0.3)  // Solo mode background
+      }
+
+      if !AudioManager.shared.isGloballyPlaying {
+        return sound.isSelected ? Color.gray.opacity(0.2) : .clear
+      }
+      return sound.isSelected ? effectiveColor.opacity(0.2) : .clear
+    }
+
+    private var isSliderEnabled: Bool {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      return isSoloMode || sound.isSelected
+    }
+
+    private var sliderTintColor: Color {
+      let isSoloMode = AudioManager.shared.soloModeSound?.id == sound.id
+      let effectiveColor = sound.customColor ?? accentColor
+
+      if !AudioManager.shared.isGloballyPlaying {
+        return .gray
+      }
+
+      if isSoloMode {
+        return effectiveColor
+      }
+
+      return sound.isSelected ? effectiveColor : .gray
+    }
+
+    private func getSoundAuthor(for sound: Sound) -> String? {
+      // Check if it's a custom sound first
+      if isCustomSound(sound) {
+        return "You"  // Custom sounds are created by the user
+      }
+
+      // For built-in sounds, get author from credits
+      let credits = SoundCreditsManager.shared.credits
+      return credits.first { $0.soundName == sound.fileName || $0.name == sound.title }?.author
+    }
+
+    private func isCustomSound(_ sound: Sound) -> Bool {
+      // Custom sounds typically have higher defaultOrder values (1000+)
+      // or are not found in the built-in credits
+      let credits = SoundCreditsManager.shared.credits
+      let isInCredits = credits.contains {
+        $0.soundName == sound.fileName || $0.name == sound.title
+      }
+      return !isInCredits
     }
   }
 #endif

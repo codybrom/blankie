@@ -80,6 +80,12 @@ import SwiftUI
     @ViewBuilder
     var statusIndicatorView: some View {
       VStack(spacing: 0) {
+        // Reorder mode banner
+        if editMode == .active && showingListView && !isLargeDevice {
+          reorderModeIndicator
+            .transition(.opacity)
+        }
+
         if !audioManager.hasSelectedSounds {
           noSoundsSelectedIndicator
             .transition(.opacity)
@@ -94,19 +100,68 @@ import SwiftUI
       .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
       .animation(.easeInOut(duration: 0.2), value: audioManager.isGloballyPlaying)
       .animation(.easeInOut(duration: 0.2), value: audioManager.sounds.map(\.isSelected))
+      .animation(.easeInOut(duration: 0.3), value: editMode)
     }
 
     // No sounds selected indicator banner
     var noSoundsSelectedIndicator: some View {
-      HStack(spacing: 8) {
+      HStack(spacing: 12) {
         Image(systemName: "speaker.slash.fill")
           .font(.system(size: 16))
         Text("No Sounds Selected")
           .font(.system(.subheadline, design: .rounded, weight: .medium))
+
+        Spacer()
+
+        // Reorder button - only show in list view
+        if showingListView && !isLargeDevice {
+          Button(action: {
+            withAnimation(.easeInOut(duration: 0.3)) {
+              if editMode == .active {
+                exitEditMode()
+              } else {
+                enterEditMode()
+              }
+            }
+          }) {
+            Text(editMode == .active ? "Done" : "Reorder")
+              .font(.system(.subheadline, weight: .medium))
+              .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+          }
+          .buttonStyle(.plain)
+        }
       }
       .frame(maxWidth: .infinity)
       .padding(.vertical, 8)
+      .padding(.horizontal, 16)
       .foregroundStyle(.secondary)
+      .background(.regularMaterial)
+    }
+
+    // Reorder mode indicator banner
+    var reorderModeIndicator: some View {
+      HStack(spacing: 12) {
+        Image(systemName: "arrow.up.arrow.down.circle.fill")
+          .font(.system(size: 16))
+          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+        Text("Drag to Reorder")
+          .font(.system(.subheadline, design: .rounded, weight: .medium))
+
+        Spacer()
+
+        Button("Done") {
+          withAnimation(.easeInOut(duration: 0.3)) {
+            exitEditMode()
+          }
+        }
+        .font(.system(.subheadline, weight: .medium))
+        .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+        .buttonStyle(.plain)
+      }
+      .frame(maxWidth: .infinity)
+      .padding(.vertical, 8)
+      .padding(.horizontal, 16)
+      .foregroundStyle(.primary)
       .background(.regularMaterial)
     }
   }

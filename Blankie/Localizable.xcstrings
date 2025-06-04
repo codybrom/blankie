@@ -1,8 +1,15 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%@%%" : {
-
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
     },
     "%lld customized" : {
 
@@ -2035,6 +2042,12 @@
         }
       }
     },
+    "Done Reordering" : {
+
+    },
+    "Drag to Reorder" : {
+
+    },
     "Drop audio file to import" : {
 
     },
@@ -2480,13 +2493,7 @@
         }
       }
     },
-    "Hide Names" : {
-
-    },
     "Hide Sound" : {
-
-    },
-    "Hide Sound Names" : {
 
     },
     "Hours" : {
@@ -2577,9 +2584,6 @@
           }
         }
       }
-    },
-    "If enabled, Blankie will immediately play your most recent preset on launch" : {
-
     },
     "Import custom sounds and manage hidden sounds" : {
 
@@ -3195,7 +3199,7 @@
       }
     },
     "Manage Sounds" : {
-      "comment" : "Menu item to manage sounds\nSound management label"
+      "comment" : "Sound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -4795,6 +4799,12 @@
         }
       }
     },
+    "Reorder" : {
+
+    },
+    "Reorder Sounds" : {
+
+    },
     "Report an Issue" : {
       "comment" : "Report an issue label",
       "extractionState" : "manual",
@@ -5279,9 +5289,6 @@
       }
     },
     "Show Inactive Sounds" : {
-
-    },
-    "Show Names" : {
 
     },
     "Show Sound" : {

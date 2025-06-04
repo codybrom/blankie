@@ -33,6 +33,7 @@ enum UserDefaultsKeys {
   static let showSoundNames = "showSoundNames"
   static let iconSize = "iconSize"
   static let soloModeSoundFileName = "soloModeSoundFileName"
+  static let showingListView = "showingListView"
 }
 
 class GlobalSettings: ObservableObject {
@@ -47,6 +48,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var showSoundNames: Bool
   @Published private(set) var iconSize: IconSize
   @Published private(set) var language: Language
+  @Published private(set) var showingListView: Bool
   @Published private(set) var availableLanguages: [Language] = []
 
   // Platform-specific settings
@@ -60,6 +62,29 @@ class GlobalSettings: ObservableObject {
   var volumeDebounceTimer: Timer?
 
   private init() {
+    // Initialize required properties first
+    volume = 1.0
+    appearance = .system
+    customAccentColor = nil
+    autoPlayOnLaunch = false
+    hideInactiveSounds = false
+    showSoundNames = true
+    iconSize = .medium
+    language = .system
+    showingListView = false
+    availableLanguages = []
+
+    // Then load actual values from UserDefaults
+    loadBasicSettings()
+    loadPlatformSettings()
+    loadLanguageSettings()
+    migrateLegacySettings()
+
+    // After initialization, log current settings
+    logCurrentSettings()
+  }
+
+  private func loadBasicSettings() {
     // Initialize properties directly
     let savedVolume = UserDefaults.standard.double(forKey: UserDefaultsKeys.volume)
     volume = savedVolume == 0 ? 1.0 : savedVolume
@@ -95,6 +120,11 @@ class GlobalSettings: ObservableObject {
       iconSize = .medium
     }
 
+    // Show list view preference (default to false - grid view)
+    showingListView = UserDefaults.standard.bool(forKey: UserDefaultsKeys.showingListView)
+  }
+
+  private func loadPlatformSettings() {
     // Load platform-specific preferences
     enableHaptics =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableHaptics) as? Bool ?? true
@@ -107,7 +137,9 @@ class GlobalSettings: ObservableObject {
       ?? false
     volumeWithOtherAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.volumeWithOtherAudio) as? Double ?? 0.5
+  }
 
+  private func loadLanguageSettings() {
     // First initialize language with default value
     language = Language.system
 
@@ -121,7 +153,9 @@ class GlobalSettings: ObservableObject {
     {
       language = savedLanguage
     }
+  }
 
+  private func migrateLegacySettings() {
     // Migration: Convert old alwaysStartPaused setting to new autoPlayOnLaunch setting
     if let oldValue = UserDefaults.standard.object(forKey: "alwaysStartPaused") as? Bool {
       print(
@@ -131,9 +165,6 @@ class GlobalSettings: ObservableObject {
       UserDefaults.standard.set(autoPlayOnLaunch, forKey: UserDefaultsKeys.autoPlayOnLaunch)
       UserDefaults.standard.removeObject(forKey: "alwaysStartPaused")  // Remove old key
     }
-
-    // After initialization, log current settings
-    logCurrentSettings()
   }
 
   @MainActor
@@ -194,6 +225,13 @@ class GlobalSettings: ObservableObject {
   func setIconSize(_ value: IconSize) {
     iconSize = value
     UserDefaults.standard.set(iconSize.rawValue, forKey: UserDefaultsKeys.iconSize)
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setShowingListView(_ value: Bool) {
+    showingListView = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.showingListView)
     logCurrentSettings()
   }
 

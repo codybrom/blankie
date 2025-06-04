@@ -67,6 +67,7 @@ import SwiftUI
                   } else {
                     Button(action: {
                       showingListView.toggle()
+                      globalSettings.setShowingListView(showingListView)
                     }) {
                       Image(systemName: showingListView ? "square.grid.3x3" : "list.bullet")
                         .font(.system(size: 22))

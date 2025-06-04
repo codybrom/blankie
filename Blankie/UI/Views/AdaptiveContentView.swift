@@ -21,12 +21,30 @@ import SwiftUI
     @State var showingSoundManagement = false
     @State var soundToEdit: Sound?
     @State var soundsUpdateTrigger = 0
+    @State var editMode: EditMode = .inactive
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
     // Check if any sounds are selected (use AudioManager's published property)
     var hasSelectedSounds: Bool {
       audioManager.hasSelectedSounds
+    }
+
+    // Edit mode helper functions
+    func enterEditMode() {
+      editMode = .active
+
+      // Haptic feedback
+      if globalSettings.enableHaptics {
+        #if os(iOS)
+          let generator = UIImpactFeedbackGenerator(style: .medium)
+          generator.impactOccurred()
+        #endif
+      }
+    }
+
+    func exitEditMode() {
+      editMode = .inactive
     }
 
     var navigationTitleText: String {
@@ -67,6 +85,10 @@ import SwiftUI
         SoundSheet(mode: .customize(sound))
       }
       .modifier(AudioErrorHandler())
+      .onAppear {
+        // Initialize showingListView from GlobalSettings
+        showingListView = globalSettings.showingListView
+      }
     }
   }
 

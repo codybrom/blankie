@@ -123,7 +123,13 @@ struct SoundIcon: View {
       .gesture(
         TapGesture()
           .onEnded { _ in
-            sound.toggle()
+            // If global playback is paused and this sound is already selected,
+            // start global playback instead of deselecting the sound
+            if !audioManager.isGloballyPlaying && sound.isSelected {
+              audioManager.setGlobalPlaybackState(true)
+            } else {
+              sound.toggle()
+            }
           }
       )
       .accessibilityIdentifier("sound-\(sound.fileName)")
@@ -159,7 +165,7 @@ struct SoundIcon: View {
         audioManager.hideSound(sound)
       }
 
-      if sound is CustomSound {
+      if sound.isCustom {
         Button("Edit Sound", systemImage: "pencil") {
           showingEditSheet = true
         }
@@ -184,11 +190,7 @@ struct SoundIcon: View {
       }
     }
     .sheet(isPresented: $showingEditSheet) {
-      if let customSound = sound as? CustomSound {
-        SoundSheet(mode: .edit(customSound.customSoundData))
-      } else {
-        SoundSheet(mode: .customize(sound))
-      }
+      SoundSheet(mode: .customize(sound))
     }
     .alert(
       Text("Delete Sound", comment: "Delete sound confirmation alert title"),
@@ -196,8 +198,10 @@ struct SoundIcon: View {
     ) {
       Button("Cancel", role: .cancel) {}
       Button("Delete", role: .destructive) {
-        if let customSound = sound as? CustomSound {
-          deleteCustomSound(customSound)
+        if sound.isCustom, let customSoundDataID = sound.customSoundDataID,
+          let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+        {
+          deleteCustomSound(customSoundData)
         }
       }
     } message: {
@@ -208,8 +212,8 @@ struct SoundIcon: View {
     }
   }
 
-  private func deleteCustomSound(_ customSound: CustomSound) {
-    let result = CustomSoundManager.shared.deleteCustomSound(customSound.customSoundData)
+  private func deleteCustomSound(_ customSoundData: CustomSoundData) {
+    let result = CustomSoundManager.shared.deleteCustomSound(customSoundData)
 
     if case .failure(let error) = result {
       print("❌ SoundIcon: Failed to delete custom sound: \(error)")

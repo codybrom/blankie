@@ -17,7 +17,7 @@ struct SoundManagementRow: View {
   @ObservedObject private var audioManager = AudioManager.shared
 
   private var isCustomSound: Bool {
-    sound is CustomSound
+    sound.isCustom
   }
 
   var body: some View {

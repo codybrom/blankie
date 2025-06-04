@@ -7,58 +7,6 @@
 
 import SwiftUI
 
-private struct IconData {
-  static let iconCategories: [String: [String]] = loadIconCategories()
-
-  private static func loadIconCategories() -> [String: [String]] {
-    // Helper enum to decode JSON with nested categories
-    enum IconCategory: Decodable {
-      case simple([String])
-      case nested([String: [String]])
-
-      var allIcons: [String] {
-        switch self {
-        case .simple(let icons):
-          return icons
-        case .nested(let subcategories):
-          return subcategories.values.flatMap { $0 }
-        }
-      }
-
-      init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        if let icons = try? container.decode([String].self) {
-          self = .simple(icons)
-        } else if let subcategories = try? container.decode([String: [String]].self) {
-          self = .nested(subcategories)
-        } else {
-          throw DecodingError.typeMismatch(
-            IconCategory.self,
-            DecodingError.Context(
-              codingPath: decoder.codingPath,
-              debugDescription: "Expected array or dictionary"
-            )
-          )
-        }
-      }
-    }
-
-    guard let url = Bundle.main.url(forResource: "icon-categories", withExtension: "json"),
-      let data = try? Data(contentsOf: url),
-      let categories = try? JSONDecoder().decode([String: IconCategory].self, from: data)
-    else {
-      return [:]
-    }
-
-    // Flatten nested categories
-    var flatCategories: [String: [String]] = [:]
-    for (key, value) in categories {
-      flatCategories[key] = value.allIcons
-    }
-    return flatCategories
-  }
-}
-
 struct SoundIconSelector: View {
   @Binding var selectedIcon: String
   @State private var iconSearchText = ""

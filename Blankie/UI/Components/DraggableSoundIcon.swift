@@ -86,8 +86,14 @@ import SwiftUI
               AudioManager.shared.exitSoloMode()
             }
           } else {
-            // Normal behavior: toggle sound selection
-            sound.toggle()
+            // If global playback is paused and this sound is already selected,
+            // start global playback instead of deselecting the sound
+            if !AudioManager.shared.isGloballyPlaying && sound.isSelected {
+              AudioManager.shared.setGlobalPlaybackState(true)
+            } else {
+              // Normal behavior: toggle sound selection
+              sound.toggle()
+            }
           }
         }
         .contextMenu {
@@ -329,13 +335,7 @@ import SwiftUI
     }
 
     private func isCustomSound(_ sound: Sound) -> Bool {
-      // Custom sounds typically have higher defaultOrder values (1000+)
-      // or are not found in the built-in credits
-      let credits = SoundCreditsManager.shared.credits
-      let isInCredits = credits.contains {
-        $0.soundName == sound.fileName || $0.name == sound.title
-      }
-      return !isInCredits
+      return sound.isCustom
     }
   }
 #endif

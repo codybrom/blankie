@@ -59,13 +59,6 @@ struct CreditRow: View {
         .foregroundStyle(.secondary)
       Text(credit.author)
 
-      if let editor = credit.editor {
-        Text(verbatim: "•").foregroundStyle(.secondary)
-        Text("Edited by", comment: "Attribution edited by label")
-          .foregroundStyle(.secondary)
-        Text(editor)
-      }
-
       if let licenseUrl = credit.license.url {
         Text(verbatim: "•").foregroundStyle(.secondary)
         Link(credit.license.linkText, destination: licenseUrl)

@@ -30,59 +30,11 @@ struct SoundSheet: View {
   @State var showingError = false
   @State var isProcessing = false
   @State var randomizeStartPosition: Bool = true
-
-  private var sound: CustomSoundData? {
-    switch mode {
-    case .add:
-      return nil
-    case .edit(let sound):
-      return sound
-    case .customize:
-      return nil
-    }
-  }
-
-  private var builtInSound: Sound? {
-    switch mode {
-    case .customize(let sound):
-      return sound
-    default:
-      return nil
-    }
-  }
-
-  private var title: LocalizedStringKey {
-    switch mode {
-    case .add:
-      return "Import Sound"
-    case .edit:
-      return "Edit Sound"
-    case .customize:
-      return "Customize Sound"
-    }
-  }
-
-  private var buttonTitle: LocalizedStringKey {
-    switch mode {
-    case .add:
-      return "Import Sound"
-    case .edit:
-      return "Save"
-    case .customize:
-      return "Save"
-    }
-  }
-
-  private var progressMessage: LocalizedStringKey {
-    switch mode {
-    case .add:
-      return "Importing sound..."
-    case .edit:
-      return "Saving changes..."
-    case .customize:
-      return "Saving customization..."
-    }
-  }
+  @State var normalizeAudio: Bool = true
+  @State var volumeAdjustment: Float = 1.0
+  @State var isPreviewing: Bool = false
+  @State var previewSound: Sound?
+  @State var originalCustomization: SoundCustomization?
 
   init(mode: SoundSheetMode, preselectedFile: URL? = nil) {
     self.mode = mode
@@ -93,16 +45,31 @@ struct SoundSheet: View {
       _soundName = State(initialValue: fileName)
       _selectedIcon = State(initialValue: "waveform.circle")
       _selectedFile = State(initialValue: preselectedFile)
-    case .edit(let sound):
-      _soundName = State(initialValue: sound.title)
-      _selectedIcon = State(initialValue: sound.systemIconName)
-      _randomizeStartPosition = State(initialValue: sound.randomizeStartPosition)
-      // Load color customization if it exists
-      let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-      if let colorName = customization?.customColorName,
-        let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
-      {
-        _selectedColor = State(initialValue: color)
+    case .edit(let customSoundData):
+      // Find the corresponding Sound object to get consistent data
+      if let sound = AudioManager.shared.sounds.first(where: {
+        $0.customSoundDataID == customSoundData.id
+      }) {
+        let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
+        _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
+        _selectedIcon = State(
+          initialValue: customization?.customIconName ?? sound.originalSystemIconName)
+        _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
+        _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
+        _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
+        // Load color customization if it exists
+        if let colorName = customization?.customColorName,
+          let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
+        {
+          _selectedColor = State(initialValue: color)
+        }
+      } else {
+        // Fallback to customSoundData values if Sound not found
+        _soundName = State(initialValue: customSoundData.title)
+        _selectedIcon = State(initialValue: customSoundData.systemIconName)
+        _randomizeStartPosition = State(initialValue: customSoundData.randomizeStartPosition)
+        _normalizeAudio = State(initialValue: customSoundData.normalizeAudio)
+        _volumeAdjustment = State(initialValue: customSoundData.volumeAdjustment)
       }
     case .customize(let sound):
       let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
@@ -110,6 +77,8 @@ struct SoundSheet: View {
       _selectedIcon = State(
         initialValue: customization?.customIconName ?? sound.originalSystemIconName)
       _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
+      _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
+      _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
       if let colorName = customization?.customColorName,
         let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
       {
@@ -133,14 +102,18 @@ struct SoundSheet: View {
           Divider()
 
           // Content
-          SoundSheetForm(
+          CleanSoundSheetForm(
             mode: mode,
             soundName: $soundName,
             selectedIcon: $selectedIcon,
             selectedFile: $selectedFile,
             isImporting: $isImporting,
             selectedColor: $selectedColor,
-            randomizeStartPosition: $randomizeStartPosition
+            randomizeStartPosition: $randomizeStartPosition,
+            normalizeAudio: $normalizeAudio,
+            volumeAdjustment: $volumeAdjustment,
+            isPreviewing: $isPreviewing,
+            previewSound: $previewSound
           )
 
           Spacer()
@@ -168,17 +141,21 @@ struct SoundSheet: View {
           }
           .padding()
         }
-        .frame(width: 450, height: mode.isAdd ? 620 : 600)
+        .frame(width: 450, height: mode.isAdd ? 600 : 580)
       #else
         NavigationView {
-          SoundSheetForm(
+          CleanSoundSheetForm(
             mode: mode,
             soundName: $soundName,
             selectedIcon: $selectedIcon,
             selectedFile: $selectedFile,
             isImporting: $isImporting,
             selectedColor: $selectedColor,
-            randomizeStartPosition: $randomizeStartPosition
+            randomizeStartPosition: $randomizeStartPosition,
+            normalizeAudio: $normalizeAudio,
+            volumeAdjustment: $volumeAdjustment,
+            isPreviewing: $isPreviewing,
+            previewSound: $previewSound
           )
           .navigationTitle(title)
           .navigationBarTitleDisplayMode(.inline)
@@ -232,23 +209,84 @@ struct SoundSheet: View {
         processingOverlay
       }
     }
+    .onChange(of: isPreviewing) { _, previewing in
+      if previewing {
+        startPreview()
+      } else {
+        stopPreview()
+      }
+    }
+    .onChange(of: normalizeAudio) { _, _ in
+      updateSoundSettings()
+    }
+    .onChange(of: volumeAdjustment) { _, _ in
+      updateSoundSettings()
+    }
+    .onAppear {
+      // Trigger LUFS analysis for custom sounds missing data
+      if case .customize(let sound) = mode {
+        sound.ensureLUFSAnalysis()
+      } else if case .edit(let customSoundData) = mode,
+        let sound = AudioManager.shared.sounds.first(where: {
+          $0.customSoundDataID == customSoundData.id
+        })
+      {
+        sound.ensureLUFSAnalysis()
+      }
+    }
+    .onDisappear {
+      // Clean up preview when sheet closes
+      if isPreviewing {
+        stopPreview()
+      }
+    }
   }
 
-  // MARK: - Processing Overlay
+  // MARK: - Real-time Updates
 
-  private var processingOverlay: some View {
-    SoundSheetProcessingOverlay(progressMessage: progressMessage)
-  }
+  private func updateSoundSettings() {
+    // Update preview if active
+    if isPreviewing {
+      updatePreviewVolume()
+    }
 
-  // MARK: - Helper Methods
-
-  private var isDisabled: Bool {
-    let nameTrimmed = soundName.trimmingCharacters(in: .whitespacesAndNewlines)
+    // Also update the actual sound if it's currently playing
     switch mode {
+    case .customize(let sound):
+      // Update temporary customization for the sound
+      var tempCustomization = SoundCustomizationManager.shared.getOrCreateCustomization(
+        for: sound.fileName)
+      tempCustomization.normalizeAudio = normalizeAudio
+      tempCustomization.volumeAdjustment = volumeAdjustment
+      tempCustomization.randomizeStartPosition = randomizeStartPosition
+      SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
+
+      // If the sound is currently playing, update its volume immediately
+      if sound.player?.isPlaying == true {
+        sound.updateVolume()
+      }
+
+    case .edit(let customSoundData):
+      // For custom sounds, find the corresponding Sound object and update it
+      if let sound = AudioManager.shared.sounds.first(where: {
+        $0.customSoundDataID == customSoundData.id
+      }) {
+        var tempCustomization = SoundCustomizationManager.shared.getOrCreateCustomization(
+          for: sound.fileName)
+        tempCustomization.normalizeAudio = normalizeAudio
+        tempCustomization.volumeAdjustment = volumeAdjustment
+        tempCustomization.randomizeStartPosition = randomizeStartPosition
+        SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
+
+        // If the sound is currently playing, update its volume immediately
+        if sound.player?.isPlaying == true {
+          sound.updateVolume()
+        }
+      }
+
     case .add:
-      return selectedFile == nil || nameTrimmed.isEmpty || isProcessing
-    case .edit, .customize:
-      return nameTrimmed.isEmpty || isProcessing
+      // No real-time update needed for add mode
+      break
     }
   }
 

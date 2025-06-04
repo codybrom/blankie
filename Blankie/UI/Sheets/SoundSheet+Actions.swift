@@ -37,7 +37,7 @@ extension SoundSheet {
     let icon = selectedIcon
     let randomize = randomizeStartPosition
 
-    Task.detached {
+    Task {
       let result = await CustomSoundManager.shared.importSound(
         from: file,
         title: title,
@@ -45,32 +45,18 @@ extension SoundSheet {
         randomizeStartPosition: randomize
       )
 
-      // Extract sendable values from the result
-      let success: Bool
-      let errorMessage: String?
+      isProcessing = false
 
       switch result {
       case .success:
-        success = true
-        errorMessage = nil
+        dismiss()
       case .failure(let error):
-        success = false
-        errorMessage = error.localizedDescription
-      }
-
-      await MainActor.run {
-        isProcessing = false
-
-        if success {
-          dismiss()
-        } else if let message = errorMessage {
-          importError = NSError(
-            domain: "SoundImport",
-            code: 0,
-            userInfo: [NSLocalizedDescriptionKey: message]
-          )
-          showingError = true
-        }
+        importError = NSError(
+          domain: "SoundImport",
+          code: 0,
+          userInfo: [NSLocalizedDescriptionKey: error.localizedDescription]
+        )
+        showingError = true
       }
     }
   }
@@ -79,26 +65,34 @@ extension SoundSheet {
     sound.title = soundName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     sound.systemIconName = selectedIcon
     sound.randomizeStartPosition = randomizeStartPosition
+    sound.normalizeAudio = normalizeAudio
+    sound.volumeAdjustment = volumeAdjustment
 
     do {
       try modelContext.save()
 
+      // Update the sound customization to sync with CustomSoundData
+      var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
+        for: sound.fileName)
+      customization.customTitle = sound.title
+      customization.customIconName = sound.systemIconName
+      customization.randomizeStartPosition = sound.randomizeStartPosition
+      customization.normalizeAudio = sound.normalizeAudio
+      customization.volumeAdjustment = sound.volumeAdjustment
+
       // Handle color customization
       if let selectedColor = selectedColor {
-        SoundCustomizationManager.shared.setCustomColor(
-          selectedColor.color?.toString, for: sound.fileName)
+        customization.customColorName = selectedColor.color?.toString
       } else {
         // Remove color customization if "Current Theme" is selected
-        SoundCustomizationManager.shared.setCustomColor(nil, for: sound.fileName)
+        customization.customColorName = nil
       }
 
-      // Update the active sound object if it exists
-      if let customSound = AudioManager.shared.sounds.first(where: {
-        ($0 as? CustomSound)?.customSoundData.id == sound.id
-      }) as? CustomSound {
-        customSound.updateFromData()
-        customSound.updateFromCustomization()
-      }
+      SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+      SoundCustomizationManager.shared.saveCustomizations()
+
+      // Trigger sound reload to update with new settings
+      AudioManager.shared.loadCustomSounds()
 
       dismiss()
     } catch {
@@ -113,8 +107,12 @@ extension SoundSheet {
     let hasCustomIcon = selectedIcon != sound.originalSystemIconName
     let hasCustomColor = selectedColor != nil
     let hasCustomRandomization = randomizeStartPosition != true  // Default is true
+    let hasCustomNormalization = normalizeAudio != true  // Default is true
+    let hasCustomVolume = volumeAdjustment != 1.0  // Default is 1.0
 
-    if hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization {
+    if hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization
+      || hasCustomNormalization || hasCustomVolume
+    {
       // Use the manager's methods to set customizations
       if hasCustomName {
         SoundCustomizationManager.shared.setCustomTitle(soundName, for: sound.fileName)
@@ -141,13 +139,26 @@ extension SoundSheet {
       } else {
         SoundCustomizationManager.shared.setRandomizeStartPosition(nil, for: sound.fileName)
       }
+
+      if hasCustomNormalization {
+        SoundCustomizationManager.shared.setNormalizeAudio(
+          normalizeAudio, for: sound.fileName)
+      } else {
+        SoundCustomizationManager.shared.setNormalizeAudio(nil, for: sound.fileName)
+      }
+
+      if hasCustomVolume {
+        SoundCustomizationManager.shared.setVolumeAdjustment(
+          volumeAdjustment, for: sound.fileName)
+      } else {
+        SoundCustomizationManager.shared.setVolumeAdjustment(nil, for: sound.fileName)
+      }
     } else {
       // Remove all customizations if there are no changes
       SoundCustomizationManager.shared.resetCustomizations(for: sound.fileName)
     }
 
-    // Update the sound object to reflect changes
-    sound.updateFromCustomization()
+    // Sound object will automatically update through customization observer
 
     dismiss()
   }

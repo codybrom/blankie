@@ -15,40 +15,12 @@ struct SoundSheetForm: View {
   @Binding var isImporting: Bool
   @Binding var selectedColor: AccentColor?
   @Binding var randomizeStartPosition: Bool
+  @Binding var normalizeAudio: Bool
+  @Binding var volumeAdjustment: Float
+  @Binding var isPreviewing: Bool
+  @Binding var previewSound: Sound?
 
   @ObservedObject private var globalSettings = GlobalSettings.shared
-
-  var textColorForCurrentTheme: Color {
-    let color = globalSettings.customAccentColor ?? .accentColor
-    #if os(macOS)
-      if let nsColor = NSColor(color).usingColorSpace(.sRGB) {
-        let brightness =
-          (0.299 * nsColor.redComponent) + (0.587 * nsColor.greenComponent)
-          + (0.114 * nsColor.blueComponent)
-        return brightness > 0.5 ? .black : .white
-      } else {
-        return .white
-      }
-    #else
-      return .white
-    #endif
-  }
-
-  func textColorForAccentColor(_ accentColor: AccentColor) -> Color {
-    guard let color = accentColor.color else { return .white }
-    #if os(macOS)
-      if let nsColor = NSColor(color).usingColorSpace(.sRGB) {
-        let brightness =
-          (0.299 * nsColor.redComponent) + (0.587 * nsColor.greenComponent)
-          + (0.114 * nsColor.blueComponent)
-        return brightness > 0.5 ? .black : .white
-      } else {
-        return .white
-      }
-    #else
-      return .white
-    #endif
-  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -77,83 +49,7 @@ struct SoundSheetForm: View {
       // Color Selection (for customize and edit modes)
       switch mode {
       case .customize, .edit:
-        VStack(alignment: .leading, spacing: 8) {
-          Text("Color", comment: "Custom color field label")
-            .font(.headline)
-
-          VStack(spacing: 8) {
-            // Default option - styled like PreferencesView
-            HStack(spacing: 8) {
-              Button(
-                action: { selectedColor = nil },
-                label: {
-                  Text("Current Theme", comment: "Current theme color option")
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(
-                      selectedColor == nil
-                        ? (globalSettings.customAccentColor ?? Color.accentColor)
-                        : Color.secondary.opacity(0.2)
-                    )
-                    .foregroundColor(
-                      selectedColor == nil ? textColorForCurrentTheme : .primary
-                    )
-                    .cornerRadius(6)
-                }
-              )
-              .buttonStyle(.plain)
-
-              // First row of colors
-              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.prefix(5)), id: \.self) {
-                accentColor in
-                Button(action: {
-                  selectedColor = accentColor
-                }) {
-                  RoundedRectangle(cornerRadius: 4)
-                    .fill(accentColor.color ?? Color.accentColor)
-                    .frame(width: 24, height: 24)
-                    .overlay {
-                      if selectedColor == accentColor {
-                        RoundedRectangle(cornerRadius: 4)
-                          .strokeBorder(
-                            textColorForAccentColor(accentColor),
-                            lineWidth: 2
-                          )
-                          .padding(2)
-                      }
-                    }
-                }
-                .buttonStyle(.plain)
-              }
-            }
-
-            // Second row of colors
-            HStack(spacing: 8) {
-              ForEach(Array(AccentColor.allCases.filter { $0 != .system }.dropFirst(5)), id: \.self)
-              { accentColor in
-                Button(action: {
-                  selectedColor = accentColor
-                }) {
-                  RoundedRectangle(cornerRadius: 4)
-                    .fill(accentColor.color ?? Color.accentColor)
-                    .frame(width: 24, height: 24)
-                    .overlay {
-                      if selectedColor == accentColor {
-                        RoundedRectangle(cornerRadius: 4)
-                          .strokeBorder(
-                            textColorForAccentColor(accentColor),
-                            lineWidth: 2
-                          )
-                          .padding(2)
-                      }
-                    }
-                }
-                .buttonStyle(.plain)
-              }
-            }
-          }
-          .padding(.vertical, 4)
-        }
+        ColorSelectionView(selectedColor: $selectedColor)
       case .add:
         EmptyView()
       }
@@ -177,37 +73,79 @@ struct SoundSheetForm: View {
         }
         .toggleStyle(.switch)
       }
+
+      // Audio Normalization Controls
+      VStack(alignment: .leading, spacing: 8) {
+        Toggle(isOn: $normalizeAudio) {
+          VStack(alignment: .leading, spacing: 2) {
+            Text(
+              "Normalize Audio",
+              comment: "Toggle label for audio normalization"
+            )
+            .font(.headline)
+            HStack(spacing: 4) {
+              Text(
+                "Automatically balance volume levels",
+                comment: "Description for audio normalization toggle"
+              )
+              .font(.caption)
+              .foregroundColor(.secondary)
+
+              if let peakInfo = getPeakLevelInfo() {
+                Text("(Peak: \(peakInfo.peak), Gain: \(peakInfo.gain))")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+            }
+          }
+        }
+        .toggleStyle(.switch)
+      }
+
+      // Preview Button (always visible)
+      HStack {
+        Spacer()
+        Button(action: togglePreview) {
+          Label(
+            isPreviewing ? "Stop Preview" : "Preview",
+            systemImage: isPreviewing ? "stop.fill" : "play.fill"
+          )
+        }
+        .buttonStyle(.bordered)
+      }
+      .padding(.top, 8)
+
+      // Volume Adjustment (only visible when normalization is OFF)
+      if !normalizeAudio {
+        VStack(alignment: .leading, spacing: 8) {
+          Text("Volume Adjustment", comment: "Volume adjustment field label")
+            .font(.headline)
+
+          VStack(spacing: 8) {
+            HStack {
+              Text("-50%", comment: "Volume decrease label")
+                .font(.caption)
+                .foregroundColor(.secondary)
+
+              Slider(value: $volumeAdjustment, in: 0.5...1.5, step: 0.01)
+
+              Text("+50%", comment: "Volume increase label")
+                .font(.caption)
+                .foregroundColor(.secondary)
+            }
+
+            HStack {
+              Spacer()
+              Text(volumePercentageText)
+                .font(.caption)
+                .foregroundColor(.secondary)
+              Spacer()
+            }
+          }
+        }
+      }
     }
     .padding(20)
   }
-}
 
-struct SoundSheetProcessingOverlay: View {
-  let progressMessage: LocalizedStringKey
-
-  var body: some View {
-    ZStack {
-      Color.black.opacity(0.3)
-        .ignoresSafeArea()
-
-      VStack(spacing: 12) {
-        ProgressView()
-          .scaleEffect(1.5)
-        Text(progressMessage)
-          .font(.headline)
-      }
-      .padding(24)
-      .background(
-        Group {
-          #if os(macOS)
-            Color(NSColor.windowBackgroundColor)
-          #else
-            Color(UIColor.systemBackground)
-          #endif
-        }
-      )
-      .clipShape(RoundedRectangle(cornerRadius: 12))
-      .shadow(radius: 20)
-    }
-  }
 }

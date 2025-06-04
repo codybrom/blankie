@@ -22,10 +22,8 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static var system: Language {
-    // Read the system's actual language preference from UserDefaults global domain
-    let globalDomain = UserDefaults(suiteName: UserDefaults.globalDomain)
-    let systemLanguages = globalDomain?.object(forKey: "AppleLanguages") as? [String]
-    let systemLanguageCode = systemLanguages?.first ?? "en"
+    // Read the system's actual language preference
+    let systemLanguageCode = Locale.preferredLanguages.first ?? "en"
 
     // For display, we want just the base language code (e.g., "en" from "en-US")
     let languageCode =
@@ -41,7 +39,7 @@ struct Language: Hashable, Identifiable, Equatable {
     let displayName =
       "\(NSLocalizedString("System", comment: "System default language option")) (\(languageName))"
 
-    print("🌐 System language from global domain: code=\(languageCode), name=\(languageName)")
+    print("🌐 System language: code=\(languageCode), name=\(languageName)")
 
     return Language(
       code: "system",
@@ -137,7 +135,8 @@ struct Language: Hashable, Identifiable, Equatable {
         // Look through strings to collect language codes
         for (_, stringData) in strings {
           if let localizations = stringData["localizations"] as? [String: Any],
-            !localizations.isEmpty {
+            !localizations.isEmpty
+          {
             for langCode in localizations.keys {
               languageCodes.insert(langCode)
             }

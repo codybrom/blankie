@@ -145,7 +145,7 @@ struct PreferencesView: View {
         }
 
         Toggle(
-          "Show Sound Names",
+          "Show Labels",
           isOn: Binding(
             get: { globalSettings.showSoundNames },
             set: { globalSettings.setShowSoundNames($0) }
@@ -205,7 +205,7 @@ struct PreferencesView: View {
 
       Section {
         Toggle(
-          LocalizedStringKey("Auto-play on Launch"),
+          LocalizedStringKey("Autoplay When Opened"),
           isOn: Binding(
             get: { globalSettings.autoPlayOnLaunch },
             set: { globalSettings.setAutoPlayOnLaunch($0) }

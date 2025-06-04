@@ -107,7 +107,7 @@ class GlobalSettings: ObservableObject {
     // Hide inactive sounds preference
     hideInactiveSounds = UserDefaults.standard.bool(forKey: UserDefaultsKeys.hideInactiveSounds)
 
-    // Show sound names preference (default to true)
+    // Show labels preference (default to true)
     showSoundNames =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.showSoundNames) as? Bool ?? true
 

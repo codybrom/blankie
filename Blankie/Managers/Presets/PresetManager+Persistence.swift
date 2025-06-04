@@ -28,6 +28,9 @@ extension PresetManager {
         setPresets(allPresets)
       }
 
+      // Migrate any presets that contain old sound names with file extensions
+      migratePresetSoundNames()
+
       updateCustomPresetStatus()
 
       // Load last active preset or default
@@ -86,5 +89,61 @@ extension PresetManager {
     }
     PresetStorage.saveCustomPresets(customPresets)
     print("🎛️ PresetManager: --- End Saving Presets ---\n")
+  }
+
+  /// Migrates preset sound names from old format (with file extensions) to new format (without extensions)
+  private func migratePresetSoundNames() {
+    let legacyExtensions = ["mp3", "m4a", "wav", "aiff"]
+    var migratedPresets = [Preset]()
+    var hasMigrations = false
+
+    for preset in presets {
+      var migratedSoundStates = [PresetState]()
+      var presetHasMigrations = false
+
+      for soundState in preset.soundStates {
+        var migratedFileName = soundState.fileName
+
+        // Check if this fileName has a legacy extension
+        for ext in legacyExtensions where soundState.fileName.hasSuffix(".\(ext)") {
+          migratedFileName = soundState.fileName.replacingOccurrences(of: ".\(ext)", with: "")
+          presetHasMigrations = true
+          print(
+            "🔄 PresetManager: Migrating sound name in preset '\(preset.name)': '\(soundState.fileName)' -> '\(migratedFileName)'"
+          )
+          break
+        }
+
+        migratedSoundStates.append(
+          PresetState(
+            fileName: migratedFileName,
+            isSelected: soundState.isSelected,
+            volume: soundState.volume
+          ))
+      }
+
+      if presetHasMigrations {
+        var migratedPreset = preset
+        migratedPreset.soundStates = migratedSoundStates
+        migratedPresets.append(migratedPreset)
+        hasMigrations = true
+      } else {
+        migratedPresets.append(preset)
+      }
+    }
+
+    if hasMigrations {
+      setPresets(migratedPresets)
+      print("🔄 PresetManager: Preset migration completed, saving updated presets")
+
+      // Save the migrated presets immediately
+      let defaultPreset = migratedPresets.first { $0.isDefault }
+      let customPresets = migratedPresets.filter { !$0.isDefault }
+
+      if let defaultPreset = defaultPreset {
+        PresetStorage.saveDefaultPreset(defaultPreset)
+      }
+      PresetStorage.saveCustomPresets(customPresets)
+    }
   }
 }

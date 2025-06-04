@@ -22,7 +22,7 @@ struct Preset: Codable, Identifiable, Equatable {
     // Check required sound states for built-in sounds only
     // Custom sounds should be optional in presets
     let allSounds = AudioManager.shared.sounds
-    let builtInSounds = allSounds.filter { !($0 is CustomSound) }.map(\.fileName)
+    let builtInSounds = allSounds.filter { !$0.isCustom }.map(\.fileName)
     let presetSounds = Set(soundStates.map(\.fileName))
 
     guard builtInSounds.allSatisfy(presetSounds.contains) else {

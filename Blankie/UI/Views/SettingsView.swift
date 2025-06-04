@@ -30,7 +30,7 @@ struct SettingsView: View {
           }
 
           Toggle(
-            "Show Sound Names",
+            "Show Labels",
             isOn: Binding(
               get: { globalSettings.showSoundNames },
               set: { globalSettings.setShowSoundNames($0) }
@@ -55,7 +55,7 @@ struct SettingsView: View {
           header: Text("Playback", comment: "Settings section header for behavior options"),
         ) {
           Toggle(
-            "Auto-play on Launch",
+            "Autoplay When Opened",
             isOn: Binding(
               get: { globalSettings.autoPlayOnLaunch },
               set: { globalSettings.setAutoPlayOnLaunch($0) }

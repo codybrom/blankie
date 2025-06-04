@@ -192,14 +192,14 @@
 
       let item = CPListItem(
         text: "\(displayText)\(activeIndicator)",
-        detailText: sound is CustomSound ? "Custom sound" : nil
+        detailText: sound.isCustom ? "Custom sound" : nil
       )
 
       // Use a weak capture to avoid the 'self' in concurrently-executing code error
-      let weakSelf = self
-      item.handler = { _, completion in
-        Task {
-          await weakSelf.playIndividualSound(sound)
+      item.handler = {
+        [weak self] (_: any CPSelectableListItem, completion: @escaping () -> Void) in
+        Task { @MainActor in
+          await self?.playIndividualSound(sound)
           completion()
         }
       }

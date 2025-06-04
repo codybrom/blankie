@@ -13,7 +13,7 @@ extension GlobalSettings {
     print("  - Volume: \(volume)")
     print("  - Appearance: \(appearance.rawValue)")
     print("  - Custom Accent Color: \(customAccentColor?.toString ?? "System")")
-    print("  - Auto-play on Launch: \(autoPlayOnLaunch)")
+    print("  - Autoplay When Opened: \(autoPlayOnLaunch)")
     print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
     print("  - Enable Haptics: \(enableHaptics)")
     print("  - Enable Spatial Audio: \(enableSpatialAudio)")

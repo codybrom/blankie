@@ -38,8 +38,8 @@ import Foundation
         if wasPlaying {
           try AVAudioSession.sharedInstance().setActive(true)
 
-          // Restart playback since changing to exclusive mode may have interrupted it
-          AudioManager.shared.playSelected()
+          // Note: We don't call playSelected() here to preserve playback positions
+          // The audio players will automatically continue from their current positions
 
           // Update Now Playing info
           AudioManager.shared.updateNowPlayingState()

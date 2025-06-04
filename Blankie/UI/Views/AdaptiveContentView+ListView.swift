@@ -172,7 +172,13 @@ import SwiftUI
               : .gray)
       }
       .onTapGesture {
-        sound.toggle()
+        // If global playback is paused and this sound is already selected,
+        // start global playback instead of deselecting the sound
+        if !audioManager.isGloballyPlaying && sound.isSelected {
+          audioManager.setGlobalPlaybackState(true)
+        } else {
+          sound.toggle()
+        }
       }
     }
 

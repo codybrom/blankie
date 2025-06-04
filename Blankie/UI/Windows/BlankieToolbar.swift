@@ -58,7 +58,7 @@ import SwiftUI
             }
           } label: {
             HStack {
-              Text("Show Sound Names", comment: "Toggle to show/hide sound names")
+              Text("Show Labels", comment: "Toggle to show/hide labels")
               if GlobalSettings.shared.showSoundNames {
                 Spacer()
                 Image(systemName: "checkmark")

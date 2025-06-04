@@ -17,9 +17,14 @@ struct SoundCustomization: Codable, Identifiable {
   var customColorName: String?
   var randomizeStartPosition: Bool?
 
+  // Audio normalization settings
+  var normalizeAudio: Bool?
+  var volumeAdjustment: Float?  // 0.5 = -50%, 1.0 = normal, 1.5 = +50%
+
   init(
     fileName: String, customTitle: String? = nil, customIconName: String? = nil,
-    customColorName: String? = nil, randomizeStartPosition: Bool? = nil
+    customColorName: String? = nil, randomizeStartPosition: Bool? = nil,
+    normalizeAudio: Bool? = nil, volumeAdjustment: Float? = nil
   ) {
     self.id = UUID()
     self.fileName = fileName
@@ -27,6 +32,8 @@ struct SoundCustomization: Codable, Identifiable {
     self.customIconName = customIconName
     self.customColorName = customColorName
     self.randomizeStartPosition = randomizeStartPosition
+    self.normalizeAudio = normalizeAudio
+    self.volumeAdjustment = volumeAdjustment
   }
 
   /// Returns the effective title (custom or original)
@@ -48,7 +55,7 @@ struct SoundCustomization: Codable, Identifiable {
   /// Whether this customization has any custom values
   var hasCustomizations: Bool {
     return customTitle != nil || customIconName != nil || customColorName != nil
-      || randomizeStartPosition != nil
+      || randomizeStartPosition != nil || normalizeAudio != nil || volumeAdjustment != nil
   }
 }
 
@@ -140,6 +147,34 @@ class SoundCustomizationManager: ObservableObject {
     saveCustomizationsInternal()
   }
 
+  /// Set normalize audio for a sound
+  func setNormalizeAudio(_ normalize: Bool?, for fileName: String) {
+    var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
+    customization.normalizeAudio = normalize
+
+    if customization.hasCustomizations {
+      customizations[fileName] = customization
+    } else {
+      customizations.removeValue(forKey: fileName)
+    }
+
+    saveCustomizationsInternal()
+  }
+
+  /// Set volume adjustment for a sound
+  func setVolumeAdjustment(_ adjustment: Float?, for fileName: String) {
+    var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
+    customization.volumeAdjustment = adjustment
+
+    if customization.hasCustomizations {
+      customizations[fileName] = customization
+    } else {
+      customizations.removeValue(forKey: fileName)
+    }
+
+    saveCustomizationsInternal()
+  }
+
   /// Reset all customizations for a specific sound
   func resetCustomizations(for fileName: String) {
     customizations.removeValue(forKey: fileName)
@@ -172,6 +207,13 @@ class SoundCustomizationManager: ObservableObject {
   /// Save customizations manually (public version)
   func saveCustomizations() {
     saveCustomizationsInternal()
+  }
+
+  /// Update customization temporarily without saving (for preview)
+  func updateTemporaryCustomization(_ customization: SoundCustomization) {
+    customizations[customization.fileName] = customization
+    // Trigger UI updates
+    objectWillChange.send()
   }
 
   /// Get all customized sound file names

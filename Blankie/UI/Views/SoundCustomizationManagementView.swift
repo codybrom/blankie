@@ -64,7 +64,7 @@ struct SoundCustomizationManagementView: View {
   private var customizedSounds: [Sound] {
     let customizedFileNames = customizationManager.customizedSounds
     return audioManager.sounds.filter { sound in
-      customizedFileNames.contains(sound.fileName) && !(sound is CustomSound)
+      customizedFileNames.contains(sound.fileName) && !sound.isCustom
     }
   }
 }

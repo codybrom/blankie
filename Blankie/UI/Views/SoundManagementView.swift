@@ -19,6 +19,8 @@ struct SoundManagementView: View {
   @State private var selectedSound: CustomSoundData?
   @State private var selectedBuiltInSound: Sound?
   @State private var showingDeleteConfirmation = false
+  @State private var builtInSoundsExpanded = true
+  @State private var customSoundsExpanded = true
 
   private var builtInSounds: [Sound] {
     audioManager.sounds.filter { !($0 is CustomSound) }.sorted { $0.customOrder < $1.customOrder }
@@ -30,16 +32,19 @@ struct SoundManagementView: View {
 
   var body: some View {
     NavigationStack {
-      VStack(spacing: 0) {
-        headerView
-        Divider()
-        mainContentView
-      }
+      mainContentView
       .navigationTitle("Sound Management")
       #if os(iOS) || os(visionOS)
         .navigationBarTitleDisplayMode(.inline)
       #endif
       .toolbar {
+        ToolbarItem(placement: .navigationBarLeading) {
+          Button {
+            showingImportSheet = true
+          } label: {
+            Image(systemName: "plus")
+          }
+        }
         ToolbarItem(placement: .primaryAction) {
           Button("Done") {
             dismiss()
@@ -75,32 +80,6 @@ struct SoundManagementView: View {
     }
   }
 
-  private var headerView: some View {
-    HStack {
-      Text("Sound Management", comment: "Sound management view title")
-        .font(.title2.bold())
-
-      Spacer()
-
-      HStack(spacing: 12) {
-        Button {
-          showingImportSheet = true
-        } label: {
-          Label("Import Sound", systemImage: "plus")
-        }
-        .buttonStyle(.borderedProminent)
-
-        Button {
-          dismiss()
-        } label: {
-          Text("Done", comment: "Sound management done button")
-        }
-        .buttonStyle(.bordered)
-      }
-    }
-    .padding()
-  }
-
   private var mainContentView: some View {
     ScrollView {
       VStack(spacing: 0) {
@@ -118,11 +97,14 @@ struct SoundManagementView: View {
     sectionHeader(
       title: "Built-in Sounds",
       subtitle: hiddenCount > 0
-        ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds"
+        ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds",
+      isExpanded: $builtInSoundsExpanded
     )
 
-    ForEach(Array(builtInSounds.enumerated()), id: \.element.id) { index, sound in
-      builtInSoundRow(sound: sound, isLast: index == builtInSounds.count - 1)
+    if builtInSoundsExpanded {
+      ForEach(Array(builtInSounds.enumerated()), id: \.element.id) { index, sound in
+        builtInSoundRow(sound: sound, isLast: index == builtInSounds.count - 1)
+      }
     }
 
     Divider()
@@ -138,15 +120,18 @@ struct SoundManagementView: View {
           ? "No custom sounds"
           : hiddenCount > 0
             ? "\(customSounds.count) sounds (\(hiddenCount) hidden)"
-            : "\(customSounds.count) sounds"
+            : "\(customSounds.count) sounds",
+        isExpanded: $customSoundsExpanded
       )
 
-      if customSounds.isEmpty {
-        customSoundsEmptyState
-      } else {
-        ForEach(Array(customSounds.enumerated()), id: \.element.id) { index, sound in
-          if let customSound = sound as? CustomSound {
-            customSoundRow(sound: customSound, isLast: index == customSounds.count - 1)
+      if customSoundsExpanded {
+        if customSounds.isEmpty {
+          customSoundsEmptyState
+        } else {
+          ForEach(Array(customSounds.enumerated()), id: \.element.id) { index, sound in
+            if let customSound = sound as? CustomSound {
+              customSoundRow(sound: customSound, isLast: index == customSounds.count - 1)
+            }
           }
         }
       }
@@ -184,20 +169,30 @@ struct SoundManagementView: View {
     )
   }
 
-  private func sectionHeader(title: String, subtitle: String) -> some View {
-    HStack {
-      VStack(alignment: .leading, spacing: 2) {
-        Text(title)
-          .font(.headline)
-        Text(subtitle)
+  private func sectionHeader(title: String, subtitle: String, isExpanded: Binding<Bool>) -> some View {
+    Button(action: {
+      withAnimation(.easeInOut(duration: 0.2)) {
+        isExpanded.wrappedValue.toggle()
+      }
+    }) {
+      HStack {
+        VStack(alignment: .leading, spacing: 2) {
+          Text(title)
+            .font(.headline)
+          Text(subtitle)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        Spacer()
+        Image(systemName: isExpanded.wrappedValue ? "chevron.down" : "chevron.right")
           .font(.caption)
           .foregroundColor(.secondary)
       }
-      Spacer()
+      .padding(.horizontal)
+      .padding(.vertical, 8)
+      .background(.regularMaterial)
     }
-    .padding(.horizontal)
-    .padding(.vertical, 8)
-    .background(.regularMaterial)
+    .buttonStyle(.plain)
   }
 
   private var customSoundsEmptyState: some View {

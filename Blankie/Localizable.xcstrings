@@ -2029,7 +2029,7 @@
 
     },
     "Done" : {
-      "comment" : "Custom sounds done button\nSettings done button\nSound management done button\nToolbar done button\nVolume controls done button",
+      "comment" : "Custom sounds done button\nSettings done button\nToolbar done button\nVolume controls done button",
       "localizations" : {
         "en" : {
           "stringUnit" : {

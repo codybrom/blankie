@@ -119,54 +119,82 @@ struct SoundSheet: View {
   }
 
   var body: some View {
-    VStack(spacing: 0) {
-      // Header
-      VStack(spacing: 8) {
-        Text(title)
-          .font(.title2.bold())
-      }
-      .padding(.top, 20)
-      .padding(.bottom, 16)
+    Group {
+      #if os(macOS)
+        VStack(spacing: 0) {
+          // Header
+          VStack(spacing: 8) {
+            Text(title)
+              .font(.title2.bold())
+          }
+          .padding(.top, 20)
+          .padding(.bottom, 16)
 
-      Divider()
+          Divider()
 
-      // Content
-      SoundSheetForm(
-        mode: mode,
-        soundName: $soundName,
-        selectedIcon: $selectedIcon,
-        selectedFile: $selectedFile,
-        isImporting: $isImporting,
-        selectedColor: $selectedColor,
-        randomizeStartPosition: $randomizeStartPosition
-      )
+          // Content
+          SoundSheetForm(
+            mode: mode,
+            soundName: $soundName,
+            selectedIcon: $selectedIcon,
+            selectedFile: $selectedFile,
+            isImporting: $isImporting,
+            selectedColor: $selectedColor,
+            randomizeStartPosition: $randomizeStartPosition
+          )
 
-      Spacer()
+          Spacer()
 
-      Divider()
+          Divider()
 
-      // Footer buttons
-      HStack {
-        Button("Cancel") {
-          dismiss()
+          // Footer buttons
+          HStack {
+            Button("Cancel") {
+              dismiss()
+            }
+            .buttonStyle(.bordered)
+            .keyboardShortcut(.escape)
+
+            Spacer()
+
+            Button {
+              performAction()
+            } label: {
+              Text(buttonTitle)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(isDisabled)
+            .keyboardShortcut(.return)
+          }
+          .padding()
         }
-        .buttonStyle(.bordered)
-        .keyboardShortcut(.escape)
-
-        Spacer()
-
-        Button {
-          performAction()
-        } label: {
-          Text(buttonTitle)
+        .frame(width: 450, height: mode.isAdd ? 620 : 600)
+      #else
+        NavigationView {
+          SoundSheetForm(
+            mode: mode,
+            soundName: $soundName,
+            selectedIcon: $selectedIcon,
+            selectedFile: $selectedFile,
+            isImporting: $isImporting,
+            selectedColor: $selectedColor,
+            randomizeStartPosition: $randomizeStartPosition
+          )
+          .navigationTitle(title)
+          .navigationBarTitleDisplayMode(.inline)
+          .navigationBarBackButtonHidden(true)
+          .navigationBarItems(
+            leading: Button("Cancel") {
+              dismiss()
+            },
+            trailing: Button("Done") {
+              performAction()
+            }
+            .disabled(isDisabled)
+          )
         }
-        .buttonStyle(.borderedProminent)
-        .disabled(isDisabled)
-        .keyboardShortcut(.return)
-      }
-      .padding()
+      #endif
     }
-    .frame(width: 450, height: mode.isAdd ? 620 : 600)
     .fileImporter(
       isPresented: $isImporting,
       allowedContentTypes: [
@@ -199,7 +227,7 @@ struct SoundSheet: View {
     } message: { error in
       Text(error.localizedDescription)
     }
-    .overlay {
+    .overlay(alignment: .center) {
       if isProcessing {
         processingOverlay
       }
@@ -223,6 +251,7 @@ struct SoundSheet: View {
       return nameTrimmed.isEmpty || isProcessing
     }
   }
+
 }
 
 // MARK: - Mode Extensions

@@ -17,7 +17,9 @@ extension AudioManager {
     self.modelContext = context
     CustomSoundManager.shared.setModelContext(context)
     setupCustomSoundObservers()
-    loadCustomSounds()
+    Task { @MainActor in
+      loadCustomSounds()
+    }
   }
 
   func setupCustomSoundObservers() {

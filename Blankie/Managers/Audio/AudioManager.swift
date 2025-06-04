@@ -56,7 +56,8 @@ class AudioManager: ObservableObject {
 
       // Restore solo mode if it was saved
       if let savedSoloFileName = GlobalSettings.shared.getSavedSoloModeFileName(),
-         let soloSound = self.sounds.first(where: { $0.fileName == savedSoloFileName }) {
+        let soloSound = self.sounds.first(where: { $0.fileName == savedSoloFileName })
+      {
         print("🎵 AudioManager: Restoring solo mode for '\(soloSound.title)'")
         self.enterSoloMode(for: soloSound)
       } else if GlobalSettings.shared.autoPlayOnLaunch {
@@ -147,8 +148,13 @@ class AudioManager: ObservableObject {
 
     // Normal mode: play all selected sounds according to preset
     for sound in sounds where sound.isSelected && !sound.isHidden {
-      print("  - Playing '\(sound.fileName)'")
+      print(
+        "  - About to play '\(sound.fileName)', isSelected: \(sound.isSelected), player exists: \(sound.player != nil)"
+      )
       sound.play()
+      print(
+        "  - After play call for '\(sound.fileName)', player playing: \(sound.player?.isPlaying ?? false), volume: \(sound.player?.volume ?? 0)"
+      )
     }
 
     // Update Now Playing info with current preset name

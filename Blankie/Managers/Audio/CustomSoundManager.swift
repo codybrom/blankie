@@ -63,66 +63,96 @@ class CustomSoundManager {
   ///   - iconName: SF Symbol name to use for the sound
   ///   - randomizeStartPosition: Whether to randomize the start position when playing
   /// - Returns: A Result with the created CustomSoundData or an error
-  @Sendable
+  @MainActor
   func importSound(
     from sourceURL: URL, title: String, iconName: String, randomizeStartPosition: Bool = true
   ) async -> Result<
     CustomSoundData, CustomSoundError
   > {
-    // Generate a unique filename to prevent conflicts
     let uniqueFileName = UUID().uuidString
     let fileExtension = sourceURL.pathExtension.lowercased()
 
-    // Verify the file is a supported audio format
     guard isSupportedAudioFormat(fileExtension) else {
       return .failure(CustomSoundError.unsupportedFormat)
     }
 
     do {
-      // Validate audio file
-      let validationResult = try await validateAudioFile(at: sourceURL)
-      if case .failure(let error) = validationResult {
-        switch error {
-        case let customSoundError as CustomSoundError:
-          return .failure(customSoundError)
-        default:
-          return .failure(.invalidAudioFile(error))
-        }
-      }
-
-      // Copy file to app storage
-      guard
-        (try copyToCustomSoundsDirectory(
-          source: sourceURL,
-          filename: uniqueFileName,
-          extension: fileExtension
-        )) != nil
-      else {
-        return .failure(CustomSoundError.fileCopyFailed)
-      }
-
-      // Create database record
-      let customSound = CustomSoundData(
-        title: title,
-        systemIconName: iconName,
-        fileName: uniqueFileName,
-        fileExtension: fileExtension,
-        originalFileName: sourceURL.lastPathComponent,
+      try await validateImportableAudioFile(at: sourceURL)
+      let copiedURL = try copyFileForImport(
+        sourceURL, uniqueFileName: uniqueFileName, fileExtension: fileExtension)
+      let importData = SoundImportData(
+        sourceURL: sourceURL, copiedURL: copiedURL, title: title, iconName: iconName,
+        uniqueFileName: uniqueFileName, fileExtension: fileExtension,
         randomizeStartPosition: randomizeStartPosition
       )
+      let customSound = try await createCustomSoundRecord(from: importData)
+      try saveCustomSoundToDatabase(customSound)
 
-      // Save to SwiftData
-      modelContext?.insert(customSound)
-      try modelContext?.save()
-
-      // Notify audio manager to refresh sounds
       NotificationCenter.default.post(name: .customSoundAdded, object: nil)
-
       return .success(customSound)
     } catch {
       print("❌ CustomSoundManager: Failed to import sound: \(error)")
       return .failure(.invalidAudioFile(error))
     }
+  }
+
+  private func validateImportableAudioFile(at sourceURL: URL) async throws {
+    let validationResult = try await validateAudioFile(at: sourceURL)
+    if case .failure(let error) = validationResult {
+      throw (error as? CustomSoundError) ?? CustomSoundError.invalidAudioFile(error)
+    }
+  }
+
+  private func copyFileForImport(_ sourceURL: URL, uniqueFileName: String, fileExtension: String)
+    throws -> URL
+  {
+    guard
+      let copiedURL = try copyToCustomSoundsDirectory(
+        source: sourceURL, filename: uniqueFileName, extension: fileExtension
+      )
+    else {
+      throw CustomSoundError.fileCopyFailed
+    }
+    return copiedURL
+  }
+
+  private struct SoundImportData {
+    let sourceURL: URL
+    let copiedURL: URL
+    let title: String
+    let iconName: String
+    let uniqueFileName: String
+    let fileExtension: String
+    let randomizeStartPosition: Bool
+  }
+
+  @MainActor
+  private func createCustomSoundRecord(from importData: SoundImportData) async throws
+    -> CustomSoundData
+  {
+    let analysis = await AudioAnalyzer.comprehensiveAnalysis(at: importData.copiedURL)
+    let lufsResult =
+      analysis.lufs != nil
+      ? (lufs: analysis.lufs!, normalizationFactor: analysis.normalizationFactor) : nil
+
+    return CustomSoundData(
+      title: importData.title, systemIconName: importData.iconName,
+      fileName: importData.uniqueFileName,
+      fileExtension: importData.fileExtension,
+      originalFileName: importData.sourceURL.lastPathComponent,
+      randomizeStartPosition: importData.randomizeStartPosition,
+      normalizeAudio: true, volumeAdjustment: 1.0, detectedPeakLevel: analysis.peakLevel,
+      detectedLUFS: lufsResult?.lufs, normalizationFactor: lufsResult?.normalizationFactor
+    )
+  }
+
+  @MainActor
+  private func saveCustomSoundToDatabase(_ customSound: CustomSoundData) throws {
+    guard let modelContext = self.modelContext else {
+      throw CustomSoundError.databaseError
+    }
+    modelContext.insert(customSound)
+    try modelContext.save()
   }
 
   private func copyToCustomSoundsDirectory(source: URL, filename: String, extension ext: String)
@@ -208,6 +238,7 @@ class CustomSoundManager {
 
   /// Get all custom sounds
   /// - Returns: Array of CustomSoundData objects
+  @MainActor
   func getAllCustomSounds() -> [CustomSoundData] {
     guard let modelContext = modelContext else {
       return []
@@ -239,11 +270,67 @@ class CustomSoundManager {
     return nil
   }
 
+  /// Convenience method for getting file URL
+  func fileURL(for customSound: CustomSoundData) -> URL? {
+    return getURLForCustomSound(customSound)
+  }
+
+  /// Re-analyze peak level for an existing custom sound
+  /// - Parameter customSound: The custom sound to analyze
+  /// - Returns: The detected peak level or nil if analysis fails
+  @MainActor
+  func reanalyzePeakLevel(for customSound: CustomSoundData) async -> Float? {
+    guard let fileURL = getURLForCustomSound(customSound) else {
+      print("❌ CustomSoundManager: Could not find file for reanalysis")
+      return nil
+    }
+
+    let peakLevel = await AudioAnalyzer.analyzePeakLevel(at: fileURL)
+
+    // Update the custom sound data
+    if let peakLevel = peakLevel {
+      customSound.detectedPeakLevel = peakLevel
+
+      // Save changes
+      do {
+        try modelContext?.save()
+        print("✅ CustomSoundManager: Updated peak level for '\(customSound.title)' to \(peakLevel)")
+      } catch {
+        print("❌ CustomSoundManager: Failed to save peak level: \(error)")
+      }
+    }
+
+    return peakLevel
+  }
+
+  // MARK: - Sound Retrieval
+
+  /// Get a custom sound by its ID
+  /// - Parameter id: The UUID of the custom sound
+  /// - Returns: The CustomSoundData if found
+  @MainActor
+  func getCustomSound(by id: UUID) -> CustomSoundData? {
+    guard let modelContext = modelContext else { return nil }
+
+    let descriptor = FetchDescriptor<CustomSoundData>(
+      predicate: #Predicate { $0.id == id }
+    )
+
+    do {
+      let results = try modelContext.fetch(descriptor)
+      return results.first
+    } catch {
+      print("❌ CustomSoundManager: Failed to fetch custom sound by ID: \(error)")
+      return nil
+    }
+  }
+
   // MARK: - Sound Deletion
 
   /// Delete a custom sound
   /// - Parameter customSound: The CustomSoundData to delete
   /// - Returns: Result indicating success or failure
+  @MainActor
   func deleteCustomSound(_ customSound: CustomSoundData) -> Result<Void, Error> {
     guard let modelContext = modelContext else {
       return .failure(CustomSoundError.databaseError)
@@ -267,6 +354,13 @@ class CustomSoundManager {
       print("❌ CustomSoundManager: Failed to delete custom sound: \(error)")
       return .failure(error)
     }
+  }
+
+  // MARK: - Save Context
+
+  @MainActor
+  func saveContext() throws {
+    try modelContext?.save()
   }
 }
 

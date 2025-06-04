@@ -141,10 +141,13 @@ extension AudioManager {
       if let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt {
         let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
         if options.contains(.shouldResume) {
-          print("🎵 AudioManager: Audio interruption ended with shouldResume flag")
-          if !GlobalSettings.shared.mixWithOthers {
-            print("🎵 AudioManager: Not resuming automatically in exclusive mode")
+          print(
+            "🎵 AudioManager: Audio interruption ended with shouldResume flag - resuming playback")
+          Task { @MainActor in
+            self.setGlobalPlaybackState(true)
           }
+        } else {
+          print("🎵 AudioManager: Audio interruption ended without shouldResume flag")
         }
       }
     }

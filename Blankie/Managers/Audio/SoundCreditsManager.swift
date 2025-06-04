@@ -33,7 +33,6 @@ class SoundCreditsManager: ObservableObject {
             soundName: sound.soundName,
             author: sound.author,
             license: License(rawValue: sound.license.lowercased()) ?? .cc0,
-            editor: sound.editor,
             soundUrl: URL(string: sound.soundUrl)
           )
         }

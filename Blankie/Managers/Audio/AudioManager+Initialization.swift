@@ -35,6 +35,15 @@ extension AudioManager {
     if hasSelectedSounds != newValue {
       print("🎵 AudioManager: hasSelectedSounds changed from \(hasSelectedSounds) to \(newValue)")
       hasSelectedSounds = newValue
+
+      // Auto-start playback when sounds are selected and nothing is currently playing
+      // Only auto-start if we have sounds loaded (not during initialization)
+      if newValue && !isGloballyPlaying && !sounds.isEmpty {
+        print("🎵 AudioManager: Auto-starting playback for selected sounds")
+        Task { @MainActor in
+          setGlobalPlaybackState(true)
+        }
+      }
     }
   }
 

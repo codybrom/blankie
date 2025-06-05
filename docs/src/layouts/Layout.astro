@@ -12,11 +12,13 @@ import socialImage from "../assets/social.jpg";
 
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
+const { title, description: customDescription } = Astro.props;
 const siteUrl = "https://blankie.rest";
 const description =
+  customDescription ||
   "Blankie is a free and open-source ambient sound mixer for macOS that helps you focus, work, and relax with customizable soundscapes";
 ---
 

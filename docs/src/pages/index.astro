@@ -7,6 +7,8 @@ import wavesVideo from "../assets/waves.mp4";
 import ghSVG from "../assets/github.svg";
 import bmcSVG from "../assets/bmc.svg";
 import kfSVG from "../assets/kofi.svg";
+import laurelLeft from "../assets/laurel-left.svg";
+import laurelRight from "../assets/laurel-right.svg";
 
 const title = "Ambient sound mixer for macOS";
 ---
@@ -38,7 +40,7 @@ const title = "Ambient sound mixer for macOS";
         aria-label="Multiple language support announcement"
       >
         🌍 Now available in Deutsch, Español, Français, Italiano, 日本語,
-        Português, Türkçe and 简体中文!
+        한국어, Português, Türkçe and 简体中文!
       </p>
 
       <h1
@@ -59,6 +61,7 @@ const title = "Ambient sound mixer for macOS";
           <span class="sm:hidden">Flow.</span>
         </div>
       </h2>
+
       <a href="/features" class="block">
         <Image
           src={screenshot}
@@ -72,20 +75,109 @@ const title = "Ambient sound mixer for macOS";
         />
       </a>
 
-      <!-- Product Hunt Badge -->
-      <div class="flex justify-center mb-8">
-        <a
-          href="https://www.producthunt.com/posts/blankie?embed=true&utm_source=badge-featured&utm_medium=badge&utm_source=badge-blankie"
-          target="_blank"
-        >
-          <img
-            src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=968970&theme=light&t=1747948853827"
-            alt="Blankie - Open-source ambient sound mixer for macOS | Product Hunt"
-            style="width: 250px; height: 54px;"
-            width="250"
-            height="54"
-          />
-        </a>
+      <!-- Social Proof Section -->
+      <div class="flex flex-col items-center gap-4 mb-8">
+        <!-- Featured Badges Row -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <!-- Mac App Store Featured Badge -->
+          <a
+            href="https://apps.apple.com/app/blankie/id6740096581"
+            target="_blank"
+            class="relative inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-zinc-900/60 to-zinc-800/60 rounded-full border border-zinc-700/50 hover:border-yellow-500/50 hover:shadow-lg hover:shadow-yellow-500/10 hover:scale-105 transition-all duration-300"
+          >
+            <!-- Left Laurel -->
+            <img
+              src={laurelLeft.src}
+              alt=""
+              width="25"
+              height="50"
+              style="filter: invert(84%) sepia(28%) saturate(668%) hue-rotate(345deg) brightness(91%) contrast(88%); opacity: 0.7;"
+            />
+            <div class="text-center px-2">
+              <div
+                class="text-xs text-yellow-500 font-bold uppercase tracking-wider"
+              >
+                Mac App Store
+              </div>
+              <div class="text-sm text-gray-300 font-semibold italic">
+                Best New Apps and Updates
+              </div>
+              <div class="text-xs text-gray-400">United States • May 2025</div>
+            </div>
+            <!-- Right Laurel -->
+            <img
+              src={laurelRight.src}
+              alt=""
+              width="25"
+              height="50"
+              style="filter: invert(84%) sepia(28%) saturate(668%) hue-rotate(345deg) brightness(91%) contrast(88%); opacity: 0.7;"
+            />
+          </a>
+
+          <!-- Product Hunt Featured Badge -->
+          <a
+            href="https://www.producthunt.com/products/blankie?embed=true&utm_source=badge-top-post-topic-badge&utm_medium=badge&utm_source=badge-blankie"
+            target="_blank"
+            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-zinc-900/60 to-zinc-800/60 rounded-full border border-zinc-700/50 hover:border-orange-500/50 hover:shadow-lg hover:shadow-orange-500/10 hover:scale-105 transition-all duration-300"
+          >
+            <div class="text-center">
+              <div
+                class="text-xs text-orange-500 font-bold uppercase tracking-wider"
+              >
+                Product Hunt
+              </div>
+              <div class="text-sm text-gray-300 font-semibold italic">
+                #4 Product of the Month
+              </div>
+              <div class="text-xs text-gray-400">
+                Health and Fitness • May 2025
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Stats Row -->
+        <div class="flex flex-wrap justify-center gap-4">
+          <!-- Combined Stats Box -->
+          <div
+            class="inline-flex items-center gap-6 px-8 py-3 bg-gradient-to-r from-zinc-900/60 to-zinc-800/60 rounded-full border border-zinc-700/50"
+          >
+            <!-- Rating -->
+            <div class="flex items-center gap-2">
+              <svg
+                class="w-5 h-5 text-yellow-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+                ></path>
+              </svg>
+              <span class="font-semibold text-gray-200">4.95</span>
+              <span class="text-gray-400">Global App Store Rating</span>
+            </div>
+            <!-- Divider -->
+            <div class="w-px h-6 bg-zinc-700"></div>
+            <!-- Downloads -->
+            <div class="flex items-center gap-2">
+              <svg
+                class="w-5 h-5 text-primary-blue"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              <span class="font-semibold text-gray-200">2,500+</span>
+              <span class="text-gray-400">Downloads</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div
@@ -95,7 +187,7 @@ const title = "Ambient sound mixer for macOS";
         <!-- Primary Download -->
         <div class="flex flex-col items-center">
           <a
-            href="https://apps.apple.com/us/app/blankie/id6740096581"
+            href="https://apps.apple.com/app/blankie/id6740096581"
             class="hover:opacity-90 transition-all duration-300"
           >
             <Image
@@ -104,6 +196,8 @@ const title = "Ambient sound mixer for macOS";
               width={240}
               height={80}
               loading="lazy"
+              class="select-none"
+              style="user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;"
             />
           </a>
           <span class="text-xs text-gray-300 mt-2 font-bold"

@@ -31,9 +31,13 @@ interface LanguageData {
 // Fetch the languages.json data at build time
 const languageData = languagesJson as unknown as LanguageData;
 
-// Sort languages by translation percentage (descending)
+// Sort languages by native language name (ascending)
 const sortedLanguages = Object.entries(languageData.statistics).sort(
-  ([, a], [, b]) => b.translationPercentage - a.translationPercentage
+  ([langCodeA], [langCodeB]) => {
+    const nameA = getNativeLanguageName(langCodeA);
+    const nameB = getNativeLanguageName(langCodeB);
+    return nameA.localeCompare(nameB);
+  }
 );
 
 const extractionTimestamp = languageData.metadata.extractedAt;
@@ -208,10 +212,10 @@ function getStatusText(stats: StringStats): string {
                 <div class="flex justify-between items-start">
                   <div>
                     <h2 class="text-xl font-semibold">
-                      {getLanguageName(langCode)}
+                      {langCode === 'en-GB' ? 'English (United Kingdom)' : getNativeLanguageName(langCode)}
                     </h2>
                     <p class="text-sm text-gray-400 mt-0.5">
-                      {getNativeLanguageName(langCode)} •{" "}
+                      {langCode === 'en-GB' ? 'English (UK)' : getLanguageName(langCode)} •{" "}
                       <code class="text-yellow-500">{langCode}</code>
                     </p>
                   </div>

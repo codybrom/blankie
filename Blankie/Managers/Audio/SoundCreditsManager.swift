@@ -11,6 +11,7 @@ class SoundCreditsManager: ObservableObject {
   static let shared = SoundCreditsManager()
   @Published private(set) var credits: [SoundCredit] = []
   @Published private(set) var loadError: Error?
+  private var soundDataMap: [String: SoundData] = [:]
 
   private init() {
     loadCredits()
@@ -27,6 +28,10 @@ class SoundCreditsManager: ObservableObject {
       let container = try JSONDecoder().decode(SoundsContainer.self, from: data)
 
       DispatchQueue.main.async {
+        // Store sound data for later access
+        self.soundDataMap = Dictionary(
+          uniqueKeysWithValues: container.sounds.map { ($0.title, $0) })
+
         self.credits = container.sounds.map { sound in
           SoundCredit(
             name: sound.title,
@@ -41,5 +46,17 @@ class SoundCreditsManager: ObservableObject {
       print("Error loading sounds.json: \(error)")
       loadError = error
     }
+  }
+
+  func getAuthor(for soundTitle: String) -> String? {
+    return soundDataMap[soundTitle]?.author
+  }
+
+  func getDescription(for soundTitle: String) -> String? {
+    return soundDataMap[soundTitle]?.description
+  }
+
+  func getSoundData(for soundTitle: String) -> SoundData? {
+    return soundDataMap[soundTitle]
   }
 }

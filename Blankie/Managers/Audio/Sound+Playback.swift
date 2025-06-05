@@ -19,8 +19,31 @@ extension Sound {
   }
 
   func play() {
-    guard let player = loadedPlayer else {
+    var player = loadedPlayer
+    guard player != nil else {
       print("❌ Sound: No player available for '\(fileName)'")
+      return
+    }
+
+    // Additional validation
+    if !player!.prepareToPlay() {
+      print("❌ Sound: Player not ready for '\(fileName)' - attempting to reload")
+      loadSound()
+      guard let reloadedPlayer = self.player else {
+        print("❌ Sound: Failed to reload player for '\(fileName)'")
+        return
+      }
+      if !reloadedPlayer.prepareToPlay() {
+        print("❌ Sound: Player still not ready after reload for '\(fileName)'")
+        return
+      }
+      // Update the local player reference to the reloaded one
+      player = reloadedPlayer
+    }
+
+    // Ensure we have a valid player from this point
+    guard let validPlayer = player else {
+      print("❌ Sound: No valid player after validation for '\(fileName)'")
       return
     }
 
@@ -35,14 +58,21 @@ extension Sound {
 
     if shouldRandomizeStart {
       // Set a random start position within the sound's duration
-      let randomPosition = Double.random(in: 0..<player.duration)
-      player.currentTime = randomPosition
-      print(
-        "🎲 Sound: Starting '\(fileName)' at random position: \(randomPosition)s of \(player.duration)s"
-      )
+      // Check if duration is valid (greater than 0 and not infinite/NaN)
+      if validPlayer.duration > 0 && validPlayer.duration.isFinite {
+        let randomPosition = Double.random(in: 0..<validPlayer.duration)
+        validPlayer.currentTime = randomPosition
+        print(
+          "🎲 Sound: Starting '\(fileName)' at random position: \(randomPosition)s of \(validPlayer.duration)s"
+        )
+      } else {
+        print(
+          "⚠️ Sound: Cannot randomize start position for '\(fileName)' - invalid duration: \(validPlayer.duration)"
+        )
+      }
     }
 
-    let success = player.play()
+    let success = validPlayer.play()
     if !success {
       print("❌ Sound: Failed to play '\(fileName)'")
       let error = NSError(

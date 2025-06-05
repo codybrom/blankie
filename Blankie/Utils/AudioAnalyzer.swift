@@ -14,6 +14,8 @@ struct AudioAnalysisResult {
   let normalizationFactor: Float
   let peakLevel: Float?
   let rmsLevel: Float?
+  let truePeakdBTP: Float?
+  let needsLimiter: Bool
   var peakdBFS: Float? {
     guard let peak = peakLevel, peak > 0 else { return nil }
     return 20 * log10(peak)
@@ -171,9 +173,73 @@ class AudioAnalyzer {
     }
   }
 
+  // MARK: - True Peak Analysis
+
+  /// Analyze true peak level with 4x oversampling for intersample peak detection
+  /// - Parameter url: URL of the audio file to analyze
+  /// - Returns: True peak level in dBTP or nil if analysis fails
+  static func analyzeTruePeak(at url: URL) async -> Float? {
+    do {
+      let file = try AVAudioFile(forReading: url)
+      let format = file.processingFormat
+      let chunkSize: AVAudioFrameCount = 48000
+      var globalTruePeak: Float = 0.0
+      var position: AVAudioFramePosition = 0
+
+      while position < file.length {
+        let framesToRead = min(chunkSize, AVAudioFrameCount(file.length - position))
+
+        guard let buffer = AVAudioPCMBuffer(pcmFormat: format, frameCapacity: framesToRead) else {
+          position += AVAudioFramePosition(framesToRead)
+          continue
+        }
+
+        file.framePosition = position
+        try file.read(into: buffer)
+
+        // Process each channel with 4x oversampling
+        for channel in 0..<Int(format.channelCount) {
+          guard let channelData = buffer.floatChannelData?[channel] else { continue }
+
+          // Simple 4x oversampling using linear interpolation
+          let oversampledLength = Int(buffer.frameLength) * 4
+          var oversampledData = [Float](repeating: 0, count: oversampledLength)
+
+          // Upsample with linear interpolation
+          for i in 0..<Int(buffer.frameLength - 1) {
+            let sample1 = channelData[i]
+            let sample2 = channelData[i + 1]
+            let delta = (sample2 - sample1) / 4.0
+
+            oversampledData[i * 4] = sample1
+            oversampledData[i * 4 + 1] = sample1 + delta
+            oversampledData[i * 4 + 2] = sample1 + delta * 2
+            oversampledData[i * 4 + 3] = sample1 + delta * 3
+          }
+
+          // Find peak in oversampled data
+          var peak: Float = 0
+          vDSP_maxmgv(oversampledData, 1, &peak, vDSP_Length(oversampledLength))
+          globalTruePeak = max(globalTruePeak, peak)
+        }
+
+        position += AVAudioFramePosition(framesToRead)
+      }
+
+      // Convert to dBTP (dB True Peak)
+      let truePeakdBTP = globalTruePeak > 0 ? 20 * log10(globalTruePeak) : -Float.infinity
+      print("🎵 AudioAnalyzer: True peak for \(url.lastPathComponent): \(truePeakdBTP) dBTP")
+      return truePeakdBTP
+
+    } catch {
+      print("❌ AudioAnalyzer: Failed to analyze true peak: \(error)")
+      return nil
+    }
+  }
+
   // MARK: - Comprehensive Analysis
 
-  /// Perform comprehensive audio analysis including LUFS, peak, and RMS
+  /// Perform comprehensive audio analysis including LUFS, peak, RMS, and true peak
   /// - Parameter url: URL of the audio file to analyze
   /// - Returns: Complete analysis results
   static func comprehensiveAnalysis(at url: URL) async -> AudioAnalysisResult {
@@ -183,13 +249,29 @@ class AudioAnalyzer {
     let peakLevel = await analyzePeakLevel(at: url)
     let rmsLevel = await analyzeRMSLevel(at: url)
 
+    // Get true peak level
+    let truePeakdBTP = await analyzeTruePeak(at: url)
+
     // Get LUFS analysis
     let lufsResult = await analyzeLUFS(at: url)
 
-    // If LUFS fails but we have peak level, calculate normalization from peak
+    // Calculate normalization and check if limiter is needed
     let normalizationFactor: Float
+    var needsLimiter = false
+
     if let lufsData = lufsResult {
       normalizationFactor = lufsData.normalizationFactor
+
+      // Check if applying gain would push true peak above -1 dBTP
+      if let truePeak = truePeakdBTP {
+        let gainDB = targetLUFS - (lufsData.lufs)
+        let predictedTruePeak = truePeak + gainDB
+        needsLimiter = predictedTruePeak > -1.0
+
+        if needsLimiter {
+          print("⚠️ AudioAnalyzer: Limiter needed - predicted peak: \(predictedTruePeak) dBTP")
+        }
+      }
     } else if let peak = peakLevel {
       // Fallback to peak-based normalization
       normalizationFactor = calculateNormalizationFactor(peakLevel: peak)
@@ -202,7 +284,9 @@ class AudioAnalyzer {
       lufs: lufsResult?.lufs,
       normalizationFactor: normalizationFactor,
       peakLevel: peakLevel,
-      rmsLevel: rmsLevel
+      rmsLevel: rmsLevel,
+      truePeakdBTP: truePeakdBTP,
+      needsLimiter: needsLimiter
     )
   }
 

@@ -4,12 +4,12 @@
     "-50%" : {
       "comment" : "Volume decrease label"
     },
-    "(Peak: %@, Gain: %@)" : {
+    "(%@, Gain: %@)" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "(Peak: %1$@, Gain: %2$@)"
+            "value" : "(%1$@, Gain: %2$@)"
           }
         }
       }
@@ -543,6 +543,9 @@
     },
     "Audio" : {
       "comment" : "Audio options section header"
+    },
+    "Author" : {
+      "comment" : "Sound author label"
     },
     "Automatically balance volume levels" : {
       "comment" : "Description for audio normalization toggle"
@@ -1202,6 +1205,9 @@
           }
         }
       }
+    },
+    "Channels" : {
+      "comment" : "Audio channels label"
     },
     "Choose Icon" : {
 
@@ -1988,6 +1994,9 @@
         }
       }
     },
+    "Description" : {
+      "comment" : "Sound description label"
+    },
     "Developed By" : {
       "comment" : "Developed by label",
       "extractionState" : "manual",
@@ -2085,6 +2094,9 @@
     },
     "Drop here" : {
 
+    },
+    "Duration" : {
+      "comment" : "Audio duration label"
     },
     "Edit" : {
 
@@ -2324,6 +2336,9 @@
     "Exit Solo Mode" : {
 
     },
+    "File Size" : {
+      "comment" : "File size label"
+    },
     "Fireplace" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -2389,6 +2404,9 @@
           }
         }
       }
+    },
+    "Format" : {
+      "comment" : "File format label"
     },
     "Green" : {
       "comment" : "Accent color name",
@@ -3230,6 +3248,9 @@
         }
       }
     },
+    "Loudness (LUFS)" : {
+      "comment" : "Audio LUFS loudness label"
+    },
     "Manage Sounds" : {
       "comment" : "Sound management label"
     },
@@ -3566,6 +3587,12 @@
     "No Visible Sounds" : {
 
     },
+    "Normalization Factor" : {
+      "comment" : "Audio normalization factor label"
+    },
+    "Normalization Gain" : {
+      "comment" : "Audio normalization gain label"
+    },
     "Normalize Audio" : {
       "comment" : "Toggle label for audio normalization"
     },
@@ -3706,6 +3733,9 @@
     },
     "Other media plays at system volume" : {
 
+    },
+    "Peak Level" : {
+      "comment" : "Audio peak level label"
     },
     "Pink" : {
       "comment" : "Accent color name",
@@ -5504,6 +5534,9 @@
           }
         }
       }
+    },
+    "Sound Information" : {
+      "comment" : "Sound information section header"
     },
     "Sound Management" : {
       "comment" : "Sound management view title"

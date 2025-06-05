@@ -129,6 +129,102 @@ struct CleanSoundSheetForm: View {
           }
         }
 
+        // Sound Information Section
+        if let soundInfo = getSoundInfo() {
+          Section(header: Text("Sound Information", comment: "Sound information section header")) {
+            // Channels
+            HStack {
+              Text("Channels", comment: "Audio channels label")
+              Spacer()
+              Text(soundInfo.channelsText)
+                .foregroundColor(.secondary)
+            }
+
+            // Duration
+            HStack {
+              Text("Duration", comment: "Audio duration label")
+              Spacer()
+              Text(soundInfo.durationText)
+                .foregroundColor(.secondary)
+            }
+
+            // File Size
+            HStack {
+              Text("File Size", comment: "File size label")
+              Spacer()
+              Text(soundInfo.fileSizeText)
+                .foregroundColor(.secondary)
+            }
+
+            // File Format
+            HStack {
+              Text("Format", comment: "File format label")
+              Spacer()
+              Text(soundInfo.formatText)
+                .foregroundColor(.secondary)
+            }
+
+            // Normalization Data (if available)
+            if let normInfo = getNormalizationInfo() {
+              // LUFS (if available)
+              if let lufs = normInfo.lufs {
+                HStack {
+                  Text("Loudness (LUFS)", comment: "Audio LUFS loudness label")
+                  Spacer()
+                  Text(lufs)
+                    .foregroundColor(.secondary)
+                }
+              }
+
+              // Peak Level (if available)
+              if let peak = normInfo.peak {
+                HStack {
+                  Text("Peak Level", comment: "Audio peak level label")
+                  Spacer()
+                  Text(peak)
+                    .foregroundColor(.secondary)
+                }
+              }
+
+              // Normalization Factor
+              HStack {
+                Text("Normalization Factor", comment: "Audio normalization factor label")
+                Spacer()
+                Text(normInfo.factor)
+                  .foregroundColor(.secondary)
+              }
+
+              // Normalization Gain in dB
+              HStack {
+                Text("Normalization Gain", comment: "Audio normalization gain label")
+                Spacer()
+                Text(normInfo.gain)
+                  .foregroundColor(.secondary)
+              }
+            }
+
+            // Credited Author (if available)
+            if let author = soundInfo.creditedAuthor {
+              HStack {
+                Text("Author", comment: "Sound author label")
+                Spacer()
+                Text(author)
+                  .foregroundColor(.secondary)
+              }
+            }
+
+            // Description (if available)
+            if let description = soundInfo.description {
+              VStack(alignment: .leading, spacing: 4) {
+                Text("Description", comment: "Sound description label")
+                Text(description)
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+            }
+          }
+        }
+
         // Preview Section
         Section {
           Button(action: togglePreview) {
@@ -317,32 +413,181 @@ extension CleanSoundSheetForm {
     // This will be implemented in the parent view
   }
 
-  func getPeakLevelInfo() -> (peak: String, gain: String)? {
+  struct NormalizationInfo {
+    let lufs: String?
+    let peak: String?
+    let gain: String
+    let factor: String
+  }
+
+  func getNormalizationInfo() -> NormalizationInfo? {
     switch mode {
     case .edit(let customSound):
-      // Use LUFS if available
+      var lufsStr: String?
+      var peakStr: String?
+      var normFactor: Float = 1.0
+
+      // Get LUFS if available
       if let lufs = customSound.detectedLUFS {
-        let lufsStr = String(format: "%.1f LUFS", lufs)
-        let normFactor =
+        lufsStr = String(format: "%.1f LUFS", lufs)
+        normFactor =
           customSound.normalizationFactor
           ?? AudioAnalyzer.calculateLUFSNormalizationFactor(lufs: lufs)
-        let gainDB = 20 * log10(normFactor)
-        return (peak: lufsStr, gain: String(format: "%+.1fdB", gainDB))
       }
-      // Fall back to peak level
+
+      // Get peak level
       if let peakLevel = customSound.detectedPeakLevel {
         let percentage = Int(peakLevel * 100)
-        let normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
-        let gainDB = 20 * log10(normFactor)
-        return (peak: "\(percentage)%", gain: String(format: "%+.1fdB", gainDB))
+        peakStr = "\(percentage)%"
+        if normFactor == 1.0 {
+          normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
+        }
+      }
+
+      let gainDB = 20 * log10(normFactor)
+      return NormalizationInfo(
+        lufs: lufsStr,
+        peak: peakStr,
+        gain: String(format: "%+.1fdB", gainDB),
+        factor: String(format: "%.2fx", normFactor)
+      )
+
+    case .customize(let sound):
+      var lufsStr: String?
+
+      if let lufs = sound.lufs {
+        lufsStr = String(format: "%.1f LUFS", lufs)
+      }
+
+      let normFactor = sound.normalizationFactor ?? 1.0
+      let gainDB = 20 * log10(normFactor)
+
+      return NormalizationInfo(
+        lufs: lufsStr,
+        peak: nil,
+        gain: String(format: "%+.1fdB", gainDB),
+        factor: String(format: "%.2fx", normFactor)
+      )
+
+    case .add:
+      return nil
+    }
+  }
+
+  struct SoundInfo {
+    let channelsText: String
+    let durationText: String
+    let fileSizeText: String
+    let formatText: String
+    let creditedAuthor: String?
+    let description: String?
+  }
+
+  func getSoundInfo() -> SoundInfo? {
+    switch mode {
+    case .edit(let customSound):
+      if let sound = AudioManager.shared.sounds.first(where: {
+        $0.customSoundDataID == customSound.id
+      }) {
+        // Ensure metadata is loaded
+        if sound.channelCount == nil {
+          sound.loadSound()
+        }
+
+        let channelsText: String
+        if let channels = sound.channelCount {
+          switch channels {
+          case 1:
+            channelsText = "Mono"
+          case 2:
+            channelsText = "Stereo"
+          default:
+            channelsText = "\(channels) (Multichannel)"
+          }
+        } else {
+          channelsText = "Unknown"
+        }
+
+        let durationText: String
+        if let duration = sound.duration {
+          let minutes = Int(duration) / 60
+          let seconds = Int(duration) % 60
+          durationText = String(format: "%d:%02d", minutes, seconds)
+        } else {
+          durationText = "Unknown"
+        }
+
+        let fileSizeText: String
+        if let fileSize = sound.fileSize {
+          let formatter = ByteCountFormatter()
+          fileSizeText = formatter.string(fromByteCount: fileSize)
+        } else {
+          fileSizeText = "Unknown"
+        }
+
+        let formatText = sound.fileFormat ?? "Unknown"
+
+        // For custom sounds, there's no author or description from credits
+        return SoundInfo(
+          channelsText: channelsText,
+          durationText: durationText,
+          fileSizeText: fileSizeText,
+          formatText: formatText,
+          creditedAuthor: nil,
+          description: nil
+        )
       }
     case .customize(let sound):
-      // Use LUFS if available
-      if let lufs = sound.lufs, let normalizationFactor = sound.normalizationFactor {
-        let lufsStr = String(format: "%.1f LUFS", lufs)
-        let gainDB = 20 * log10(normalizationFactor)
-        return (peak: lufsStr, gain: String(format: "%+.1fdB", gainDB))
+      // Ensure metadata is loaded
+      if sound.channelCount == nil {
+        sound.loadSound()
       }
+
+      let channelsText: String
+      if let channels = sound.channelCount {
+        switch channels {
+        case 1:
+          channelsText = "Mono"
+        case 2:
+          channelsText = "Stereo"
+        default:
+          channelsText = "\(channels) (Multichannel)"
+        }
+      } else {
+        channelsText = "Unknown"
+      }
+
+      let durationText: String
+      if let duration = sound.duration {
+        let minutes = Int(duration) / 60
+        let seconds = Int(duration) % 60
+        durationText = String(format: "%d:%02d", minutes, seconds)
+      } else {
+        durationText = "Unknown"
+      }
+
+      let fileSizeText: String
+      if let fileSize = sound.fileSize {
+        let formatter = ByteCountFormatter()
+        fileSizeText = formatter.string(fromByteCount: fileSize)
+      } else {
+        fileSizeText = "Unknown"
+      }
+
+      let formatText = sound.fileFormat ?? "Unknown"
+
+      // Get credits and description if available
+      let creditedAuthor = SoundCreditsManager.shared.getAuthor(for: sound.originalTitle)
+      let description = SoundCreditsManager.shared.getDescription(for: sound.originalTitle)
+
+      return SoundInfo(
+        channelsText: channelsText,
+        durationText: durationText,
+        fileSizeText: fileSizeText,
+        formatText: formatText,
+        creditedAuthor: creditedAuthor,
+        description: description
+      )
     case .add:
       return nil
     }

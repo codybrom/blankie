@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Combine
+import CoreMedia
 import SwiftUI
 
 /// Represents a single sound with its associated properties and playback controls.
@@ -19,6 +20,8 @@ open class Sound: ObservableObject, Identifiable {
   let fileExtension: String
   let lufs: Float?
   let normalizationFactor: Float?
+  let truePeakdBTP: Float?
+  let needsLimiter: Bool
 
   // Properties for unified sound model
   let isCustom: Bool
@@ -135,9 +138,16 @@ open class Sound: ObservableObject, Identifiable {
   private var customizationObserver: AnyCancellable?
   internal var isResetting = false
 
+  // Metadata properties
+  @Published var channelCount: Int?
+  @Published var duration: TimeInterval?
+  @Published var fileSize: Int64?
+  @Published var fileFormat: String?
+
   init(
     title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3",
     defaultOrder: Int = 0, lufs: Float? = nil, normalizationFactor: Float? = nil,
+    truePeakdBTP: Float? = nil, needsLimiter: Bool = false,
     isCustom: Bool = false, fileURL: URL? = nil, dateAdded: Date? = nil,
     customSoundDataID: UUID? = nil
   ) {
@@ -147,6 +157,8 @@ open class Sound: ObservableObject, Identifiable {
     self.fileExtension = fileExtension
     self.lufs = lufs
     self.normalizationFactor = normalizationFactor
+    self.truePeakdBTP = truePeakdBTP
+    self.needsLimiter = needsLimiter
     self.isCustom = isCustom
     self.fileURL = fileURL
     self.dateAdded = dateAdded
@@ -195,8 +207,14 @@ open class Sound: ObservableObject, Identifiable {
     // Determine the URL based on whether this is a custom sound
     let url: URL?
     if isCustom, let customURL = fileURL {
-      url = customURL
-      print("🔍 Sound: Loading custom sound from: \(customURL.path)")
+      // Verify the custom sound file actually exists
+      if FileManager.default.fileExists(atPath: customURL.path) {
+        url = customURL
+        print("🔍 Sound: Loading custom sound from: \(customURL.path)")
+      } else {
+        print("❌ Sound: Custom sound file not found at path: \(customURL.path)")
+        url = nil
+      }
     } else {
       url = Bundle.main.url(forResource: fileName, withExtension: fileExtension)
       print("🔍 Sound: Loading built-in sound from bundle")
@@ -209,17 +227,39 @@ open class Sound: ObservableObject, Identifiable {
     }
 
     do {
+      // Extract metadata before creating player
+      extractMetadata(from: soundURL)
+
       player = try AVAudioPlayer(contentsOf: soundURL)
+
       player?.numberOfLoops = -1
       player?.enableRate = false  // Disable rate/pitch adjustment
-      let prepareSuccess = player?.prepareToPlay() ?? false
+
+      // Additional validation
+      guard let loadedPlayer = player else {
+        print("❌ Sound: Player is nil after initialization for '\(fileName)'")
+        return
+      }
+
+      let prepareSuccess = loadedPlayer.prepareToPlay()
       print("🔍 Sound: Prepare to play result for '\(fileName)': \(prepareSuccess)")
+      print("🔍 Sound: Player duration: \(loadedPlayer.duration), format: \(loadedPlayer.format)")
+
+      if !prepareSuccess || loadedPlayer.duration <= 0 || !loadedPlayer.duration.isFinite {
+        print(
+          "❌ Sound: Invalid player state - prepareSuccess: \(prepareSuccess), duration: \(loadedPlayer.duration)"
+        )
+      }
+
       // Set initial volume with normalization
       updateVolume()
       print(
-        "🔊 Sound: Loaded sound '\(fileName).\(fileExtension)' with volume: \(player?.volume ?? 0)")
+        "🔊 Sound: Loaded sound '\(fileName).\(fileExtension)' with volume: \(loadedPlayer.volume)")
     } catch {
-      print("❌ Sound: Failed to load '\(fileName).\(fileExtension)': \(error.localizedDescription)")
+      print("❌ Sound: Failed to load '\(fileName).\(fileExtension)': \(error)")
+      print(
+        "❌ Sound: Error details - domain: \((error as NSError).domain), code: \((error as NSError).code)"
+      )
       ErrorReporter.shared.report(error)
     }
   }
@@ -231,6 +271,46 @@ open class Sound: ObservableObject, Identifiable {
   private func updatePresetState() {
     Task { @MainActor in
       PresetManager.shared.updateCurrentPresetState()
+    }
+  }
+
+  private func extractMetadata(from url: URL) {
+    do {
+      // Get file attributes
+      let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+      fileSize = attributes[.size] as? Int64
+
+      // Extract format from extension
+      fileFormat = url.pathExtension.uppercased()
+
+      // Create AVAsset to extract audio metadata
+      let asset = AVAsset(url: url)
+
+      // Get duration
+      let durationCMTime = asset.duration
+      if durationCMTime.isValid && !durationCMTime.isIndefinite {
+        duration = CMTimeGetSeconds(durationCMTime)
+      }
+
+      // Get channel count from audio tracks
+      if let audioTrack = asset.tracks(withMediaType: .audio).first {
+        let audioFormatDescriptions = audioTrack.formatDescriptions as? [CMFormatDescription] ?? []
+
+        for formatDesc in audioFormatDescriptions {
+          if let audioStreamBasicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(
+            formatDesc)
+          {
+            channelCount = Int(audioStreamBasicDescription.pointee.mChannelsPerFrame)
+            break
+          }
+        }
+      }
+
+      print(
+        "📊 Sound: Metadata for '\(fileName)' - Channels: \(channelCount ?? 0), Duration: \(duration ?? 0)s, Size: \(fileSize ?? 0) bytes, Format: \(fileFormat ?? "unknown")"
+      )
+    } catch {
+      print("❌ Sound: Failed to extract metadata for '\(fileName)': \(error.localizedDescription)")
     }
   }
 

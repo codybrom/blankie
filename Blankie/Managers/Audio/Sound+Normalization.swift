@@ -33,6 +33,20 @@ extension Sound {
       effectiveVolume *= normalizationSettings.volumeAdjustment
     }
 
+    // Apply soft limiting if needed to prevent clipping
+    if needsLimiter && effectiveVolume > 0.95 {
+      // Simple soft clipping function using tanh
+      // This provides a smooth transition as we approach 1.0
+      let softLimitThreshold: Float = 0.85
+      if effectiveVolume > softLimitThreshold {
+        let excess = (effectiveVolume - softLimitThreshold) / (1.0 - softLimitThreshold)
+        let limited = softLimitThreshold + (1.0 - softLimitThreshold) * tanh(excess * 2)
+        print(
+          "🔊 Sound: Applying soft limiter to '\(fileName)' - from \(effectiveVolume) to \(limited)")
+        effectiveVolume = limited
+      }
+    }
+
     print(
       "🔊 Sound: Volume calculation for '\(fileName)' - base: \(volume), normalized: \(normalizationSettings.normalizeAudio), adjustment: \(normalizationSettings.volumeAdjustment), final: \(effectiveVolume)"
     )

@@ -92,7 +92,7 @@ struct SoundSheetForm: View {
               .foregroundColor(.secondary)
 
               if let peakInfo = getPeakLevelInfo() {
-                Text("(Peak: \(peakInfo.peak), Gain: \(peakInfo.gain))")
+                Text("(\(peakInfo.peak), Gain: \(peakInfo.gain))")
                   .font(.caption)
                   .foregroundColor(.secondary)
               }

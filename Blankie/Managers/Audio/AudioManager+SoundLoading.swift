@@ -64,14 +64,26 @@ extension AudioManager {
               } ?? "mp3"
           }
 
+          // Check for cached playback profile
+          let profileKey = "\(cleanedFileName).\(fileExtension)"
+          let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
+
+          // Use cached values if available and newer than JSON data
+          let lufs = cachedProfile?.integratedLUFS ?? soundData.lufs
+          let normalizationFactor =
+            cachedProfile != nil
+            ? pow(10, cachedProfile!.gainDB / 20) : soundData.normalizationFactor
+
           return Sound(
             title: soundData.title,
             systemIconName: soundData.systemIconName,
             fileName: cleanedFileName,
             fileExtension: fileExtension,
             defaultOrder: soundData.defaultOrder,
-            lufs: soundData.lufs,
-            normalizationFactor: soundData.normalizationFactor
+            lufs: lufs,
+            normalizationFactor: normalizationFactor,
+            truePeakdBTP: cachedProfile?.truePeakdBTP,
+            needsLimiter: cachedProfile?.needsLimiter ?? false
           )
         }
 
@@ -122,15 +134,22 @@ extension AudioManager {
         return nil
       }
 
-      // Create customization for the custom sound with its settings
-      var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
+      // Get existing customization or create new one
+      let existingCustomization = SoundCustomizationManager.shared.getCustomization(
         for: data.fileName)
-      customization.customTitle = data.title
-      customization.customIconName = data.systemIconName
-      customization.randomizeStartPosition = data.randomizeStartPosition
-      customization.normalizeAudio = data.normalizeAudio
-      customization.volumeAdjustment = data.volumeAdjustment
-      SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+      if existingCustomization == nil {
+        // Only create customization if it doesn't exist
+        var customization = SoundCustomization(
+          fileName: data.fileName,
+          customTitle: data.title,
+          customIconName: data.systemIconName,
+          customColorName: nil,
+          randomizeStartPosition: data.randomizeStartPosition,
+          normalizeAudio: data.normalizeAudio,
+          volumeAdjustment: data.volumeAdjustment
+        )
+        SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+      }
 
       return Sound(
         title: data.title,

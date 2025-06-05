@@ -54,6 +54,11 @@ class AudioManager: ObservableObject {
 
       self.isInitializing = false
 
+      // Analyze custom sounds that might be missing profiles
+      Task {
+        await self.analyzeCustomSoundsIfNeeded()
+      }
+
       // Restore solo mode if it was saved
       if let savedSoloFileName = GlobalSettings.shared.getSavedSoloModeFileName(),
         let soloSound = self.sounds.first(where: { $0.fileName == savedSoloFileName })
@@ -155,8 +160,32 @@ class AudioManager: ObservableObject {
   @MainActor
   func soundsNeedingAnalysis() -> [Sound] {
     return sounds.filter { sound in
-      let profileKey = "\(sound.fileName).\(sound.fileExtension)"
+      let profileKey = sound.isCustom ? sound.fileName : "\(sound.fileName).\(sound.fileExtension)"
       return PlaybackProfileStore.shared.profile(for: profileKey) == nil
+    }
+  }
+  
+  /// Analyze all custom sounds missing profiles (useful for migration)
+  @MainActor
+  func analyzeCustomSoundsIfNeeded() async {
+    let customSoundsNeedingAnalysis = sounds.filter { sound in
+      if !sound.isCustom { return false }
+      let profileKey = sound.fileName
+      return PlaybackProfileStore.shared.profile(for: profileKey) == nil
+    }
+
+    if !customSoundsNeedingAnalysis.isEmpty {
+      print("🔍 AudioManager: Found \(customSoundsNeedingAnalysis.count) custom sounds needing analysis")
+
+      for sound in customSoundsNeedingAnalysis {
+        guard let url = sound.fileURL else { continue }
+
+        let analysis = await AudioAnalyzer.comprehensiveAnalysis(at: url)
+        if let profile = PlaybackProfile.from(analysis: analysis, filename: sound.fileName) {
+          PlaybackProfileStore.shared.store(profile)
+          print("✅ AudioManager: Analyzed custom sound: \(sound.fileName)")
+        }
+      }
     }
   }
 

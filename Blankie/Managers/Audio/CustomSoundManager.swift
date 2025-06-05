@@ -135,6 +135,12 @@ class CustomSoundManager {
       analysis.lufs != nil
       ? (lufs: analysis.lufs!, normalizationFactor: analysis.normalizationFactor) : nil
 
+    // Create and store playback profile for efficient runtime use
+    if let profile = PlaybackProfile.from(analysis: analysis, filename: importData.uniqueFileName) {
+      PlaybackProfileStore.shared.store(profile)
+      print("💾 CustomSoundManager: Stored playback profile for \(importData.uniqueFileName)")
+    }
+
     return CustomSoundData(
       title: importData.title, systemIconName: importData.iconName,
       fileName: importData.uniqueFileName,

@@ -29,6 +29,7 @@ struct PlaybackProfile {
 ```
 
 Profiles are stored in:
+
 - **macOS**: `~/Library/Application Support/Blankie/playbackProfiles.json`
 - **iOS**: `<App Container>/Library/Application Support/Blankie/playbackProfiles.json`
 

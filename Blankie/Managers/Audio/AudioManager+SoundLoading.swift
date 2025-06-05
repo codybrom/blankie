@@ -151,14 +151,25 @@ extension AudioManager {
         SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
       }
 
+      // Check for cached playback profile
+      let profileKey = data.fileName
+      let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
+
+      // Use cached values if available
+      let lufs = cachedProfile?.integratedLUFS ?? data.detectedLUFS
+      let normalizationFactor = cachedProfile != nil ?
+        pow(10, cachedProfile!.gainDB / 20) : data.normalizationFactor
+
       return Sound(
         title: data.title,
         systemIconName: data.systemIconName,
         fileName: data.fileName,
         fileExtension: data.fileExtension,
         defaultOrder: customSoundStartOrder + index,  // Increment for each custom sound
-        lufs: data.detectedLUFS,
-        normalizationFactor: data.normalizationFactor,
+        lufs: lufs,
+        normalizationFactor: normalizationFactor,
+        truePeakdBTP: cachedProfile?.truePeakdBTP,
+        needsLimiter: cachedProfile?.needsLimiter ?? false,
         isCustom: true,
         fileURL: url,
         dateAdded: data.dateAdded,

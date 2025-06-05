@@ -22,6 +22,9 @@ export default defineConfig({
   site: "https://blankie.rest",
   output: "static",
   trailingSlash: "always",
+  experimental: {
+    contentIntellisense: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },

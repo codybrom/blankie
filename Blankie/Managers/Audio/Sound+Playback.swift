@@ -19,10 +19,28 @@ extension Sound {
   }
 
   func play() {
+    guard let validPlayer = preparePlayer() else { return }
+
+    applyRandomStartPosition(to: validPlayer)
+
+    let success = validPlayer.play()
+    if !success {
+      print("❌ Sound: Failed to play '\(fileName)'")
+      let error = NSError(
+        domain: "SoundPlayback", code: -1,
+        userInfo: [NSLocalizedDescriptionKey: "Failed to play sound"])
+      ErrorReporter.shared.report(AudioError.playbackFailed(error))
+    } else {
+      print("🔊 Sound: Playing '\(fileName)'")
+      startProgressTracking()
+    }
+  }
+
+  private func preparePlayer() -> AVAudioPlayer? {
     var player = loadedPlayer
     guard player != nil else {
       print("❌ Sound: No player available for '\(fileName)'")
-      return
+      return nil
     }
 
     // Additional validation
@@ -31,22 +49,20 @@ extension Sound {
       loadSound()
       guard let reloadedPlayer = self.player else {
         print("❌ Sound: Failed to reload player for '\(fileName)'")
-        return
+        return nil
       }
       if !reloadedPlayer.prepareToPlay() {
         print("❌ Sound: Player still not ready after reload for '\(fileName)'")
-        return
+        return nil
       }
       // Update the local player reference to the reloaded one
       player = reloadedPlayer
     }
 
-    // Ensure we have a valid player from this point
-    guard let validPlayer = player else {
-      print("❌ Sound: No valid player after validation for '\(fileName)'")
-      return
-    }
+    return player
+  }
 
+  private func applyRandomStartPosition(to player: AVAudioPlayer) {
     // Check if randomize start position is enabled
     // Default to true for both custom and built-in sounds unless explicitly disabled
     let shouldRandomizeStart: Bool
@@ -59,28 +75,17 @@ extension Sound {
     if shouldRandomizeStart {
       // Set a random start position within the sound's duration
       // Check if duration is valid (greater than 0 and not infinite/NaN)
-      if validPlayer.duration > 0 && validPlayer.duration.isFinite {
-        let randomPosition = Double.random(in: 0..<validPlayer.duration)
-        validPlayer.currentTime = randomPosition
+      if player.duration > 0 && player.duration.isFinite {
+        let randomPosition = Double.random(in: 0..<player.duration)
+        player.currentTime = randomPosition
         print(
-          "🎲 Sound: Starting '\(fileName)' at random position: \(randomPosition)s of \(validPlayer.duration)s"
+          "🎲 Sound: Starting '\(fileName)' at random position: \(randomPosition)s of \(player.duration)s"
         )
       } else {
         print(
-          "⚠️ Sound: Cannot randomize start position for '\(fileName)' - invalid duration: \(validPlayer.duration)"
+          "⚠️ Sound: Cannot randomize start position for '\(fileName)' - invalid duration: \(player.duration)"
         )
       }
-    }
-
-    let success = validPlayer.play()
-    if !success {
-      print("❌ Sound: Failed to play '\(fileName)'")
-      let error = NSError(
-        domain: "SoundPlayback", code: -1,
-        userInfo: [NSLocalizedDescriptionKey: "Failed to play sound"])
-      ErrorReporter.shared.report(AudioError.playbackFailed(error))
-    } else {
-      print("🔊 Sound: Playing '\(fileName)'")
     }
   }
 
@@ -93,12 +98,14 @@ extension Sound {
       player?.pause()
       print("🔊 Sound: Paused '\(fileName)'")
     }
+    stopProgressTracking()
   }
 
   func stop() {
     player?.stop()
     player?.currentTime = 0  // Reset to beginning for next play
     print("🔊 Sound: Stopped '\(fileName)'")
+    stopProgressTracking()
   }
 
   func fadeIn(duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
@@ -117,6 +124,7 @@ extension Sound {
     if !player.isPlaying {
       player.play()
     }
+    startProgressTracking()
 
     // Fade in
     fadeTimer?.invalidate()
@@ -180,6 +188,7 @@ extension Sound {
         timer.invalidate()
         self.player?.volume = 0.0
         self.player?.pause()
+        self.stopProgressTracking()
         completion?()
       }
     }
@@ -198,6 +207,7 @@ extension Sound {
     volumeDebounceTimer = nil
     updateVolumeLogTimer?.invalidate()
     updateVolumeLogTimer = nil
+    stopProgressTracking()
 
     // Reset player
     player?.stop()
@@ -215,5 +225,53 @@ extension Sound {
 
     print("✅ Sound: Reset complete for '\(fileName)'")
     isResetting = false
+  }
+
+  private func startProgressTracking() {
+    stopProgressTracking()
+
+    guard let player = player, player.duration > 0 else { return }
+
+    print("🎵 Starting progress tracking for \(fileName) - duration: \(player.duration)")
+
+    // Update progress immediately
+    updateProgress()
+
+    // Update progress every 60th of a second for smooth animation
+    DispatchQueue.main.async { [weak self] in
+      self?.progressTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) {
+        [weak self] _ in
+        self?.updateProgress()
+      }
+    }
+  }
+
+  private func stopProgressTracking() {
+    progressTimer?.invalidate()
+    progressTimer = nil
+    playbackProgress = 0.0
+  }
+
+  private func updateProgress() {
+    guard let player = player, player.duration > 0 else {
+      playbackProgress = 0.0
+      return
+    }
+
+    let newProgress = player.currentTime / player.duration
+
+    // Update on main thread to ensure UI updates
+    DispatchQueue.main.async { [weak self] in
+      self?.playbackProgress = newProgress
+    }
+
+    // Debug log every second
+    if Int(player.currentTime) % 1 == 0
+      && player.currentTime.truncatingRemainder(dividingBy: 1) < 0.02
+    {
+      print(
+        "🎵 Progress: \(fileName) - \(Int(newProgress * 100))% (\(player.currentTime)s / \(player.duration)s)"
+      )
+    }
   }
 }

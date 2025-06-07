@@ -14,7 +14,7 @@ import SwiftUI
 class CustomSoundManager {
   static let shared = CustomSoundManager()
 
-  private let customSoundsDirectory = "CustomSounds"
+  let customSoundsDirectory = "CustomSounds"
   private var modelContext: ModelContext?
 
   private init() {
@@ -39,19 +39,6 @@ class CustomSoundManager {
         ErrorReporter.shared.report(error)
       }
     }
-  }
-
-  private func getCustomSoundsDirectoryURL() -> URL? {
-    guard
-      let documentsDirectory = FileManager.default.urls(
-        for: .documentDirectory, in: .userDomainMask
-      ).first
-    else {
-      print("❌ CustomSoundManager: Could not access documents directory")
-      return nil
-    }
-
-    return documentsDirectory.appendingPathComponent(customSoundsDirectory)
   }
 
   // MARK: - Sound Import
@@ -114,16 +101,6 @@ class CustomSoundManager {
       throw CustomSoundError.fileCopyFailed
     }
     return copiedURL
-  }
-
-  private struct SoundImportData {
-    let sourceURL: URL
-    let copiedURL: URL
-    let title: String
-    let iconName: String
-    let uniqueFileName: String
-    let fileExtension: String
-    let randomizeStartPosition: Bool
   }
 
   @MainActor
@@ -190,56 +167,6 @@ class CustomSoundManager {
     }
   }
 
-  private func isSupportedAudioFormat(_ extension: String) -> Bool {
-    let supportedFormats = ["wav", "mp3", "m4a", "aac", "aiff"]
-    return supportedFormats.contains(`extension`.lowercased())
-  }
-
-  // MARK: - Sound Validation
-
-  /// Validate an audio file before importing
-  /// - Parameter url: URL of the audio file to validate
-  /// - Returns: Result indicating success or failure
-  private func validateAudioFile(at url: URL) async throws -> Result<Void, Error> {
-    print("🔍 CustomSoundManager: Validating audio file at \(url.path)")
-
-    // Ensure we have access to the security-scoped resource
-    let didStartAccess = url.startAccessingSecurityScopedResource()
-    defer {
-      if didStartAccess {
-        url.stopAccessingSecurityScopedResource()
-      }
-    }
-
-    do {
-      // Try to read the file data to verify access
-      _ = try Data(contentsOf: url, options: .alwaysMapped)
-
-      // Try to create an AVAudioPlayer to verify file is valid
-      let audioPlayer = try AVAudioPlayer(contentsOf: url)
-      print("✅ CustomSoundManager: Successfully created AVAudioPlayer for \(url.lastPathComponent)")
-
-      // Check file size (limit to 50MB)
-      let fileAttributes = try FileManager.default.attributesOfItem(atPath: url.path)
-      if let fileSize = fileAttributes[.size] as? UInt64, fileSize > 50_000_000 {
-        return .failure(CustomSoundError.fileTooLarge)
-      }
-
-      // Check duration (limit to 120 minutes)
-      if audioPlayer.duration > 7200 {
-        return .failure(CustomSoundError.durationTooLong)
-      }
-
-      return .success(())
-    } catch {
-      let nsError = error as NSError
-      print(
-        "❌ CustomSoundManager: Audio validation error: \(error.localizedDescription), code: \(nsError.code), domain: \(nsError.domain)"
-      )
-      return .failure(CustomSoundError.invalidAudioFile(error))
-    }
-  }
-
   // MARK: - Sound Retrieval
 
   /// Get all custom sounds
@@ -257,56 +184,6 @@ class CustomSoundManager {
       print("❌ CustomSoundManager: Failed to fetch custom sounds: \(error)")
       return []
     }
-  }
-
-  /// Get the URL for a custom sound file
-  /// - Parameter customSound: The CustomSoundData object
-  /// - Returns: URL to the sound file or nil if not found
-  func getURLForCustomSound(_ customSound: CustomSoundData) -> URL? {
-    guard let directoryURL = getCustomSoundsDirectoryURL() else {
-      return nil
-    }
-
-    let soundURL = directoryURL.appendingPathComponent(
-      "\(customSound.fileName).\(customSound.fileExtension)")
-    if FileManager.default.fileExists(atPath: soundURL.path) {
-      return soundURL
-    }
-
-    return nil
-  }
-
-  /// Convenience method for getting file URL
-  func fileURL(for customSound: CustomSoundData) -> URL? {
-    return getURLForCustomSound(customSound)
-  }
-
-  /// Re-analyze peak level for an existing custom sound
-  /// - Parameter customSound: The custom sound to analyze
-  /// - Returns: The detected peak level or nil if analysis fails
-  @MainActor
-  func reanalyzePeakLevel(for customSound: CustomSoundData) async -> Float? {
-    guard let fileURL = getURLForCustomSound(customSound) else {
-      print("❌ CustomSoundManager: Could not find file for reanalysis")
-      return nil
-    }
-
-    let peakLevel = await AudioAnalyzer.analyzePeakLevel(at: fileURL)
-
-    // Update the custom sound data
-    if let peakLevel = peakLevel {
-      customSound.detectedPeakLevel = peakLevel
-
-      // Save changes
-      do {
-        try modelContext?.save()
-        print("✅ CustomSoundManager: Updated peak level for '\(customSound.title)' to \(peakLevel)")
-      } catch {
-        print("❌ CustomSoundManager: Failed to save peak level: \(error)")
-      }
-    }
-
-    return peakLevel
   }
 
   // MARK: - Sound Retrieval

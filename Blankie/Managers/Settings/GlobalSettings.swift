@@ -34,6 +34,7 @@ enum UserDefaultsKeys {
   static let iconSize = "iconSize"
   static let soloModeSoundFileName = "soloModeSoundFileName"
   static let showingListView = "showingListView"
+  static let showProgressBorder = "showProgressBorder"
 }
 
 class GlobalSettings: ObservableObject {
@@ -49,6 +50,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var iconSize: IconSize
   @Published private(set) var language: Language
   @Published private(set) var showingListView: Bool
+  @Published private(set) var showProgressBorder: Bool
   @Published private(set) var availableLanguages: [Language] = []
 
   // Platform-specific settings
@@ -72,6 +74,7 @@ class GlobalSettings: ObservableObject {
     iconSize = .medium
     language = .system
     showingListView = false
+    showProgressBorder = true
     availableLanguages = []
 
     // Then load actual values from UserDefaults
@@ -122,6 +125,10 @@ class GlobalSettings: ObservableObject {
 
     // Show list view preference (default to false - grid view)
     showingListView = UserDefaults.standard.bool(forKey: UserDefaultsKeys.showingListView)
+
+    // Show progress border preference (default to true)
+    showProgressBorder =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.showProgressBorder) as? Bool ?? true
   }
 
   private func loadPlatformSettings() {
@@ -232,6 +239,13 @@ class GlobalSettings: ObservableObject {
   func setShowingListView(_ value: Bool) {
     showingListView = value
     UserDefaults.standard.set(value, forKey: UserDefaultsKeys.showingListView)
+    logCurrentSettings()
+  }
+
+  @MainActor
+  func setShowProgressBorder(_ value: Bool) {
+    showProgressBorder = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.showProgressBorder)
     logCurrentSettings()
   }
 

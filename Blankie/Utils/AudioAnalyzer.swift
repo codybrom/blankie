@@ -206,15 +206,15 @@ class AudioAnalyzer {
           var oversampledData = [Float](repeating: 0, count: oversampledLength)
 
           // Upsample with linear interpolation
-          for i in 0..<Int(buffer.frameLength - 1) {
-            let sample1 = channelData[i]
-            let sample2 = channelData[i + 1]
+          for index in 0..<Int(buffer.frameLength - 1) {
+            let sample1 = channelData[index]
+            let sample2 = channelData[index + 1]
             let delta = (sample2 - sample1) / 4.0
 
-            oversampledData[i * 4] = sample1
-            oversampledData[i * 4 + 1] = sample1 + delta
-            oversampledData[i * 4 + 2] = sample1 + delta * 2
-            oversampledData[i * 4 + 3] = sample1 + delta * 3
+            oversampledData[index * 4] = sample1
+            oversampledData[index * 4 + 1] = sample1 + delta
+            oversampledData[index * 4 + 2] = sample1 + delta * 2
+            oversampledData[index * 4 + 3] = sample1 + delta * 3
           }
 
           // Find peak in oversampled data

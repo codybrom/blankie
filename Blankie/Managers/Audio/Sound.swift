@@ -144,6 +144,10 @@ open class Sound: ObservableObject, Identifiable {
   @Published var fileSize: Int64?
   @Published var fileFormat: String?
 
+  // Playback progress tracking
+  @Published var playbackProgress: Double = 0.0
+  internal var progressTimer: Timer?
+
   init(
     title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3",
     defaultOrder: Int = 0, lufs: Float? = nil, normalizationFactor: Float? = nil,
@@ -274,46 +278,6 @@ open class Sound: ObservableObject, Identifiable {
     }
   }
 
-  private func extractMetadata(from url: URL) {
-    do {
-      // Get file attributes
-      let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
-      fileSize = attributes[.size] as? Int64
-
-      // Extract format from extension
-      fileFormat = url.pathExtension.uppercased()
-
-      // Create AVAsset to extract audio metadata
-      let asset = AVAsset(url: url)
-
-      // Get duration
-      let durationCMTime = asset.duration
-      if durationCMTime.isValid && !durationCMTime.isIndefinite {
-        duration = CMTimeGetSeconds(durationCMTime)
-      }
-
-      // Get channel count from audio tracks
-      if let audioTrack = asset.tracks(withMediaType: .audio).first {
-        let audioFormatDescriptions = audioTrack.formatDescriptions as? [CMFormatDescription] ?? []
-
-        for formatDesc in audioFormatDescriptions {
-          if let audioStreamBasicDescription = CMAudioFormatDescriptionGetStreamBasicDescription(
-            formatDesc)
-          {
-            channelCount = Int(audioStreamBasicDescription.pointee.mChannelsPerFrame)
-            break
-          }
-        }
-      }
-
-      print(
-        "📊 Sound: Metadata for '\(fileName)' - Channels: \(channelCount ?? 0), Duration: \(duration ?? 0)s, Size: \(fileSize ?? 0) bytes, Format: \(fileFormat ?? "unknown")"
-      )
-    } catch {
-      print("❌ Sound: Failed to extract metadata for '\(fileName)': \(error.localizedDescription)")
-    }
-  }
-
   deinit {
     print("🔄 Sound: Deinitialized '\(fileName)'")
     globalSettingsObserver?.cancel()
@@ -321,5 +285,6 @@ open class Sound: ObservableObject, Identifiable {
     fadeTimer?.invalidate()
     volumeDebounceTimer?.invalidate()
     updateVolumeLogTimer?.invalidate()
+    progressTimer?.invalidate()
   }
 }

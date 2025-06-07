@@ -41,51 +41,7 @@ extension AudioManager {
 
       let builtInSounds = soundsContainer.sounds
         .sorted(by: { $0.defaultOrder < $1.defaultOrder })
-        .map { soundData in
-          let supportedExtensions = ["m4a", "wav", "mp3", "aiff"]
-
-          // Check if fileName already has an extension
-          let hasExtension = supportedExtensions.contains { soundData.fileName.hasSuffix(".\($0)") }
-
-          let (cleanedFileName, fileExtension): (String, String)
-          if hasExtension {
-            // Old format: fileName has extension, extract it
-            let detectedExtension =
-              supportedExtensions.first { soundData.fileName.hasSuffix(".\($0)") } ?? "mp3"
-            cleanedFileName = soundData.fileName.replacingOccurrences(
-              of: ".\(detectedExtension)", with: "")
-            fileExtension = detectedExtension
-          } else {
-            // New format: fileName has no extension, detect from bundle
-            cleanedFileName = soundData.fileName
-            fileExtension =
-              supportedExtensions.first {
-                Bundle.main.url(forResource: soundData.fileName, withExtension: $0) != nil
-              } ?? "mp3"
-          }
-
-          // Check for cached playback profile
-          let profileKey = "\(cleanedFileName).\(fileExtension)"
-          let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
-
-          // Use cached values if available and newer than JSON data
-          let lufs = cachedProfile?.integratedLUFS ?? soundData.lufs
-          let normalizationFactor =
-            cachedProfile != nil
-            ? pow(10, cachedProfile!.gainDB / 20) : soundData.normalizationFactor
-
-          return Sound(
-            title: soundData.title,
-            systemIconName: soundData.systemIconName,
-            fileName: cleanedFileName,
-            fileExtension: fileExtension,
-            defaultOrder: soundData.defaultOrder,
-            lufs: lufs,
-            normalizationFactor: normalizationFactor,
-            truePeakdBTP: cachedProfile?.truePeakdBTP,
-            needsLimiter: cachedProfile?.needsLimiter ?? false
-          )
-        }
+        .map { createSoundFromData($0) }
 
       // Add built-in sounds to the sounds array
       self.sounds.append(contentsOf: builtInSounds)
@@ -94,15 +50,71 @@ extension AudioManager {
       migrateUserPreferences(for: builtInSounds)
 
       // Initialize custom order for sounds that don't have one saved in UserDefaults
-      for (index, sound) in builtInSounds.enumerated()
-      where UserDefaults.standard.object(forKey: "\(sound.fileName)_customOrder") == nil {
-        sound.customOrder = index
-      }
+      initializeCustomOrder(for: builtInSounds)
 
       print("🎵 AudioManager: Loaded \(builtInSounds.count) built-in sounds")
     } catch {
       print("❌ AudioManager: Failed to parse sounds.json: \(error)")
       ErrorReporter.shared.report(error)
+    }
+  }
+
+  private func createSoundFromData(_ soundData: SoundData) -> Sound {
+    let supportedExtensions = ["m4a", "wav", "mp3", "aiff"]
+
+    // Check if fileName already has an extension
+    let hasExtension = supportedExtensions.contains { soundData.fileName.hasSuffix(".\($0)") }
+
+    let (cleanedFileName, fileExtension) = extractFileNameAndExtension(
+      soundData.fileName, hasExtension: hasExtension, supportedExtensions: supportedExtensions)
+
+    // Check for cached playback profile
+    let profileKey = "\(cleanedFileName).\(fileExtension)"
+    let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
+
+    // Use cached values if available and newer than JSON data
+    let lufs = cachedProfile?.integratedLUFS ?? soundData.lufs
+    let normalizationFactor =
+      cachedProfile != nil
+      ? pow(10, cachedProfile!.gainDB / 20) : soundData.normalizationFactor
+
+    return Sound(
+      title: soundData.title,
+      systemIconName: soundData.systemIconName,
+      fileName: cleanedFileName,
+      fileExtension: fileExtension,
+      defaultOrder: soundData.defaultOrder,
+      lufs: lufs,
+      normalizationFactor: normalizationFactor,
+      truePeakdBTP: cachedProfile?.truePeakdBTP,
+      needsLimiter: cachedProfile?.needsLimiter ?? false
+    )
+  }
+
+  private func extractFileNameAndExtension(
+    _ fileName: String, hasExtension: Bool, supportedExtensions: [String]
+  ) -> (String, String) {
+    if hasExtension {
+      // Old format: fileName has extension, extract it
+      let detectedExtension =
+        supportedExtensions.first { fileName.hasSuffix(".\($0)") } ?? "mp3"
+      let cleanedFileName = fileName.replacingOccurrences(
+        of: ".\(detectedExtension)", with: "")
+      return (cleanedFileName, detectedExtension)
+    } else {
+      // New format: fileName has no extension, detect from bundle
+      let fileExtension =
+        supportedExtensions.first {
+          Bundle.main.url(forResource: fileName, withExtension: $0) != nil
+        } ?? "mp3"
+      return (fileName, fileExtension)
+    }
+  }
+
+  private func initializeCustomOrder(for sounds: [Sound]) {
+    for (index, sound) in sounds.enumerated()
+    where UserDefaults.standard.object(forKey: "\(sound.fileName)_customOrder") == nil {
+      sound.customOrder = index
     }
   }
 
@@ -113,68 +125,15 @@ extension AudioManager {
     // Get all custom sounds from the database
     let customSoundData = CustomSoundManager.shared.getAllCustomSounds()
 
-    // Before removing custom sounds, stop any that are playing
-    let customSoundsToRemove = sounds.filter { $0.isCustom }
-    for sound in customSoundsToRemove where sound.isSelected {
-      sound.pause(immediate: true)
-      sound.isSelected = false
-    }
-
-    // Remove any existing custom sounds from the array
-    sounds.removeAll(where: { $0.isCustom })
+    // Stop and remove existing custom sounds
+    stopAndRemoveCustomSounds()
 
     // Calculate the starting order for custom sounds (after all built-in sounds)
-    let maxBuiltInOrder = sounds.filter { !$0.isCustom }.map { $0.customOrder }.max() ?? 0
-    let customSoundStartOrder = maxBuiltInOrder + 100  // Add some buffer space
+    let customSoundStartOrder = calculateCustomSoundStartOrder()
 
     // Create Sound objects for each custom sound
     let customSounds = customSoundData.enumerated().compactMap { (index, data) -> Sound? in
-      guard let url = CustomSoundManager.shared.getURLForCustomSound(data) else {
-        print("❌ AudioManager: Could not get URL for custom sound \(data.fileName)")
-        return nil
-      }
-
-      // Get existing customization or create new one
-      let existingCustomization = SoundCustomizationManager.shared.getCustomization(
-        for: data.fileName)
-      if existingCustomization == nil {
-        // Only create customization if it doesn't exist
-        var customization = SoundCustomization(
-          fileName: data.fileName,
-          customTitle: data.title,
-          customIconName: data.systemIconName,
-          customColorName: nil,
-          randomizeStartPosition: data.randomizeStartPosition,
-          normalizeAudio: data.normalizeAudio,
-          volumeAdjustment: data.volumeAdjustment
-        )
-        SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
-      }
-
-      // Check for cached playback profile
-      let profileKey = data.fileName
-      let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
-
-      // Use cached values if available
-      let lufs = cachedProfile?.integratedLUFS ?? data.detectedLUFS
-      let normalizationFactor = cachedProfile != nil ?
-        pow(10, cachedProfile!.gainDB / 20) : data.normalizationFactor
-
-      return Sound(
-        title: data.title,
-        systemIconName: data.systemIconName,
-        fileName: data.fileName,
-        fileExtension: data.fileExtension,
-        defaultOrder: customSoundStartOrder + index,  // Increment for each custom sound
-        lufs: lufs,
-        normalizationFactor: normalizationFactor,
-        truePeakdBTP: cachedProfile?.truePeakdBTP,
-        needsLimiter: cachedProfile?.needsLimiter ?? false,
-        isCustom: true,
-        fileURL: url,
-        dateAdded: data.dateAdded,
-        customSoundDataID: data.id
-      )
+      createCustomSound(from: data, index: index, startOrder: customSoundStartOrder)
     }
 
     // Add custom sounds to the array
@@ -188,6 +147,90 @@ extension AudioManager {
     Task { @MainActor in
       PresetManager.shared.cleanupDeletedCustomSounds()
     }
+  }
+
+  private func stopAndRemoveCustomSounds() {
+    let customSoundsToRemove = sounds.filter { $0.isCustom }
+    for sound in customSoundsToRemove where sound.isSelected {
+      sound.pause(immediate: true)
+      sound.isSelected = false
+    }
+    sounds.removeAll(where: { $0.isCustom })
+  }
+
+  private func calculateCustomSoundStartOrder() -> Int {
+    let maxBuiltInOrder = sounds.filter { !$0.isCustom }.map { $0.customOrder }.max() ?? 0
+    return maxBuiltInOrder + 100  // Add some buffer space
+  }
+
+  private func createCustomSound(from data: CustomSoundData, index: Int, startOrder: Int) -> Sound?
+  {
+    guard let url = CustomSoundManager.shared.getURLForCustomSound(data) else {
+      print("❌ AudioManager: Could not get URL for custom sound \(data.fileName)")
+      return nil
+    }
+
+    // Ensure customization exists
+    ensureCustomizationExists(for: data)
+
+    // Get playback profile
+    let profile = getPlaybackProfile(for: data)
+
+    return Sound(
+      title: data.title,
+      systemIconName: data.systemIconName,
+      fileName: data.fileName,
+      fileExtension: data.fileExtension,
+      defaultOrder: startOrder + index,
+      lufs: profile.lufs,
+      normalizationFactor: profile.normalizationFactor,
+      truePeakdBTP: profile.truePeakdBTP,
+      needsLimiter: profile.needsLimiter,
+      isCustom: true,
+      fileURL: url,
+      dateAdded: data.dateAdded,
+      customSoundDataID: data.id
+    )
+  }
+
+  private func ensureCustomizationExists(for data: CustomSoundData) {
+    let existingCustomization = SoundCustomizationManager.shared.getCustomization(
+      for: data.fileName)
+    if existingCustomization == nil {
+      let customization = SoundCustomization(
+        fileName: data.fileName,
+        customTitle: data.title,
+        customIconName: data.systemIconName,
+        customColorName: nil,
+        randomizeStartPosition: data.randomizeStartPosition,
+        normalizeAudio: data.normalizeAudio,
+        volumeAdjustment: data.volumeAdjustment
+      )
+      SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+    }
+  }
+
+  private struct PlaybackProfileData {
+    let lufs: Float
+    let normalizationFactor: Float
+    let truePeakdBTP: Float?
+    let needsLimiter: Bool
+  }
+
+  private func getPlaybackProfile(for data: CustomSoundData) -> PlaybackProfileData {
+    let profileKey = data.fileName
+    let cachedProfile = PlaybackProfileStore.shared.profile(for: profileKey)
+
+    let lufs = cachedProfile?.integratedLUFS ?? data.detectedLUFS ?? -23.0
+    let normalizationFactor =
+      cachedProfile != nil ? pow(10, cachedProfile!.gainDB / 20) : (data.normalizationFactor ?? 1.0)
+
+    return PlaybackProfileData(
+      lufs: lufs,
+      normalizationFactor: normalizationFactor,
+      truePeakdBTP: cachedProfile?.truePeakdBTP,
+      needsLimiter: cachedProfile?.needsLimiter ?? false
+    )
   }
 
   private struct SoundsContainer: Codable {

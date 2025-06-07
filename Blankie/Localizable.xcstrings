@@ -5803,6 +5803,9 @@
     "Show Labels" : {
       "comment" : "Toggle to show/hide labels"
     },
+    "Show Progress Border" : {
+
+    },
     "Show Sound" : {
 
     },

@@ -38,6 +38,15 @@ struct SettingsView: View {
           )
           .tint(globalSettings.customAccentColor ?? .accentColor)
 
+          Toggle(
+            "Show Progress Border",
+            isOn: Binding(
+              get: { globalSettings.showProgressBorder },
+              set: { globalSettings.setShowProgressBorder($0) }
+            )
+          )
+          .tint(globalSettings.customAccentColor ?? .accentColor)
+
           Picker(
             "Icon Size",
             selection: Binding(

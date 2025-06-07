@@ -105,8 +105,8 @@ class AudioManager: ObservableObject {
 
     // Analyze in batches to avoid overwhelming the system
     let batchSize = 5
-    for i in stride(from: 0, to: allSounds.count, by: batchSize) {
-      let batch = Array(allSounds[i..<min(i + batchSize, allSounds.count)])
+    for index in stride(from: 0, to: allSounds.count, by: batchSize) {
+      let batch = Array(allSounds[index..<min(index + batchSize, allSounds.count)])
 
       await withTaskGroup(of: Void.self) { group in
         for sound in batch {
@@ -164,7 +164,7 @@ class AudioManager: ObservableObject {
       return PlaybackProfileStore.shared.profile(for: profileKey) == nil
     }
   }
-  
+
   /// Analyze all custom sounds missing profiles (useful for migration)
   @MainActor
   func analyzeCustomSoundsIfNeeded() async {
@@ -175,7 +175,8 @@ class AudioManager: ObservableObject {
     }
 
     if !customSoundsNeedingAnalysis.isEmpty {
-      print("🔍 AudioManager: Found \(customSoundsNeedingAnalysis.count) custom sounds needing analysis")
+      print(
+        "🔍 AudioManager: Found \(customSoundsNeedingAnalysis.count) custom sounds needing analysis")
 
       for sound in customSoundsNeedingAnalysis {
         guard let url = sound.fileURL else { continue }

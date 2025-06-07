@@ -112,6 +112,25 @@ struct SoundIcon: View {
           .fill(backgroundFill)
           .frame(width: configuration.iconSize, height: configuration.iconSize)
 
+        // Progress border
+        if globalSettings.showProgressBorder && sound.isSelected && audioManager.isGloballyPlaying {
+          // Background track
+          Circle()
+            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+            .frame(width: configuration.iconSize, height: configuration.iconSize)
+
+          // Progress indicator
+          Circle()
+            .trim(from: 0, to: max(0.01, sound.playbackProgress))  // Ensure minimum visibility
+            .stroke(
+              sound.customColor ?? accentColor,
+              style: StrokeStyle(lineWidth: 4, lineCap: .round)
+            )
+            .frame(width: configuration.iconSize, height: configuration.iconSize)
+            .rotationEffect(.degrees(-90))
+            .animation(.linear(duration: 0.1), value: sound.playbackProgress)
+        }
+
         Image(systemName: sound.systemIconName)
           .resizable()
           .aspectRatio(contentMode: .fit)

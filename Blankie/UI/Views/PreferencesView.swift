@@ -153,6 +153,15 @@ struct PreferencesView: View {
         )
         .tint(accentColorForUI)
 
+        Toggle(
+          "Show Progress Border",
+          isOn: Binding(
+            get: { globalSettings.showProgressBorder },
+            set: { globalSettings.setShowProgressBorder($0) }
+          )
+        )
+        .tint(accentColorForUI)
+
         HStack(spacing: 16) {
           Text("Icon Size", comment: "Icon size picker label")
             .frame(width: 100, alignment: .leading)

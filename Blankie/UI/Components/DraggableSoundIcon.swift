@@ -68,6 +68,27 @@ import SwiftUI
             .fill(backgroundFill)
             .frame(width: iconSize, height: iconSize)
 
+          // Progress border
+          if globalSettings.showProgressBorder && sound.isSelected
+            && AudioManager.shared.isGloballyPlaying
+          {
+            // Background track
+            Circle()
+              .stroke(Color.gray.opacity(0.3), lineWidth: 4)
+              .frame(width: iconSize, height: iconSize)
+
+            // Progress indicator
+            Circle()
+              .trim(from: 0, to: max(0.01, sound.playbackProgress))  // Ensure minimum visibility
+              .stroke(
+                sound.customColor ?? accentColor,
+                style: StrokeStyle(lineWidth: 4, lineCap: .round)
+              )
+              .frame(width: iconSize, height: iconSize)
+              .rotationEffect(.degrees(-90))
+              .animation(.linear(duration: 0.1), value: sound.playbackProgress)
+          }
+
           Image(systemName: sound.systemIconName)
             .resizable()
             .aspectRatio(contentMode: .fit)

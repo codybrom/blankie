@@ -2,15 +2,15 @@
 //  SoundSheetForm+Helpers.swift
 //  Blankie
 //
-//  Created by Cody Bromley on 6/4/25.
+//  Created by Cody Bromley on 6/6/25.
 //
 
 import SwiftUI
 
-extension SoundSheetForm {
-
+// MARK: - Color Helpers
+extension CleanSoundSheetForm {
   var textColorForCurrentTheme: Color {
-    let color = GlobalSettings.shared.customAccentColor ?? .accentColor
+    let color = globalSettings.customAccentColor ?? .accentColor
     #if os(macOS)
       if let nsColor = NSColor(color).usingColorSpace(.sRGB) {
         let brightness =
@@ -40,7 +40,10 @@ extension SoundSheetForm {
       return .white
     #endif
   }
+}
 
+// MARK: - Volume Helpers
+extension CleanSoundSheetForm {
   var volumePercentageText: String {
     let percentage = Int((volumeAdjustment - 1.0) * 100)
     if percentage > 0 {
@@ -51,7 +54,10 @@ extension SoundSheetForm {
       return "0%"
     }
   }
+}
 
+// MARK: - Preview Helpers
+extension CleanSoundSheetForm {
   func togglePreview() {
     if isPreviewing {
       stopPreview()
@@ -73,45 +79,162 @@ extension SoundSheetForm {
   func updatePreviewVolume() {
     // This will be implemented in the parent view
   }
+}
 
-  func getPeakLevelInfo() -> (peak: String, gain: String)? {
+// MARK: - Data Types
+extension CleanSoundSheetForm {
+  struct NormalizationInfo {
+    let lufs: String?
+    let peak: String?
+    let gain: String
+    let factor: String
+  }
+
+  struct SoundInfo {
+    let channelsText: String
+    let durationText: String
+    let fileSizeText: String
+    let formatText: String
+    let creditedAuthor: String?
+    let description: String?
+  }
+}
+
+// MARK: - Normalization Info
+extension CleanSoundSheetForm {
+  func getNormalizationInfo() -> NormalizationInfo? {
     switch mode {
     case .edit(let customSound):
-      // Check for cached playback profile first
-      let profileKey = "\(customSound.fileName)"
-      if let profile = PlaybackProfileStore.shared.profile(for: profileKey) {
-        let lufsStr = String(format: "%.1f LUFS", profile.integratedLUFS)
-        let truePeakStr = String(format: "%.1f dBTP", profile.truePeakdBTP)
-        let gainStr = String(format: "%+.1f dB", profile.gainDB)
-        return (peak: "\(lufsStr), TP: \(truePeakStr)", gain: gainStr)
-      } else if let lufs = customSound.detectedLUFS {
-        let lufsStr = String(format: "%.1f LUFS", lufs)
-        let gainDB = AudioAnalyzer.targetLUFS - lufs
-        return (peak: lufsStr, gain: String(format: "%+.1f dB", gainDB))
-      } else if let peakLevel = customSound.detectedPeakLevel {
+      var lufsStr: String?
+      var peakStr: String?
+      var normFactor: Float = 1.0
+
+      // Get LUFS if available
+      if let lufs = customSound.detectedLUFS {
+        lufsStr = String(format: "%.1f LUFS", lufs)
+        normFactor =
+          customSound.normalizationFactor
+          ?? AudioAnalyzer.calculateLUFSNormalizationFactor(lufs: lufs)
+      }
+
+      // Get peak level
+      if let peakLevel = customSound.detectedPeakLevel {
         let percentage = Int(peakLevel * 100)
-        let normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
-        let gainDB = 20 * log10(normFactor)
-        return (peak: "\(percentage)%", gain: String(format: "%+.1f dB", gainDB))
+        peakStr = "\(percentage)%"
+        if normFactor == 1.0 {
+          normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
+        }
       }
+
+      let gainDB = 20 * log10(normFactor)
+      return NormalizationInfo(
+        lufs: lufsStr,
+        peak: peakStr,
+        gain: String(format: "%+.1fdB", gainDB),
+        factor: String(format: "%.2fx", normFactor)
+      )
+
     case .customize(let sound):
-      // Check for cached playback profile first
-      let profileKey = "\(sound.fileName).\(sound.fileExtension)"
-      if let profile = PlaybackProfileStore.shared.profile(for: profileKey) {
-        let lufsStr = String(format: "%.1f LUFS", profile.integratedLUFS)
-        let truePeakStr = String(format: "%.1f dBTP", profile.truePeakdBTP)
-        let gainStr = String(format: "%+.1f dB", profile.gainDB)
-        let limiterStr = profile.needsLimiter ? " 🔒" : ""
-        return (peak: "\(lufsStr), TP: \(truePeakStr)\(limiterStr)", gain: gainStr)
-      } else if let lufs = sound.lufs, let normalizationFactor = sound.normalizationFactor {
-        let lufsStr = String(format: "%.1f LUFS", lufs)
-        let gainDB = 20 * log10(normalizationFactor)
-        let limiterStr = sound.needsLimiter ? " 🔒" : ""
-        return (peak: lufsStr + limiterStr, gain: String(format: "%+.1f dB", gainDB))
+      var lufsStr: String?
+
+      if let lufs = sound.lufs {
+        lufsStr = String(format: "%.1f LUFS", lufs)
       }
+
+      let normFactor = sound.normalizationFactor ?? 1.0
+      let gainDB = 20 * log10(normFactor)
+
+      return NormalizationInfo(
+        lufs: lufsStr,
+        peak: nil,
+        gain: String(format: "%+.1fdB", gainDB),
+        factor: String(format: "%.2fx", normFactor)
+      )
+
     case .add:
       return nil
     }
-    return nil
+  }
+}
+
+// MARK: - Sound Info
+extension CleanSoundSheetForm {
+  func getSoundInfo() -> SoundInfo? {
+    switch mode {
+    case .edit(let customSound):
+      guard
+        let sound = AudioManager.shared.sounds.first(where: {
+          $0.customSoundDataID == customSound.id
+        })
+      else { return nil }
+
+      return createSoundInfo(from: sound, includeCredits: false)
+
+    case .customize(let sound):
+      return createSoundInfo(from: sound, includeCredits: true)
+
+    case .add:
+      return nil
+    }
+  }
+
+  private func createSoundInfo(from sound: Sound, includeCredits: Bool) -> SoundInfo {
+    // Ensure metadata is loaded
+    if sound.channelCount == nil {
+      sound.loadSound()
+    }
+
+    let channelsText = getChannelsText(from: sound.channelCount)
+    let durationText = getDurationText(from: sound.duration)
+    let fileSizeText = getFileSizeText(from: sound.fileSize)
+    let formatText = sound.fileFormat ?? "Unknown"
+
+    let creditedAuthor: String?
+    let description: String?
+
+    if includeCredits {
+      creditedAuthor = SoundCreditsManager.shared.getAuthor(for: sound.originalTitle)
+      description = SoundCreditsManager.shared.getDescription(for: sound.originalTitle)
+    } else {
+      creditedAuthor = nil
+      description = nil
+    }
+
+    return SoundInfo(
+      channelsText: channelsText,
+      durationText: durationText,
+      fileSizeText: fileSizeText,
+      formatText: formatText,
+      creditedAuthor: creditedAuthor,
+      description: description
+    )
+  }
+
+  private func getChannelsText(from channels: Int?) -> String {
+    guard let channels = channels else { return "Unknown" }
+
+    switch channels {
+    case 1:
+      return "Mono"
+    case 2:
+      return "Stereo"
+    default:
+      return "\(channels) (Multichannel)"
+    }
+  }
+
+  private func getDurationText(from duration: TimeInterval?) -> String {
+    guard let duration = duration else { return "Unknown" }
+
+    let minutes = Int(duration) / 60
+    let seconds = Int(duration) % 60
+    return String(format: "%d:%02d", minutes, seconds)
+  }
+
+  private func getFileSizeText(from fileSize: Int64?) -> String {
+    guard let fileSize = fileSize else { return "Unknown" }
+
+    let formatter = ByteCountFormatter()
+    return formatter.string(fromByteCount: fileSize)
   }
 }

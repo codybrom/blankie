@@ -8,37 +8,64 @@
 import AVFoundation
 import Combine
 import MediaPlayer
+import SwiftData
 import SwiftUI
 
 class AudioManager: ObservableObject {
-  private var cancellables = Set<AnyCancellable>()
+  var cancellables = Set<AnyCancellable>()
   static let shared = AudioManager()
   var onReset: (() -> Void)?
 
   @Published var sounds: [Sound] = []
   @Published private(set) var isGloballyPlaying: Bool = false
+  @Published var soloModeSound: Sound?
+  @Published var hasSelectedSounds: Bool = false
+  var soloModeOriginalVolume: Float?
+  var soloModeOriginalSelection: Bool?
 
-  private let commandCenter = MPRemoteCommandCenter.shared()
-  private var nowPlayingInfo: [String: Any] = [:]
-  private var isInitializing = true
+  var modelContext: ModelContext?
+  let nowPlayingManager = NowPlayingManager()
+  @MainActor private var isInitializing = true
+  var customSoundObserver: AnyCancellable?
+  #if os(iOS) || os(visionOS)
+    var audioSessionObserversSetup = false
+  #endif
 
   private init() {
-    print("🎵 AudioManager: Initializing")
-    loadSounds()
-    loadSavedState()
-    setupNowPlaying()
-    setupMediaControls()
-    setupNotificationObservers()
-    setupSoundObservers()
+    print("🎵 AudioManager: Initializing - START")
 
-    // Handle autoplay behavior after a slight delay to ensure proper initialization
+    // Only load sounds and state immediately - delay media controls and observers
+    print("🎵 AudioManager: About to loadSounds()")
+    loadSounds()
+    print("🎵 AudioManager: About to loadSavedState()")
+    loadSavedState()
+
+    // Delay media controls and notification setup to avoid triggering audio session
     Task { @MainActor in
-      // Short delay to allow everything to initialize
-      try? await Task.sleep(nanoseconds: 100_000_000)  // 0.1 seconds
+      // Longer delay to allow app to fully launch first
+      try? await Task.sleep(nanoseconds: 500_000_000)  // 0.5 seconds
+
+      print("🎵 AudioManager: About to setupMediaControls() (delayed)")
+      self.setupMediaControls()
+      print("🎵 AudioManager: About to setupNotificationObservers() (delayed)")
+      self.setupNotificationObservers()
+      print("🎵 AudioManager: About to setupSoundObservers() (delayed)")
+      self.setupSoundObservers()
 
       self.isInitializing = false
 
-      if !GlobalSettings.shared.alwaysStartPaused {
+      // Analyze custom sounds that might be missing profiles
+      Task {
+        await self.analyzeCustomSoundsIfNeeded()
+      }
+
+      // Restore solo mode if it was saved
+      if let savedSoloFileName = GlobalSettings.shared.getSavedSoloModeFileName(),
+        let soloSound = self.sounds.first(where: { $0.fileName == savedSoloFileName })
+      {
+        print("🎵 AudioManager: Restoring solo mode for '\(soloSound.title)'")
+        self.enterSoloMode(for: soloSound)
+      } else if GlobalSettings.shared.autoPlayOnLaunch {
         let hasSelectedSounds = self.sounds.contains { $0.isSelected }
         if hasSelectedSounds {
           // Set initial state
@@ -48,43 +75,129 @@ class AudioManager: ObservableObject {
           self.playSelected()
 
           // Update Now Playing info with preset name
-          if let currentPreset = PresetManager.shared.currentPreset {
-            self.updateNowPlayingInfo(presetName: currentPreset.name)
-          } else {
-            self.updateNowPlayingInfo()
-          }
+          self.nowPlayingManager.updateInfo(
+            presetName: PresetManager.shared.currentPreset?.name,
+            isPlaying: true
+          )
         }
       } else {
         // Ensure we're in a paused state
         self.isGloballyPlaying = false
-        self.updateNowPlayingInfo()
+        self.nowPlayingManager.updateInfo(
+          presetName: PresetManager.shared.currentPreset?.name,
+          isPlaying: false
+        )
       }
     }
   }
 
-  private func setupSoundObservers() {
-    // Clear any existing observers
-    cancellables.removeAll()
-    // Set up new observers for each sound
-    for sound in sounds {
-      sound.objectWillChange
-        .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
-        .sink { [weak self] _ in
-          guard self != nil else { return }
-          Task { @MainActor in
-            PresetManager.shared.updateCurrentPresetState()
+  // MARK: - Batch Analysis
+
+  /// Analyze all sounds and update their playback profiles
+  /// - Parameter forceReanalysis: If true, re-analyze even if profiles exist
+  /// - Returns: Number of sounds analyzed
+  @MainActor
+  func analyzeAllSounds(forceReanalysis: Bool = false) async -> Int {
+    print("🔍 AudioManager: Starting batch analysis of all sounds")
+
+    var analyzedCount = 0
+    let allSounds = sounds
+
+    // Analyze in batches to avoid overwhelming the system
+    let batchSize = 5
+    for index in stride(from: 0, to: allSounds.count, by: batchSize) {
+      let batch = Array(allSounds[index..<min(index + batchSize, allSounds.count)])
+
+      await withTaskGroup(of: Void.self) { group in
+        for sound in batch {
+          group.addTask {
+            // Check if we need to analyze this sound
+            let profileKey = "\(sound.fileName).\(sound.fileExtension)"
+            let existingProfile = PlaybackProfileStore.shared.profile(for: profileKey)
+
+            if forceReanalysis || existingProfile == nil {
+              // Get the sound URL
+              let url: URL?
+              if sound.isCustom, let customURL = sound.fileURL {
+                url = customURL
+              } else {
+                url = Bundle.main.url(
+                  forResource: sound.fileName, withExtension: sound.fileExtension)
+              }
+
+              guard let soundURL = url else {
+                print("❌ AudioManager: Could not find URL for \(sound.fileName)")
+                return
+              }
+
+              // Perform comprehensive analysis
+              let analysis = await AudioAnalyzer.comprehensiveAnalysis(at: soundURL)
+
+              // Create and store playback profile
+              if let profile = PlaybackProfile.from(analysis: analysis, filename: profileKey) {
+                PlaybackProfileStore.shared.store(profile)
+                print("✅ AudioManager: Analyzed and stored profile for \(sound.fileName)")
+
+                // Update sound properties
+                await MainActor.run {
+                  // Note: Sound properties are immutable, so we'd need to reload sounds
+                  // or make them mutable to update LUFS values dynamically
+                }
+              }
+            }
           }
         }
-        .store(in: &cancellables)
+      }
+
+      analyzedCount += batch.count
+    }
+
+    print("✅ AudioManager: Batch analysis complete. Analyzed \(analyzedCount) sounds")
+    return analyzedCount
+  }
+
+  /// Check if any sounds need analysis
+  @MainActor
+  func soundsNeedingAnalysis() -> [Sound] {
+    return sounds.filter { sound in
+      let profileKey = sound.isCustom ? sound.fileName : "\(sound.fileName).\(sound.fileExtension)"
+      return PlaybackProfileStore.shared.profile(for: profileKey) == nil
     }
   }
-  func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
-    guard !isInitializing || forceUpdate else {
-      print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
-      return
+
+  /// Analyze all custom sounds missing profiles (useful for migration)
+  @MainActor
+  func analyzeCustomSoundsIfNeeded() async {
+    let customSoundsNeedingAnalysis = sounds.filter { sound in
+      if !sound.isCustom { return false }
+      let profileKey = sound.fileName
+      return PlaybackProfileStore.shared.profile(for: profileKey) == nil
     }
-    DispatchQueue.main.async { [weak self] in
+
+    if !customSoundsNeedingAnalysis.isEmpty {
+      print(
+        "🔍 AudioManager: Found \(customSoundsNeedingAnalysis.count) custom sounds needing analysis")
+
+      for sound in customSoundsNeedingAnalysis {
+        guard let url = sound.fileURL else { continue }
+
+        let analysis = await AudioAnalyzer.comprehensiveAnalysis(at: url)
+        if let profile = PlaybackProfile.from(analysis: analysis, filename: sound.fileName) {
+          PlaybackProfileStore.shared.store(profile)
+          print("✅ AudioManager: Analyzed custom sound: \(sound.fileName)")
+        }
+      }
+    }
+  }
+
+  func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
+    Task { @MainActor [weak self] in
       guard let self = self else { return }
+
+      guard !self.isInitializing || forceUpdate else {
+        print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
+        return
+      }
 
       if self.isGloballyPlaying != playing {
         print(
@@ -97,221 +210,64 @@ class AudioManager: ObservableObject {
         } else {
           self.pauseAll()
         }
-        self.updateNowPlayingInfo()
+        self.nowPlayingManager.updateInfo(
+          presetName: PresetManager.shared.currentPreset?.name,
+          isPlaying: playing
+        )
       } else {
         print("🎵 AudioManager: setPlaybackState called, but state is the same \(playing), ignoring")
       }
     }
   }
-  private func loadSounds() {
-    print("🎵 AudioManager: Loading sounds from JSON")
-    let bundlePath = Bundle.main.bundlePath
-    print("📦 Bundle path: \(bundlePath)")
-
-    if let resourcePath = Bundle.main.resourcePath {
-      print("📂 Resource path: \(resourcePath)")
-      do {
-        let resources = try FileManager.default.contentsOfDirectory(atPath: resourcePath)
-        print("📑 Resources in bundle: \(resources)")
-      } catch {
-        print("❌ Error listing resources: \(error)")
-      }
-    }
-
-    guard let url = Bundle.main.url(forResource: "sounds", withExtension: "json") else {
-      print("❌ AudioManager: sounds.json file not found in Resources folder")
-      ErrorReporter.shared.report(AudioError.fileNotFound)
-      return
-    }
-
-    do {
-      let data = try Data(contentsOf: url)
-      let decoder = JSONDecoder()
-      let soundsContainer = try decoder.decode(SoundsContainer.self, from: data)
-
-      self.sounds = soundsContainer.sounds
-        .sorted(by: { $0.defaultOrder < $1.defaultOrder })
-        .map { soundData in
-          let supportedExtensions = ["wav", "m4a", "mp3", "aiff"]
-          let fileExtension =
-            supportedExtensions.first { soundData.fileName.hasSuffix(".\($0)") } ?? "mp3"
-          let cleanedFileName = soundData.fileName.replacingOccurrences(
-            of: ".\(fileExtension)", with: "")
-
-          return Sound(
-            title: soundData.title,
-            systemIconName: soundData.systemIconName,
-            fileName: cleanedFileName,
-            fileExtension: fileExtension
-          )
-        }
-    } catch {
-      print("❌ AudioManager: Failed to parse sounds.json: \(error)")
-      ErrorReporter.shared.report(error)
-    }
-  }
-
-  private func setupMediaControls() {
-    print("🎵 AudioManager: Setting up media controls")
-    // Remove all previous handlers
-    commandCenter.playCommand.removeTarget(nil)
-    commandCenter.pauseCommand.removeTarget(nil)
-    commandCenter.togglePlayPauseCommand.removeTarget(nil)
-
-    // Add handlers
-    commandCenter.playCommand.addTarget { [weak self] _ in
-      print("🎵 AudioManager: Media key play command received")
-      Task { @MainActor in
-        self?.togglePlayback()
-      }
-      return .success
-    }
-    commandCenter.pauseCommand.addTarget { [weak self] _ in
-      print("🎵 AudioManager: Media key pause command received")
-      Task { @MainActor in
-        self?.togglePlayback()
-      }
-      return .success
-    }
-    commandCenter.togglePlayPauseCommand.addTarget { [weak self] _ in
-      print("🎵 AudioManager: Media key toggle command received")
-      Task { @MainActor in
-        self?.togglePlayback()
-      }
-      return .success
-    }
-  }
 
   // Update playSelected to check global state
-  private func playSelected() {
+  func playSelected() {
     print("🎵 AudioManager: Playing selected sounds")
     guard isGloballyPlaying else {
       print("🎵 AudioManager: Not playing sounds because global playback is disabled")
       return
     }
 
-    for sound in sounds where sound.isSelected {
-      print("  - Playing '\(sound.fileName)'")
+    #if os(iOS) || os(visionOS)
+      // Setup audio session when starting playback
+      setupAudioSessionForPlayback()
+      // Setup audio session observers on first playback
+      setupAudioSessionObservers()
+    #endif
+
+    // If in solo mode, play only the solo sound
+    if let soloSound = soloModeSound {
+      print("  - In solo mode, playing only '\(soloSound.fileName)'")
+
+      // Play the solo sound at its current volume
+      soloSound.play()
+
+      // Update Now Playing info for solo mode
+      nowPlayingManager.updateInfo(
+        presetName: soloSound.title,
+        isPlaying: true
+      )
+      return
+    }
+
+    // Normal mode: play all selected sounds according to preset
+    for sound in sounds where sound.isSelected && !sound.isHidden {
+      print(
+        "  - About to play '\(sound.fileName)', isSelected: \(sound.isSelected), player exists: \(sound.player != nil)"
+      )
       sound.play()
+      print(
+        "  - After play call for '\(sound.fileName)', player playing: \(sound.player?.isPlaying ?? false), volume: \(sound.player?.volume ?? 0)"
+      )
     }
 
     // Update Now Playing info with current preset name
-    if let currentPreset = PresetManager.shared.currentPreset {
-      self.updateNowPlayingInfo(presetName: currentPreset.name)
-    } else {
-      self.updateNowPlayingInfo()
-    }
-  }
-
-  private func loadSavedState() {
-    guard let state = UserDefaults.standard.array(forKey: "soundState") as? [[String: Any]] else {
-      return
-    }
-    for savedState in state {
-      guard let fileName = savedState["fileName"] as? String,
-        let sound = sounds.first(where: { $0.fileName == fileName })
-      else {
-        continue
-      }
-      sound.isSelected = savedState["isSelected"] as? Bool ?? false
-      sound.volume = savedState["volume"] as? Float ?? 1.0
-    }
-  }
-
-  private func setupNowPlaying() {
-    print("🎵 AudioManager: Setting up Now Playing info")
-    nowPlayingInfo[MPMediaItemPropertyTitle] = "Ambient Sounds"
-    nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
-
-    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-      let image = NSImage(contentsOf: url),
-      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-    {
-      let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
-        NSImage(cgImage: cgImage, size: size)
-      }
-      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-    }
-    updatePlaybackState()
-  }
-
-  public func updateNowPlayingInfo(presetName: String? = nil) {
-    var nowPlayingInfo = [String: Any]()
-
-    // Get the current preset name for the title
-    let displayTitle: String
-    if let name = presetName {
-      // Only use preset name if it's not "Default" or doesn't start with "Preset "
-      if name != "Default" && !name.starts(with: "Preset ") {
-        displayTitle = name
-      } else {
-        displayTitle = "Ambient Sounds"
-      }
-    } else {
-      displayTitle = "Ambient Sounds"
-    }
-
-    print("🎵 AudioManager: Updating Now Playing info with title: \(displayTitle)")
-
-    nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
-    nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
-    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
-
-    if let url = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-      let image = NSImage(contentsOf: url),
-      let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)
-    {
-      let artwork = MPMediaItemArtwork(boundsSize: image.size) { size in
-        NSImage(cgImage: cgImage, size: size)
-      }
-      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-    }
-
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-  }
-
-  func updateNowPlayingState() async {
-    let playbackRate: Double = isGloballyPlaying ? 1.0 : 0.0
-    print(
-      "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), playbackRate: \(playbackRate)"
+    self.nowPlayingManager.updateInfo(
+      presetName: PresetManager.shared.currentPreset?.name,
+      isPlaying: true
     )
-
-    // Update volume through GlobalSettings
-    await GlobalSettings.shared.setVolume(isGloballyPlaying ? 1.0 : 0.0)
   }
 
-  private func updatePlaybackState() {
-    // Update playback state
-    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isGloballyPlaying ? 1.0 : 0.0
-    nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
-    nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 0  // Infinite for ambient sounds
-    // Update the now playing info
-    print(
-      "🎵 AudioManager: Updating now playing state to \(isGloballyPlaying), "
-        + "playbackRate: \(nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? -1)"
-    )
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-  }
-
-  private func setupNotificationObservers() {
-    NotificationCenter.default.addObserver(
-      forName: NSApplication.willTerminateNotification,
-      object: nil,
-      queue: .main
-    ) { [weak self] _ in
-      self?.handleAppTermination()
-    }
-  }
-  private func handleAppTermination() {
-    print("🎵 AudioManager: App is terminating, cleaning up")
-    cleanup()
-  }
-
-  private func cleanup() {
-    pauseAll()
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
-    print("🎵 AudioManager: Cleanup complete")
-  }
   func pauseAll() {
     print("🎵 AudioManager: Pausing all sounds")
     print("  - Current global play state: \(isGloballyPlaying)")
@@ -322,48 +278,18 @@ class AudioManager: ObservableObject {
         sound.pause()
       }
     }
+
+    #if os(iOS) || os(visionOS)
+      // Deactivate audio session when stopping to allow other apps to play
+      do {
+        try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        print("🎵 AudioManager: Audio session deactivated")
+      } catch {
+        print("❌ AudioManager: Failed to deactivate audio session: \(error)")
+      }
+    #endif
+
     print("🎵 AudioManager: Pause all complete")
-  }
-  func saveState() {
-    let state = sounds.map { sound in
-      [
-        "id": sound.id.uuidString,
-        "fileName": sound.fileName,
-        "isSelected": sound.isSelected,
-        "volume": sound.volume,
-      ]
-    }
-    UserDefaults.standard.set(state, forKey: "soundState")
-  }
-  /// Toggles the playback state of all selected sounds
-  @MainActor func togglePlayback() {
-    print("🎵 AudioManager: Toggling playback")
-    print("  - Current state (pre-toggle): \(isGloballyPlaying)")
-    setGlobalPlaybackState(!isGloballyPlaying)
-    print("  - New state (post-toggle): \(isGloballyPlaying)")
-  }
-
-  @MainActor
-  func resetSounds() {
-    print("🎵 AudioManager: Resetting all sounds")
-
-    // First pause all sounds immediately
-    sounds.forEach { sound in
-      print("  - Stopping '\(sound.fileName)'")
-      sound.pause(immediate: true)
-    }
-    setPlaybackState(false)
-    // Reset all sounds
-    sounds.forEach { sound in
-      sound.volume = 1.0
-      sound.isSelected = false
-    }
-    // Reset global volume
-    GlobalSettings.shared.setVolume(1.0)
-
-    // Call the reset callback
-    onReset?()
-    print("🎵 AudioManager: Reset complete")
   }
 
   // Public method for changing playback state
@@ -389,11 +315,13 @@ class AudioManager: ObservableObject {
     }
 
     // Always update Now Playing info with current preset name
-    if let currentPreset = PresetManager.shared.currentPreset {
-      self.updateNowPlayingInfo(presetName: currentPreset.name)
-    } else {
-      self.updateNowPlayingInfo()
-    }
+    let presetName =
+      soloModeSound != nil
+      ? soloModeSound!.title : PresetManager.shared.currentPreset?.name
+    nowPlayingManager.updateInfo(
+      presetName: presetName,
+      isPlaying: isGloballyPlaying
+    )
   }
 
   deinit {

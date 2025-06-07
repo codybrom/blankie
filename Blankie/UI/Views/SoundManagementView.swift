@@ -1,0 +1,262 @@
+//
+//  SoundManagementView.swift
+//  Blankie
+//
+//  Created by Cody Bromley on 5/30/25.
+//
+
+import SwiftData
+import SwiftUI
+
+struct SoundManagementView: View {
+  @Environment(\.modelContext) private var modelContext
+  @Environment(\.dismiss) private var dismiss
+  @Query private var customSoundData: [CustomSoundData]
+  @ObservedObject private var audioManager = AudioManager.shared
+
+  @State private var showingImportSheet = false
+  @State private var showingEditSheet = false
+  @State private var selectedSound: Sound?
+  @State private var showingDeleteConfirmation = false
+  @State private var builtInSoundsExpanded = true
+  @State private var customSoundsExpanded = true
+
+  private var builtInSounds: [Sound] {
+    audioManager.sounds.filter { !$0.isCustom }.sorted { $0.customOrder < $1.customOrder }
+  }
+
+  private var customSounds: [Sound] {
+    audioManager.sounds.filter { $0.isCustom }.sorted { $0.customOrder < $1.customOrder }
+  }
+
+  var body: some View {
+    NavigationStack {
+      mainContentView
+        .navigationTitle("Sound Management")
+        #if os(iOS) || os(visionOS)
+          .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .toolbar {
+          ToolbarItem(placement: .cancellationAction) {
+            Button {
+              showingImportSheet = true
+            } label: {
+              Image(systemName: "plus")
+            }
+          }
+          ToolbarItem(placement: .primaryAction) {
+            Button("Done") {
+              dismiss()
+            }
+          }
+        }
+        .sheet(isPresented: $showingImportSheet) {
+          SoundSheet(mode: .add)
+        }
+        .sheet(isPresented: $showingEditSheet) {
+          if let sound = selectedSound {
+            SoundSheet(mode: .customize(sound))
+          }
+        }
+        .alert(
+          Text("Delete Sound", comment: "Delete sound confirmation alert title"),
+          isPresented: $showingDeleteConfirmation
+        ) {
+          Button("Cancel", role: .cancel) {}
+          Button("Delete", role: .destructive) {
+            if let sound = selectedSound {
+              deleteSound(sound)
+            }
+          }
+        } message: {
+          Text(
+            "Are you sure you want to delete '\(selectedSound?.title ?? "this sound")'? This action cannot be undone.",
+            comment: "Delete custom sound confirmation message"
+          )
+        }
+    }
+  }
+
+  private var mainContentView: some View {
+    ScrollView {
+      VStack(spacing: 0) {
+        builtInSoundsSection
+        customSoundsSection
+      }
+      .padding(.vertical)
+    }
+    .background(listBackground)
+  }
+
+  @ViewBuilder
+  private var builtInSoundsSection: some View {
+    let hiddenCount = builtInSounds.filter { $0.isHidden }.count
+    sectionHeader(
+      title: "Built-in Sounds",
+      subtitle: hiddenCount > 0
+        ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds",
+      isExpanded: $builtInSoundsExpanded
+    )
+
+    if builtInSoundsExpanded {
+      ForEach(Array(builtInSounds.enumerated()), id: \.element.id) { index, sound in
+        builtInSoundRow(sound: sound, isLast: index == builtInSounds.count - 1)
+      }
+    }
+
+    Divider()
+      .padding(.vertical, 8)
+  }
+
+  private var customSoundsSection: some View {
+    VStack(spacing: 0) {
+      let hiddenCount = customSounds.filter { $0.isHidden }.count
+      sectionHeader(
+        title: "Custom Sounds",
+        subtitle: customSounds.isEmpty
+          ? "No custom sounds"
+          : hiddenCount > 0
+            ? "\(customSounds.count) sounds (\(hiddenCount) hidden)"
+            : "\(customSounds.count) sounds",
+        isExpanded: $customSoundsExpanded
+      )
+
+      if customSoundsExpanded {
+        if customSounds.isEmpty {
+          customSoundsEmptyState
+        } else {
+          ForEach(Array(customSounds.enumerated()), id: \.element.id) { index, sound in
+            customSoundRow(sound: sound, isLast: index == customSounds.count - 1)
+          }
+        }
+      }
+    }
+  }
+
+  private func builtInSoundRow(sound: Sound, isLast: Bool) -> some View {
+    SoundManagementRow(
+      sound: sound,
+      isLast: isLast,
+      onCustomize: {
+        selectedSound = sound
+        showingEditSheet = true
+      },
+      onEdit: {},
+      onDelete: {}
+    )
+  }
+
+  private func customSoundRow(sound: Sound, isLast: Bool) -> some View {
+    SoundManagementRow(
+      sound: sound,
+      isLast: isLast,
+      onCustomize: {},
+      onEdit: {
+        selectedSound = sound
+        showingEditSheet = true
+      },
+      onDelete: {
+        selectedSound = sound
+        showingDeleteConfirmation = true
+      }
+    )
+  }
+
+  private func sectionHeader(title: String, subtitle: String, isExpanded: Binding<Bool>)
+    -> some View
+  {
+    Button(action: {
+      withAnimation(.easeInOut(duration: 0.2)) {
+        isExpanded.wrappedValue.toggle()
+      }
+    }) {
+      HStack {
+        VStack(alignment: .leading, spacing: 2) {
+          Text(title)
+            .font(.headline)
+          Text(subtitle)
+            .font(.caption)
+            .foregroundColor(.secondary)
+        }
+        Spacer()
+        Image(systemName: isExpanded.wrappedValue ? "chevron.down" : "chevron.right")
+          .font(.caption)
+          .foregroundColor(.secondary)
+      }
+      .padding(.horizontal)
+      .padding(.vertical, 8)
+      .background(.regularMaterial)
+    }
+    .buttonStyle(.plain)
+  }
+
+  private var customSoundsEmptyState: some View {
+    VStack(spacing: 12) {
+      Image(systemName: "waveform.circle")
+        .font(.system(size: 32))
+        .foregroundColor(.secondary)
+
+      Text("No Custom Sounds", comment: "Empty state title for custom sounds")
+        .font(.headline)
+
+      Text(
+        "Import your own sounds to personalize your mix.",
+        comment: "Empty state description for custom sounds"
+      )
+      .foregroundStyle(.secondary)
+      .multilineTextAlignment(.center)
+      .font(.caption)
+
+      Button {
+        showingImportSheet = true
+      } label: {
+        Text("Import Sound", comment: "Import sound button label")
+      }
+      .buttonStyle(.borderedProminent)
+      .controlSize(.small)
+    }
+    .frame(maxWidth: .infinity)
+    .padding(.vertical, 24)
+    .padding(.horizontal)
+    .background(
+      Group {
+        #if os(macOS)
+          Color(NSColor.controlBackgroundColor).opacity(0.5)
+        #else
+          Color(UIColor.systemBackground).opacity(0.5)
+        #endif
+      }
+    )
+  }
+
+  private var listBackground: some View {
+    Group {
+      #if os(macOS)
+        Color(NSColor.textBackgroundColor)
+      #else
+        Color(UIColor.systemBackground)
+      #endif
+    }
+  }
+
+  private func deleteSound(_ sound: Sound) {
+    guard sound.isCustom,
+      let customSoundDataID = sound.customSoundDataID,
+      let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+    else {
+      return
+    }
+
+    let result = CustomSoundManager.shared.deleteCustomSound(customSoundData)
+
+    if case .failure(let error) = result {
+      print("❌ SoundManagementView: Failed to delete custom sound: \(error)")
+    }
+  }
+}
+
+#Preview {
+  SoundManagementView()
+    .frame(width: 400, height: 600)
+    .modelContainer(for: CustomSoundData.self, inMemory: true)
+}

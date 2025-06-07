@@ -13,10 +13,12 @@ struct SoundData: Codable {
   let author: String
   let authorUrl: String?
   let license: String
-  let editor: String?
-  let editorUrl: String?
   let soundUrl: String
   let soundName: String
+  let description: String?
+  let note: String?
+  let lufs: Float?
+  let normalizationFactor: Float?
 }
 
 struct SoundsContainer: Codable {

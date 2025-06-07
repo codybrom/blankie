@@ -22,8 +22,10 @@ struct PresetPicker: View {
         HStack(spacing: 4) {
           Text(
             presetManager.hasCustomPresets
-              ? (presetManager.currentPreset?.name
-                ?? String(localized: "Default", comment: "Default preset name"))
+              ? (presetManager.currentPreset?.isDefault == true
+                ? String(localized: "Blankie", comment: "Default preset displayed as Blankie")
+                : (presetManager.currentPreset?.name
+                  ?? String(localized: "Blankie", comment: "Default preset displayed as Blankie")))
               : String(localized: "Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)
@@ -85,6 +87,14 @@ private struct PresetList: View {
   @Binding var selectedPresetForEdit: Preset?
   @State private var error: Error?
 
+  var backgroundColorForPlatform: Color {
+    #if os(macOS)
+      return Color(NSColor.controlBackgroundColor)
+    #else
+      return Color(UIColor.secondarySystemBackground)
+    #endif
+  }
+
   var body: some View {
     VStack(spacing: 0) {
       if presetManager.isLoading {
@@ -104,10 +114,8 @@ private struct PresetList: View {
         }
       }
     }
-    .background(Color(NSColor.controlBackgroundColor))
-    .alert(
-      "Error", isPresented: .constant(error != nil)
-    ) {
+    .background(backgroundColorForPlatform)
+    .alert("Error", isPresented: .constant(error != nil)) {
       Button("OK") { error = nil }
     } message: {
       if let error = error {
@@ -159,8 +167,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Rename Preset")
-
+        #if os(macOS)
+          .help("Rename Preset")
+        #endif
         Button(action: {
           presetManager.deletePreset(preset)
         }) {
@@ -168,7 +177,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Delete Preset")
+        #if os(macOS)
+          .help("Delete Preset")
+        #endif
       }
     }
     .padding(.horizontal, 12)

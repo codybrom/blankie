@@ -104,9 +104,6 @@ struct BlankieApp: App {
         }
         .onChange(of: scenePhase) {
           timerManager.handleScenePhaseChange()
-          if scenePhase == .active {
-            audioFileImporter.checkForSharedFiles()
-          }
         }
         .onOpenURL { url in
           audioFileImporter.handleIncomingFile(url)

@@ -580,6 +580,9 @@
         }
       }
     },
+    "at %@" : {
+
+    },
     "Audio" : {
       "comment" : "Audio options section header"
     },
@@ -891,9 +894,6 @@
       }
     },
     "Blankie Volume with Media" : {
-
-    },
-    "Blankie will pause playback when timer expires" : {
 
     },
     "Blankie will pause when timer expires" : {
@@ -3523,6 +3523,9 @@
         }
       }
     },
+    "Lock Portrait Orientation" : {
+
+    },
     "Loop Sound" : {
       "comment" : "Toggle label for looping sound playback"
     },
@@ -6101,6 +6104,9 @@
     "Stop Timer" : {
 
     },
+    "Stopping in" : {
+
+    },
     "Storm" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -6551,9 +6557,6 @@
       }
     },
     "Theme Color" : {
-
-    },
-    "Time Remaining" : {
 
     },
     "Timer" : {

@@ -34,21 +34,35 @@ import SwiftUI
     }
 
     private var activeTimerContent: some View {
-      VStack(spacing: 30) {
+      VStack(spacing: 20) {
         Spacer()
 
-        Text("Time Remaining")
+        Text("Stopping in")
           .font(.headline)
           .foregroundColor(.secondary)
 
         Text(timerManager.formatRemainingTime())
-          .font(.system(size: 64, weight: .light, design: .rounded))
+          .font(.system(size: 48, weight: .light, design: .rounded))
           .monospacedDigit()
 
-        Text("Blankie will pause playback when timer expires")
-          .font(.subheadline)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
+        if let endTime = timerManager.getEndTime() {
+          Text("at \(endTime, formatter: timeFormatter)")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+        }
+
+        // Time adjustment controls
+        VStack(spacing: 8) {
+          Text("Add More Time")
+            .font(.caption)
+            .foregroundColor(.secondary)
+
+          HStack(spacing: 16) {
+            timeAdjustmentButton("1 min", minutes: 1)
+            timeAdjustmentButton("5 min", minutes: 5)
+          }
+        }
+        .padding(.horizontal)
 
         Spacer()
 
@@ -64,17 +78,40 @@ import SwiftUI
             .cornerRadius(10)
         }
         .padding(.horizontal)
+
+        Spacer()
+      }
+    }
+
+    private var timeFormatter: DateFormatter {
+      let formatter = DateFormatter()
+      formatter.timeStyle = .short
+      return formatter
+    }
+
+    private func timeAdjustmentButton(_ label: String, minutes: Int) -> some View {
+      return Button(action: {
+        timerManager.addTime(minutes: minutes)
+      }) {
+        Text(label)
+          .font(.system(.body, design: .rounded))
+          .fontWeight(.medium)
+          .foregroundColor(.primary)
+          .frame(minWidth: 64)
+          .frame(height: 36)
+          .background(
+            RoundedRectangle(cornerRadius: 8)
+              .fill(Color.green.opacity(0.15))
+              .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                  .stroke(Color.green.opacity(0.3), lineWidth: 1)
+              )
+          )
       }
     }
 
     private var timerSelectionContent: some View {
       VStack(spacing: 30) {
-        Text("Blankie will pause playback when timer expires")
-          .font(.body)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-          .padding(.horizontal)
-
         HStack(spacing: 30) {
           VStack {
             Text("Hours")
@@ -116,7 +153,6 @@ import SwiftUI
             timerManager.selectedHours * 3600 + timerManager.selectedMinutes * 60)
           if totalSeconds > 0 {
             timerManager.startTimer(duration: totalSeconds)
-            dismiss()
           }
         }) {
           Label("Start Timer", systemImage: "timer")
@@ -129,6 +165,12 @@ import SwiftUI
         }
         .padding(.horizontal)
         .disabled(timerManager.selectedHours == 0 && timerManager.selectedMinutes == 0)
+
+        Text("Blankie will pause when timer expires")
+          .font(.body)
+          .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
+          .padding(.horizontal)
       }
     }
   }

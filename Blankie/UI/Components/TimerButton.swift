@@ -16,7 +16,7 @@ struct TimerButton: View {
       showingTimerView = true
     }) {
       Image(systemName: "timer")
-        .font(.system(size: 22))
+        .font(.system(size: 18))
         .foregroundColor(
           timerManager.isTimerActive
             ? (GlobalSettings.shared.customAccentColor ?? .accentColor) : .primary)
@@ -29,7 +29,7 @@ struct TimerButton: View {
     #else
       .sheet(isPresented: $showingTimerView) {
         TimerSheetView()
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.height(375)])
       }
     #endif
   }
@@ -59,7 +59,7 @@ struct CompactTimerButton: View {
     #else
       .sheet(isPresented: $showingTimerView) {
         TimerSheetView()
-        .presentationDetents([.medium, .large])
+        .presentationDetents([.height(375)])
       }
     #endif
   }

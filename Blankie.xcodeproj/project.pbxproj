@@ -231,28 +231,7 @@
 				"$(PROJECT_DIR)/Configuration.xcconfig",
 			);
 			shellPath = /bin/sh;
-			shellScript = (
-				"#!/bin/sh",
-				"set -e",
-				"set -x",
-				"",
-				"# Get paths",
-				"CONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"",
-				"TEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"",
-				"",
-				"# Get current build number from xcconfig",
-				"buildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')",
-				"",
-				"# Increment the build number",
-				"buildNumber=$((buildNumber + 1))",
-				"echo \"New build number: $buildNumber\"",
-				"",
-				"# Update xcconfig using a temp file",
-				"sed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"",
-				"cp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"",
-				"",
-				"",
-			);
+			shellScript = "#!/bin/sh\nset -e\nset -x\n\n# Get paths\nCONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"\nTEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"\n\n# Get current build number from xcconfig\nbuildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')\n\n# Increment the build number\nbuildNumber=$((buildNumber + 1))\necho \"New build number: $buildNumber\"\n\n# Update xcconfig using a temp file\nsed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"\ncp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -670,7 +649,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
@@ -697,7 +676,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -842,7 +821,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
@@ -869,7 +848,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -896,7 +875,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
@@ -924,7 +903,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=macosx*]" = "$(PRODUCT_BUNDLE_IDENTIFIER).tests";
@@ -951,7 +930,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -977,7 +956,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.6;
+				MACOSX_DEPLOYMENT_TARGET = 15.5;
 				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER).uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

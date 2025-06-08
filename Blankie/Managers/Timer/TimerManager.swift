@@ -98,6 +98,17 @@ class TimerManager: ObservableObject {
     }
   }
 
+  func getEndTime() -> Date? {
+    guard isTimerActive else { return nil }
+    return Date().addingTimeInterval(remainingTime)
+  }
+
+  func addTime(minutes: Int) {
+    guard isTimerActive else { return }
+    remainingTime += TimeInterval(minutes * 60)
+    selectedDuration += TimeInterval(minutes * 60)
+  }
+
   deinit {
     stopTimer()
   }

@@ -104,7 +104,20 @@ extension SoundSheet {
   }
 
   func saveCustomization(_ sound: Sound) {
-    // Only save if there are actual customizations
+    let hasCustomizations = checkForCustomizations(sound)
+
+    if hasCustomizations {
+      applyCustomizations(sound)
+    } else {
+      // Remove all customizations if there are no changes
+      SoundCustomizationManager.shared.resetCustomizations(for: sound.fileName)
+    }
+
+    // Sound object will automatically update through customization observer
+    dismiss()
+  }
+
+  private func checkForCustomizations(_ sound: Sound) -> Bool {
     let hasCustomName = soundName != sound.originalTitle
     let hasCustomIcon = selectedIcon != sound.originalSystemIconName
     let hasCustomColor = selectedColor != nil
@@ -113,63 +126,53 @@ extension SoundSheet {
     let hasCustomVolume = volumeAdjustment != 1.0  // Default is 1.0
     let hasCustomLoop = loopSound != true  // Default is true
 
-    if hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization
+    return hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization
       || hasCustomNormalization || hasCustomVolume || hasCustomLoop
-    {
-      // Use the manager's methods to set customizations
-      if hasCustomName {
-        SoundCustomizationManager.shared.setCustomTitle(soundName, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setCustomTitle(nil, for: sound.fileName)
-      }
+  }
 
-      if hasCustomIcon {
-        SoundCustomizationManager.shared.setCustomIcon(selectedIcon, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setCustomIcon(nil, for: sound.fileName)
-      }
+  private func applyCustomizations(_ sound: Sound) {
+    let manager = SoundCustomizationManager.shared
 
-      if hasCustomColor {
-        SoundCustomizationManager.shared.setCustomColor(
-          selectedColor?.color?.toString, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setCustomColor(nil, for: sound.fileName)
-      }
+    // Name customization
+    manager.setCustomTitle(
+      soundName != sound.originalTitle ? soundName : nil,
+      for: sound.fileName
+    )
 
-      if hasCustomRandomization {
-        SoundCustomizationManager.shared.setRandomizeStartPosition(
-          randomizeStartPosition, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setRandomizeStartPosition(nil, for: sound.fileName)
-      }
+    // Icon customization
+    manager.setCustomIcon(
+      selectedIcon != sound.originalSystemIconName ? selectedIcon : nil,
+      for: sound.fileName
+    )
 
-      if hasCustomNormalization {
-        SoundCustomizationManager.shared.setNormalizeAudio(
-          normalizeAudio, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setNormalizeAudio(nil, for: sound.fileName)
-      }
+    // Color customization
+    manager.setCustomColor(
+      selectedColor?.color?.toString,
+      for: sound.fileName
+    )
 
-      if hasCustomVolume {
-        SoundCustomizationManager.shared.setVolumeAdjustment(
-          volumeAdjustment, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setVolumeAdjustment(nil, for: sound.fileName)
-      }
+    // Randomization customization
+    manager.setRandomizeStartPosition(
+      randomizeStartPosition != true ? randomizeStartPosition : nil,
+      for: sound.fileName
+    )
 
-      if hasCustomLoop {
-        SoundCustomizationManager.shared.setLoopSound(
-          loopSound, for: sound.fileName)
-      } else {
-        SoundCustomizationManager.shared.setLoopSound(nil, for: sound.fileName)
-      }
-    } else {
-      // Remove all customizations if there are no changes
-      SoundCustomizationManager.shared.resetCustomizations(for: sound.fileName)
-    }
+    // Normalization customization
+    manager.setNormalizeAudio(
+      normalizeAudio != true ? normalizeAudio : nil,
+      for: sound.fileName
+    )
 
-    // Sound object will automatically update through customization observer
+    // Volume customization
+    manager.setVolumeAdjustment(
+      volumeAdjustment != 1.0 ? volumeAdjustment : nil,
+      for: sound.fileName
+    )
 
-    dismiss()
+    // Loop customization
+    manager.setLoopSound(
+      loopSound != true ? loopSound : nil,
+      for: sound.fileName
+    )
   }
 }

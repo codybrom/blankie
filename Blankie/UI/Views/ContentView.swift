@@ -157,6 +157,10 @@ import UniformTypeIdentifiers
                     .aspectRatio(contentMode: .fit)
                     .frame(width: 20, height: 20)
                     .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+                    .contentTransition(
+                      .symbolEffect(
+                        .replace.magic(fallback: .downUp.byLayer), options: .nonRepeating)
+                    )
                     .offset(x: audioManager.isGloballyPlaying ? 0 : 2)
                 }
               }

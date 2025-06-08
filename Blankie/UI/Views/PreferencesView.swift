@@ -214,7 +214,7 @@ struct PreferencesView: View {
 
       Section {
         Toggle(
-          LocalizedStringKey("Autoplay When Opened"),
+          LocalizedStringKey("Autoplay on Open"),
           isOn: Binding(
             get: { globalSettings.autoPlayOnLaunch },
             set: { globalSettings.setAutoPlayOnLaunch($0) }

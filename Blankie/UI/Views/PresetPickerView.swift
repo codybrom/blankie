@@ -73,6 +73,24 @@ struct PresetPickerView: View {
             .listRowBackground(Color.secondary.opacity(0.1))
           }
 
+          // CarPlay Quick Mix indicator (if active)
+          if audioManager.isCarPlayQuickMix {
+            HStack {
+              HStack(spacing: 8) {
+                Image(systemName: "car.circle.fill")
+                  .foregroundColor(.accentColor)
+                Text("Quick Mix (CarPlay)")
+                  .foregroundColor(.secondary)
+              }
+
+              Spacer()
+
+              Image(systemName: "checkmark")
+                .foregroundColor(.accentColor)
+            }
+            .listRowBackground(Color.secondary.opacity(0.1))
+          }
+
           // List of presets
           ForEach(presetManager.presets.filter { !$0.isDefault }) { preset in
             Button {
@@ -82,6 +100,11 @@ struct PresetPickerView: View {
                   // Exit solo mode first if we're in it
                   if audioManager.soloModeSound != nil {
                     audioManager.exitSoloMode()
+                  }
+
+                  // Exit CarPlay Quick Mix if we're in it
+                  if audioManager.isCarPlayQuickMix {
+                    audioManager.exitCarPlayQuickMix()
                   }
 
                   try presetManager.applyPreset(preset)
@@ -152,13 +175,6 @@ struct PresetPickerView: View {
           }
         }
 
-        ToolbarItem(placement: .confirmationAction) {
-          Button {
-            dismiss()
-          } label: {
-            Text("Done", comment: "Toolbar done button")
-          }
-        }
       }
       #if os(iOS)
         .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))

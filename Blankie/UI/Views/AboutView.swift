@@ -7,6 +7,21 @@
 
 import SwiftUI
 
+#if os(iOS)
+  extension Bundle {
+    var icon: UIImage? {
+      if let icons = infoDictionary?["CFBundleIcons"] as? [String: Any],
+        let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+        let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+        let lastIcon = iconFiles.last
+      {
+        return UIImage(named: lastIcon)
+      }
+      return nil
+    }
+  }
+#endif
+
 struct AboutView: View {
   @ObservedObject private var creditsManager = SoundCreditsManager.shared
   @Environment(\.dismiss) private var dismiss
@@ -22,13 +37,13 @@ struct AboutView: View {
   var body: some View {
     Group {
       #if os(iOS)
-        NavigationView {
+        NavigationStack {
           aboutContent
-            .navigationTitle("About Blankie")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-              ToolbarItem(placement: .primaryAction) {
-                Button("Done") { dismiss() }
+              ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Close") {
+                  dismiss()
+                }
               }
             }
         }
@@ -61,8 +76,8 @@ struct AboutView: View {
         // App Icon
         Group {
           #if os(iOS)
-            if let aboutIcon = UIImage(named: "AboutIcon") {
-              Image(uiImage: aboutIcon)
+            if let appIcon = UIImage(named: "AppIcon") ?? Bundle.main.icon {
+              Image(uiImage: appIcon)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 100, height: 100)
@@ -184,6 +199,27 @@ struct AboutView: View {
             SoftwareLicenseSection()
           }
         }
+
+        Divider()
+          .padding(.horizontal, 40)
+
+        // Help Section
+        Link(destination: URL(string: "https://blankie.rest/faq")!) {
+          HStack {
+            Image(systemName: "questionmark.circle")
+              .foregroundColor(.accentColor)
+            Text("Blankie Help", comment: "Help and FAQ link label")
+              .foregroundColor(.primary)
+            Spacer()
+            Image(systemName: "safari")
+              .foregroundColor(.secondary)
+          }
+          .padding(.vertical, 8)
+          .padding(.horizontal, 16)
+          .background(.regularMaterial)
+          .cornerRadius(8)
+        }
+        .handCursor()
       }
       .padding(20)
     }

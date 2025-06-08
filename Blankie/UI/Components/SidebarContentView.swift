@@ -3,11 +3,14 @@ import SwiftUI
 #if os(iOS) || os(visionOS)
   struct SidebarContentView: View {
     @Binding var showingPresetPicker: Bool
-    @Binding var showingSettings: Bool
     @Binding var showingAbout: Bool
     @Binding var hideInactiveSounds: Bool
+    @Binding var showingViewSettings: Bool
+    @Binding var showingSoundManagement: Bool
 
     @StateObject private var presetManager = PresetManager.shared
+    @StateObject private var globalSettings = GlobalSettings.shared
+    @State private var showingListView = false
 
     var body: some View {
       List {
@@ -28,6 +31,9 @@ import SwiftUI
         }
       }
       .navigationTitle("Blankie")
+      .onAppear {
+        showingListView = globalSettings.showingListView
+      }
     }
 
     // Single preset row
@@ -68,9 +74,15 @@ import SwiftUI
     private var settingsButtons: some View {
       Group {
         Button(action: {
-          showingSettings = true
+          showingViewSettings = true
         }) {
-          Label("Preferences", systemImage: "gear")
+          Label("View Settings", systemImage: "slider.horizontal.3")
+        }
+
+        Button(action: {
+          showingSoundManagement = true
+        }) {
+          Label("Sound Settings", systemImage: "waveform")
         }
 
         Button(action: {
@@ -81,16 +93,6 @@ import SwiftUI
           } icon: {
             Image(systemName: "info.circle")
           }
-        }
-
-        Button(action: {
-          withAnimation {
-            hideInactiveSounds.toggle()
-          }
-        }) {
-          let iconName = hideInactiveSounds ? "eye" : "eye.slash"
-          let labelText = hideInactiveSounds ? "Show All Sounds" : "Hide Inactive Sounds"
-          Label(labelText, systemImage: iconName)
         }
       }
     }

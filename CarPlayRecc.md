@@ -69,7 +69,7 @@ Add to `Blankie-CarPlay.entitlements`:
 
 ### Step 2: Update Info.plist
 
-Add to `Blankie-Info-CarPlay.plist`:
+Add to `Blankie-CarPlay.plist`:
 
 ```xml
 <key>UIApplicationSceneManifest</key>

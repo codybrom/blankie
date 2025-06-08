@@ -11,7 +11,7 @@ Blankie has a working CarPlay prototype that provides simplified interface to ac
 | **Build Configs** | `Debug`, `Release` | `Debug-CarPlay`, `Release-CarPlay` |
 | **Supported Platforms** | All (iOS, macOS, visionOS) | iPhone only |
 | **Entitlements** | `Blankie.entitlements` | `Blankie-CarPlay.entitlements` |
-| **Info.plist** | `Blankie-Info.plist` | `Blankie-Info-CarPlay.plist` |
+| **Info.plist** | `Blankie-Info.plist` | `Blankie-CarPlay.plist` |
 | **Scene Generation** | Automatic (`YES`) | Manual (`NO`) |
 | **Compiler Flag** | — | `CARPLAY_ENABLED` |
 
@@ -26,7 +26,7 @@ The iOS with CarPlay configuration:
 ## Implementation Files
 
 - **`Blankie-CarPlay.entitlements`** — Adds the CarPlay audio entitlement
-- **`Blankie-Info-CarPlay.plist`** — Defines the CarPlay scene configuration
+- **`Blankie-CarPlay.plist`** — Defines the CarPlay scene configuration
 - **`CarPlaySceneDelegate.swift`** — Handles CarPlay scene lifecycle
 - **`UI/CarPlayInterface.swift`** — Main CarPlay user interface
 - **`UI/CarPlayStatusView.swift`** — CarPlay audio status display

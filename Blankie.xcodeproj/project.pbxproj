@@ -613,7 +613,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Blankie-Info-CarPlay.plist";
+				INFOPLIST_FILE = "Blankie-CarPlay.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -783,7 +783,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Blankie-Info-CarPlay.plist";
+				INFOPLIST_FILE = "Blankie-CarPlay.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Blankie;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";

@@ -2,7 +2,7 @@
 //  BlankieBasicScreenshotTests.swift
 //  BlankieUITests
 //
-//  Created by Assistant on 5/27/25.
+//  Created by Cody Bromley on 5/27/25.
 //
 
 import XCTest
@@ -15,7 +15,8 @@ final class BlankieBasicScreenshotTests: XCTestCase {
   }
 
   private func findAndTapSoundButton(_ app: XCUIApplication, soundName: String, iconName: String)
-    -> Bool {
+    -> Bool
+  {
     // Strategy 1: Direct button access by accessibility identifier
     let button1 = app.buttons[iconName]
     if button1.exists && button1.isHittable {

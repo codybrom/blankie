@@ -2,7 +2,7 @@
 //  Locale+ScriptDetection.swift
 //  Blankie
 //
-//  Created by Assistant on 6/3/25.
+//  Created by Cody Bromley on 6/3/25.
 //
 
 import Foundation

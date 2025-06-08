@@ -80,4 +80,4 @@ Configuration.xcconfig
 releases/*
 .ignored
 .mcp.json
-carplay/*
+notes/carplay/*

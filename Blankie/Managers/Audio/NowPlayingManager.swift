@@ -28,109 +28,29 @@ final class NowPlayingManager {
     nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = 0.0  // Start as paused
 
-    #if os(iOS) || os(visionOS)
-      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData)
-      {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
-          return image
-        }
-        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-      }
-    #elseif os(macOS)
-      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData)
-      {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
-          return image
-        }
-        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-      }
-    #endif
+    if let artwork = loadArtwork() {
+      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+    }
   }
 
   func updateInfo(presetName: String? = nil, isPlaying: Bool) {
     setupNowPlaying()  // Ensure setup is done before updating
 
     // Get the current preset name for the title
-    let displayTitle: String
-    let artistInfo: String
-
-    // Check if we're in solo mode
-    if let soloSound = AudioManager.shared.soloModeSound {
-      displayTitle = soloSound.title
-      artistInfo = "Solo Mode • Blankie"
-    } else if let name = presetName {
-      // Handle special presets
-      if name == "Quick Mix (CarPlay)" {
-        displayTitle = "Quick Mix"
-      } else if name != "Default" && !name.starts(with: "Preset ") {
-        displayTitle = name
-      } else {
-        displayTitle = "Custom Mix"
-      }
-
-      // Get active sounds for artist field
-      let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
-      if !activeSounds.isEmpty {
-        let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
-        if activeSounds.count > 3 {
-          artistInfo = "\(soundNames) +\(activeSounds.count - 3)"
-        } else {
-          artistInfo = soundNames
-        }
-      } else {
-        artistInfo = "Blankie"
-      }
-    } else {
-      displayTitle = "Custom Mix"
-
-      // Get active sounds for artist field
-      let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
-      if !activeSounds.isEmpty {
-        let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
-        if activeSounds.count > 3 {
-          artistInfo = "\(soundNames) +\(activeSounds.count - 3)"
-        } else {
-          artistInfo = soundNames
-        }
-      } else {
-        artistInfo = "Blankie"
-      }
-    }
+    let displayInfo = getDisplayInfo(presetName: presetName)
 
     print(
-      "🎵 NowPlayingManager: Updating Now Playing info with title: \(displayTitle), artist: \(artistInfo)"
+      "🎵 NowPlayingManager: Updating Now Playing info with title: \(displayInfo.title), artist: \(displayInfo.artist)"
     )
 
-    nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
-    nowPlayingInfo[MPMediaItemPropertyArtist] = artistInfo
+    nowPlayingInfo[MPMediaItemPropertyTitle] = displayInfo.title
+    nowPlayingInfo[MPMediaItemPropertyArtist] = displayInfo.artist
     nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-    #if os(iOS) || os(visionOS)
-      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = UIImage(data: imageData)
-      {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
-          return image
-        }
-        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-      }
-    #elseif os(macOS)
-      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
-        let imageData = try? Data(contentsOf: imageUrl),
-        let image = NSImage(data: imageData)
-      {
-        let artwork = MPMediaItemArtwork(boundsSize: image.size) { _ in
-          return image
-        }
-        nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
-      }
-    #endif
+    if let artwork = loadArtwork() {
+      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+    }
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }

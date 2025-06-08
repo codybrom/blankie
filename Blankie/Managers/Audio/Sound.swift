@@ -210,23 +210,7 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
   open func loadSound() {
     print("🔍 Sound: Loading '\(fileName).\(fileExtension)'")
 
-    // Determine the URL based on whether this is a custom sound
-    let url: URL?
-    if isCustom, let customURL = fileURL {
-      // Verify the custom sound file actually exists
-      if FileManager.default.fileExists(atPath: customURL.path) {
-        url = customURL
-        print("🔍 Sound: Loading custom sound from: \(customURL.path)")
-      } else {
-        print("❌ Sound: Custom sound file not found at path: \(customURL.path)")
-        url = nil
-      }
-    } else {
-      url = Bundle.main.url(forResource: fileName, withExtension: fileExtension)
-      print("🔍 Sound: Loading built-in sound from bundle")
-    }
-
-    guard let soundURL = url else {
+    guard let soundURL = getSoundURL() else {
       print("❌ Sound: File not found for '\(fileName).\(fileExtension)'")
       ErrorReporter.shared.report(AudioError.fileNotFound)
       return
@@ -238,54 +222,23 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
 
       player = try AVAudioPlayer(contentsOf: soundURL)
 
-      // Check if sound should loop
-      let shouldLoop: Bool
-      if let customization = SoundCustomizationManager.shared.getCustomization(for: fileName) {
-        shouldLoop = customization.loopSound ?? true
-      } else {
-        shouldLoop = true  // Default to true for all sounds
-      }
-
-      player?.numberOfLoops = shouldLoop ? -1 : 0  // -1 for infinite, 0 for play once
-      player?.enableRate = false  // Disable rate/pitch adjustment
-      player?.delegate = self  // Set delegate to detect when sound finishes
-
       // Additional validation
       guard let loadedPlayer = player else {
         print("❌ Sound: Player is nil after initialization for '\(fileName)'")
         return
       }
 
-      let prepareSuccess = loadedPlayer.prepareToPlay()
-      print("🔍 Sound: Prepare to play result for '\(fileName)': \(prepareSuccess)")
-      print("🔍 Sound: Player duration: \(loadedPlayer.duration), format: \(loadedPlayer.format)")
+      // Configure player settings
+      configurePlayer(loadedPlayer)
 
-      if !prepareSuccess || loadedPlayer.duration <= 0 || !loadedPlayer.duration.isFinite {
-        print(
-          "❌ Sound: Invalid player state - prepareSuccess: \(prepareSuccess), duration: \(loadedPlayer.duration)"
-        )
-      }
+      // Validate player state
+      _ = validatePlayer(loadedPlayer)
 
       // Set initial volume with normalization
       updateVolume()
 
-      // Apply random start position if enabled (for new player instances)
-      let shouldRandomizeStart: Bool
-      if let customization = SoundCustomizationManager.shared.getCustomization(for: fileName) {
-        shouldRandomizeStart = customization.randomizeStartPosition ?? true
-      } else {
-        shouldRandomizeStart = true  // Default to true for all sounds
-      }
-
-      if shouldRandomizeStart && loadedPlayer.duration > 0 && loadedPlayer.duration.isFinite {
-        // Limit random position to maximum 75% of the duration
-        let maxPosition = loadedPlayer.duration * 0.75
-        let randomPosition = Double.random(in: 0..<maxPosition)
-        loadedPlayer.currentTime = randomPosition
-        print(
-          "🎲 Sound: Applied random start position: \(randomPosition)s of \(loadedPlayer.duration)s (max 75%)"
-        )
-      }
+      // Apply random start position if enabled
+      applyRandomStartPosition(to: loadedPlayer)
 
       print(
         "🔊 Sound: Loaded sound '\(fileName).\(fileExtension)' with volume: \(loadedPlayer.volume)")

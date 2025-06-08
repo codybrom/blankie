@@ -24,7 +24,7 @@ extension AudioManager {
 
     // Save original states of all sounds
     carPlayQuickMixOriginalStates = sounds.map { sound in
-      (sound: sound, isSelected: sound.isSelected, volume: sound.volume)
+      QuickMixState(sound: sound, isSelected: sound.isSelected, volume: sound.volume)
     }
 
     // Pause all sounds first

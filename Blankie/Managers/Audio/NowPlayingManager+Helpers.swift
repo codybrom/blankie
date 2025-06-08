@@ -1,0 +1,73 @@
+//
+//  NowPlayingManager+Helpers.swift
+//  Blankie
+//
+//  Created by Cody Bromley on 6/8/25.
+//
+
+import AVFoundation
+import MediaPlayer
+import SwiftUI
+
+extension NowPlayingManager {
+
+  func getDisplayInfo(presetName: String?) -> (title: String, artist: String) {
+    // Check if we're in solo mode
+    if let soloSound = AudioManager.shared.soloModeSound {
+      return (title: soloSound.title, artist: "Solo Mode • Blankie")
+    } else if let name = presetName {
+      // Handle special presets
+      let displayTitle: String
+      if name == "Quick Mix (CarPlay)" {
+        displayTitle = "Quick Mix"
+      } else if name != "Default" && !name.starts(with: "Preset ") {
+        displayTitle = name
+      } else {
+        displayTitle = "Custom Mix"
+      }
+
+      let artistInfo = getArtistInfo()
+      return (title: displayTitle, artist: artistInfo)
+    } else {
+      let artistInfo = getArtistInfo()
+      return (title: "Custom Mix", artist: artistInfo)
+    }
+  }
+
+  private func getArtistInfo() -> String {
+    let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+    if !activeSounds.isEmpty {
+      let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
+      if activeSounds.count > 3 {
+        return "\(soundNames) +\(activeSounds.count - 3)"
+      } else {
+        return soundNames
+      }
+    } else {
+      return "Blankie"
+    }
+  }
+
+  func loadArtwork() -> MPMediaItemArtwork? {
+    #if os(iOS) || os(visionOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = UIImage(data: imageData)
+      {
+        return MPMediaItemArtwork(boundsSize: image.size) { _ in
+          return image
+        }
+      }
+    #elseif os(macOS)
+      if let imageUrl = Bundle.main.url(forResource: "NowPlaying", withExtension: "png"),
+        let imageData = try? Data(contentsOf: imageUrl),
+        let image = NSImage(data: imageData)
+      {
+        return MPMediaItemArtwork(boundsSize: image.size) { _ in
+          return image
+        }
+      }
+    #endif
+    return nil
+  }
+}

@@ -25,7 +25,12 @@ class AudioManager: ObservableObject {
 
   // CarPlay Quick Mix Mode
   @Published var isCarPlayQuickMix: Bool = false
-  var carPlayQuickMixOriginalStates: [(sound: Sound, isSelected: Bool, volume: Float)] = []
+  struct QuickMixState {
+    let sound: Sound
+    let isSelected: Bool
+    let volume: Float
+  }
+  var carPlayQuickMixOriginalStates: [QuickMixState] = []
 
   var modelContext: ModelContext?
   let nowPlayingManager = NowPlayingManager()

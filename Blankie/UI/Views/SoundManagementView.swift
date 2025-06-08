@@ -13,6 +13,7 @@ struct SoundManagementView: View {
   @Environment(\.dismiss) private var dismiss
   @Query private var customSoundData: [CustomSoundData]
   @ObservedObject private var audioManager = AudioManager.shared
+  @ObservedObject private var globalSettings = GlobalSettings.shared
 
   @State private var showingImportSheet = false
   @State private var showingEditSheet = false
@@ -32,7 +33,7 @@ struct SoundManagementView: View {
   var body: some View {
     NavigationStack {
       mainContentView
-        .navigationTitle("Sound Management")
+        .navigationTitle("Sounds")
         #if os(iOS) || os(visionOS)
           .navigationBarTitleDisplayMode(.inline)
         #endif
@@ -78,55 +79,123 @@ struct SoundManagementView: View {
   }
 
   private var mainContentView: some View {
-    ScrollView {
-      VStack(spacing: 0) {
-        builtInSoundsSection
-        customSoundsSection
-      }
-      .padding(.vertical)
+    Form {
+      playbackSettingsSection
+      builtInSoundsSection
+      customSoundsSection
     }
-    .background(listBackground)
+  }
+
+  @ViewBuilder
+  private var playbackSettingsSection: some View {
+    Section(
+      header: Text("Playback", comment: "Settings section header for playback options")
+    ) {
+      Toggle(
+        "Autoplay on Open",
+        isOn: Binding(
+          get: { globalSettings.autoPlayOnLaunch },
+          set: { globalSettings.setAutoPlayOnLaunch($0) }
+        )
+      )
+      .tint(globalSettings.customAccentColor ?? .accentColor)
+
+      #if os(iOS) || os(visionOS)
+        VStack(alignment: .leading, spacing: 8) {
+          Toggle(
+            "Mix with Other Audio",
+            isOn: Binding(
+              get: { globalSettings.mixWithOthers },
+              set: { globalSettings.setMixWithOthers($0) }
+            )
+          )
+          .tint(globalSettings.customAccentColor ?? .accentColor)
+
+          if globalSettings.mixWithOthers {
+            VStack(alignment: .leading, spacing: 8) {
+              HStack {
+                Image(systemName: "exclamationmark.triangle.fill")
+                  .foregroundColor(.orange)
+                  .font(.caption)
+                Text("Device media controls won't pause Blankie")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+              .padding(.vertical, 4)
+              .padding(.horizontal, 8)
+              .background(.orange.opacity(0.1))
+              .cornerRadius(6)
+
+              VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                  Text("Blankie Volume with Media")
+                    .font(.subheadline)
+                  Spacer()
+                  Text("\(Int(globalSettings.volumeWithOtherAudio * 100))%")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                }
+
+                Slider(
+                  value: Binding(
+                    get: { globalSettings.volumeWithOtherAudio },
+                    set: { globalSettings.setVolumeWithOtherAudio($0) }
+                  ),
+                  in: 0.0...1.0
+                )
+                .tint(globalSettings.customAccentColor ?? .accentColor)
+
+                Text("Other media plays at system volume")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+            }
+          } else {
+            Text("Blankie pauses other audio and responds to device media controls")
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+        }
+      #endif
+    }
   }
 
   @ViewBuilder
   private var builtInSoundsSection: some View {
     let hiddenCount = builtInSounds.filter { $0.isHidden }.count
-    sectionHeader(
-      title: "Built-in Sounds",
-      subtitle: hiddenCount > 0
-        ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)" : "\(builtInSounds.count) sounds",
-      isExpanded: $builtInSoundsExpanded
-    )
-
-    if builtInSoundsExpanded {
-      ForEach(Array(builtInSounds.enumerated()), id: \.element.id) { index, sound in
-        builtInSoundRow(sound: sound, isLast: index == builtInSounds.count - 1)
+    Section(
+      header: Text("Built-in Sounds"),
+      footer: Text(
+        hiddenCount > 0
+          ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)"
+          : "\(builtInSounds.count) sounds")
+    ) {
+      if builtInSoundsExpanded {
+        ForEach(builtInSounds) { sound in
+          builtInSoundRow(sound: sound, isLast: false)
+        }
       }
     }
-
-    Divider()
-      .padding(.vertical, 8)
   }
 
+  @ViewBuilder
   private var customSoundsSection: some View {
-    VStack(spacing: 0) {
-      let hiddenCount = customSounds.filter { $0.isHidden }.count
-      sectionHeader(
-        title: "Custom Sounds",
-        subtitle: customSounds.isEmpty
+    let hiddenCount = customSounds.filter { $0.isHidden }.count
+    Section(
+      header: Text("Custom Sounds"),
+      footer: Text(
+        customSounds.isEmpty
           ? "No custom sounds"
           : hiddenCount > 0
             ? "\(customSounds.count) sounds (\(hiddenCount) hidden)"
-            : "\(customSounds.count) sounds",
-        isExpanded: $customSoundsExpanded
-      )
-
+            : "\(customSounds.count) sounds")
+    ) {
       if customSoundsExpanded {
         if customSounds.isEmpty {
           customSoundsEmptyState
         } else {
-          ForEach(Array(customSounds.enumerated()), id: \.element.id) { index, sound in
-            customSoundRow(sound: sound, isLast: index == customSounds.count - 1)
+          ForEach(customSounds) { sound in
+            customSoundRow(sound: sound, isLast: false)
           }
         }
       }
@@ -160,34 +229,6 @@ struct SoundManagementView: View {
         showingDeleteConfirmation = true
       }
     )
-  }
-
-  private func sectionHeader(title: String, subtitle: String, isExpanded: Binding<Bool>)
-    -> some View
-  {
-    Button(action: {
-      withAnimation(.easeInOut(duration: 0.2)) {
-        isExpanded.wrappedValue.toggle()
-      }
-    }) {
-      HStack {
-        VStack(alignment: .leading, spacing: 2) {
-          Text(title)
-            .font(.headline)
-          Text(subtitle)
-            .font(.caption)
-            .foregroundColor(.secondary)
-        }
-        Spacer()
-        Image(systemName: isExpanded.wrappedValue ? "chevron.down" : "chevron.right")
-          .font(.caption)
-          .foregroundColor(.secondary)
-      }
-      .padding(.horizontal)
-      .padding(.vertical, 8)
-      .background(.regularMaterial)
-    }
-    .buttonStyle(.plain)
   }
 
   private var customSoundsEmptyState: some View {
@@ -227,16 +268,6 @@ struct SoundManagementView: View {
         #endif
       }
     )
-  }
-
-  private var listBackground: some View {
-    Group {
-      #if os(macOS)
-        Color(NSColor.textBackgroundColor)
-      #else
-        Color(UIColor.systemBackground)
-      #endif
-    }
   }
 
   private func deleteSound(_ sound: Sound) {

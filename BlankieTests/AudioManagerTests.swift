@@ -17,13 +17,13 @@ final class AudioManagerTests: XCTestCase {
     try await super.setUp()
     audioManager = AudioManager.shared
     // Ensure we start with a clean state
-    GlobalSettings.shared.setAlwaysStartPaused(false)
+    GlobalSettings.shared.setAutoPlayOnLaunch(true)
     audioManager.resetSounds()
   }
 
   override func tearDown() async throws {
     // Reset to default state
-    GlobalSettings.shared.setAlwaysStartPaused(true)
+    GlobalSettings.shared.setAutoPlayOnLaunch(false)
     audioManager.resetSounds()
     try await super.tearDown()
   }

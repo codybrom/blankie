@@ -10,7 +10,7 @@ import XCTest
 @testable import Blankie
 
 class MockSound: Sound {
-  override init(
+  init(
     title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3"
   ) {
     super.init(

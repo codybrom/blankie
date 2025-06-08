@@ -84,6 +84,17 @@ import SwiftUI
               )
             )
 
+            #if os(iOS)
+              // Lock Portrait Orientation
+              Toggle(
+                "Lock Portrait Orientation",
+                isOn: Binding(
+                  get: { globalSettings.lockPortraitOrientationiOS },
+                  set: { globalSettings.setLockPortraitOrientationiOS($0) }
+                )
+              )
+            #endif
+
             // Appearance
             Picker(
               "Appearance",

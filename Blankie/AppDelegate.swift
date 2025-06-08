@@ -181,5 +181,20 @@
       }
     }
 
+    func application(
+      _ application: UIApplication,
+      supportedInterfaceOrientationsFor window: UIWindow?
+    ) -> UIInterfaceOrientationMask {
+      #if os(iOS)
+        if GlobalSettings.shared.lockPortraitOrientationiOS {
+          return .portrait
+        } else {
+          return .all
+        }
+      #else
+        return .all
+      #endif
+    }
+
   }
 #endif

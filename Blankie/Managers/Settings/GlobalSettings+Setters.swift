@@ -84,6 +84,13 @@ extension GlobalSettings {
   }
 
   @MainActor
+  func setLockPortraitOrientationiOS(_ value: Bool) {
+    lockPortraitOrientationiOS = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.lockPortraitOrientationiOS)
+    logCurrentSettings()
+  }
+
+  @MainActor
   func setLanguage(_ newLanguage: Language) {
     guard newLanguage.code != language.code else {
       print("🌐 Language not changed (already set to \(language.code))")

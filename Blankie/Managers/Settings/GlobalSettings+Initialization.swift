@@ -56,6 +56,11 @@ extension GlobalSettings {
     hideInactiveSoundSliders =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.hideInactiveSoundSliders) as? Bool
       ?? false
+
+    // Lock portrait orientation on iOS preference (default to false)
+    lockPortraitOrientationiOS =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.lockPortraitOrientationiOS) as? Bool
+      ?? false
   }
 
   func loadPlatformSettings() {

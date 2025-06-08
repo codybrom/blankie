@@ -36,6 +36,7 @@ enum UserDefaultsKeys {
   static let showingListView = "showingListView"
   static let showProgressBorder = "showProgressBorder"
   static let hideInactiveSoundSliders = "hideInactiveSoundSliders"
+  static let lockPortraitOrientationiOS = "lockPortraitOrientationiOS"
 }
 
 class GlobalSettings: ObservableObject {
@@ -53,6 +54,7 @@ class GlobalSettings: ObservableObject {
   @Published var showingListView: Bool
   @Published var showProgressBorder: Bool
   @Published var hideInactiveSoundSliders: Bool
+  @Published var lockPortraitOrientationiOS: Bool
   @Published var availableLanguages: [Language] = []
 
   // Platform-specific settings
@@ -78,6 +80,7 @@ class GlobalSettings: ObservableObject {
     showingListView = false
     showProgressBorder = true
     hideInactiveSoundSliders = false
+    lockPortraitOrientationiOS = false
     availableLanguages = []
 
     // Then load actual values from UserDefaults

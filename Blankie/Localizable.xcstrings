@@ -4,16 +4,6 @@
     "-50%" : {
       "comment" : "Volume decrease label"
     },
-    "(%@, Gain: %@)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "(%1$@, Gain: %2$@)"
-          }
-        }
-      }
-    },
     "%@ (Built-in%@)" : {
       "localizations" : {
         "en" : {
@@ -27,11 +17,21 @@
     "%@ (Custom • Added By You)" : {
 
     },
-    "%lld customized" : {
-
-    },
     "%lld hidden" : {
 
+    },
+    "%lld sounds" : {
+
+    },
+    "%lld sounds (%lld hidden)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld sounds (%2$lld hidden)"
+          }
+        }
+      }
     },
     "%lld%%" : {
 
@@ -580,19 +580,19 @@
         }
       }
     },
-    "Are you sure you want to reset all sound customizations? This will restore all sound names and icons to their defaults. This action cannot be undone." : {
-
-    },
     "Audio" : {
       "comment" : "Audio options section header"
     },
     "Author" : {
       "comment" : "Sound author label"
     },
+    "Automatic" : {
+      "comment" : "Appearance mode"
+    },
     "Automatically balance volume levels" : {
       "comment" : "Description for audio normalization toggle"
     },
-    "Autoplay When Opened" : {
+    "Autoplay on Open" : {
 
     },
     "Behavior" : {
@@ -1119,6 +1119,9 @@
       }
     },
     "Built-in sound" : {
+
+    },
+    "Built-in Sounds" : {
 
     },
     "By" : {
@@ -1749,15 +1752,11 @@
     "Current Theme" : {
       "comment" : "Current theme color option"
     },
-    "Custom" : {
-
-    },
     "Custom imported sound" : {
 
     },
     "Custom Sounds" : {
       "comment" : "Custom sounds view title",
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -1773,10 +1772,10 @@
         }
       }
     },
-    "Customize Sound" : {
+    "Customize" : {
 
     },
-    "Customized Sounds" : {
+    "Customize Sound" : {
 
     },
     "Cyan" : {
@@ -2235,7 +2234,7 @@
 
     },
     "Done" : {
-      "comment" : "Settings done button\nToolbar done button\nVolume controls done button",
+      "comment" : "Settings done button\nVolume controls done button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -2258,9 +2257,6 @@
 
     },
     "Drop audio file to import" : {
-
-    },
-    "Drop here" : {
 
     },
     "Duration" : {
@@ -2519,6 +2515,12 @@
         }
       }
     },
+    "Exit" : {
+
+    },
+    "Exit Quick Mix" : {
+
+    },
     "Exit Solo Mode" : {
 
     },
@@ -2672,7 +2674,7 @@
         }
       }
     },
-    "Grid View" : {
+    "Grid" : {
 
     },
     "Hide Inactive Sounds" : {
@@ -2746,6 +2748,9 @@
           }
         }
       }
+    },
+    "Hide Sliders for Inactive Sounds" : {
+
     },
     "Hide Sound" : {
 
@@ -3249,6 +3254,9 @@
         }
       }
     },
+    "Large" : {
+
+    },
     "Later" : {
       "comment" : "Cancel restart button",
       "localizations" : {
@@ -3440,6 +3448,9 @@
         }
       }
     },
+    "List" : {
+
+    },
     "Loading Presets..." : {
       "comment" : "Preset loading indicator",
       "extractionState" : "manual",
@@ -3512,11 +3523,17 @@
         }
       }
     },
+    "Loop Sound" : {
+      "comment" : "Toggle label for looping sound playback"
+    },
     "Loudness (LUFS)" : {
       "comment" : "Audio LUFS loudness label"
     },
     "Manage Sounds" : {
       "comment" : "Sound management label"
+    },
+    "Medium" : {
+
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -3832,6 +3849,9 @@
         }
       }
     },
+    "No custom sounds" : {
+
+    },
     "No Custom Sounds" : {
       "comment" : "Empty state title for custom sounds",
       "localizations" : {
@@ -3848,9 +3868,6 @@
           }
         }
       }
-    },
-    "No Customizations" : {
-
     },
     "No matching icons found" : {
       "comment" : "No icon search results message",
@@ -4027,9 +4044,6 @@
           }
         }
       }
-    },
-    "Original" : {
-
     },
     "Other media plays at system volume" : {
 
@@ -4254,7 +4268,7 @@
       }
     },
     "Playback" : {
-      "comment" : "Settings section header for behavior options"
+      "comment" : "Settings section header for playback options"
     },
     "Playback Paused" : {
       "comment" : "Playback paused banner",
@@ -4909,6 +4923,9 @@
         }
       }
     },
+    "Quick Mix (CarPlay)" : {
+
+    },
     "Quit" : {
       "comment" : "Menu option",
       "extractionState" : "manual",
@@ -5278,6 +5295,9 @@
     "Reorder Sounds" : {
 
     },
+    "Repeat continuously when playing" : {
+      "comment" : "Description for loop sound toggle"
+    },
     "Report an Issue" : {
       "comment" : "Report an issue label",
       "extractionState" : "manual",
@@ -5353,16 +5373,7 @@
     "Reset" : {
       "comment" : "Reset sounds button"
     },
-    "Reset %@" : {
-
-    },
-    "Reset All" : {
-
-    },
-    "Reset All Customizations" : {
-
-    },
-    "Reset all customizations using the \"Reset All\" button in the top left." : {
+    "Reset all customizations for this sound" : {
 
     },
     "Reset Sounds" : {
@@ -5438,6 +5449,9 @@
       }
     },
     "Reset to Default" : {
+
+    },
+    "Reset to Defaults" : {
 
     },
     "Restart Now" : {
@@ -5806,7 +5820,13 @@
     "Show Progress Border" : {
 
     },
+    "Show Progress Borders" : {
+
+    },
     "Show Sound" : {
+
+    },
+    "Small" : {
 
     },
     "Software License" : {
@@ -5968,9 +5988,6 @@
         }
       }
     },
-    "Sound Customizations" : {
-      "comment" : "Sound customization management label"
-    },
     "Sound File" : {
       "comment" : "Sound file section header",
       "localizations" : {
@@ -5991,11 +6008,11 @@
     "Sound Information" : {
       "comment" : "Sound information section header"
     },
-    "Sound Management" : {
-      "comment" : "Sound management view title"
-    },
     "Sound Name" : {
       "comment" : "Sound name text field placeholder"
+    },
+    "Sound Settings" : {
+
     },
     "Sounds" : {
       "comment" : "Settings section header for sound management\nSounds section header"
@@ -6517,7 +6534,7 @@
       }
     },
     "Theme" : {
-      "comment" : "Appearance theme picker label\nTheme color option",
+      "comment" : "Theme color option",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -6533,7 +6550,7 @@
         }
       }
     },
-    "This will reset this sound's name and icon to their defaults. This action cannot be undone." : {
+    "Theme Color" : {
 
     },
     "Time Remaining" : {
@@ -6760,6 +6777,12 @@
           }
         }
       }
+    },
+    "View Mode" : {
+
+    },
+    "View Settings" : {
+
     },
     "Volume" : {
       "comment" : "Volume section header\nVolume slider label"
@@ -7126,9 +7149,6 @@
           }
         }
       }
-    },
-    "You haven't customized any sounds yet. Long press on any built-in sound and select \"Customize Sound\" to get started." : {
-
     },
     "You will need to restart Blankie for the language change to take effect." : {
       "comment" : "Language change restart message",

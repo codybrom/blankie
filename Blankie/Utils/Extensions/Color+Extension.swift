@@ -66,7 +66,7 @@ enum AppearanceMode: String, CaseIterable {
 
   var localizedName: String {
     switch self {
-    case .system: return String(localized: "System", comment: "Appearance mode")
+    case .system: return String(localized: "Automatic", comment: "Appearance mode")
     case .light: return String(localized: "Light", comment: "Appearance mode")
     case .dark: return String(localized: "Dark", comment: "Appearance mode")
     }

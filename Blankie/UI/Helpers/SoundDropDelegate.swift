@@ -16,10 +16,14 @@ struct SoundDropDelegate: DropDelegate {
   let cancelTimer: () -> Void
 
   func dropEntered(info: DropInfo) {
+    // Only update hover and provide haptic if we're actively dragging
+    guard draggedIndex != nil else { return }
+
     hoveredIndex = targetIndex
 
     if GlobalSettings.shared.enableHaptics {
       #if os(iOS)
+        print("🎯 HAPTIC: dropEntered - light impact")
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
       #endif
@@ -41,6 +45,15 @@ struct SoundDropDelegate: DropDelegate {
   func performDrop(info: DropInfo) -> Bool {
     guard let provider = info.itemProviders(for: [.text]).first else { return false }
 
+    // Immediate haptic feedback on drop
+    if GlobalSettings.shared.enableHaptics {
+      #if os(iOS)
+        print("🎯 HAPTIC: performDrop - success notification")
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
+      #endif
+    }
+
     provider.loadObject(ofClass: NSString.self) { object, _ in
       guard let sourceIndexString = object as? String,
         let sourceIndex = Int(sourceIndexString)
@@ -49,13 +62,6 @@ struct SoundDropDelegate: DropDelegate {
       DispatchQueue.main.async {
         if sourceIndex != targetIndex {
           audioManager.moveVisibleSound(from: sourceIndex, to: targetIndex)
-
-          if GlobalSettings.shared.enableHaptics {
-            #if os(iOS)
-              let generator = UINotificationFeedbackGenerator()
-              generator.notificationOccurred(.success)
-            #endif
-          }
         }
         cancelTimer()
         draggedIndex = nil

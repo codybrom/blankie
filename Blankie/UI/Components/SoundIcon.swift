@@ -42,7 +42,7 @@ struct SoundIcon: View {
       return Configuration(
         iconSize: iconSize,
         sliderWidth: sliderWidth,
-        spacing: 16,
+        spacing: 8,
         padding: EdgeInsets(top: 24, leading: 20, bottom: 24, trailing: 20),
         fontSizeOffset: 6
       )
@@ -55,6 +55,13 @@ struct SoundIcon: View {
     let spacing: CGFloat
     let padding: EdgeInsets
     let fontSizeOffset: CGFloat
+    var borderWidth: CGFloat {
+      switch GlobalSettings.shared.iconSize {
+      case .small: return 4
+      case .medium: return 4
+      case .large: return 6
+      }
+    }
   }
 
   var accentColor: Color {
@@ -112,21 +119,23 @@ struct SoundIcon: View {
           .fill(backgroundFill)
           .frame(width: configuration.iconSize, height: configuration.iconSize)
 
-        // Progress border
+        // Progress border (inner border)
         if globalSettings.showProgressBorder && sound.isSelected && audioManager.isGloballyPlaying {
+          let borderSize = configuration.iconSize - configuration.borderWidth
+
           // Background track
           Circle()
-            .stroke(Color.gray.opacity(0.3), lineWidth: 4)
-            .frame(width: configuration.iconSize, height: configuration.iconSize)
+            .stroke(Color.gray.opacity(0.3), lineWidth: configuration.borderWidth)
+            .frame(width: borderSize, height: borderSize)
 
           // Progress indicator
           Circle()
             .trim(from: 0, to: max(0.01, sound.playbackProgress))  // Ensure minimum visibility
             .stroke(
               sound.customColor ?? accentColor,
-              style: StrokeStyle(lineWidth: 4, lineCap: .round)
+              style: StrokeStyle(lineWidth: configuration.borderWidth, lineCap: .round)
             )
-            .frame(width: configuration.iconSize, height: configuration.iconSize)
+            .frame(width: borderSize, height: borderSize)
             .rotationEffect(.degrees(-90))
             .animation(.linear(duration: 0.1), value: sound.playbackProgress)
         }
@@ -158,23 +167,30 @@ struct SoundIcon: View {
           .font(titleFont)
           .lineLimit(2)
           .multilineTextAlignment(.center)
-          .frame(maxWidth: maxWidth - (configuration.padding.leading * 2))
+          .frame(maxWidth: maxWidth - 20, minHeight: 32)  // Consistent padding and height for all sizes
           .foregroundColor(.primary)
           .contentShape(Rectangle())
       }
 
-      Slider(
-        value: Binding(
-          get: { Double(sound.volume) },
-          set: { sound.volume = Float($0) }
-        ), in: 0...1
-      )
-      .frame(width: configuration.sliderWidth)
-      .tint(
-        audioManager.isGloballyPlaying
-          ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
-      )
-      .disabled(!sound.isSelected)
+      if !globalSettings.hideInactiveSoundSliders || sound.isSelected {
+        Slider(
+          value: Binding(
+            get: { Double(sound.volume) },
+            set: { sound.volume = Float($0) }
+          ), in: 0...1
+        )
+        .frame(width: configuration.sliderWidth)
+        .tint(
+          audioManager.isGloballyPlaying
+            ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
+        )
+        .disabled(!sound.isSelected)
+      } else if audioManager.sounds.contains(where: { $0.isSelected && !$0.isHidden }) {
+        // Only add spacer if there are other selected sounds that might show sliders
+        Rectangle()
+          .fill(Color.clear)
+          .frame(width: configuration.sliderWidth, height: 31)  // Standard slider height
+      }
     }
     .padding(.vertical, configuration.padding.top)
     .padding(.horizontal, configuration.padding.leading)

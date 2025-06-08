@@ -170,5 +170,26 @@ import SwiftUI
       dragResetTimer?.invalidate()
       dragResetTimer = nil
     }
+
+    // MARK: - Helper Properties
+
+    var hasSelectedSounds: Bool {
+      audioManager.hasSelectedSounds
+    }
+
+    func enterEditMode() {
+      editMode = .active
+
+      if globalSettings.enableHaptics {
+        #if os(iOS)
+          let generator = UIImpactFeedbackGenerator(style: .medium)
+          generator.impactOccurred()
+        #endif
+      }
+    }
+
+    func exitEditMode() {
+      editMode = .inactive
+    }
   }
 #endif

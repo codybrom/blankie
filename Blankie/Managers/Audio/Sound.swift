@@ -11,7 +11,7 @@ import CoreMedia
 import SwiftUI
 
 /// Represents a single sound with its associated properties and playback controls.
-open class Sound: ObservableObject, Identifiable {
+open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegate {
 
   public let id = UUID()
   let originalTitle: String
@@ -105,7 +105,7 @@ open class Sound: ObservableObject, Identifiable {
   internal var volumeDebounceTimer: Timer?
   internal var updateVolumeLogTimer: Timer?
 
-  @Published var volume: Float = 1.0 {
+  @Published var volume: Float = 0.75 {
     didSet {
       guard volume >= 0 && volume <= 1 else {
         print("❌ Sound: Invalid volume for '\(fileName)'")
@@ -168,10 +168,12 @@ open class Sound: ObservableObject, Identifiable {
     self.dateAdded = dateAdded
     self.customSoundDataID = customSoundDataID
 
+    super.init()
+
     // Restore saved volume
     self.volume = UserDefaults.standard.float(forKey: "\(fileName)_volume")
     if self.volume == 0 {
-      self.volume = 1.0
+      self.volume = 0.75
     }
 
     // Restore selected state
@@ -236,8 +238,17 @@ open class Sound: ObservableObject, Identifiable {
 
       player = try AVAudioPlayer(contentsOf: soundURL)
 
-      player?.numberOfLoops = -1
+      // Check if sound should loop
+      let shouldLoop: Bool
+      if let customization = SoundCustomizationManager.shared.getCustomization(for: fileName) {
+        shouldLoop = customization.loopSound ?? true
+      } else {
+        shouldLoop = true  // Default to true for all sounds
+      }
+
+      player?.numberOfLoops = shouldLoop ? -1 : 0  // -1 for infinite, 0 for play once
       player?.enableRate = false  // Disable rate/pitch adjustment
+      player?.delegate = self  // Set delegate to detect when sound finishes
 
       // Additional validation
       guard let loadedPlayer = player else {
@@ -257,6 +268,25 @@ open class Sound: ObservableObject, Identifiable {
 
       // Set initial volume with normalization
       updateVolume()
+
+      // Apply random start position if enabled (for new player instances)
+      let shouldRandomizeStart: Bool
+      if let customization = SoundCustomizationManager.shared.getCustomization(for: fileName) {
+        shouldRandomizeStart = customization.randomizeStartPosition ?? true
+      } else {
+        shouldRandomizeStart = true  // Default to true for all sounds
+      }
+
+      if shouldRandomizeStart && loadedPlayer.duration > 0 && loadedPlayer.duration.isFinite {
+        // Limit random position to maximum 75% of the duration
+        let maxPosition = loadedPlayer.duration * 0.75
+        let randomPosition = Double.random(in: 0..<maxPosition)
+        loadedPlayer.currentTime = randomPosition
+        print(
+          "🎲 Sound: Applied random start position: \(randomPosition)s of \(loadedPlayer.duration)s (max 75%)"
+        )
+      }
+
       print(
         "🔊 Sound: Loaded sound '\(fileName).\(fileExtension)' with volume: \(loadedPlayer.volume)")
     } catch {
@@ -286,5 +316,28 @@ open class Sound: ObservableObject, Identifiable {
     volumeDebounceTimer?.invalidate()
     updateVolumeLogTimer?.invalidate()
     progressTimer?.invalidate()
+  }
+
+  // MARK: - AVAudioPlayerDelegate
+
+  public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    guard flag else { return }
+
+    // Check if sound should loop
+    let shouldLoop: Bool
+    if let customization = SoundCustomizationManager.shared.getCustomization(for: fileName) {
+      shouldLoop = customization.loopSound ?? true
+    } else {
+      shouldLoop = true  // Default to true for all sounds
+    }
+
+    // If not looping, deselect the sound
+    if !shouldLoop {
+      DispatchQueue.main.async { [weak self] in
+        guard let self = self else { return }
+        print("🔊 Sound: Non-looping sound '\(self.fileName)' finished playing, deselecting")
+        self.isSelected = false
+      }
+    }
   }
 }

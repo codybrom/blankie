@@ -21,8 +21,6 @@ extension Sound {
   func play() {
     guard let validPlayer = preparePlayer() else { return }
 
-    applyRandomStartPosition(to: validPlayer)
-
     let success = validPlayer.play()
     if !success {
       print("❌ Sound: Failed to play '\(fileName)'")
@@ -31,7 +29,7 @@ extension Sound {
         userInfo: [NSLocalizedDescriptionKey: "Failed to play sound"])
       ErrorReporter.shared.report(AudioError.playbackFailed(error))
     } else {
-      print("🔊 Sound: Playing '\(fileName)'")
+      print("🔊 Sound: Playing '\(fileName)' from position: \(validPlayer.currentTime)s")
       startProgressTracking()
     }
   }
@@ -62,7 +60,12 @@ extension Sound {
     return player
   }
 
-  private func applyRandomStartPosition(to player: AVAudioPlayer) {
+  func resetSoundPosition() {
+    guard let player = loadedPlayer else {
+      // If player doesn't exist yet, it will be randomized when loaded
+      return
+    }
+
     // Check if randomize start position is enabled
     // Default to true for both custom and built-in sounds unless explicitly disabled
     let shouldRandomizeStart: Bool
@@ -76,16 +79,22 @@ extension Sound {
       // Set a random start position within the sound's duration
       // Check if duration is valid (greater than 0 and not infinite/NaN)
       if player.duration > 0 && player.duration.isFinite {
-        let randomPosition = Double.random(in: 0..<player.duration)
+        // Limit random position to maximum 75% of the duration
+        let maxPosition = player.duration * 0.75
+        let randomPosition = Double.random(in: 0..<maxPosition)
         player.currentTime = randomPosition
         print(
-          "🎲 Sound: Starting '\(fileName)' at random position: \(randomPosition)s of \(player.duration)s"
+          "🎲 Sound: Reset '\(fileName)' to random position: \(randomPosition)s of \(player.duration)s (max 75%)"
         )
       } else {
         print(
           "⚠️ Sound: Cannot randomize start position for '\(fileName)' - invalid duration: \(player.duration)"
         )
       }
+    } else {
+      // Reset to beginning if randomization is disabled
+      player.currentTime = 0
+      print("🎵 Sound: Reset '\(fileName)' to beginning")
     }
   }
 
@@ -215,7 +224,7 @@ extension Sound {
 
     // Reset state
     isSelected = false
-    volume = 1.0
+    volume = 0.75
 
     // Clear user defaults
     UserDefaults.standard.removeObject(forKey: "\(fileName)_isSelected")
@@ -265,13 +274,5 @@ extension Sound {
       self?.playbackProgress = newProgress
     }
 
-    // Debug log every second
-    if Int(player.currentTime) % 1 == 0
-      && player.currentTime.truncatingRemainder(dividingBy: 1) < 0.02
-    {
-      print(
-        "🎵 Progress: \(fileName) - \(Int(newProgress * 100))% (\(player.currentTime)s / \(player.duration)s)"
-      )
-    }
   }
 }

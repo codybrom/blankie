@@ -204,7 +204,8 @@ extension AudioManager {
         customColorName: nil,
         randomizeStartPosition: data.randomizeStartPosition,
         normalizeAudio: data.normalizeAudio,
-        volumeAdjustment: data.volumeAdjustment
+        volumeAdjustment: data.volumeAdjustment,
+        loopSound: data.loopSound
       )
       SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
     }

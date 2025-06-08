@@ -29,7 +29,7 @@ extension AudioManager {
     setGlobalPlaybackState(false)
     // Reset all sounds
     sounds.forEach { sound in
-      sound.volume = 1.0
+      sound.volume = 0.75
       sound.isSelected = false
     }
     // Reset "All Sounds" volume

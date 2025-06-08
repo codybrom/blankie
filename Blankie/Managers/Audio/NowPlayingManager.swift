@@ -56,21 +56,58 @@ final class NowPlayingManager {
 
     // Get the current preset name for the title
     let displayTitle: String
-    if let name = presetName {
-      // Only use preset name if it's not "Default" or doesn't start with "Preset "
-      if name != "Default" && !name.starts(with: "Preset ") {
+    let artistInfo: String
+
+    // Check if we're in solo mode
+    if let soloSound = AudioManager.shared.soloModeSound {
+      displayTitle = soloSound.title
+      artistInfo = "Solo Mode • Blankie"
+    } else if let name = presetName {
+      // Handle special presets
+      if name == "Quick Mix (CarPlay)" {
+        displayTitle = "Quick Mix"
+      } else if name != "Default" && !name.starts(with: "Preset ") {
         displayTitle = name
       } else {
-        displayTitle = "Ambient Sounds"
+        displayTitle = "Custom Mix"
+      }
+
+      // Get active sounds for artist field
+      let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+      if !activeSounds.isEmpty {
+        let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
+        if activeSounds.count > 3 {
+          artistInfo = "\(soundNames) +\(activeSounds.count - 3)"
+        } else {
+          artistInfo = soundNames
+        }
+      } else {
+        artistInfo = "Blankie"
       }
     } else {
-      displayTitle = "Ambient Sounds"
+      displayTitle = "Custom Mix"
+
+      // Get active sounds for artist field
+      let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+      if !activeSounds.isEmpty {
+        let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
+        if activeSounds.count > 3 {
+          artistInfo = "\(soundNames) +\(activeSounds.count - 3)"
+        } else {
+          artistInfo = soundNames
+        }
+      } else {
+        artistInfo = "Blankie"
+      }
     }
 
-    print("🎵 NowPlayingManager: Updating Now Playing info with title: \(displayTitle)")
+    print(
+      "🎵 NowPlayingManager: Updating Now Playing info with title: \(displayTitle), artist: \(artistInfo)"
+    )
 
     nowPlayingInfo[MPMediaItemPropertyTitle] = displayTitle
-    nowPlayingInfo[MPMediaItemPropertyArtist] = "Blankie"
+    nowPlayingInfo[MPMediaItemPropertyArtist] = artistInfo
+    nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
     #if os(iOS) || os(visionOS)

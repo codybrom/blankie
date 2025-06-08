@@ -23,10 +23,14 @@ extension Sound {
   private func extractFileMetadata(from url: URL) throws {
     // Get file attributes
     let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
-    fileSize = attributes[.size] as? Int64
+    let size = attributes[.size] as? Int64
+    let format = url.pathExtension.uppercased()
 
-    // Extract format from extension
-    fileFormat = url.pathExtension.uppercased()
+    // Update published properties on main queue to avoid view update warnings
+    DispatchQueue.main.async {
+      self.fileSize = size
+      self.fileFormat = format
+    }
   }
 
   private func extractAudioMetadata(from url: URL) {

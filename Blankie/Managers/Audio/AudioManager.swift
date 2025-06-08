@@ -23,6 +23,10 @@ class AudioManager: ObservableObject {
   var soloModeOriginalVolume: Float?
   var soloModeOriginalSelection: Bool?
 
+  // CarPlay Quick Mix Mode
+  @Published var isCarPlayQuickMix: Bool = false
+  var carPlayQuickMixOriginalStates: [(sound: Sound, isSelected: Bool, volume: Float)] = []
+
   var modelContext: ModelContext?
   let nowPlayingManager = NowPlayingManager()
   @MainActor private var isInitializing = true

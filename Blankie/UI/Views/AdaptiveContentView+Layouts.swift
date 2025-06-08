@@ -9,296 +9,276 @@ import SwiftUI
 
 #if os(iOS) || os(visionOS)
   extension AdaptiveContentView {
-    // Split view layout for iPad/Mac
-    var largeDeviceLayout: some View {
-      NavigationSplitView(columnVisibility: $columnVisibility) {
-        sidebarContent
-      } detail: {
-        mainSoundGridView
-          .safeAreaInset(edge: .top, spacing: 0) {
-            navigationHeader
-          }
-          .navigationTitle(navigationTitleText)
-          .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-              TimerButton()
+    // MARK: - Solo Mode View
+
+    @ViewBuilder
+    func soloModeView(for soloSound: Sound) -> some View {
+      VStack {
+        Spacer()
+        DraggableSoundIcon(
+          sound: soloSound,
+          maxWidth: 280,
+          index: 0,
+          draggedIndex: .constant(nil),
+          hoveredIndex: .constant(nil),
+          onDragStart: {},
+          onDrop: { _ in },
+          onEditSound: { sound in
+            soundToEdit = sound
+          },
+          onHideSound: { sound in
+            sound.isHidden.toggle()
+            if sound.isHidden && sound.isSelected {
+              sound.pause()
             }
-          }
+            if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
+              audioManager.exitSoloMode()
+            }
+            audioManager.updateHasSelectedSounds()
+            soundsUpdateTrigger += 1
+          },
+          isSoloMode: true
+        )
+        .scaleEffect(1.0)
+        .transition(
+          .asymmetric(
+            insertion: .scale.combined(with: .opacity),
+            removal: .scale.combined(with: .opacity)
+          )
+        )
+        Spacer()
       }
-      .navigationSplitViewStyle(.balanced)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .padding()
     }
 
-    // Sidebar content for split view
-    var sidebarContent: some View {
-      SidebarContentView(
-        showingPresetPicker: $showingPresetPicker,
-        showingSettings: $showingSettings,
-        showingAbout: $showingAbout,
-        hideInactiveSounds: $hideInactiveSounds
-      )
-    }
+    // MARK: - Grid View
 
-    // iPhone layout
-    var smallDeviceLayout: some View {
-      NavigationView {
-        ZStack {
-          mainSoundGridView
-            .safeAreaInset(edge: .top, spacing: 0) {
-              Color.clear.frame(height: headerHeight)
-            }
-            .safeAreaInset(edge: .bottom, spacing: 0) {
-              VStack(spacing: 0) {
-                statusIndicatorView
-
-                HStack(spacing: 0) {
-                  // Volume button or Exit Solo Mode button
-                  Spacer()
-                  if audioManager.soloModeSound != nil {
-                    Button(action: {
-                      withAnimation(.easeInOut(duration: 0.3)) {
-                        audioManager.exitSoloMode()
-                      }
-                    }) {
-                      Image(systemName: "headphones.slash")
-                        .font(.system(size: 22))
-                        .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-                    }
-                    .buttonStyle(.plain)
-                  } else {
-                    Button(action: {
-                      showingListView.toggle()
-                      globalSettings.setShowingListView(showingListView)
-                    }) {
-                      Image(systemName: showingListView ? "square.grid.3x3" : "list.bullet")
-                        .font(.system(size: 22))
-                        .foregroundColor(.primary)
-                        .contentTransition(.symbolEffect(.replace))
-                    }
-                    .buttonStyle(.plain)
-                  }
-                  Spacer()
-
-                  // Play/Pause button
-                  Spacer()
-                  Button(action: {
-                    if audioManager.hasSelectedSounds {
-                      audioManager.togglePlayback()
-                    }
-                  }) {
-                    ZStack {
-                      Circle()
-                        .fill(
-                          audioManager.hasSelectedSounds
-                            ? (globalSettings.customAccentColor?.opacity(0.2)
-                              ?? Color.accentColor.opacity(0.2))
-                            : Color.secondary.opacity(0.1)
-                        )
-                        .frame(width: 60, height: 60)
-
-                      let imageName = audioManager.isGloballyPlaying ? "pause.fill" : "play.fill"
-                      let xOffset: CGFloat = audioManager.isGloballyPlaying ? 0 : 2
-
-                      Image(systemName: imageName)
-                        .font(.system(size: 26))
-                        .foregroundColor(
-                          audioManager.hasSelectedSounds
-                            ? (globalSettings.customAccentColor ?? .accentColor)
-                            : .secondary
-                        )
-                        .offset(x: xOffset)
-                    }
-                  }
-                  .buttonStyle(.plain)
-                  .disabled(!audioManager.hasSelectedSounds)
-                  Spacer()
-
-                  // Menu button
-                  Spacer()
-                  playbackMenuButton
-                  Spacer()
-                }
-                .padding(.vertical, 12)
-                .padding(.horizontal, 16)
-                .background(.regularMaterial, ignoresSafeAreaEdges: .bottom)
-              }
-            }
-
-          // Custom navigation header overlay
-          VStack(spacing: 0) {
-            navigationHeader
-            Spacer()
-          }
-        }
-        .navigationBarHidden(true)
-        .ignoresSafeArea(.all, edges: .top)
-        .onChange(of: audioManager.hasSelectedSounds) { oldValue, newValue in
-          print("🎨 UI: hasSelectedSounds changed from \(oldValue) to \(newValue)")
-          // Auto-pause when no sounds are selected
-          if !newValue && audioManager.isGloballyPlaying {
-            audioManager.setGlobalPlaybackState(false)
-          }
-        }
-      }
-    }
-
-    // Main sound grid that's shared between layouts
-    var mainSoundGridView: some View {
-      Group {
-        if let soloSound = audioManager.soloModeSound {
-          // Solo mode: Show only the solo sound centered
-          VStack {
-            Spacer()
+    @ViewBuilder
+    var gridView: some View {
+      ScrollView {
+        LazyVGrid(
+          columns: columns,
+          spacing: globalSettings.iconSize == .small
+            ? 2 : (globalSettings.iconSize == .medium ? 8 : 12)
+        ) {
+          ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
             DraggableSoundIcon(
-              sound: soloSound,
-              maxWidth: 280,
-              index: 0,
-              draggedIndex: .constant(nil),
-              hoveredIndex: .constant(nil),
-              onDragStart: {},
-              onDrop: { _ in },
+              sound: sound,
+              maxWidth: columnWidth,
+              index: index,
+              draggedIndex: $draggedIndex,
+              hoveredIndex: $hoveredIndex,
+              onDragStart: {
+                draggedIndex = index
+                startDragResetTimer()
+              },
+              onDrop: { sourceIndex in
+                audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                cancelDragResetTimer()
+              },
               onEditSound: { sound in
                 soundToEdit = sound
               },
               onHideSound: { sound in
                 sound.isHidden.toggle()
-                // If hiding a sound that's currently playing, stop it
                 if sound.isHidden && sound.isSelected {
                   sound.pause()
                 }
-                // If hiding the solo mode sound, exit solo mode
                 if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
                   audioManager.exitSoloMode()
                 }
-                // Update hasSelectedSounds to reflect changes in hidden sounds
                 audioManager.updateHasSelectedSounds()
                 soundsUpdateTrigger += 1
               },
-              isSoloMode: true
+              onEnterEditMode: showingListView ? nil : enterEditMode,
+              editMode: editMode
             )
-            .scaleEffect(1.0)
-            .transition(
-              .asymmetric(
-                insertion: .scale.combined(with: .opacity),
-                removal: .scale.combined(with: .opacity)
-              ))
-            Spacer()
           }
-          .frame(maxWidth: .infinity, maxHeight: .infinity)
-          .padding()
-          .animation(.easeInOut(duration: 0.3), value: audioManager.soloModeSound?.id)
-        } else {
-          // Normal mode: Show all sounds in grid/list or empty state
-          ZStack {
-            if showingListView && !isLargeDevice {
-              // List view mode: Show list view on small devices
-              soundListView
-                .transition(.opacity)
-            } else if filteredSounds.isEmpty {
-              // Empty state - either no active sounds or all sounds hidden
-              VStack(spacing: 20) {
-                Spacer()
-
-                VStack(spacing: 12) {
-                  Image(
-                    systemName: audioManager.getVisibleSounds().isEmpty
-                      ? "eye.slash.circle" : "speaker.slash.circle"
-                  )
-                  .font(.system(size: 48))
-                  .foregroundStyle(.secondary)
-
-                  Text(
-                    audioManager.getVisibleSounds().isEmpty
-                      ? "No Visible Sounds" : "No Active Sounds"
-                  )
-                  .font(.headline)
-                  .foregroundColor(.primary)
-                }
-
-                if audioManager.getVisibleSounds().isEmpty {
-                  // All sounds are hidden - button to manage sounds
-                  Button(action: {
-                    showingSoundManagement = true
-                  }) {
-                    Text("Manage Sounds")
-                      .font(.system(.subheadline, weight: .medium))
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 20)
-                      .padding(.vertical, 10)
-                      .background(globalSettings.customAccentColor ?? .accentColor)
-                      .cornerRadius(8)
-                  }
-                  .buttonStyle(.plain)
-                } else {
-                  // Some sounds are active but hidden by filter - button to show inactive
-                  Button(action: {
-                    withAnimation {
-                      hideInactiveSounds = false
-                    }
-                  }) {
-                    Text("Show Inactive Sounds")
-                      .font(.system(.subheadline, weight: .medium))
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 20)
-                      .padding(.vertical, 10)
-                      .background(globalSettings.customAccentColor ?? .accentColor)
-                      .cornerRadius(8)
-                  }
-                  .buttonStyle(.plain)
-                }
-
-                Spacer()
-              }
-              .frame(maxWidth: .infinity, maxHeight: .infinity)
-              .transition(.opacity)
-            } else {
-              // Normal grid view
-              ScrollView {
-                LazyVGrid(columns: columns, spacing: globalSettings.iconSize == .small ? 4 : 20) {
-                  ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
-                    DraggableSoundIcon(
-                      sound: sound,
-                      maxWidth: columnWidth,
-                      index: index,
-                      draggedIndex: $draggedIndex,
-                      hoveredIndex: $hoveredIndex,
-                      onDragStart: {
-                        draggedIndex = index
-                        startDragResetTimer()
-                      },
-                      onDrop: { sourceIndex in
-                        audioManager.moveVisibleSound(from: sourceIndex, to: index)
-                        cancelDragResetTimer()
-                      },
-                      onEditSound: { sound in
-                        soundToEdit = sound
-                      },
-                      onHideSound: { sound in
-                        sound.isHidden.toggle()
-                        // If hiding a sound that's currently playing, stop it
-                        if sound.isHidden && sound.isSelected {
-                          sound.pause()
-                        }
-                        // If hiding the solo mode sound, exit solo mode
-                        if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
-                          audioManager.exitSoloMode()
-                        }
-                        // Update hasSelectedSounds to reflect changes in hidden sounds
-                        audioManager.updateHasSelectedSounds()
-                        soundsUpdateTrigger += 1
-                      }
-                    )
-                  }
-                }
-                .padding()
-                .animation(.easeInOut, value: filteredSounds.count)
-              }
-              .transition(.opacity)
-            }
-          }
-          .animation(.easeInOut(duration: 0.3), value: showingListView)
         }
+        .padding()
+        .animation(.easeInOut, value: filteredSounds.count)
       }
     }
 
+    // MARK: - List View
+
+    @ViewBuilder
+    var listView: some View {
+      List {
+        ForEach(filteredSounds) { sound in
+          soundRow(for: sound)
+            .id("\(sound.id)-\(sound.isSelected)-\(audioManager.isGloballyPlaying)")
+            .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
+            .listRowSeparator(.hidden)
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+              Button {
+                soundToEdit = sound
+              } label: {
+                Label("Edit", systemImage: "pencil")
+              }
+              .tint(.blue)
+
+              if audioManager.soloModeSound?.id != sound.id {
+                Button {
+                  if globalSettings.enableHaptics {
+                    #if os(iOS)
+                      let generator = UIImpactFeedbackGenerator(style: .medium)
+                      generator.impactOccurred()
+                    #endif
+                  }
+                  withAnimation(.easeInOut(duration: 0.3)) {
+                    audioManager.toggleSoloMode(for: sound)
+                  }
+                } label: {
+                  Label("Solo", systemImage: "headphones")
+                }
+                .tint(.orange)
+              }
+            }
+            .contextMenu {
+              contextMenuContent(for: sound)
+            }
+        }
+        .onMove(perform: editMode == .active ? moveItems : nil)
+        .deleteDisabled(true)
+      }
+      .listStyle(.plain)
+      .environment(\.editMode, $editMode)
+      .padding(.top, 8)
+      .id("\(globalSettings.showSoundNames)-\(globalSettings.hideInactiveSoundSliders)")
+    }
+
+    // MARK: - Empty State View
+
+    @ViewBuilder
+    var emptyStateView: some View {
+      VStack(spacing: 20) {
+        Spacer()
+
+        VStack(spacing: 12) {
+          Image(
+            systemName: audioManager.getVisibleSounds().isEmpty
+              ? "eye.slash.circle" : "speaker.slash.circle"
+          )
+          .font(.system(size: 48))
+          .foregroundStyle(.secondary)
+
+          Text(
+            audioManager.getVisibleSounds().isEmpty
+              ? "No Visible Sounds" : "No Active Sounds"
+          )
+          .font(.headline)
+          .foregroundColor(.primary)
+        }
+
+        if audioManager.getVisibleSounds().isEmpty {
+          Button(action: {
+            showingSoundManagement = true
+          }) {
+            Text("Manage Sounds")
+              .font(.system(.subheadline, weight: .medium))
+              .foregroundColor(.white)
+              .padding(.horizontal, 20)
+              .padding(.vertical, 10)
+              .background(globalSettings.customAccentColor ?? .accentColor)
+              .cornerRadius(8)
+          }
+          .buttonStyle(.plain)
+        } else {
+          Button(action: {
+            withAnimation {
+              hideInactiveSounds = false
+            }
+          }) {
+            Text("Show Inactive Sounds")
+              .font(.system(.subheadline, weight: .medium))
+              .foregroundColor(.white)
+              .padding(.horizontal, 20)
+              .padding(.vertical, 10)
+              .background(globalSettings.customAccentColor ?? .accentColor)
+              .cornerRadius(8)
+          }
+          .buttonStyle(.plain)
+        }
+
+        Spacer()
+      }
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Helper Methods
+
+    private func moveItems(from source: IndexSet, to destination: Int) {
+      audioManager.moveVisibleSounds(from: source, to: destination)
+    }
+
+    @ViewBuilder
+    private func soundRow(for sound: Sound) -> some View {
+      SoundRowView(sound: sound, globalSettings: globalSettings, audioManager: audioManager)
+    }
+
+    @ViewBuilder
+    private func contextMenuContent(for sound: Sound) -> some View {
+      Text(
+        isCustomSound(sound)
+          ? "\(sound.title) (Custom • Added By You)"
+          : "\(sound.title) (Built-in\(getSoundAuthor(for: sound).map { " • By \($0)" } ?? ""))"
+      )
+      .font(.title2)
+      .fontWeight(.bold)
+
+      if audioManager.soloModeSound?.id != sound.id {
+        Button(action: {
+          if globalSettings.enableHaptics {
+            #if os(iOS)
+              let generator = UIImpactFeedbackGenerator(style: .medium)
+              generator.impactOccurred()
+            #endif
+          }
+          withAnimation(.easeInOut(duration: 0.3)) {
+            audioManager.toggleSoloMode(for: sound)
+          }
+        }) {
+          Label("Solo", systemImage: "headphones")
+        }
+      }
+
+      Button(action: {
+        soundToEdit = sound
+      }) {
+        Label("Customize", systemImage: "paintbrush")
+      }
+
+      Divider()
+
+      Button(action: {
+        withAnimation(.easeInOut(duration: 0.3)) {
+          editMode = editMode == .active ? .inactive : .active
+        }
+      }) {
+        Label(
+          editMode == .active ? "Done Reordering" : "Reorder",
+          systemImage: editMode == .active ? "checkmark" : "arrow.up.arrow.down"
+        )
+      }
+    }
+
+    private func getSoundAuthor(for sound: Sound) -> String? {
+      if isCustomSound(sound) {
+        return "You"
+      }
+
+      let credits = SoundCreditsManager.shared.credits
+      return credits.first { $0.soundName == sound.fileName || $0.name == sound.title }?.author
+    }
+
+    private func isCustomSound(_ sound: Sound) -> Bool {
+      let credits = SoundCreditsManager.shared.credits
+      let isInCredits = credits.contains {
+        $0.soundName == sound.fileName || $0.name == sound.title
+      }
+      return !isInCredits
+    }
   }
 #endif

@@ -23,6 +23,7 @@ struct SoundSheetView: View {
   @Binding var randomizeStartPosition: Bool
   @Binding var normalizeAudio: Bool
   @Binding var volumeAdjustment: Float
+  @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
 
@@ -50,6 +51,7 @@ struct SoundSheetView: View {
           randomizeStartPosition: $randomizeStartPosition,
           normalizeAudio: $normalizeAudio,
           volumeAdjustment: $volumeAdjustment,
+          loopSound: $loopSound,
           isPreviewing: $isPreviewing,
           previewSound: $previewSound
         )
@@ -92,6 +94,7 @@ struct SoundSheetView: View {
           randomizeStartPosition: $randomizeStartPosition,
           normalizeAudio: $normalizeAudio,
           volumeAdjustment: $volumeAdjustment,
+          loopSound: $loopSound,
           isPreviewing: $isPreviewing,
           previewSound: $previewSound
         )
@@ -102,7 +105,7 @@ struct SoundSheetView: View {
           leading: Button("Cancel") {
             dismiss()
           },
-          trailing: Button("Done") {
+          trailing: Button("Save") {
             performAction()
           }
           .disabled(isDisabled)

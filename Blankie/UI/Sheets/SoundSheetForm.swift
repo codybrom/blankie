@@ -17,10 +17,26 @@ struct SoundSheetForm: View {
   @Binding var randomizeStartPosition: Bool
   @Binding var normalizeAudio: Bool
   @Binding var volumeAdjustment: Float
+  @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
 
-  @ObservedObject private var globalSettings = GlobalSettings.shared
+  @ObservedObject var globalSettings = GlobalSettings.shared
+
+  var volumePercentageText: String {
+    let percentage = Int((volumeAdjustment - 1.0) * 100)
+    if percentage > 0 {
+      return "+\(percentage)%"
+    } else if percentage < 0 {
+      return "\(percentage)%"
+    } else {
+      return "0%"
+    }
+  }
+
+  func togglePreview() {
+    isPreviewing.toggle()
+  }
 
   var body: some View {
     VStack(alignment: .leading, spacing: 20) {
@@ -74,6 +90,26 @@ struct SoundSheetForm: View {
         .toggleStyle(.switch)
       }
 
+      // Loop Sound Toggle
+      VStack(alignment: .leading, spacing: 8) {
+        Toggle(isOn: $loopSound) {
+          VStack(alignment: .leading, spacing: 2) {
+            Text(
+              "Loop Sound",
+              comment: "Toggle label for looping sound playback"
+            )
+            .font(.headline)
+            Text(
+              "Repeat continuously when playing",
+              comment: "Description for loop sound toggle"
+            )
+            .font(.caption)
+            .foregroundColor(.secondary)
+          }
+        }
+        .toggleStyle(.switch)
+      }
+
       // Audio Normalization Controls
       VStack(alignment: .leading, spacing: 8) {
         Toggle(isOn: $normalizeAudio) {
@@ -83,20 +119,12 @@ struct SoundSheetForm: View {
               comment: "Toggle label for audio normalization"
             )
             .font(.headline)
-            HStack(spacing: 4) {
-              Text(
-                "Automatically balance volume levels",
-                comment: "Description for audio normalization toggle"
-              )
-              .font(.caption)
-              .foregroundColor(.secondary)
-
-              if let peakInfo = getPeakLevelInfo() {
-                Text("(\(peakInfo.peak), Gain: \(peakInfo.gain))")
-                  .font(.caption)
-                  .foregroundColor(.secondary)
-              }
-            }
+            Text(
+              "Automatically balance volume levels",
+              comment: "Description for audio normalization toggle"
+            )
+            .font(.caption)
+            .foregroundColor(.secondary)
           }
         }
         .toggleStyle(.switch)

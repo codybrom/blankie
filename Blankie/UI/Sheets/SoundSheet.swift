@@ -32,15 +32,20 @@ struct SoundSheet: View {
   @State var randomizeStartPosition: Bool = true
   @State var normalizeAudio: Bool = true
   @State var volumeAdjustment: Float = 1.0
+  @State var loopSound: Bool = true
   @State var isPreviewing: Bool = false
   @State var previewSound: Sound?
   @State var originalCustomization: SoundCustomization?
 
+  let isFilePreselected: Bool
+
   init(mode: SoundSheetMode, preselectedFile: URL? = nil) {
+    self.isFilePreselected = preselectedFile != nil
     self.mode = mode
 
     switch mode {
     case .add:
+      // Initialize with filename as temporary name
       let fileName = preselectedFile?.deletingPathExtension().lastPathComponent ?? ""
       _soundName = State(initialValue: fileName)
       _selectedIcon = State(initialValue: "waveform.circle")
@@ -57,6 +62,7 @@ struct SoundSheet: View {
         _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
         _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
         _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
+        _loopSound = State(initialValue: customization?.loopSound ?? true)
         // Load color customization if it exists
         if let colorName = customization?.customColorName,
           let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
@@ -70,6 +76,7 @@ struct SoundSheet: View {
         _randomizeStartPosition = State(initialValue: customSoundData.randomizeStartPosition)
         _normalizeAudio = State(initialValue: customSoundData.normalizeAudio)
         _volumeAdjustment = State(initialValue: customSoundData.volumeAdjustment)
+        _loopSound = State(initialValue: customSoundData.loopSound)
       }
     case .customize(let sound):
       let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
@@ -79,6 +86,7 @@ struct SoundSheet: View {
       _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
       _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
       _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
+      _loopSound = State(initialValue: customization?.loopSound ?? true)
       if let colorName = customization?.customColorName,
         let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
       {
@@ -104,6 +112,7 @@ struct SoundSheet: View {
           // Content
           CleanSoundSheetForm(
             mode: mode,
+            isFilePreselected: isFilePreselected,
             soundName: $soundName,
             selectedIcon: $selectedIcon,
             selectedFile: $selectedFile,
@@ -112,6 +121,7 @@ struct SoundSheet: View {
             randomizeStartPosition: $randomizeStartPosition,
             normalizeAudio: $normalizeAudio,
             volumeAdjustment: $volumeAdjustment,
+            loopSound: $loopSound,
             isPreviewing: $isPreviewing,
             previewSound: $previewSound
           )
@@ -146,6 +156,7 @@ struct SoundSheet: View {
         NavigationView {
           CleanSoundSheetForm(
             mode: mode,
+            isFilePreselected: isFilePreselected,
             soundName: $soundName,
             selectedIcon: $selectedIcon,
             selectedFile: $selectedFile,
@@ -154,6 +165,7 @@ struct SoundSheet: View {
             randomizeStartPosition: $randomizeStartPosition,
             normalizeAudio: $normalizeAudio,
             volumeAdjustment: $volumeAdjustment,
+            loopSound: $loopSound,
             isPreviewing: $isPreviewing,
             previewSound: $previewSound
           )
@@ -164,7 +176,7 @@ struct SoundSheet: View {
             leading: Button("Cancel") {
               dismiss()
             },
-            trailing: Button("Done") {
+            trailing: Button("Save") {
               performAction()
             }
             .disabled(isDisabled)
@@ -186,9 +198,19 @@ struct SoundSheet: View {
       case .success(let files):
         if let file = files.first {
           selectedFile = file
-          // Extract filename (without extension) as default name
+          // Extract metadata title or use filename as fallback
           if soundName.isEmpty {
-            soundName = file.deletingPathExtension().lastPathComponent
+            Task {
+              // Try to get ID3 title from metadata
+              if let metadataTitle = await CustomSoundManager.shared.extractMetadataTitle(
+                from: file)
+              {
+                soundName = metadataTitle
+              } else {
+                // Fallback to filename without extension
+                soundName = file.deletingPathExtension().lastPathComponent
+              }
+            }
           }
         }
       case .failure(let error):
@@ -222,6 +244,12 @@ struct SoundSheet: View {
     .onChange(of: volumeAdjustment) { _, _ in
       updateSoundSettings()
     }
+    .onChange(of: randomizeStartPosition) { _, _ in
+      updateSoundSettings()
+    }
+    .onChange(of: loopSound) { _, _ in
+      updateSoundSettings()
+    }
     .onAppear {
       // Trigger LUFS analysis for custom sounds missing data
       if case .customize(let sound) = mode {
@@ -232,6 +260,18 @@ struct SoundSheet: View {
         })
       {
         sound.ensureLUFSAnalysis()
+      } else if case .add = mode, let preselectedFile = selectedFile {
+        // Extract metadata title for pre-selected files
+        Task {
+          if let metadataTitle = await CustomSoundManager.shared.extractMetadataTitle(
+            from: preselectedFile)
+          {
+            // Only update if user hasn't modified the name
+            if soundName == preselectedFile.deletingPathExtension().lastPathComponent {
+              soundName = metadataTitle
+            }
+          }
+        }
       }
     }
     .onDisappear {
@@ -242,8 +282,11 @@ struct SoundSheet: View {
     }
   }
 
-  // MARK: - Real-time Updates
+}
 
+// MARK: - Real-time Updates
+
+extension SoundSheet {
   private func updateSoundSettings() {
     // Update preview if active
     if isPreviewing {
@@ -259,11 +302,17 @@ struct SoundSheet: View {
       tempCustomization.normalizeAudio = normalizeAudio
       tempCustomization.volumeAdjustment = volumeAdjustment
       tempCustomization.randomizeStartPosition = randomizeStartPosition
+      tempCustomization.loopSound = loopSound
       SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
 
       // If the sound is currently playing, update its volume immediately
       if sound.player?.isPlaying == true {
         sound.updateVolume()
+      }
+
+      // Update loop setting if player exists
+      if let player = sound.player {
+        player.numberOfLoops = loopSound ? -1 : 0
       }
 
     case .edit(let customSoundData):
@@ -276,11 +325,17 @@ struct SoundSheet: View {
         tempCustomization.normalizeAudio = normalizeAudio
         tempCustomization.volumeAdjustment = volumeAdjustment
         tempCustomization.randomizeStartPosition = randomizeStartPosition
+        tempCustomization.loopSound = loopSound
         SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
 
         // If the sound is currently playing, update its volume immediately
         if sound.player?.isPlaying == true {
           sound.updateVolume()
+        }
+
+        // Update loop setting if player exists
+        if let player = sound.player {
+          player.numberOfLoops = loopSound ? -1 : 0
         }
       }
 
@@ -289,7 +344,6 @@ struct SoundSheet: View {
       break
     }
   }
-
 }
 
 // MARK: - Mode Extensions

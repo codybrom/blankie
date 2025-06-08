@@ -31,9 +31,7 @@ extension SoundSheet {
   private func createPreviewSound() {
     switch mode {
     case .add:
-      // Can't preview without importing first
-      isPreviewing = false
-      return
+      createAddPreview()
 
     case .edit(let customSound):
       createEditPreview(customSound)
@@ -41,6 +39,41 @@ extension SoundSheet {
     case .customize(let sound):
       createCustomizePreview(sound)
     }
+  }
+
+  private func createAddPreview() {
+    guard let fileURL = selectedFile else {
+      isPreviewing = false
+      return
+    }
+
+    // Create a temporary preview sound
+    let fileName = fileURL.deletingPathExtension().lastPathComponent
+    let preview = Sound(
+      title: soundName.isEmpty ? fileName : soundName,
+      systemIconName: selectedIcon,
+      fileName: fileName,
+      fileExtension: fileURL.pathExtension,
+      lufs: nil,
+      normalizationFactor: 1.0,
+      isCustom: true,
+      fileURL: fileURL,
+      dateAdded: Date(),
+      customSoundDataID: nil
+    )
+
+    // Create and apply temporary customization with current settings
+    var tempCustomization = SoundCustomization(fileName: fileName)
+    tempCustomization.customTitle = soundName.isEmpty ? fileName : soundName
+    tempCustomization.customIconName = selectedIcon
+    tempCustomization.randomizeStartPosition = randomizeStartPosition
+    tempCustomization.normalizeAudio = normalizeAudio
+    tempCustomization.volumeAdjustment = volumeAdjustment
+    SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
+
+    // Set preview volume
+    preview.volume = 1.0
+    previewSound = preview
   }
 
   private func createEditPreview(_ customSound: CustomSoundData) {
@@ -133,73 +166,71 @@ extension SoundSheet {
   }
 
   internal func updatePreviewVolume() {
-    // Update volume if currently previewing
-    if isPreviewing, let preview = previewSound {
-      print(
-        "🎵 SoundSheet: Updating preview volume - normalize: \(normalizeAudio), adjustment: \(volumeAdjustment)"
-      )
+    guard isPreviewing, let preview = previewSound else { return }
 
-      Task { @MainActor in
-        switch mode {
-        case .edit:
-          // Update the customization for the preview sound
-          if preview.isCustom {
-            var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
-              for: preview.fileName)
-            customization.normalizeAudio = normalizeAudio
-            customization.volumeAdjustment = volumeAdjustment
-            SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+    print("🎵 SoundSheet: Updating preview volume - normalize: \(normalizeAudio), adjustment: \(volumeAdjustment)")
 
-            // Force volume update
-            preview.updateVolume()
-            print("🎵 SoundSheet: Updated custom sound preview volume")
-
-            // Log player state
-            if let player = preview.player {
-              print(
-                "🎵 SoundSheet: Custom sound player volume: \(player.volume), isPlaying: \(player.isPlaying)"
-              )
-            }
-          }
-
-        case .customize(let sound):
-          // For built-in sounds, we need to update the customization and then force a volume update
-          var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
-            for: sound.fileName)
-          customization.normalizeAudio = normalizeAudio
-          customization.volumeAdjustment = volumeAdjustment
-
-          // Update temporarily without saving
-          SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
-
-          // Small delay to ensure the customization manager has updated
-          try? await Task.sleep(nanoseconds: 10_000_000)  // 10ms
-
-          // Force the sound to update its volume
-          preview.updateVolume()
-          print("🎵 SoundSheet: Updated built-in sound preview volume for \(sound.fileName)")
-
-          // Log player state and customization
-          if let player = preview.player {
-            print(
-              "🎵 SoundSheet: Built-in sound player volume: \(player.volume), isPlaying: \(player.isPlaying)"
-            )
-          }
-
-          // Verify the customization was applied
-          if let updatedCustomization = SoundCustomizationManager.shared.getCustomization(
-            for: sound.fileName)
-          {
-            print(
-              "🎵 SoundSheet: Verified customization - normalize: \(updatedCustomization.normalizeAudio ?? true), adjustment: \(updatedCustomization.volumeAdjustment ?? 1.0)"
-            )
-          }
-
-        case .add:
-          break
-        }
+    Task { @MainActor in
+      switch mode {
+      case .edit:
+        await updateEditPreviewVolume(preview)
+      case .customize(let sound):
+        await updateCustomizePreviewVolume(preview, sound)
+      case .add:
+        updateAddPreviewVolume(preview)
       }
     }
+  }
+
+  private func updateEditPreviewVolume(_ preview: Sound) async {
+    guard preview.isCustom else { return }
+
+    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(for: preview.fileName)
+    customization.normalizeAudio = normalizeAudio
+    customization.volumeAdjustment = volumeAdjustment
+    SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+
+    preview.updateVolume()
+    print("🎵 SoundSheet: Updated custom sound preview volume")
+
+    if let player = preview.player {
+      print("🎵 SoundSheet: Custom sound player volume: \(player.volume), isPlaying: \(player.isPlaying)")
+    }
+  }
+
+  private func updateCustomizePreviewVolume(_ preview: Sound, _ sound: Sound) async {
+    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(for: sound.fileName)
+    customization.normalizeAudio = normalizeAudio
+    customization.volumeAdjustment = volumeAdjustment
+
+    SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+
+    try? await Task.sleep(nanoseconds: 10_000_000)  // 10ms
+
+    preview.updateVolume()
+    print("🎵 SoundSheet: Updated built-in sound preview volume for \(sound.fileName)")
+
+    if let player = preview.player {
+      print("🎵 SoundSheet: Built-in sound player volume: \(player.volume), isPlaying: \(player.isPlaying)")
+    }
+
+    if let updatedCustomization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName) {
+      print("🎵 SoundSheet: Verified customization - normalize: \(updatedCustomization.normalizeAudio ?? true), adjustment: \(updatedCustomization.volumeAdjustment ?? 1.0)")
+    }
+  }
+
+  private func updateAddPreviewVolume(_ preview: Sound) {
+    guard let fileURL = selectedFile else { return }
+
+    let fileName = fileURL.deletingPathExtension().lastPathComponent
+    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(for: fileName)
+    customization.normalizeAudio = normalizeAudio
+    customization.volumeAdjustment = volumeAdjustment
+    customization.randomizeStartPosition = randomizeStartPosition
+    SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+
+    preview.updateVolume()
+    print("🎵 SoundSheet: Updated add mode preview settings")
   }
 }
 

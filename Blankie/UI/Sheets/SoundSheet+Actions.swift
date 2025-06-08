@@ -65,6 +65,7 @@ extension SoundSheet {
     sound.title = soundName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     sound.systemIconName = selectedIcon
     sound.randomizeStartPosition = randomizeStartPosition
+    sound.loopSound = loopSound
     sound.normalizeAudio = normalizeAudio
     sound.volumeAdjustment = volumeAdjustment
 
@@ -77,6 +78,7 @@ extension SoundSheet {
       customization.customTitle = sound.title
       customization.customIconName = sound.systemIconName
       customization.randomizeStartPosition = sound.randomizeStartPosition
+      customization.loopSound = sound.loopSound
       customization.normalizeAudio = sound.normalizeAudio
       customization.volumeAdjustment = sound.volumeAdjustment
 
@@ -109,9 +111,10 @@ extension SoundSheet {
     let hasCustomRandomization = randomizeStartPosition != true  // Default is true
     let hasCustomNormalization = normalizeAudio != true  // Default is true
     let hasCustomVolume = volumeAdjustment != 1.0  // Default is 1.0
+    let hasCustomLoop = loopSound != true  // Default is true
 
     if hasCustomName || hasCustomIcon || hasCustomColor || hasCustomRandomization
-      || hasCustomNormalization || hasCustomVolume
+      || hasCustomNormalization || hasCustomVolume || hasCustomLoop
     {
       // Use the manager's methods to set customizations
       if hasCustomName {
@@ -152,6 +155,13 @@ extension SoundSheet {
           volumeAdjustment, for: sound.fileName)
       } else {
         SoundCustomizationManager.shared.setVolumeAdjustment(nil, for: sound.fileName)
+      }
+
+      if hasCustomLoop {
+        SoundCustomizationManager.shared.setLoopSound(
+          loopSound, for: sound.fileName)
+      } else {
+        SoundCustomizationManager.shared.setLoopSound(nil, for: sound.fileName)
       }
     } else {
       // Remove all customizations if there are no changes

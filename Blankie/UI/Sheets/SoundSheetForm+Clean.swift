@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CleanSoundSheetForm: View {
   let mode: SoundSheetMode
+  let isFilePreselected: Bool
   @Binding var soundName: String
   @Binding var selectedIcon: String
   @Binding var selectedFile: URL?
@@ -17,10 +18,11 @@ struct CleanSoundSheetForm: View {
   @Binding var randomizeStartPosition: Bool
   @Binding var normalizeAudio: Bool
   @Binding var volumeAdjustment: Float
+  @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
 
-  @ObservedObject private var globalSettings = GlobalSettings.shared
+  @ObservedObject var globalSettings = GlobalSettings.shared
   @State private var showingIconPicker = false
 
   var body: some View {
@@ -32,7 +34,8 @@ struct CleanSoundSheetForm: View {
             SoundFileSelector(
               selectedFile: $selectedFile,
               soundName: $soundName,
-              isImporting: $isImporting
+              isImporting: $isImporting,
+              hideChangeButton: isFilePreselected
             )
           }
         }
@@ -43,11 +46,35 @@ struct CleanSoundSheetForm: View {
           HStack {
             Text("Name", comment: "Display name field label")
             Spacer()
-            TextField(text: $soundName) {
-              Text("Sound Name", comment: "Sound name text field placeholder")
+            HStack {
+              TextField(text: $soundName) {
+                Text("Sound Name", comment: "Sound name text field placeholder")
+              }
+              .multilineTextAlignment(.trailing)
+              .textFieldStyle(.plain)
+              #if os(iOS)
+                .toolbar {
+                  ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button("Done") {
+                      UIApplication.shared.sendAction(
+                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                    }
+                  }
+                }
+              #endif
+
+              if !soundName.isEmpty {
+                Button {
+                  soundName = ""
+                } label: {
+                  Image(systemName: "xmark.circle.fill")
+                    .foregroundColor(.secondary)
+                    .imageScale(.small)
+                }
+                .buttonStyle(.plain)
+              }
             }
-            .multilineTextAlignment(.trailing)
-            .textFieldStyle(.plain)
           }
 
           // Icon
@@ -82,6 +109,14 @@ struct CleanSoundSheetForm: View {
             Text(
               "Randomize Start Position",
               comment: "Toggle label for randomizing sound start position"
+            )
+          }
+          .tint(globalSettings.customAccentColor ?? .accentColor)
+
+          Toggle(isOn: $loopSound) {
+            Text(
+              "Loop Sound",
+              comment: "Toggle label for looping sound playback"
             )
           }
           .tint(globalSettings.customAccentColor ?? .accentColor)
@@ -225,6 +260,27 @@ struct CleanSoundSheetForm: View {
           }
         }
 
+        // Reset Section (only for built-in sounds)
+        if case .customize(let sound) = mode {
+          Section {
+            Button(action: {
+              resetToDefaults(for: sound)
+            }) {
+              HStack {
+                Image(systemName: "arrow.counterclockwise")
+                Text("Reset to Defaults")
+              }
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.large)
+            .frame(maxWidth: .infinity)
+          } footer: {
+            Text("Reset all customizations for this sound")
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+        }
+
         // Preview Section
         Section {
           Button(action: togglePreview) {
@@ -248,11 +304,26 @@ struct CleanSoundSheetForm: View {
       .frame(minHeight: 500)
     #endif
   }
+
+  private func resetToDefaults(for sound: Sound) {
+    // Reset all values to defaults
+    soundName = sound.originalTitle
+    selectedIcon = sound.originalSystemIconName
+    selectedColor = nil
+    randomizeStartPosition = true
+    normalizeAudio = true
+    volumeAdjustment = 1.0
+
+    // If previewing, update the preview with new settings
+    if isPreviewing {
+      updatePreviewVolume()
+    }
+  }
 }
 
 struct ColorPickerRow: View {
   @Binding var selectedColor: AccentColor?
-  @ObservedObject private var globalSettings = GlobalSettings.shared
+  @ObservedObject var globalSettings = GlobalSettings.shared
 
   var currentColor: Color {
     if let selectedColor = selectedColor, let color = selectedColor.color {
@@ -276,7 +347,7 @@ struct ColorPickerRow: View {
 
 struct ColorPickerPage: View {
   @Binding var selectedColor: AccentColor?
-  @ObservedObject private var globalSettings = GlobalSettings.shared
+  @ObservedObject var globalSettings = GlobalSettings.shared
   @Environment(\.dismiss) private var dismiss
 
   private let columns = [

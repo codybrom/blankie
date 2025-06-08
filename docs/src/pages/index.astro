@@ -1,9 +1,11 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Image } from "astro:assets";
+import BackgroundVideo from "../components/BackgroundVideo.astro";
 import screenshot from "../assets/en-dark.png";
 import macAppStoreBadge from "../assets/download-on-mac-app-store.svg";
 import wavesVideo from "../assets/waves.mp4";
+import wavesPoster from "../assets/waves-poster.jpg";
 import ghSVG from "../assets/github.svg";
 import bmcSVG from "../assets/bmc.svg";
 import kfSVG from "../assets/kofi.svg";
@@ -18,22 +20,7 @@ const title = "Ambient sound mixer for macOS";
   <section
     class="relative overflow-hidden bg-black text-white min-h-screen flex items-center justify-center"
   >
-    <div class="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-80">
-      <video
-        autoplay
-        loop
-        muted
-        playsinline
-        aria-hidden="true"
-        class="absolute top-1/2 left-1/2 min-w-full min-h-full -translate-x-1/2 -translate-y-1/2 object-cover opacity-40"
-      >
-        <source src={wavesVideo} type="video/mp4" />
-      </video>
-      <span class="sr-only">
-        Background video showing gentle ocean waves flowing, creating a calm
-        ambient atmosphere.
-      </span>
-    </div>
+    <BackgroundVideo videoSrc={wavesVideo} posterSrc={wavesPoster.src} />
     <div class="relative z-10 max-w-4xl mx-auto px-5 text-center py-16 mt-8">
       <p
         class="text-base mt-6 flex items-center justify-center gap-2 bg-blue-900/10 rounded px-3 py-1 mx-auto w-fit border border-blue-300 border-opacity-20 font-normal tracking-wide"
@@ -62,16 +49,17 @@ const title = "Ambient sound mixer for macOS";
         </div>
       </h2>
 
-      <a href="/features" class="block">
+      <a href="/features/" class="block">
         <Image
           src={screenshot}
           alt="Screenshot of the Blankie app"
-          width={950}
-          height={540}
+          widths={[375, 750, 800, 1600]}
+          sizes="(max-width: 768px) 100vw, 800px"
+          width={800}
+          height={454}
           loading="eager"
           class="rounded-lg mx-auto my-12 max-w-full block transition duration-300 hover:scale-105 w-full md:w-[800px] cursor-pointer"
           quality={90}
-          style={{ aspectRatio: "950/540" }}
         />
       </a>
 
@@ -91,6 +79,7 @@ const title = "Ambient sound mixer for macOS";
               alt=""
               width="25"
               height="50"
+              class="inline-block"
               style="filter: invert(84%) sepia(28%) saturate(668%) hue-rotate(345deg) brightness(91%) contrast(88%); opacity: 0.7;"
             />
             <div class="text-center px-2">
@@ -99,7 +88,7 @@ const title = "Ambient sound mixer for macOS";
               >
                 Mac App Store
               </div>
-              <div class="text-sm text-gray-300 font-semibold italic">
+              <div class="text-sm text-gray-200 font-semibold italic">
                 Best New Apps and Updates
               </div>
               <div class="text-xs text-gray-400">United States • May 2025</div>
@@ -110,6 +99,7 @@ const title = "Ambient sound mixer for macOS";
               alt=""
               width="25"
               height="50"
+              class="inline-block"
               style="filter: invert(84%) sepia(28%) saturate(668%) hue-rotate(345deg) brightness(91%) contrast(88%); opacity: 0.7;"
             />
           </a>
@@ -126,7 +116,7 @@ const title = "Ambient sound mixer for macOS";
               >
                 Product Hunt
               </div>
-              <div class="text-sm text-gray-300 font-semibold italic">
+              <div class="text-sm text-gray-200 font-semibold italic">
                 #4 Product of the Month
               </div>
               <div class="text-xs text-gray-400">
@@ -148,12 +138,13 @@ const title = "Ambient sound mixer for macOS";
                 class="w-5 h-5 text-yellow-500"
                 fill="currentColor"
                 viewBox="0 0 20 20"
+                aria-hidden="true"
               >
                 <path
                   d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
                 ></path>
               </svg>
-              <span class="font-semibold text-gray-200">4.95</span>
+              <span class="font-semibold text-gray-100">4.95</span>
               <span class="text-gray-400">Global App Store Rating</span>
             </div>
             <!-- Divider -->
@@ -165,6 +156,7 @@ const title = "Ambient sound mixer for macOS";
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
@@ -173,7 +165,7 @@ const title = "Ambient sound mixer for macOS";
                   d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                 ></path>
               </svg>
-              <span class="font-semibold text-gray-200">2,500+</span>
+              <span class="font-semibold text-gray-100">2,500+</span>
               <span class="text-gray-400">Downloads</span>
             </div>
           </div>
@@ -190,17 +182,17 @@ const title = "Ambient sound mixer for macOS";
             href="https://apps.apple.com/app/blankie/id6740096581"
             class="hover:opacity-90 transition-all duration-300"
           >
-            <Image
-              src={macAppStoreBadge}
+            <img
+              src={macAppStoreBadge.src}
               alt="Download on the Mac App Store"
-              width={240}
-              height={80}
+              width="240"
+              height="80"
               loading="lazy"
               class="select-none"
               style="user-select: none; -webkit-user-select: none; -webkit-touch-callout: none;"
             />
           </a>
-          <span class="text-xs text-gray-300 mt-2 font-bold"
+          <span class="text-xs text-gray-200 mt-2 font-bold"
             >Recommended Method • Automatic Updates</span
           >
         </div>
@@ -237,7 +229,7 @@ const title = "Ambient sound mixer for macOS";
         <span class="sm:ml-2">Offline & Private</span>
         <span class="hidden sm:inline text-gray-400">•</span>
         <a
-          href="/contributing"
+          href="/contributing/"
           class="hover:text-yellow-500 transition-colors duration-300 sm:ml-2"
         >
           Open Source
@@ -249,7 +241,7 @@ const title = "Ambient sound mixer for macOS";
   <!-- Features Section -->
   <section class="max-w-5xl mx-auto px-5 py-10" id="features">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      <a href="/features#high-quality-audio" class="block group">
+      <a href="/features/#high-quality-audio" class="block group">
         <div
           class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
         >
@@ -262,6 +254,7 @@ const title = "Ambient sound mixer for macOS";
               class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fill-rule="evenodd"
@@ -280,7 +273,7 @@ const title = "Ambient sound mixer for macOS";
         </div>
       </a>
 
-      <a href="/features#preset-perfection" class="block group">
+      <a href="/features/#preset-perfection" class="block group">
         <div
           class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
         >
@@ -293,6 +286,7 @@ const title = "Ambient sound mixer for macOS";
               class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fill-rule="evenodd"
@@ -311,7 +305,7 @@ const title = "Ambient sound mixer for macOS";
         </div>
       </a>
 
-      <a href="/i18n" class="block group">
+      <a href="/i18n/" class="block group">
         <div
           class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
         >
@@ -324,6 +318,7 @@ const title = "Ambient sound mixer for macOS";
               class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fill-rule="evenodd"
@@ -342,7 +337,7 @@ const title = "Ambient sound mixer for macOS";
         </div>
       </a>
 
-      <a href="/features#made-for-macos" class="block group">
+      <a href="/features/#made-for-macos" class="block group">
         <div
           class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
         >
@@ -355,6 +350,7 @@ const title = "Ambient sound mixer for macOS";
               class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fill-rule="evenodd"
@@ -373,7 +369,7 @@ const title = "Ambient sound mixer for macOS";
           </p>
         </div>
       </a>
-      <a href="/privacy" class="block group">
+      <a href="/privacy/" class="block group">
         <div
           class="feature-card bg-card rounded-xl p-8 transition-transform duration-300 hover:translate-y-1 relative cursor-pointer"
         >
@@ -386,6 +382,7 @@ const title = "Ambient sound mixer for macOS";
               class="w-4 h-4 opacity-60 group-hover:opacity-100 transition-opacity"
               fill="currentColor"
               viewBox="0 0 20 20"
+              aria-hidden="true"
             >
               <path
                 fill-rule="evenodd"
@@ -447,7 +444,7 @@ const title = "Ambient sound mixer for macOS";
       <p class="text-mid-gray mt-4">
         Requires Homebrew to be installed on your Mac. Visit <a
           href="https://formulae.brew.sh/cask/blankie"
-          class="text-yellow-300 hover:text-yellow-200 transition-colors"
+          class="text-yellow-400 hover:text-yellow-300 transition-colors underline"
           >brew.sh</a
         > for more information.
       </p>
@@ -480,7 +477,7 @@ const title = "Ambient sound mixer for macOS";
         Requires TestFlight to be installed on your device.
         <a
           href="https://developer.apple.com/testflight/"
-          class="text-yellow-300 hover:text-yellow-200 transition-colors"
+          class="text-yellow-400 hover:text-yellow-300 transition-colors underline"
           >Learn more about TestFlight</a
         >
       </p>
@@ -489,10 +486,10 @@ const title = "Ambient sound mixer for macOS";
 
   <!-- Support Section -->
   <section class="max-w-3xl mx-auto px-5 py-10 my-4 text-center">
-    <h4 class="text-xl font-semibold mb-2">
+    <h2 class="text-xl font-semibold mb-2">
       Blankie is made with love and caffeine
-    </h4>
-    <p class="mb-6 text-gray-200 text-sm">
+    </h2>
+    <p class="mb-6 text-gray-100 text-sm">
       If you enjoy using it and want to support its creator and development, you
       can use the links below:
     </p>
@@ -506,8 +503,9 @@ const title = "Ambient sound mixer for macOS";
         <img
           class="h-[15px] inline-block mr-2"
           src={ghSVG.src}
-          alt="GitHub Logo"
-          aria-label="GitHub"
+          alt=""
+          width="15"
+          height="15"
         />
         GitHub Sponsors
       </a>
@@ -520,8 +518,9 @@ const title = "Ambient sound mixer for macOS";
         <img
           class="h-[15px] inline-block mr-2"
           src={bmcSVG.src}
-          alt="Buy Me a Coffee Logo"
-          aria-label="Buy Me a Coffee"
+          alt=""
+          width="15"
+          height="15"
         />
         Buy Me a Coffee
       </a>
@@ -534,8 +533,9 @@ const title = "Ambient sound mixer for macOS";
         <img
           class="h-[15px] inline-block mr-2"
           src={kfSVG.src}
-          alt="Ko-fi Logo"
-          aria-label="Ko-fi"
+          alt=""
+          width="15"
+          height="15"
         />
         Ko-fi
       </a>

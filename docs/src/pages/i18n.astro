@@ -96,18 +96,21 @@ function getStatusText(stats: StringStats): string {
     <h1 class="text-4xl font-semibold mb-6">Translation Status</h1>
 
     <div class="border border-gray-700 bg-card rounded-lg p-6 mb-8 text-base">
-      <div
-        class="flex flex-col md:flex-row items-start md:items-center justify-between mb-4"
-      >
-        <p class="text-md leading-relaxed mb-4 md:mb-0 md:mr-4">
-          This page shows the current translation status for Blankie. The data
-          is automatically updated whenever new translations are added.
-        </p>
+      <p class="text-md leading-relaxed mb-4">
+        This page shows the current translation status for Blankie. The data is
+        automatically updated whenever new translations are added.
+      </p>
 
+      <div
+        class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+      >
         <div class="flex flex-wrap gap-3">
           <div class="dropdown relative inline-block">
             <button
               class="inline-flex items-center px-4 py-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 rounded-md text-yellow-500 hover:text-yellow-400 transition-colors text-sm"
+              aria-expanded="false"
+              aria-haspopup="true"
+              aria-controls="download-dropdown"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +118,7 @@ function getStatusText(stats: StringStats): string {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
@@ -129,6 +133,7 @@ function getStatusText(stats: StringStats): string {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   stroke-linecap="round"
@@ -138,19 +143,22 @@ function getStatusText(stats: StringStats): string {
               </svg>
             </button>
             <div
+              id="download-dropdown"
               class="dropdown-menu hidden absolute right-0 mt-2 py-2 w-48 bg-zinc-800 rounded-md shadow-xl border border-zinc-700 z-10"
+              role="menu"
+              aria-labelledby="download-dropdown-button"
             >
               <a
                 href="/i18n/source.json"
                 target="_blank"
-                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+                class="block px-4 py-2 text-sm text-gray-200 hover:bg-zinc-700 hover:text-yellow-400"
               >
                 JSON Format
               </a>
               <a
                 href="/i18n/source.csv"
                 target="_blank"
-                class="block px-4 py-2 text-sm text-gray-300 hover:bg-zinc-700 hover:text-yellow-400"
+                class="block px-4 py-2 text-sm text-gray-200 hover:bg-zinc-700 hover:text-yellow-400"
               >
                 CSV Format
               </a>
@@ -158,7 +166,7 @@ function getStatusText(stats: StringStats): string {
           </div>
 
           <a
-            href="/contributing#translation-contributions"
+            href="/contributing/#translation-contributions"
             class="inline-flex items-center px-4 py-2 bg-primary-blue hover:bg-blue-700 text-white font-medium rounded-md transition-colors text-sm no-underline"
           >
             <svg
@@ -167,24 +175,26 @@ function getStatusText(stats: StringStats): string {
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              aria-hidden="true"
             >
               <path
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 stroke-width="2"
-                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
               ></path>
             </svg>
             Translation Guide
           </a>
         </div>
-      </div>
 
-      <p class="mt-4 text-sm text-mid-gray">
-        Last updated: <span id="localTime" data-timestamp={extractionTimestamp}
-          >{extractionTimestamp}</span
-        >
-      </p>
+        <p class="text-sm text-mid-gray">
+          Last updated: <span
+            id="localTime"
+            data-timestamp={extractionTimestamp}>{extractionTimestamp}</span
+          >
+        </p>
+      </div>
     </div>
 
     {
@@ -212,11 +222,15 @@ function getStatusText(stats: StringStats): string {
                 <div class="flex justify-between items-start">
                   <div>
                     <h2 class="text-xl font-semibold">
-                      {langCode === 'en-GB' ? 'English (United Kingdom)' : getNativeLanguageName(langCode)}
+                      {langCode === "en-GB"
+                        ? "English (United Kingdom)"
+                        : getNativeLanguageName(langCode)}
                     </h2>
                     <p class="text-sm text-gray-400 mt-0.5">
-                      {langCode === 'en-GB' ? 'English (UK)' : getLanguageName(langCode)} •{" "}
-                      <code class="text-yellow-500">{langCode}</code>
+                      {langCode === "en-GB"
+                        ? "English (UK)"
+                        : getLanguageName(langCode)}{" "}
+                      • <code class="text-yellow-500">{langCode}</code>
                     </p>
                   </div>
                   <span class="px-2 py-1 text-xs rounded-full bg-black/30">
@@ -273,7 +287,7 @@ function getStatusText(stats: StringStats): string {
                   <div class="mt-3 pt-3 border-t border-zinc-700/50">
                     <p class="text-xs text-gray-400">
                       Translated by:{" "}
-                      <span class="text-gray-300">
+                      <span class="text-gray-200">
                         {getTranslatorCredits(langCode).join(", ")}
                       </span>
                     </p>
@@ -281,7 +295,7 @@ function getStatusText(stats: StringStats): string {
                 )}
 
                 <a
-                  href={`/i18n/${langCode}`}
+                  href={`/i18n/${langCode}/`}
                   class="text-sm text-yellow-500 hover:text-yellow-400 transition-colors flex items-center gap-1 bg-card px-3 py-1.5 rounded-lg w-fit mt-2"
                 >
                   View Details
@@ -300,7 +314,7 @@ function getStatusText(stats: StringStats): string {
         Blankie is translated by volunteers. If you'd like to help translate
         Blankie into your language, please check the
         <a
-          href="/contributing#translation-contributions"
+          href="/contributing/#translation-contributions"
           class="text-yellow-500 hover:text-yellow-400 transition-colors"
         >
           contribution guidelines
@@ -442,12 +456,18 @@ function getStatusText(stats: StringStats): string {
     // Toggle dropdown
     dropdownButton.addEventListener("click", (e) => {
       e.stopPropagation();
+      const isExpanded = dropdownMenu.classList.contains("hidden");
       dropdownMenu.classList.toggle("hidden");
+      dropdownButton.setAttribute(
+        "aria-expanded",
+        isExpanded ? "true" : "false"
+      );
     });
 
     // Close dropdown when clicking outside
     document.addEventListener("click", () => {
       dropdownMenu.classList.add("hidden");
+      dropdownButton.setAttribute("aria-expanded", "false");
     });
 
     // Prevent closing when clicking inside dropdown

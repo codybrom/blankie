@@ -86,15 +86,16 @@ const questionContent = Object.fromEntries(
             questions.map((question) => (
               <details class="group bg-dark-gray rounded-lg faq-details">
                 <summary class="flex cursor-pointer items-center gap-1.5 p-4 text-gray-900 text-left">
-                  <h2 class="font-medium text-gray-100 grow">
+                  <div class="font-medium text-gray-100 grow text-lg">
                     {question.text}
-                  </h2>
+                  </div>
                   <svg
                     class="h-5 w-5 shrink-0 transition duration-300 group-open:-rotate-180 stroke-gray-100"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke-width="1.5"
+                    aria-hidden="true"
                   >
                     <path
                       stroke-linecap="round"
@@ -103,7 +104,7 @@ const questionContent = Object.fromEntries(
                     />
                   </svg>
                 </summary>
-                <div class="p-4 pt-0 text-gray-300">
+                <div class="p-4 pt-0 text-gray-200">
                   <Fragment set:html={questionContent[question.text]} />
                 </div>
               </details>

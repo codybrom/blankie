@@ -3,15 +3,10 @@
     "editor.defaultFormatter": "vknabel.vscode-apple-swift-format",
     "editor.formatOnSave": true
   },
-  "markdownlint.config": {
-    "default": true,
-    "MD013": false,
-    "MD033": false,
-    "MD041": false,
-    "MD024": {
-      "siblings_only": true
-    }
-  },
+  "astro.content-intellisense": true,
+  "astro.language-server.ls-path": "docs/node_modules/@astrojs/language-server/bin/nodeServer.js",
+  "astro.trace.server": "messages",
+  "astro.updateImportsOnFileMove.enabled": true,
   "cSpell.words": [
     "autoplay",
     "aybarsnazlica",
@@ -57,10 +52,19 @@
     "한국어",
     "简体中文"
   ],
+  "docker.lsp.experimental.vulnerabilityScanning": false,
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
   },
+  "markdownlint.config": {
+    "default": true,
+    "MD013": false,
+    "MD024": {
+      "siblings_only": true
+    },
+    "MD033": false,
+    "MD041": false
+  },
   "swift.diagnostics": true,
-  "swift.sourcekit-lsp.disable": true,
-  "docker.lsp.experimental.vulnerabilityScanning": false,
+  "swift.sourcekit-lsp.disable": true
 }

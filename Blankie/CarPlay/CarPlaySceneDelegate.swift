@@ -1,3 +1,4 @@
+//
 // CarPlaySceneDelegate.swift
 // Blankie
 //
@@ -13,7 +14,6 @@
 
     private var interfaceController: CPInterfaceController?
 
-    // Core required method - must be implemented exactly like this
     func templateApplicationScene(
       _ scene: CPTemplateApplicationScene,
       didConnect interfaceController: CPInterfaceController
@@ -24,7 +24,6 @@
       CarPlayInterfaceController.shared.setInterfaceController(interfaceController)
     }
 
-    // Optional - handle disconnection
     func templateApplicationScene(
       _ scene: CPTemplateApplicationScene,
       didDisconnectInterfaceController interfaceController: CPInterfaceController

@@ -225,6 +225,11 @@ extension PresetManager {
 
 extension PresetManager {
   @MainActor
+  func clearCurrentPreset() {
+    currentPreset = nil
+  }
+
+  @MainActor
   func updateCurrentPresetState() {
     // Don't update during initialization
     if isInitializing { return }

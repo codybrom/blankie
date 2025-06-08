@@ -35,6 +35,7 @@ enum UserDefaultsKeys {
   static let soloModeSoundFileName = "soloModeSoundFileName"
   static let showingListView = "showingListView"
   static let showProgressBorder = "showProgressBorder"
+  static let hideInactiveSoundSliders = "hideInactiveSoundSliders"
 }
 
 class GlobalSettings: ObservableObject {
@@ -51,6 +52,7 @@ class GlobalSettings: ObservableObject {
   @Published private(set) var language: Language
   @Published private(set) var showingListView: Bool
   @Published private(set) var showProgressBorder: Bool
+  @Published private(set) var hideInactiveSoundSliders: Bool
   @Published private(set) var availableLanguages: [Language] = []
 
   // Platform-specific settings
@@ -75,6 +77,7 @@ class GlobalSettings: ObservableObject {
     language = .system
     showingListView = false
     showProgressBorder = true
+    hideInactiveSoundSliders = false
     availableLanguages = []
 
     // Then load actual values from UserDefaults
@@ -129,6 +132,11 @@ class GlobalSettings: ObservableObject {
     // Show progress border preference (default to true)
     showProgressBorder =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.showProgressBorder) as? Bool ?? true
+
+    // Hide inactive sound sliders preference (default to false)
+    hideInactiveSoundSliders =
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.hideInactiveSoundSliders) as? Bool
+      ?? false
   }
 
   private func loadPlatformSettings() {
@@ -246,6 +254,12 @@ class GlobalSettings: ObservableObject {
   func setShowProgressBorder(_ value: Bool) {
     showProgressBorder = value
     UserDefaults.standard.set(value, forKey: UserDefaultsKeys.showProgressBorder)
+    logCurrentSettings()
+  }
+
+  func setHideInactiveSoundSliders(_ value: Bool) {
+    hideInactiveSoundSliders = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.hideInactiveSoundSliders)
     logCurrentSettings()
   }
 

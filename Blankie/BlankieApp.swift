@@ -12,6 +12,7 @@ import SwiftUI
 @main
 struct BlankieApp: App {
   let modelContainer: ModelContainer
+  @StateObject private var audioFileImporter = AudioFileImporter.shared
 
   // Initialize SwiftData
   init() {
@@ -51,6 +52,15 @@ struct BlankieApp: App {
           AudioManager.shared.setModelContext(modelContainer.mainContext)
         }
         .accentColor(globalSettings.customAccentColor ?? .accentColor)
+        .onOpenURL { url in
+          audioFileImporter.handleIncomingFile(url)
+        }
+        .sheet(isPresented: $audioFileImporter.showingSoundSheet) {
+          SoundSheet(mode: .add, preselectedFile: audioFileImporter.fileToImport)
+            .onDisappear {
+              audioFileImporter.clearImport()
+            }
+        }
       }
       .modelContainer(modelContainer)
       .defaultPosition(.center)
@@ -76,14 +86,12 @@ struct BlankieApp: App {
     @StateObject private var timerManager = TimerManager.shared
 
     @State private var showingAbout = false
-    @State private var showingSettings = false
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
       WindowGroup {
         UniversalContentView(
-          showingAbout: $showingAbout,
-          showingSettings: $showingSettings
+          showingAbout: $showingAbout
         )
         .preferredColorScheme(
           globalSettings.appearance == .system
@@ -96,6 +104,18 @@ struct BlankieApp: App {
         }
         .onChange(of: scenePhase) {
           timerManager.handleScenePhaseChange()
+          if scenePhase == .active {
+            audioFileImporter.checkForSharedFiles()
+          }
+        }
+        .onOpenURL { url in
+          audioFileImporter.handleIncomingFile(url)
+        }
+        .sheet(isPresented: $audioFileImporter.showingSoundSheet) {
+          SoundSheet(mode: .add, preselectedFile: audioFileImporter.fileToImport)
+            .onDisappear {
+              audioFileImporter.clearImport()
+            }
         }
       }
       .modelContainer(modelContainer)
@@ -116,7 +136,6 @@ struct BlankieApp: App {
 // Universal wrapper view that adapts to each platform
 struct UniversalContentView: View {
   @Binding var showingAbout: Bool
-  @Binding var showingSettings: Bool
 
   var body: some View {
     #if os(macOS)
@@ -129,13 +148,11 @@ struct UniversalContentView: View {
     #elseif os(visionOS)
       // For visionOS, use iOS view until specific implementation is ready
       AdaptiveContentView(
-        showingAbout: $showingAbout,
-        showingSettings: $showingSettings
+        showingAbout: $showingAbout
       )
     #else
       AdaptiveContentView(
-        showingAbout: $showingAbout,
-        showingSettings: $showingSettings
+        showingAbout: $showingAbout
       )
     #endif
   }
@@ -159,8 +176,7 @@ struct UniversalContentView: View {
             .previewDisplayName(scheme)
           #else
             UniversalContentView(
-              showingAbout: .constant(false),
-              showingSettings: .constant(false)
+              showingAbout: .constant(false)
             )
             .preferredColorScheme(scheme == "Dark Mode" ? .dark : .light)
             .previewDisplayName(scheme)

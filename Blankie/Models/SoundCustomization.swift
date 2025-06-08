@@ -16,6 +16,7 @@ struct SoundCustomization: Codable, Identifiable {
   var customIconName: String?
   var customColorName: String?
   var randomizeStartPosition: Bool?
+  var loopSound: Bool?  // nil = default (true), false = play once and deselect
 
   // Audio normalization settings
   var normalizeAudio: Bool?
@@ -24,7 +25,7 @@ struct SoundCustomization: Codable, Identifiable {
   init(
     fileName: String, customTitle: String? = nil, customIconName: String? = nil,
     customColorName: String? = nil, randomizeStartPosition: Bool? = nil,
-    normalizeAudio: Bool? = nil, volumeAdjustment: Float? = nil
+    normalizeAudio: Bool? = nil, volumeAdjustment: Float? = nil, loopSound: Bool? = nil
   ) {
     self.id = UUID()
     self.fileName = fileName
@@ -34,6 +35,7 @@ struct SoundCustomization: Codable, Identifiable {
     self.randomizeStartPosition = randomizeStartPosition
     self.normalizeAudio = normalizeAudio
     self.volumeAdjustment = volumeAdjustment
+    self.loopSound = loopSound
   }
 
   /// Returns the effective title (custom or original)
@@ -56,6 +58,7 @@ struct SoundCustomization: Codable, Identifiable {
   var hasCustomizations: Bool {
     return customTitle != nil || customIconName != nil || customColorName != nil
       || randomizeStartPosition != nil || normalizeAudio != nil || volumeAdjustment != nil
+      || loopSound != nil
   }
 }
 
@@ -165,6 +168,20 @@ class SoundCustomizationManager: ObservableObject {
   func setVolumeAdjustment(_ adjustment: Float?, for fileName: String) {
     var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
     customization.volumeAdjustment = adjustment
+
+    if customization.hasCustomizations {
+      customizations[fileName] = customization
+    } else {
+      customizations.removeValue(forKey: fileName)
+    }
+
+    saveCustomizationsInternal()
+  }
+
+  /// Set loop sound for a sound
+  func setLoopSound(_ loop: Bool?, for fileName: String) {
+    var customization = customizations[fileName] ?? SoundCustomization(fileName: fileName)
+    customization.loopSound = loop
 
     if customization.hasCustomizations {
       customizations[fileName] = customization

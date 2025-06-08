@@ -7,6 +7,7 @@
 
 import AVFoundation
 import Foundation
+import UniformTypeIdentifiers
 
 // MARK: - Helper Methods
 
@@ -17,16 +18,40 @@ extension CustomSoundManager {
   }
 
   func isSupportedAudioFormat(_ extension: String) -> Bool {
-    let supportedFormats = ["wav", "mp3", "m4a", "aac", "aiff", "mp4"]
-    let lowerExt = `extension`.lowercased()
-
-    // For some files, AAC audio might be in an MP4 container
-    if lowerExt == "mp4" {
-      // We'll validate it's actually audio in the validation step
-      return true
+    guard let type = UTType(filenameExtension: `extension`) else {
+      return false
     }
 
-    return supportedFormats.contains(lowerExt)
+    return type.conforms(to: .audio)
+  }
+
+  /// Extract metadata title from audio file (ID3 tags, etc.)
+  func extractMetadataTitle(from url: URL) async -> String? {
+    do {
+      let asset = AVURLAsset(url: url)
+
+      // Load common metadata which includes ID3 tags
+      let metadata = try await asset.load(.commonMetadata)
+
+      // Look for title in metadata
+      for item in metadata {
+        if let key = item.commonKey, key == .commonKeyTitle {
+          if let value = try await item.load(.value) as? String {
+            let trimmedValue = value.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !trimmedValue.isEmpty {
+              print("🎵 CustomSoundManager: Found metadata title: '\(trimmedValue)'")
+              return trimmedValue
+            }
+          }
+        }
+      }
+
+      print("ℹ️ CustomSoundManager: No metadata title found in file")
+      return nil
+    } catch {
+      print("⚠️ CustomSoundManager: Failed to extract metadata: \(error)")
+      return nil
+    }
   }
 
   func validateAudioFile(at url: URL) async throws -> Result<Void, Error> {

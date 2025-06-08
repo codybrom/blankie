@@ -17,6 +17,7 @@ class CustomSoundData {
   var fileExtension: String
   var dateAdded: Date
   var randomizeStartPosition: Bool = true
+  var loopSound: Bool = true
 
   // Audio normalization settings
   var normalizeAudio: Bool = true
@@ -35,6 +36,7 @@ class CustomSoundData {
     fileExtension: String,
     originalFileName: String? = nil,
     randomizeStartPosition: Bool = true,
+    loopSound: Bool = true,
     normalizeAudio: Bool = true,
     volumeAdjustment: Float = 1.0,
     detectedPeakLevel: Float? = nil,
@@ -48,6 +50,7 @@ class CustomSoundData {
     self.dateAdded = Date()
     self.originalFileName = originalFileName
     self.randomizeStartPosition = randomizeStartPosition
+    self.loopSound = loopSound
     self.normalizeAudio = normalizeAudio
     self.volumeAdjustment = volumeAdjustment
     self.detectedPeakLevel = detectedPeakLevel

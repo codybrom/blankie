@@ -12,6 +12,7 @@ struct SoundFileSelector: View {
   @Binding var selectedFile: URL?
   @Binding var soundName: String
   @Binding var isImporting: Bool
+  var hideChangeButton: Bool = false
 
   var body: some View {
     VStack(alignment: .leading, spacing: 8) {
@@ -30,13 +31,15 @@ struct SoundFileSelector: View {
               .foregroundStyle(.secondary)
           }
           Spacer()
-          Button {
-            isImporting = true
-          } label: {
-            Text("Change", comment: "Change file button")
+          if !hideChangeButton {
+            Button {
+              isImporting = true
+            } label: {
+              Text("Change", comment: "Change file button")
+            }
+            .buttonStyle(.bordered)
+            .controlSize(.small)
           }
-          .buttonStyle(.bordered)
-          .controlSize(.small)
         }
         .padding()
         .background(

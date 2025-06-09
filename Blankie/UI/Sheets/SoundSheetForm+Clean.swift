@@ -26,39 +26,34 @@ struct CleanSoundSheetForm: View {
   @State var showingIconPicker = false
 
   var body: some View {
-    NavigationStack {
-      Form {
-        // File selection (only for add mode)
-        if case .add = mode {
-          Section {
-            SoundFileSelector(
-              selectedFile: $selectedFile,
-              soundName: $soundName,
-              isImporting: $isImporting,
-              hideChangeButton: isFilePreselected
-            )
-          }
+    Form {
+      // File selection (only for add mode)
+      if case .add = mode {
+        Section {
+          SoundFileSelector(
+            selectedFile: $selectedFile,
+            soundName: $soundName,
+            isImporting: $isImporting,
+            hideChangeButton: isFilePreselected
+          )
         }
-
-        // Basic Information
-        basicInformationSection
-
-        // Audio Processing
-        audioProcessingSection
-
-        // Sound Information Section
-        soundInformationSection
-
-        // Reset Section (only for built-in sounds)
-        resetSection
-
-        // Preview Section
-        previewSection
       }
-      .sheet(isPresented: $showingIconPicker) {
-        NavigationStack {
-          IconPickerView(selectedIcon: $selectedIcon)
-        }
+
+      // Basic Information
+      basicInformationSection
+
+      // Audio Processing
+      audioProcessingSection
+
+      // Reset Section (only for built-in sounds)
+      resetSection
+
+      // Preview Section
+      previewSection
+    }
+    .sheet(isPresented: $showingIconPicker) {
+      NavigationStack {
+        IconPickerView(selectedIcon: $selectedIcon)
       }
     }
     #if os(macOS)
@@ -74,6 +69,7 @@ struct CleanSoundSheetForm: View {
     randomizeStartPosition = true
     normalizeAudio = true
     volumeAdjustment = 1.0
+    loopSound = true
 
     // If previewing, update the preview with new settings
     if isPreviewing {

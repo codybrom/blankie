@@ -53,7 +53,12 @@ extension SoundSheet {
       isProcessing = false
 
       switch result {
-      case .success:
+      case .success(let customSound):
+        // Add the new sound to current preset after AudioManager loads it
+        // Use a delay to ensure the sound is loaded into AudioManager first
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+          addNewSoundToCurrentPreset(fileName: customSound.fileName)
+        }
         dismiss()
       case .failure(let error):
         importError = NSError(
@@ -179,5 +184,83 @@ extension SoundSheet {
       loopSound != true ? loopSound : nil,
       for: sound.fileName
     )
+  }
+
+  // MARK: - Preset Integration
+
+  private func addNewSoundToCurrentPreset(fileName: String) {
+    let presetManager = PresetManager.shared
+    let audioManager = AudioManager.shared
+
+    // Only add to preset if:
+    // 1. There's a current preset
+    // 2. It's not the default preset (All Sounds)
+    // 3. We're not in solo mode
+    // 4. We're not in CarPlay Quick Mix mode
+    guard let currentPreset = presetManager.currentPreset,
+      !currentPreset.isDefault,
+      audioManager.soloModeSound == nil,
+      !audioManager.isCarPlayQuickMix
+    else {
+      print("🎵 SoundSheet: Not adding to preset - conditions not met")
+      return
+    }
+
+    // Check if the sound is already in the preset
+    let existingSoundFileNames = Set(currentPreset.soundStates.map(\.fileName))
+    guard !existingSoundFileNames.contains(fileName) else {
+      print("🎵 SoundSheet: Sound already exists in preset")
+      return
+    }
+
+    // Find the newly imported sound
+    guard let newSound = audioManager.sounds.first(where: { $0.fileName == fileName }) else {
+      print("❌ SoundSheet: Could not find imported sound with fileName: \(fileName)")
+      return
+    }
+
+    print("🎵 SoundSheet: Adding '\(newSound.title)' to preset '\(currentPreset.name)'")
+
+    // Create a new preset state for the imported sound
+    let newSoundState = PresetState(
+      fileName: fileName,
+      isSelected: false,  // Start unselected so it doesn't interrupt current mix
+      volume: newSound.volume
+    )
+
+    // Update the preset with the new sound
+    var updatedPreset = currentPreset
+    updatedPreset.soundStates.append(newSoundState)
+    updatedPreset.lastModifiedVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+
+    // Update the preset in the manager
+    var currentPresets = presetManager.presets
+    if let index = currentPresets.firstIndex(where: { $0.id == currentPreset.id }) {
+      currentPresets[index] = updatedPreset
+      presetManager.setPresets(currentPresets)
+      presetManager.setCurrentPreset(updatedPreset)
+
+      // Save directly to avoid state override
+      savePresetsDirectly()
+
+      print(
+        "🎵 SoundSheet: Successfully added sound to preset (now has \(updatedPreset.soundStates.count) sounds)"
+      )
+    }
+  }
+
+  // MARK: - Direct Preset Saving
+
+  private func savePresetsDirectly() {
+    let presetManager = PresetManager.shared
+    let defaultPreset = presetManager.presets.first { $0.isDefault }
+    let customPresets = presetManager.presets.filter { !$0.isDefault }
+
+    if let defaultPreset = defaultPreset {
+      PresetStorage.saveDefaultPreset(defaultPreset)
+    }
+    PresetStorage.saveCustomPresets(customPresets)
+    print("🎵 SoundSheet: Presets saved directly without state override")
   }
 }

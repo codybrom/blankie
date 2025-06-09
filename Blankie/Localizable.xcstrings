@@ -32,6 +32,12 @@
     "+700%" : {
       "comment" : "Volume increase label"
     },
+    "About & Sharing" : {
+      "comment" : "About and sharing button label"
+    },
+    "About %@" : {
+
+    },
     "About Blankie" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -285,6 +291,9 @@
         }
       }
     },
+    "Added" : {
+
+    },
     "All Sounds" : {
       "comment" : "All sounds label",
       "extractionState" : "manual",
@@ -356,6 +365,12 @@
           }
         }
       }
+    },
+    "Allow others to edit this sound" : {
+
+    },
+    "Allow others to re-share this sound" : {
+
     },
     "Always Start Paused" : {
       "comment" : "Preference toggle label",
@@ -584,6 +599,9 @@
     },
     "Author" : {
       "comment" : "Sound author label"
+    },
+    "Author name" : {
+
     },
     "Automatic" : {
       "comment" : "Appearance mode"
@@ -1754,6 +1772,9 @@
     "Creator" : {
 
     },
+    "Credits" : {
+
+    },
     "Crop Image" : {
 
     },
@@ -2166,8 +2187,14 @@
         }
       }
     },
+    "Describe the license terms" : {
+
+    },
     "Description" : {
       "comment" : "Sound description label"
+    },
+    "Details" : {
+
     },
     "Developed By" : {
       "comment" : "Developed by label",
@@ -2766,6 +2793,9 @@
     "Hours" : {
 
     },
+    "https://..." : {
+
+    },
     "Icon" : {
       "comment" : "Icon selection label",
       "localizations" : {
@@ -2928,6 +2958,9 @@
           }
         }
       }
+    },
+    "In a future update these settings will allow you to control if others can edit a sound's credits or export this sound as a part of a preset." : {
+
     },
     "Indigo" : {
       "comment" : "Accent color name",
@@ -3384,6 +3417,15 @@
         }
       }
     },
+    "License" : {
+
+    },
+    "License Details" : {
+
+    },
+    "License URL" : {
+
+    },
     "Light" : {
       "comment" : "Appearance mode",
       "extractionState" : "manual",
@@ -3539,6 +3581,9 @@
     },
     "Loudness (LUFS)" : {
       "comment" : "Audio LUFS loudness label"
+    },
+    "LUFS" : {
+
     },
     "Manage Sounds" : {
       "comment" : "Sound management label"
@@ -3903,6 +3948,9 @@
     "No Visible Sounds" : {
 
     },
+    "None" : {
+
+    },
     "Normalization Factor" : {
       "comment" : "Audio normalization factor label"
     },
@@ -4058,6 +4106,9 @@
           }
         }
       }
+    },
+    "Original Work" : {
+
     },
     "Other media plays at system volume" : {
 
@@ -5767,6 +5818,9 @@
         }
       }
     },
+    "Sharing Permissions" : {
+
+    },
     "Show All Sounds" : {
       "comment" : "View menu item",
       "extractionState" : "manual",
@@ -6044,6 +6098,9 @@
     },
     "Sounds" : {
       "comment" : "Settings section header for sound management\nSounds section header"
+    },
+    "Source URL" : {
+
     },
     "Star on GitHub" : {
       "comment" : "Link label",
@@ -6588,6 +6645,9 @@
 
     },
     "Timer" : {
+
+    },
+    "Title" : {
 
     },
     "Train" : {

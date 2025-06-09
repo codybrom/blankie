@@ -61,8 +61,8 @@ extension AudioManager {
       "🎛️ AudioManager: Auto-adding '\(newestSound.fileName)' to current preset '\(currentPreset.displayName)'"
     )
 
-    // Add the new sound to the current preset
-    newestSound.isSelected = true
+    // Add the new sound to the current preset as unselected
+    newestSound.isSelected = false
     newestSound.volume = 1.0
 
     // This will trigger the preset update via the existing observer

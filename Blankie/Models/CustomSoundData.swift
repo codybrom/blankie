@@ -26,8 +26,24 @@ class CustomSoundData {
   var detectedLUFS: Float?  // Store the detected LUFS (Loudness Units relative to Full Scale)
   var normalizationFactor: Float?  // Pre-calculated normalization factor
 
-  // We don't need full credit info for custom sounds, but we'll track some basic info
+  // Credit information for custom sounds
   var originalFileName: String?
+  var creditAuthor: String?
+  var creditSourceUrl: String?
+  var creditLicenseType: String = ""
+  var creditCustomLicenseText: String?
+  var creditCustomLicenseUrl: String?
+
+  // ID3 metadata extracted during import
+  var id3Title: String?
+  var id3Artist: String?
+  var id3Album: String?
+  var id3Comment: String?
+  var id3Url: String?
+
+  // Permissions for future sharing features
+  var allowOthersToEdit: Bool = true
+  var allowOthersToReshare: Bool = true
 
   init(
     title: String,
@@ -41,7 +57,14 @@ class CustomSoundData {
     volumeAdjustment: Float = 1.0,
     detectedPeakLevel: Float? = nil,
     detectedLUFS: Float? = nil,
-    normalizationFactor: Float? = nil
+    normalizationFactor: Float? = nil,
+    creditAuthor: String? = nil,
+    creditSourceUrl: String? = nil,
+    creditLicenseType: String = "",
+    creditCustomLicenseText: String? = nil,
+    creditCustomLicenseUrl: String? = nil,
+    allowOthersToEdit: Bool = true,
+    allowOthersToReshare: Bool = true
   ) {
     self.title = title
     self.systemIconName = systemIconName
@@ -56,6 +79,13 @@ class CustomSoundData {
     self.detectedPeakLevel = detectedPeakLevel
     self.detectedLUFS = detectedLUFS
     self.normalizationFactor = normalizationFactor
+    self.creditAuthor = creditAuthor
+    self.creditSourceUrl = creditSourceUrl
+    self.creditLicenseType = creditLicenseType
+    self.creditCustomLicenseText = creditCustomLicenseText
+    self.creditCustomLicenseUrl = creditCustomLicenseUrl
+    self.allowOthersToEdit = allowOthersToEdit
+    self.allowOthersToReshare = allowOthersToReshare
   }
 
   // Convert to SoundData for compatibility with existing system

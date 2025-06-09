@@ -21,6 +21,7 @@ extension CleanSoundSheetForm {
       switch mode {
       case .customize, .edit:
         ColorPickerRow(selectedColor: $selectedColor)
+        aboutRow
       case .add:
         EmptyView()
       }
@@ -81,6 +82,29 @@ extension CleanSoundSheetForm {
       }
     }
     .buttonStyle(.plain)
+  }
+
+  @ViewBuilder
+  var aboutRow: some View {
+    if let currentSound = getCurrentSound() {
+      NavigationLink(destination: SoundAboutSheet(sound: currentSound)) {
+        HStack {
+          Text("About & Sharing", comment: "About and sharing button label")
+          Spacer()
+        }
+      }
+    }
+  }
+
+  private func getCurrentSound() -> Sound? {
+    switch mode {
+    case .customize(let sound):
+      return sound
+    case .edit(let customSoundData):
+      return AudioManager.shared.sounds.first { $0.customSoundDataID == customSoundData.id }
+    case .add:
+      return nil
+    }
   }
 
   @ViewBuilder

@@ -64,6 +64,19 @@ struct CreatePresetSheet: View {
       #endif
       .onAppear(perform: setupDefaultSelection)
       #if os(iOS) || os(visionOS)
+        .sheet(isPresented: $showingSoundSelection) {
+          NavigationStack {
+            SoundSelectionView(
+              selectedSounds: $selectedSounds,
+              orderedSounds: orderedSounds
+            )
+            .navigationBarItems(
+              leading: Button("Done") {
+                showingSoundSelection = false
+              }
+            )
+          }
+        }
         .sheet(isPresented: $showingImagePicker) {
           ImagePicker(selectedImage: $selectedImage)
           .onDisappear {
@@ -177,17 +190,34 @@ extension CreatePresetSheet {
 
   var soundsSection: some View {
     Section {
-      NavigationLink(
-        destination: SoundSelectionView(
-          selectedSounds: $selectedSounds, orderedSounds: orderedSounds)
-      ) {
-        HStack {
-          Text("Sounds")
-          Spacer()
-          Text("\(selectedSounds.count) Sounds")
-            .foregroundStyle(.secondary)
+      #if os(iOS)
+        Button {
+          showingSoundSelection = true
+        } label: {
+          HStack {
+            Text("Sounds")
+            Spacer()
+            Text("\(selectedSounds.count) Sounds")
+              .foregroundStyle(.secondary)
+            Image(systemName: "chevron.right")
+              .foregroundStyle(.tertiary)
+              .imageScale(.small)
+          }
         }
-      }
+        .buttonStyle(.plain)
+      #else
+        NavigationLink(
+          destination: SoundSelectionView(
+            selectedSounds: $selectedSounds, orderedSounds: orderedSounds)
+        ) {
+          HStack {
+            Text("Sounds")
+            Spacer()
+            Text("\(selectedSounds.count) Sounds")
+              .foregroundStyle(.secondary)
+          }
+        }
+      #endif
     }
   }
 

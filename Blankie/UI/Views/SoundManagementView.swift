@@ -15,9 +15,11 @@ struct SoundManagementView: View {
   @ObservedObject private var audioManager = AudioManager.shared
   @ObservedObject private var globalSettings = GlobalSettings.shared
 
+  @State private var showingFilePicker = false
   @State private var showingImportSheet = false
   @State private var showingEditSheet = false
   @State private var selectedSound: Sound?
+  @State private var selectedFileURL: URL?
   @State private var showingDeleteConfirmation = false
   @State private var builtInSoundsExpanded = true
   @State private var customSoundsExpanded = true
@@ -40,7 +42,7 @@ struct SoundManagementView: View {
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
             Button {
-              showingImportSheet = true
+              showingFilePicker = true
             } label: {
               Image(systemName: "plus")
             }
@@ -51,8 +53,17 @@ struct SoundManagementView: View {
             }
           }
         }
+        .fileImporter(
+          isPresented: $showingFilePicker,
+          allowedContentTypes: [.audio],
+          allowsMultipleSelection: false
+        ) { result in
+          handleFileImport(result)
+        }
         .sheet(isPresented: $showingImportSheet) {
-          SoundSheet(mode: .add)
+          if let fileURL = selectedFileURL {
+            SoundSheet(mode: .add, preselectedFile: fileURL)
+          }
         }
         .sheet(isPresented: $showingEditSheet) {
           if let sound = selectedSound {
@@ -173,7 +184,7 @@ struct SoundManagementView: View {
       .font(.caption)
 
       Button {
-        showingImportSheet = true
+        showingFilePicker = true
       } label: {
         Text("Import Sound", comment: "Import sound button label")
       }
@@ -206,6 +217,17 @@ struct SoundManagementView: View {
 
     if case .failure(let error) = result {
       print("❌ SoundManagementView: Failed to delete custom sound: \(error)")
+    }
+  }
+
+  private func handleFileImport(_ result: Result<[URL], Error>) {
+    switch result {
+    case .success(let urls):
+      guard let url = urls.first else { return }
+      selectedFileURL = url
+      showingImportSheet = true
+    case .failure(let error):
+      print("❌ SoundManagementView: File import failed: \(error)")
     }
   }
 }

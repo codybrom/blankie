@@ -22,6 +22,7 @@ struct EditPresetSheet: View {
   @State private var showingImageCropper = false
   #if os(iOS) || os(visionOS)
     @State private var selectedImage: UIImage?
+    @State private var navigationPath = NavigationPath()
   #endif
   @Environment(\.dismiss) private var dismiss
 
@@ -69,6 +70,19 @@ struct EditPresetSheet: View {
       #endif
       .onAppear(perform: setupInitialValues)
       #if os(iOS) || os(visionOS)
+        .sheet(isPresented: $showingSoundSelection) {
+          NavigationStack {
+            SoundSelectionView(
+              selectedSounds: $selectedSounds,
+              orderedSounds: orderedSounds
+            )
+            .navigationBarItems(
+              leading: Button("Done") {
+                showingSoundSelection = false
+              }
+            )
+          }
+        }
         .sheet(isPresented: $showingImagePicker) {
           ImagePicker(selectedImage: $selectedImage)
           .onDisappear {
@@ -201,17 +215,34 @@ extension EditPresetSheet {
 
   var soundsSection: some View {
     Section {
-      NavigationLink(
-        destination: SoundSelectionView(
-          selectedSounds: $selectedSounds, orderedSounds: orderedSounds)
-      ) {
-        HStack {
-          Text("Sounds")
-          Spacer()
-          Text("\(selectedSounds.count) Sounds")
-            .foregroundStyle(.secondary)
+      #if os(iOS)
+        Button {
+          showingSoundSelection = true
+        } label: {
+          HStack {
+            Text("Sounds")
+            Spacer()
+            Text("\(selectedSounds.count) Sounds")
+              .foregroundStyle(.secondary)
+            Image(systemName: "chevron.right")
+              .foregroundStyle(.tertiary)
+              .imageScale(.small)
+          }
         }
-      }
+        .buttonStyle(.plain)
+      #else
+        NavigationLink(
+          destination: SoundSelectionView(
+            selectedSounds: $selectedSounds, orderedSounds: orderedSounds)
+        ) {
+          HStack {
+            Text("Sounds")
+            Spacer()
+            Text("\(selectedSounds.count) Sounds")
+              .foregroundStyle(.secondary)
+          }
+        }
+      #endif
     }
   }
 
@@ -223,6 +254,8 @@ extension EditPresetSheet {
   }
 
   func savePresetChanges() {
+    print("🎨 EditPresetSheet: Starting save - selected sounds: \(selectedSounds)")
+
     guard !presetName.isEmpty else {
       error = "Preset name cannot be empty"
       return
@@ -231,6 +264,8 @@ extension EditPresetSheet {
     do {
       let currentVersion =
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+
+      // Create sound states for all selected sounds
       let selectedSoundStates =
         orderedSounds
         .filter { selectedSounds.contains($0.fileName) }
@@ -242,6 +277,10 @@ extension EditPresetSheet {
           )
         }
 
+      print(
+        "🎨 EditPresetSheet: Creating \(selectedSoundStates.count) sound states from \(selectedSounds.count) selected sounds"
+      )
+
       var updatedPreset = preset
       updatedPreset.name = presetName
       updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
@@ -251,19 +290,49 @@ extension EditPresetSheet {
 
       var currentPresets = presetManager.presets
       if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
+        print("🎨 EditPresetSheet: Found preset at index \(index), updating...")
         currentPresets[index] = updatedPreset
         presetManager.setPresets(currentPresets)
-        presetManager.savePresets()
+
+        // Update current preset reference before saving
+        if presetManager.currentPreset?.id == preset.id {
+          presetManager.setCurrentPreset(updatedPreset)
+        }
+
+        // Save presets directly without overriding the current preset state
+        savePresetsDirectly()
+
+        print("🎨 EditPresetSheet: Preset saved with \(updatedPreset.soundStates.count) sounds")
 
         if presetManager.currentPreset?.id == preset.id {
+          print("🎨 EditPresetSheet: Applying updated preset as it's currently active")
           try presetManager.applyPreset(updatedPreset)
         }
+      } else {
+        print("❌ EditPresetSheet: Could not find preset with ID \(preset.id)")
       }
 
-      isPresented = nil
+      // Dismiss the sheet by setting the binding to nil
+      DispatchQueue.main.async {
+        isPresented = nil
+      }
     } catch {
-      self.error = "Failed to save changes"
+      print("❌ EditPresetSheet: Failed to save - \(error)")
+      self.error = "Failed to save changes: \(error.localizedDescription)"
     }
+  }
+
+  // MARK: - Direct Preset Saving
+
+  private func savePresetsDirectly() {
+    let defaultPreset = presetManager.presets.first { $0.isDefault }
+    let customPresets = presetManager.presets.filter { !$0.isDefault }
+
+    if let defaultPreset = defaultPreset {
+      PresetStorage.saveDefaultPreset(defaultPreset)
+    }
+    PresetStorage.saveCustomPresets(customPresets)
+    print("🎨 EditPresetSheet: Presets saved directly without state override")
   }
 }
 

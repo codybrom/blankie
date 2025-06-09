@@ -119,17 +119,36 @@ extension CustomSoundManager {
 extension CustomSoundManager {
   /// Get the URL for a custom sound file stored in the app's documents directory
   func getURLForCustomSound(_ customSound: CustomSoundData) -> URL? {
-    guard let documentsPath = getCustomSoundsDirectoryURL() else { return nil }
+    guard let documentsPath = getCustomSoundsDirectoryURL() else {
+      print("❌ CustomSoundManager: Could not get custom sounds directory URL")
+      return nil
+    }
 
     let fileName = "\(customSound.fileName).\(customSound.fileExtension)"
     let soundURL = documentsPath.appendingPathComponent(fileName)
 
+    print("🔍 CustomSoundManager: Looking for custom sound file: \(fileName)")
+    print("🔍 CustomSoundManager: Expected path: \(soundURL.path)")
+
     // Verify the file exists
     if FileManager.default.fileExists(atPath: soundURL.path) {
+      print("✅ CustomSoundManager: Custom sound file found at: \(soundURL.path)")
       return soundURL
     }
 
-    print("⚠️ CustomSoundManager: Custom sound file not found at expected path: \(soundURL.path)")
+    print("❌ CustomSoundManager: Custom sound file not found at expected path: \(soundURL.path)")
+
+    // Debug: List files in the CustomSounds directory
+    do {
+      let files = try FileManager.default.contentsOfDirectory(atPath: documentsPath.path)
+      print("📂 CustomSoundManager: Files in CustomSounds directory:")
+      files.forEach { file in
+        print("  - \(file)")
+      }
+    } catch {
+      print("❌ CustomSoundManager: Failed to list files in CustomSounds directory: \(error)")
+    }
+
     return nil
   }
 

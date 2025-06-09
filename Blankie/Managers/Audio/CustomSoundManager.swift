@@ -63,6 +63,16 @@ class CustomSoundManager {
       return .failure(CustomSoundError.unsupportedFormat)
     }
 
+    print("🔐 CustomSoundManager: Starting security-scoped resource access for import")
+    // Start security-scoped resource access at the beginning of import
+    let didStartAccess = sourceURL.startAccessingSecurityScopedResource()
+    defer {
+      if didStartAccess {
+        sourceURL.stopAccessingSecurityScopedResource()
+        print("🔓 CustomSoundManager: Released security-scoped resource access for import")
+      }
+    }
+
     do {
       try await validateImportableAudioFile(at: sourceURL)
       let copiedURL = try copyFileForImport(
@@ -118,7 +128,10 @@ class CustomSoundManager {
       print("💾 CustomSoundManager: Stored playback profile for \(importData.uniqueFileName)")
     }
 
-    return CustomSoundData(
+    // Extract ID3 metadata
+    let metadata = await extractAudioMetadata(from: importData.copiedURL)
+
+    let customSound = CustomSoundData(
       title: importData.title, systemIconName: importData.iconName,
       fileName: importData.uniqueFileName,
       fileExtension: importData.fileExtension,
@@ -127,6 +140,19 @@ class CustomSoundManager {
       normalizeAudio: true, volumeAdjustment: 1.0, detectedPeakLevel: analysis.peakLevel,
       detectedLUFS: lufsResult?.lufs, normalizationFactor: lufsResult?.normalizationFactor
     )
+
+    // Store ID3 metadata
+    customSound.id3Title = metadata.title
+    customSound.id3Artist = metadata.artist
+    customSound.id3Album = metadata.album
+    customSound.id3Comment = metadata.comment
+    customSound.id3Url = metadata.url
+
+    // Pre-populate credits with ID3 data if available
+    customSound.creditAuthor = metadata.artist
+    customSound.creditSourceUrl = metadata.url
+
+    return customSound
   }
 
   @MainActor
@@ -142,27 +168,48 @@ class CustomSoundManager {
     throws -> URL?
   {
     guard let directoryURL = getCustomSoundsDirectoryURL() else {
+      print("❌ CustomSoundManager: Could not get custom sounds directory URL")
       return nil
     }
 
-    // Ensure we have access to the security-scoped resource
-    let didStartAccess = source.startAccessingSecurityScopedResource()
-    defer {
-      if didStartAccess {
-        source.stopAccessingSecurityScopedResource()
-      }
-    }
+    print("🔍 CustomSoundManager: Copying from \(source.path) to CustomSounds directory")
 
     let destinationURL = directoryURL.appendingPathComponent("\(filename).\(ext)")
+    print("🎯 CustomSoundManager: Target destination: \(destinationURL.path)")
 
     do {
+      // Check if source file exists and is accessible
+      guard FileManager.default.fileExists(atPath: source.path) else {
+        print("❌ CustomSoundManager: Source file does not exist at \(source.path)")
+        throw CustomSoundError.invalidAudioFile(
+          NSError(
+            domain: "CustomSoundManager", code: -1,
+            userInfo: [NSLocalizedDescriptionKey: "Source file not found"])
+        )
+      }
+
       // Read the source file data instead of directly copying the file
+      print("📖 CustomSoundManager: Reading source file data...")
       let data = try Data(contentsOf: source)
+      print("💾 CustomSoundManager: Read \(data.count) bytes from source file")
+
+      // Write to destination
       try data.write(to: destinationURL)
-      print("📂 CustomSoundManager: Successfully copied file to \(destinationURL.path)")
+      print("✅ CustomSoundManager: Successfully copied file to \(destinationURL.path)")
+
+      // Verify the copied file exists
+      if FileManager.default.fileExists(atPath: destinationURL.path) {
+        print("✅ CustomSoundManager: Verified copied file exists at destination")
+      } else {
+        print(
+          "❌ CustomSoundManager: File copy appeared successful but file not found at destination")
+      }
+
       return destinationURL
     } catch {
-      print("❌ CustomSoundManager: Failed to copy file: \(error.localizedDescription)")
+      print(
+        "❌ CustomSoundManager: Failed to copy file from \(source.path) to \(destinationURL.path): \(error.localizedDescription)"
+      )
       throw error
     }
   }

@@ -39,6 +39,30 @@ struct SoundSheet: View {
   @State var previousSoloModeSound: Sound?
   @State var wasPreviewSoundPlaying: Bool = false
 
+  // Track initial values to detect changes
+  @State var initialSoundName: String = ""
+  @State var initialSelectedIcon: String = ""
+  @State var initialSelectedColor: AccentColor?
+  @State var initialRandomizeStartPosition: Bool = true
+  @State var initialNormalizeAudio: Bool = true
+  @State var initialVolumeAdjustment: Float = 1.0
+  @State var initialLoopSound: Bool = true
+
+  // Computed property to check if there are unsaved changes
+  var hasChanges: Bool {
+    switch mode {
+    case .customize:
+      return soundName != initialSoundName || selectedIcon != initialSelectedIcon
+        || selectedColor != initialSelectedColor
+        || randomizeStartPosition != initialRandomizeStartPosition
+        || normalizeAudio != initialNormalizeAudio || volumeAdjustment != initialVolumeAdjustment
+        || loopSound != initialLoopSound
+    case .add, .edit:
+      // For add/edit modes, always show Save/Cancel
+      return true
+    }
+  }
+
   let isFilePreselected: Bool
 
   init(mode: SoundSheetMode, preselectedFile: URL? = nil) {
@@ -52,24 +76,45 @@ struct SoundSheet: View {
       _soundName = State(initialValue: fileName)
       _selectedIcon = State(initialValue: "waveform.circle")
       _selectedFile = State(initialValue: preselectedFile)
+
+      // Store initial values for add mode (not used for change tracking)
+      _initialSoundName = State(initialValue: fileName)
+      _initialSelectedIcon = State(initialValue: "waveform.circle")
+
     case .edit(let customSoundData):
       // Find the corresponding Sound object to get consistent data
       if let sound = AudioManager.shared.sounds.first(where: {
         $0.customSoundDataID == customSoundData.id
       }) {
         let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-        _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
-        _selectedIcon = State(
-          initialValue: customization?.customIconName ?? sound.originalSystemIconName)
-        _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
-        _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
-        _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
-        _loopSound = State(initialValue: customization?.loopSound ?? true)
+        let name = customization?.customTitle ?? sound.originalTitle
+        let icon = customization?.customIconName ?? sound.originalSystemIconName
+        let randomize = customization?.randomizeStartPosition ?? true
+        let normalize = customization?.normalizeAudio ?? true
+        let volume = customization?.volumeAdjustment ?? 1.0
+        let loop = customization?.loopSound ?? true
+
+        _soundName = State(initialValue: name)
+        _selectedIcon = State(initialValue: icon)
+        _randomizeStartPosition = State(initialValue: randomize)
+        _normalizeAudio = State(initialValue: normalize)
+        _volumeAdjustment = State(initialValue: volume)
+        _loopSound = State(initialValue: loop)
+
+        // Store initial values for edit mode (not used for change tracking)
+        _initialSoundName = State(initialValue: name)
+        _initialSelectedIcon = State(initialValue: icon)
+        _initialRandomizeStartPosition = State(initialValue: randomize)
+        _initialNormalizeAudio = State(initialValue: normalize)
+        _initialVolumeAdjustment = State(initialValue: volume)
+        _initialLoopSound = State(initialValue: loop)
+
         // Load color customization if it exists
         if let colorName = customization?.customColorName,
           let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
         {
           _selectedColor = State(initialValue: color)
+          _initialSelectedColor = State(initialValue: color)
         }
       } else {
         // Fallback to customSoundData values if Sound not found
@@ -79,21 +124,75 @@ struct SoundSheet: View {
         _normalizeAudio = State(initialValue: customSoundData.normalizeAudio)
         _volumeAdjustment = State(initialValue: customSoundData.volumeAdjustment)
         _loopSound = State(initialValue: customSoundData.loopSound)
+
+        // Store initial values
+        _initialSoundName = State(initialValue: customSoundData.title)
+        _initialSelectedIcon = State(initialValue: customSoundData.systemIconName)
+        _initialRandomizeStartPosition = State(initialValue: customSoundData.randomizeStartPosition)
+        _initialNormalizeAudio = State(initialValue: customSoundData.normalizeAudio)
+        _initialVolumeAdjustment = State(initialValue: customSoundData.volumeAdjustment)
+        _initialLoopSound = State(initialValue: customSoundData.loopSound)
       }
+
     case .customize(let sound):
       let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-      _soundName = State(initialValue: customization?.customTitle ?? sound.originalTitle)
-      _selectedIcon = State(
-        initialValue: customization?.customIconName ?? sound.originalSystemIconName)
-      _randomizeStartPosition = State(initialValue: customization?.randomizeStartPosition ?? true)
-      _normalizeAudio = State(initialValue: customization?.normalizeAudio ?? true)
-      _volumeAdjustment = State(initialValue: customization?.volumeAdjustment ?? 1.0)
-      _loopSound = State(initialValue: customization?.loopSound ?? true)
+      let name = customization?.customTitle ?? sound.originalTitle
+      let icon = customization?.customIconName ?? sound.originalSystemIconName
+      let randomize = customization?.randomizeStartPosition ?? true
+      let normalize = customization?.normalizeAudio ?? true
+      let volume = customization?.volumeAdjustment ?? 1.0
+      let loop = customization?.loopSound ?? true
+
+      _soundName = State(initialValue: name)
+      _selectedIcon = State(initialValue: icon)
+      _randomizeStartPosition = State(initialValue: randomize)
+      _normalizeAudio = State(initialValue: normalize)
+      _volumeAdjustment = State(initialValue: volume)
+      _loopSound = State(initialValue: loop)
+
+      // Store initial values for change tracking
+      _initialSoundName = State(initialValue: name)
+      _initialSelectedIcon = State(initialValue: icon)
+      _initialRandomizeStartPosition = State(initialValue: randomize)
+      _initialNormalizeAudio = State(initialValue: normalize)
+      _initialVolumeAdjustment = State(initialValue: volume)
+      _initialLoopSound = State(initialValue: loop)
+
       if let colorName = customization?.customColorName,
         let color = AccentColor.allCases.first(where: { $0.color?.toString == colorName })
       {
         _selectedColor = State(initialValue: color)
+        _initialSelectedColor = State(initialValue: color)
       }
+    }
+  }
+
+  @ViewBuilder
+  private var leadingNavigationButton: some View {
+    if hasChanges {
+      Button("Cancel") {
+        if isPreviewing {
+          stopPreview()
+        }
+        dismiss()
+      }
+    } else {
+      Button("Done") {
+        if isPreviewing {
+          stopPreview()
+        }
+        dismiss()
+      }
+    }
+  }
+
+  @ViewBuilder
+  private var trailingNavigationButton: some View {
+    if hasChanges {
+      Button("Save") {
+        performAction()
+      }
+      .disabled(isDisabled)
     }
   }
 
@@ -133,32 +232,50 @@ struct SoundSheet: View {
           Divider()
 
           // Footer buttons
-          HStack {
-            Button("Cancel") {
-              // Stop preview before dismissing
-              if isPreviewing {
-                stopPreview()
+          if hasChanges {
+            HStack {
+              Button("Cancel") {
+                // Stop preview before dismissing
+                if isPreviewing {
+                  stopPreview()
+                }
+                dismiss()
               }
-              dismiss()
-            }
-            .buttonStyle(.bordered)
-            .keyboardShortcut(.escape)
+              .buttonStyle(.bordered)
+              .keyboardShortcut(.escape)
 
-            Spacer()
+              Spacer()
 
-            Button {
-              performAction()
-            } label: {
-              Text(buttonTitle)
+              Button {
+                performAction()
+              } label: {
+                Text(buttonTitle)
+              }
+              .buttonStyle(.borderedProminent)
+              .disabled(isDisabled)
+              .keyboardShortcut(.return)
             }
-            .buttonStyle(.borderedProminent)
-            .disabled(isDisabled)
-            .keyboardShortcut(.return)
+            .padding()
+          } else {
+            HStack {
+              Button("Done") {
+                // Stop preview before dismissing
+                if isPreviewing {
+                  stopPreview()
+                }
+                dismiss()
+              }
+              .buttonStyle(.bordered)
+              .keyboardShortcut(.escape)
+
+              Spacer()
+            }
+            .padding()
           }
-          .padding()
         }
         .frame(width: 450, height: mode.isAdd ? 600 : 580)
       #else
+        // On iOS, we need NavigationView for sheet presentation
         NavigationView {
           CleanSoundSheetForm(
             mode: mode,
@@ -179,19 +296,11 @@ struct SoundSheet: View {
           .navigationBarTitleDisplayMode(.inline)
           .navigationBarBackButtonHidden(true)
           .navigationBarItems(
-            leading: Button("Cancel") {
-              // Stop preview before dismissing
-              if isPreviewing {
-                stopPreview()
-              }
-              dismiss()
-            },
-            trailing: Button("Save") {
-              performAction()
-            }
-            .disabled(isDisabled)
+            leading: leadingNavigationButton,
+            trailing: trailingNavigationButton
           )
         }
+        .navigationViewStyle(.stack)  // Force stack style to prevent split view
       #endif
     }
     .fileImporter(
@@ -292,6 +401,21 @@ struct SoundSheet: View {
     }
   }
 
+}
+
+// MARK: - Helper Methods
+
+extension SoundSheet {
+  private func getCurrentSound() -> Sound? {
+    switch mode {
+    case .customize(let sound):
+      return sound
+    case .edit(let customSoundData):
+      return AudioManager.shared.sounds.first { $0.customSoundDataID == customSoundData.id }
+    case .add:
+      return nil
+    }
+  }
 }
 
 // MARK: - Real-time Updates

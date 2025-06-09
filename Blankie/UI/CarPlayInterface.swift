@@ -93,7 +93,7 @@
       }
 
       // Individual sounds section
-      let allSounds = AudioManager.shared.sounds.filter { !$0.isHidden }
+      let allSounds = AudioManager.shared.sounds
       let soundItems = allSounds.map { createSoundListItem($0) }
       if !soundItems.isEmpty {
         sections.append(

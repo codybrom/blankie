@@ -34,14 +34,22 @@ extension PresetManager {
       updateCustomPresetStatus()
 
       // Load last active preset or default
-      if let lastID = PresetStorage.loadLastActivePresetID(),
-        let lastPreset = presets.first(where: { $0.id == lastID })
-      {
-        print("\n🎛️ PresetManager: Loading last active preset:")
-        logPresetState(lastPreset)
-        try applyPreset(lastPreset, isInitialLoad: true)
+      if let lastID = PresetStorage.loadLastActivePresetID() {
+        print("🎛️ PresetManager: Found last active preset ID: \(lastID)")
+        if let lastPreset = presets.first(where: { $0.id == lastID }) {
+          print("🎛️ PresetManager: ✅ Found matching preset: '\(lastPreset.name)'")
+          print("\n🎛️ PresetManager: Loading last active preset:")
+          logPresetState(lastPreset)
+          try applyPreset(lastPreset, isInitialLoad: true)
+          print("🎛️ PresetManager: ✅ Successfully applied last active preset '\(lastPreset.name)'")
+        } else {
+          print("❌ PresetManager: Last active preset ID \(lastID) not found in loaded presets")
+          print("🎛️ PresetManager: Available presets: \(presets.map { "\($0.name) (\($0.id))" })")
+          print("🎛️ PresetManager: Falling back to default preset")
+          try applyPreset(presets[0], isInitialLoad: true)
+        }
       } else {
-        print("\n🎛️ PresetManager: No last active preset, applying default")
+        print("🎛️ PresetManager: No last active preset ID found, applying default")
         try applyPreset(presets[0], isInitialLoad: true)
       }
     } catch {
@@ -62,12 +70,30 @@ extension PresetManager {
       let index = presets.firstIndex(where: { $0.id == currentPreset.id })
     {
       var updatedPreset = currentPreset
-      updatedPreset.soundStates = AudioManager.shared.sounds.map { sound in
-        PresetState(
-          fileName: sound.fileName,
-          isSelected: sound.isSelected,
-          volume: sound.volume
-        )
+      // For custom presets, only update sounds that are already in the preset
+      if !currentPreset.isDefault {
+        updatedPreset.soundStates = currentPreset.soundStates.map { existingState in
+          // Find the current sound state
+          if let sound = AudioManager.shared.sounds.first(where: {
+            $0.fileName == existingState.fileName
+          }) {
+            return PresetState(
+              fileName: existingState.fileName,
+              isSelected: sound.isSelected,
+              volume: sound.volume
+            )
+          }
+          return existingState
+        }
+      } else {
+        // For default preset, include all sounds
+        updatedPreset.soundStates = AudioManager.shared.sounds.map { sound in
+          PresetState(
+            fileName: sound.fileName,
+            isSelected: sound.isSelected,
+            volume: sound.volume
+          )
+        }
       }
       updatePresetAtIndex(index, with: updatedPreset)
       setCurrentPreset(updatedPreset)

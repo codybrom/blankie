@@ -21,6 +21,8 @@ extension PresetManager {
 
   func createDefaultPreset() -> Preset {
     print("🎛️ PresetManager: Creating new default preset")
+    let currentVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     return Preset(
       id: UUID(),
       name: "Default",
@@ -31,38 +33,11 @@ extension PresetManager {
           volume: 1.0
         )
       },
-      isDefault: true
+      isDefault: true,
+      createdVersion: currentVersion,
+      lastModifiedVersion: currentVersion,
+      soundOrder: AudioManager.shared.sounds.map(\.fileName)
     )
-  }
-
-  func createPresetFromCurrentState(name: String) throws -> Preset {
-    print("🎛️ PresetManager: Creating preset from current state")
-
-    guard !name.isEmpty else {
-      throw PresetError.invalidPreset
-    }
-
-    let preset = Preset(
-      id: UUID(),
-      name: name,
-      soundStates: AudioManager.shared.sounds.map { sound in
-        print(
-          "  - Capturing '\(sound.fileName)': Selected: \(sound.isSelected), Volume: \(sound.volume)"
-        )
-        return PresetState(
-          fileName: sound.fileName,
-          isSelected: sound.isSelected,
-          volume: sound.volume
-        )
-      },
-      isDefault: false
-    )
-
-    guard preset.validate() else {
-      throw PresetError.invalidPreset
-    }
-
-    return preset
   }
 
   func logPresetState(_ preset: Preset) {
@@ -93,6 +68,18 @@ extension PresetManager {
   }
 
   func applySoundStates(_ targetStates: [PresetState]) {
+    // Get the file names of sounds that should be in this preset
+    let presetSoundFileNames = Set(targetStates.map(\.fileName))
+
+    // First, disable all sounds that are NOT in this preset
+    AudioManager.shared.sounds.forEach { sound in
+      if !presetSoundFileNames.contains(sound.fileName) && sound.isSelected {
+        print("  - Disabling '\(sound.fileName)' (not in preset)")
+        sound.isSelected = false
+      }
+    }
+
+    // Then, apply the states for sounds that ARE in this preset
     targetStates.forEach { state in
       if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == state.fileName }) {
         let selectionChanged = sound.isSelected != state.isSelected
@@ -110,6 +97,38 @@ extension PresetManager {
           sound.isSelected = state.isSelected
           sound.volume = state.volume
         }
+      }
+    }
+  }
+
+  func applySoundOrder(_ soundOrder: [String]) {
+    print("🎛️ PresetManager: Applying custom sound order")
+
+    // Apply the order from the preset
+    for (index, fileName) in soundOrder.enumerated() {
+      if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == fileName }) {
+        let oldOrder = sound.customOrder
+        sound.customOrder = index
+        if oldOrder != index {
+          print("  - '\(fileName)': Order \(oldOrder) -> \(index)")
+        }
+      }
+    }
+
+    // Handle any sounds not in the preset order (new sounds added after preset creation)
+    let unorderedSounds = AudioManager.shared.sounds.filter { sound in
+      !soundOrder.contains(sound.fileName)
+    }
+
+    if !unorderedSounds.isEmpty {
+      let nextOrderValue = soundOrder.count
+      print(
+        "🎛️ PresetManager: Assigning order to \(unorderedSounds.count) unordered sounds starting at \(nextOrderValue)"
+      )
+
+      for (offset, sound) in unorderedSounds.enumerated() {
+        sound.customOrder = nextOrderValue + offset
+        print("  - '\(sound.fileName)': New order \(nextOrderValue + offset)")
       }
     }
   }

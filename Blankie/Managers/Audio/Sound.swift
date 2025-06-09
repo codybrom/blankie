@@ -88,13 +88,6 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
     }
   }
 
-  @Published var isHidden = false {
-    didSet {
-      UserDefaults.standard.set(isHidden, forKey: "\(fileName)_isHidden")
-      print("🔊 Sound: \(fileName) -  isHidden set to \(isHidden)")
-    }
-  }
-
   @Published var customOrder: Int = 0 {
     didSet {
       UserDefaults.standard.set(customOrder, forKey: "\(fileName)_customOrder")
@@ -178,9 +171,6 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
 
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
-
-    // Restore hidden state
-    self.isHidden = UserDefaults.standard.bool(forKey: "\(fileName)_isHidden")
 
     // Restore custom order (use default order if not set)
     if UserDefaults.standard.object(forKey: "\(fileName)_customOrder") != nil {

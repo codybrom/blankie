@@ -26,17 +26,6 @@ import SwiftUI
           onEditSound: { sound in
             soundToEdit = sound
           },
-          onHideSound: { sound in
-            sound.isHidden.toggle()
-            if sound.isHidden && sound.isSelected {
-              sound.pause()
-            }
-            if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
-              audioManager.exitSoloMode()
-            }
-            audioManager.updateHasSelectedSounds()
-            soundsUpdateTrigger += 1
-          },
           isSoloMode: true
         )
         .scaleEffect(1.0)
@@ -80,18 +69,7 @@ import SwiftUI
               onEditSound: { sound in
                 soundToEdit = sound
               },
-              onHideSound: { sound in
-                sound.isHidden.toggle()
-                if sound.isHidden && sound.isSelected {
-                  sound.pause()
-                }
-                if sound.isHidden && audioManager.soloModeSound?.id == sound.id {
-                  audioManager.exitSoloMode()
-                }
-                audioManager.updateHasSelectedSounds()
-                soundsUpdateTrigger += 1
-              },
-              onEnterEditMode: showingListView ? nil : enterEditMode,
+              onEnterEditMode: enterEditMode,
               editMode: editMode
             )
           }

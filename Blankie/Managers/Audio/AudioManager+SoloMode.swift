@@ -124,7 +124,7 @@ extension AudioManager {
     if shouldKeepPlaying {
       print("🎵 AudioManager: Restoring playback for selected sounds")
       // Play all sounds that should be playing according to the preset
-      for sound in sounds where sound.isSelected && !sound.isHidden {
+      for sound in sounds where sound.isSelected {
         // Skip the solo sound since it's already playing if it should be
         if sound.id == soloSound.id && soloShouldContinuePlaying {
           continue

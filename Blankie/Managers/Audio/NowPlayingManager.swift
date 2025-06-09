@@ -33,11 +33,13 @@ final class NowPlayingManager {
     }
   }
 
-  func updateInfo(presetName: String? = nil, isPlaying: Bool) {
+  func updateInfo(
+    presetName: String? = nil, creatorName: String? = nil, artworkData: Data? = nil, isPlaying: Bool
+  ) {
     setupNowPlaying()  // Ensure setup is done before updating
 
     // Get the current preset name for the title
-    let displayInfo = getDisplayInfo(presetName: presetName)
+    let displayInfo = getDisplayInfo(presetName: presetName, creatorName: creatorName)
 
     print(
       "🎵 NowPlayingManager: Updating Now Playing info with title: \(displayInfo.title), artist: \(displayInfo.artist)"
@@ -48,8 +50,18 @@ final class NowPlayingManager {
     nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
     nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
-    if let artwork = loadArtwork() {
-      nowPlayingInfo[MPMediaItemPropertyArtwork] = artwork
+    // Use custom artwork if available, otherwise fall back to default
+    print(
+      "🎨 NowPlayingManager: Processing artwork data: \(artworkData != nil ? "✅ \(artworkData!.count) bytes" : "❌ None")"
+    )
+    if let customArtwork = loadCustomArtwork(from: artworkData) {
+      print("🎨 NowPlayingManager: ✅ Custom artwork loaded successfully")
+      nowPlayingInfo[MPMediaItemPropertyArtwork] = customArtwork
+    } else if let defaultArtwork = loadArtwork() {
+      print("🎨 NowPlayingManager: Using default artwork")
+      nowPlayingInfo[MPMediaItemPropertyArtwork] = defaultArtwork
+    } else {
+      print("🎨 NowPlayingManager: ❌ No artwork available")
     }
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo

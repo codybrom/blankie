@@ -194,12 +194,6 @@ struct PreferencesView: View {
               Text("Import custom sounds and manage hidden sounds")
                 .foregroundColor(.secondary)
                 .font(.caption)
-              let hiddenCount = AudioManager.shared.sounds.filter { $0.isHidden }.count
-              if hiddenCount > 0 {
-                Text("\(hiddenCount) hidden")
-                  .font(.caption2)
-                  .foregroundColor(.secondary)
-              }
             }
             Spacer()
             Image(systemName: "chevron.right")

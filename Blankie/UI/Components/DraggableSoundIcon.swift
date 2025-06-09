@@ -18,7 +18,6 @@ import SwiftUI
     let onDragStart: () -> Void
     let onDrop: (Int) -> Void
     let onEditSound: (Sound) -> Void
-    let onHideSound: (Sound) -> Void
     var onEnterEditMode: (() -> Void)?
     var isSoloMode: Bool = false
     var editMode: EditMode = .inactive

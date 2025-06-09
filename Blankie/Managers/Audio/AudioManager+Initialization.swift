@@ -31,7 +31,7 @@ extension AudioManager {
   }
 
   func updateHasSelectedSounds() {
-    let newValue = sounds.contains { $0.isSelected && !$0.isHidden }
+    let newValue = sounds.contains { $0.isSelected }
     if hasSelectedSounds != newValue {
       print("🎵 AudioManager: hasSelectedSounds changed from \(hasSelectedSounds) to \(newValue)")
       hasSelectedSounds = newValue

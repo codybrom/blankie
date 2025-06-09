@@ -13,6 +13,7 @@ struct PresetPicker: View {
   @State private var newPresetName = ""
   @State private var error: Error?
   @State private var selectedPresetForEdit: Preset?
+  @State private var showingCreatePreset = false
 
   var body: some View {
     HStack {
@@ -49,18 +50,8 @@ struct PresetPicker: View {
             Divider()
 
             Button(action: {
-              // Count existing custom presets
-              let customPresetCount = presetManager.presets.filter { !$0.isDefault }.count
-              // Create name like "Preset 1", "Preset 2", etc.
-              let newPresetName = String(
-                format: String(localized: "Preset %d", comment: "New preset name format"),
-                customPresetCount + 1
-              )
-
-              Task {
-                presetManager.saveNewPreset(name: newPresetName)
-                showingPresetPopover = false
-              }
+              showingCreatePreset = true
+              showingPresetPopover = false
             }) {
               Label(
                 String(localized: "New Preset", comment: "New preset button"), systemImage: "plus")
@@ -74,9 +65,11 @@ struct PresetPicker: View {
     .sheet(item: $selectedPresetForEdit) { preset in
       EditPresetSheet(
         preset: preset,
-        presetName: $newPresetName,
         isPresented: $selectedPresetForEdit
       )
+    }
+    .sheet(isPresented: $showingCreatePreset) {
+      CreatePresetSheet(isPresented: $showingCreatePreset)
     }
   }
 }

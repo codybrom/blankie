@@ -2,16 +2,44 @@ import SwiftUI
 
 #if os(iOS) || os(visionOS)
   extension AdaptiveContentView {
-    // Calculate filtered sounds based on hideInactiveSounds preference and visibility
+    // Calculate filtered sounds based on current preset and hideInactiveSounds preference
     var filteredSounds: [Sound] {
       // Include soundsUpdateTrigger to force updates when sounds change
       _ = soundsUpdateTrigger
       let visibleSounds = audioManager.getVisibleSounds()
+
       return visibleSounds.filter { sound in
-        if hideInactiveSounds {
-          return sound.isSelected
+        // First check if sound is included in current preset
+        if let currentPreset = presetManager.currentPreset {
+          // For default preset, show all sounds
+          if currentPreset.isDefault {
+            // Apply hideInactiveSounds filter for default preset
+            if hideInactiveSounds {
+              return sound.isSelected
+            } else {
+              return true
+            }
+          } else {
+            // For custom presets, only show sounds that are part of the preset
+            let isInPreset = currentPreset.soundStates.contains { $0.fileName == sound.fileName }
+            if !isInPreset {
+              return false
+            }
+
+            // If sound is in preset, apply hideInactiveSounds filter
+            if hideInactiveSounds {
+              return sound.isSelected
+            } else {
+              return true
+            }
+          }
         } else {
-          return true
+          // No current preset - show all sounds with hideInactiveSounds filter
+          if hideInactiveSounds {
+            return sound.isSelected
+          } else {
+            return true
+          }
         }
       }
     }

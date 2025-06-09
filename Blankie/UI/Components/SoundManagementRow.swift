@@ -49,7 +49,7 @@ struct SoundManagementRow: View {
     Image(systemName: sound.systemIconName)
       .font(.title2)
       .frame(width: 32)
-      .foregroundStyle(sound.isHidden ? .secondary : .primary)
+      .foregroundStyle(.primary)
   }
 
   private var soundInfo: some View {
@@ -60,7 +60,7 @@ struct SoundManagementRow: View {
             ? LocalizedStringKey(stringLiteral: sound.title) : LocalizedStringKey(sound.title)
         )
         .fontWeight(.medium)
-        .foregroundColor(sound.isHidden ? .secondary : .primary)
+        .foregroundColor(.primary)
 
         if SoundCustomizationManager.shared.getCustomization(for: sound.fileName)?
           .hasCustomizations == true
@@ -96,8 +96,6 @@ struct SoundManagementRow: View {
       }
       .buttonStyle(.plain)
       .help("Customize Sound")
-
-      toggleVisibilityButton
     }
   }
 
@@ -112,8 +110,6 @@ struct SoundManagementRow: View {
       .buttonStyle(.plain)
       .help("Edit Sound")
 
-      toggleVisibilityButton
-
       Button {
         onDelete()
       } label: {
@@ -126,40 +122,10 @@ struct SoundManagementRow: View {
     }
   }
 
-  private var toggleVisibilityButton: some View {
-    Button {
-      withAnimation {
-        if sound.isHidden {
-          audioManager.showSound(sound)
-        } else {
-          audioManager.hideSound(sound)
-        }
-      }
-    } label: {
-      Image(systemName: sound.isHidden ? "eye.slash" : "eye")
-        .contentShape(Rectangle())
-    }
-    .buttonStyle(.plain)
-    .help(sound.isHidden ? "Show Sound" : "Hide Sound")
-  }
-
   @ViewBuilder
   private var customSoundContextMenu: some View {
     Button("Edit Sound", systemImage: "pencil") {
       onEdit()
-    }
-
-    Button(
-      sound.isHidden ? "Show Sound" : "Hide Sound",
-      systemImage: sound.isHidden ? "eye" : "eye.slash"
-    ) {
-      withAnimation {
-        if sound.isHidden {
-          audioManager.showSound(sound)
-        } else {
-          audioManager.hideSound(sound)
-        }
-      }
     }
 
     Button("Delete Sound", systemImage: "trash", role: .destructive) {
@@ -169,9 +135,7 @@ struct SoundManagementRow: View {
 
   @ViewBuilder
   private var backgroundView: some View {
-    if sound.isHidden {
-      hiddenSoundRowBackground
-    } else if isCustomSound {
+    if isCustomSound {
       customSoundRowBackground
     } else {
       Color.clear
@@ -188,13 +152,4 @@ struct SoundManagementRow: View {
     }
   }
 
-  private var hiddenSoundRowBackground: some View {
-    Group {
-      #if os(macOS)
-        Color(NSColor.controlBackgroundColor).opacity(0.5)
-      #else
-        Color(UIColor.systemBackground).opacity(0.5)
-      #endif
-    }
-  }
 }

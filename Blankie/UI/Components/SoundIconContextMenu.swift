@@ -57,20 +57,6 @@ import SwiftUI
         ) {
           Label("Delete Sound", systemImage: "trash")
         }
-      } else {
-        // Built-in sounds can only be hidden
-        Button(action: {
-          if sound.isHidden {
-            audioManager.showSound(sound)
-          } else {
-            audioManager.hideSound(sound)
-          }
-        }) {
-          Label(
-            sound.isHidden ? "Show Sound" : "Hide Sound",
-            systemImage: sound.isHidden ? "eye" : "eye.slash"
-          )
-        }
       }
     }
   }

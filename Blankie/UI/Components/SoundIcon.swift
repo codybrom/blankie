@@ -185,7 +185,7 @@ struct SoundIcon: View {
             ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
         )
         .disabled(!sound.isSelected)
-      } else if audioManager.sounds.contains(where: { $0.isSelected && !$0.isHidden }) {
+      } else if audioManager.sounds.contains(where: { $0.isSelected }) {
         // Only add spacer if there are other selected sounds that might show sliders
         Rectangle()
           .fill(Color.clear)
@@ -196,10 +196,6 @@ struct SoundIcon: View {
     .padding(.horizontal, configuration.padding.leading)
     .frame(width: maxWidth)
     .contextMenu {
-      Button("Hide Sound", systemImage: "eye.slash") {
-        audioManager.hideSound(sound)
-      }
-
       if sound.isCustom {
         Button("Edit Sound", systemImage: "pencil") {
           showingEditSheet = true

@@ -28,8 +28,8 @@
     static func updateTemplate(_ template: CPListTemplate) {
       var sections: [CPListSection] = []
 
-      // Get all non-hidden sounds
-      let allSounds = AudioManager.shared.sounds.filter { !$0.isHidden }
+      // Get all sounds
+      let allSounds = AudioManager.shared.sounds
 
       // Group sounds by category (built-in vs custom)
       let builtInSounds = allSounds.filter { !$0.isCustom }

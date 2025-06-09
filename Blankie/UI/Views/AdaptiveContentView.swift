@@ -97,20 +97,16 @@ import SwiftUI
     @ViewBuilder
     private var iPhoneLayout: some View {
       NavigationStack {
-        ZStack(alignment: .bottom) {
+        VStack(spacing: 0) {
           mainContentView
-            .safeAreaInset(edge: .bottom) {
-              bottomToolbar
-            }
 
-          // Status banners overlay
-          VStack {
-            statusBanners
-              .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
-              .animation(.easeInOut(duration: 0.2), value: audioManager.hasSelectedSounds)
-              .animation(.easeInOut(duration: 0.2), value: editMode)
-            Spacer()
-          }
+          // Status banners above bottom toolbar
+          statusBanners
+            .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
+            .animation(.easeInOut(duration: 0.2), value: audioManager.hasSelectedSounds)
+            .animation(.easeInOut(duration: 0.2), value: editMode)
+
+          bottomToolbar
         }
         .toolbar {
           ToolbarItem(placement: .navigationBarLeading) {

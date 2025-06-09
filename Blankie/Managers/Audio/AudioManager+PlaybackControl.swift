@@ -43,9 +43,13 @@ extension AudioManager {
     print("🎵 AudioManager: Reset complete")
   }
 
-  public func updateNowPlayingInfoForPreset(presetName: String? = nil) {
+  public func updateNowPlayingInfoForPreset(
+    presetName: String? = nil, creatorName: String? = nil, artworkData: Data? = nil
+  ) {
     nowPlayingManager.updateInfo(
       presetName: presetName,
+      creatorName: creatorName,
+      artworkData: artworkData,
       isPlaying: isGloballyPlaying
     )
   }

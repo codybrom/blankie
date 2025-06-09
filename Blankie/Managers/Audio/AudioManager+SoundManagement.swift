@@ -13,18 +13,18 @@ extension AudioManager {
 
   @MainActor
   func getVisibleSounds() -> [Sound] {
-    sounds.filter { !$0.isHidden }.sorted { $0.customOrder < $1.customOrder }
+    sounds.sorted { $0.customOrder < $1.customOrder }
   }
 
   /// Move a sound to a new position
   func moveSound(from sourceIndex: Int, to destinationIndex: Int) {
-    let hiddenSounds = sounds.filter { $0.isHidden }.sorted { $0.customOrder < $1.customOrder }
-    guard sourceIndex < hiddenSounds.count && destinationIndex <= hiddenSounds.count else {
+    let allSounds = sounds.sorted { $0.customOrder < $1.customOrder }
+    guard sourceIndex < allSounds.count && destinationIndex <= allSounds.count else {
       return
     }
 
-    // Update the custom order for hidden sounds
-    var updatedSounds = hiddenSounds
+    // Update the custom order for all sounds
+    var updatedSounds = allSounds
     let movedSound = updatedSounds.remove(at: sourceIndex)
     updatedSounds.insert(movedSound, at: min(destinationIndex, updatedSounds.count))
 
@@ -78,39 +78,11 @@ extension AudioManager {
     print("🎵 AudioManager: Moved sounds from \(source) to \(destination)")
   }
 
-  /// Toggle the hidden state of a sound
-  func toggleSoundVisibility(_ sound: Sound) {
-    sound.isHidden.toggle()
-    print(
-      "🎵 AudioManager: Toggled visibility for '\(sound.fileName)' to \(sound.isHidden ? "hidden" : "visible")"
-    )
-  }
-
-  /// Hide a sound
-  func hideSound(_ sound: Sound) {
-    sound.isHidden = true
-
-    // If the sound is currently playing, stop it immediately
-    if sound.isSelected {
-      sound.pause(immediate: true)
-    }
-
-    objectWillChange.send()
-    print("🎵 AudioManager: Hidden sound '\(sound.fileName)'")
-  }
-
-  /// Show a sound
-  func showSound(_ sound: Sound) {
-    sound.isHidden = false
-    objectWillChange.send()
-    print("🎵 AudioManager: Showed sound '\(sound.fileName)'")
-  }
-
   /// Apply volume settings to all playing sounds by triggering volume updates
   func applyVolumeSettings() {
     print("🎵 AudioManager: Updating volumes for volume settings change")
 
-    for sound in sounds where sound.isSelected && !sound.isHidden {
+    for sound in sounds where sound.isSelected {
       // Trigger volume recalculation which will include custom volume settings
       sound.updateVolume()
     }

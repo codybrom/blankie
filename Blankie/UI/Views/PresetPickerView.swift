@@ -3,7 +3,7 @@ import SwiftUI
 struct PresetPickerView: View {
   @ObservedObject private var presetManager = PresetManager.shared
   @ObservedObject private var audioManager = AudioManager.shared
-  @State private var showingNewPresetAlert = false
+  @State private var showingNewPresetSheet = false
   @State private var newPresetName = ""
   @State private var presetToRename: Preset?
   @State private var updatedPresetName = ""
@@ -29,7 +29,7 @@ struct PresetPickerView: View {
             Spacer()
           }
           .padding()
-        } else if !presetManager.hasCustomPresets {
+        } else if presetManager.presets.isEmpty {
           // Empty state
           HStack {
             Spacer()
@@ -91,8 +91,8 @@ struct PresetPickerView: View {
             .listRowBackground(Color.secondary.opacity(0.1))
           }
 
-          // List of presets
-          ForEach(presetManager.presets.filter { !$0.isDefault }) { preset in
+          // List of all presets (default first, then custom presets)
+          ForEach(presetManager.presets.sorted { $0.isDefault && !$1.isDefault }) { preset in
             Button {
               // Exit solo mode if active, then apply the preset
               Task {
@@ -115,7 +115,7 @@ struct PresetPickerView: View {
               }
             } label: {
               HStack {
-                Text(preset.name)
+                Text(preset.displayName)
                   .foregroundColor(.primary)
 
                 Spacer()
@@ -136,18 +136,20 @@ struct PresetPickerView: View {
                   presetToRename = preset
                   updatedPresetName = preset.name
                 } label: {
-                  Label("Rename Preset", systemImage: "pencil")
+                  Label(preset.isDefault ? "View Preset" : "Edit Preset", systemImage: "pencil")
                 }
                 .tint(.blue)
 
-                Button(role: .destructive) {
-                  presetToDelete = preset
-                } label: {
-                  Label("Delete Preset", systemImage: "trash")
+                if !preset.isDefault {
+                  Button(role: .destructive) {
+                    presetToDelete = preset
+                  } label: {
+                    Label("Delete Preset", systemImage: "trash")
+                  }
                 }
               }
             }
-            .deleteDisabled(!isEditMode)
+            .deleteDisabled(!isEditMode || preset.isDefault)
           }
           .onDelete(perform: isEditMode ? deletePresets : nil)
         }
@@ -169,7 +171,7 @@ struct PresetPickerView: View {
 
         ToolbarItem(placement: .primaryAction) {
           Button {
-            showingNewPresetAlert = true
+            showingNewPresetSheet = true
           } label: {
             Label("New Preset", systemImage: "plus")
           }
@@ -180,42 +182,10 @@ struct PresetPickerView: View {
         .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
       #endif
       .sheet(item: $presetToRename) { preset in
-        RenamePresetView(
-          preset: preset,
-          presetName: updatedPresetName,
-          onSave: { newName in
-            Task {
-              if !newName.isEmpty {
-                presetManager.updatePreset(preset, newName: newName)
-              }
-              presetToRename = nil
-            }
-          },
-          onCancel: {
-            presetToRename = nil
-          }
-        )
-        .presentationDetents([.fraction(0.3)])
+        EditPresetSheet(preset: preset, isPresented: $presetToRename)
       }
-      .alert("New Preset", isPresented: $showingNewPresetAlert) {
-        TextField("Preset Name", text: $newPresetName)
-
-        Button("Cancel", role: .cancel) {
-          newPresetName = ""
-        }
-
-        Button {
-          if !newPresetName.isEmpty {
-            Task {
-              presetManager.saveNewPreset(name: newPresetName)
-              newPresetName = ""
-            }
-          }
-        } label: {
-          Text("Save", comment: "Save preset button")
-        }
-      } message: {
-        Text("Save current sound configuration as a preset.", comment: "New preset alert message")
+      .sheet(isPresented: $showingNewPresetSheet) {
+        CreatePresetSheet(isPresented: $showingNewPresetSheet)
       }
       .alert(
         "Delete Preset",
@@ -243,45 +213,6 @@ struct PresetPickerView: View {
             comment: "Delete preset confirmation message")
         }
       }
-    }
-  }
-}
-
-struct RenamePresetView: View {
-  let preset: Preset
-  @State var presetName: String
-  let onSave: (String) -> Void
-  let onCancel: () -> Void
-  @Environment(\.dismiss) private var dismiss
-
-  var body: some View {
-    NavigationView {
-      VStack(spacing: 20) {
-        Text("Rename Preset", comment: "Rename preset view title")
-          .font(.headline)
-
-        TextField("Preset Name", text: $presetName)
-          .textFieldStyle(.roundedBorder)
-          .padding(.horizontal)
-
-        HStack(spacing: 40) {
-          Button("Cancel") {
-            onCancel()
-            dismiss()
-          }
-
-          Button {
-            onSave(presetName)
-            dismiss()
-          } label: {
-            Text("Save", comment: "Save preset button")
-          }
-          .buttonStyle(.borderedProminent)
-          .disabled(presetName.isEmpty)
-        }
-        .padding(.top)
-      }
-      .padding()
     }
   }
 }

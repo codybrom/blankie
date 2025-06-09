@@ -81,3 +81,5 @@ releases/*
 .ignored
 .mcp.json
 notes/carplay/*
+notes/widgetkit/*
+notes/WidgetKitNotes/*

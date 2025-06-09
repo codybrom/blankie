@@ -17,21 +17,11 @@
     "%@ (Custom • Added By You)" : {
 
     },
-    "%lld hidden" : {
-
-    },
     "%lld sounds" : {
 
     },
-    "%lld sounds (%lld hidden)" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "%1$lld sounds (%2$lld hidden)"
-          }
-        }
-      }
+    "%lld Sounds" : {
+
     },
     "%lld%%" : {
 
@@ -203,6 +193,9 @@
         }
       }
     },
+    "Add More Time" : {
+
+    },
     "Add Preset" : {
       "comment" : "Add new preset button",
       "localizations" : {
@@ -291,6 +284,9 @@
           }
         }
       }
+    },
+    "Album artwork works best as a square. Drag and pinch to adjust the crop area." : {
+
     },
     "All Sounds" : {
       "comment" : "All sounds label",
@@ -579,6 +575,9 @@
           }
         }
       }
+    },
+    "Artwork" : {
+
     },
     "at %@" : {
 
@@ -1383,6 +1382,9 @@
         }
       }
     },
+    "Clear All" : {
+
+    },
     "Close" : {
       "comment" : "File menu option",
       "extractionState" : "manual",
@@ -1749,8 +1751,20 @@
         }
       }
     },
+    "Create" : {
+
+    },
+    "Creator" : {
+
+    },
+    "Crop to Square" : {
+
+    },
     "Current Theme" : {
       "comment" : "Current theme color option"
+    },
+    "Custom artwork for Now Playing" : {
+
     },
     "Custom imported sound" : {
 
@@ -2750,9 +2764,6 @@
       }
     },
     "Hide Sliders for Inactive Sounds" : {
-
-    },
-    "Hide Sound" : {
 
     },
     "Hours" : {
@@ -3976,6 +3987,9 @@
         }
       }
     },
+    "Optional" : {
+
+    },
     "Orange" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -4491,6 +4505,7 @@
     },
     "Preset %d" : {
       "comment" : "New preset name format",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4559,6 +4574,9 @@
           }
         }
       }
+    },
+    "Preset Information" : {
+
     },
     "Preset Name" : {
       "comment" : "Preset name text field",
@@ -5373,6 +5391,9 @@
         }
       }
     },
+    "Required" : {
+
+    },
     "Reset" : {
       "comment" : "Reset sounds button"
     },
@@ -5578,6 +5599,7 @@
     },
     "Save current sound configuration as a preset." : {
       "comment" : "New preset alert message",
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5687,6 +5709,12 @@
     },
     "Search icons..." : {
       "comment" : "Icon search field placeholder"
+    },
+    "Select All" : {
+
+    },
+    "Select Image" : {
+
     },
     "Select Sound File" : {
       "comment" : "Select sound file button label",
@@ -5826,7 +5854,7 @@
     "Show Progress Borders" : {
 
     },
-    "Show Sound" : {
+    "Shows in Now Playing info" : {
 
     },
     "Small" : {
@@ -6467,6 +6495,9 @@
         }
       }
     },
+    "The default preset cannot be modified" : {
+
+    },
     "The default preset cannot be renamed" : {
       "comment" : "Default preset rename warning",
       "extractionState" : "manual",
@@ -6709,6 +6740,9 @@
     "Try a different search term" : {
       "comment" : "No icon search results suggestion"
     },
+    "Use Crop" : {
+
+    },
     "Version %@ (%@)" : {
       "comment" : "Version string",
       "extractionState" : "manual",
@@ -6782,6 +6816,9 @@
       }
     },
     "View Mode" : {
+
+    },
+    "View Preset" : {
 
     },
     "View Settings" : {

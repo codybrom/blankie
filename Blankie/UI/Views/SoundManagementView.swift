@@ -93,13 +93,9 @@ struct SoundManagementView: View {
 
   @ViewBuilder
   private var builtInSoundsSection: some View {
-    let hiddenCount = builtInSounds.filter { $0.isHidden }.count
     Section(
       header: Text("Built-in Sounds"),
-      footer: Text(
-        hiddenCount > 0
-          ? "\(builtInSounds.count) sounds (\(hiddenCount) hidden)"
-          : "\(builtInSounds.count) sounds")
+      footer: Text("\(builtInSounds.count) sounds")
     ) {
       if builtInSoundsExpanded {
         ForEach(builtInSounds) { sound in
@@ -111,15 +107,12 @@ struct SoundManagementView: View {
 
   @ViewBuilder
   private var customSoundsSection: some View {
-    let hiddenCount = customSounds.filter { $0.isHidden }.count
     Section(
       header: Text("Custom Sounds"),
       footer: Text(
         customSounds.isEmpty
           ? "No custom sounds"
-          : hiddenCount > 0
-            ? "\(customSounds.count) sounds (\(hiddenCount) hidden)"
-            : "\(customSounds.count) sounds")
+          : "\(customSounds.count) sounds")
     ) {
       if customSoundsExpanded {
         if customSounds.isEmpty {

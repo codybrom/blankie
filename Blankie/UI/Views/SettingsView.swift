@@ -14,16 +14,6 @@ struct SettingsView: View {
             HStack {
               Text("Manage Sounds", comment: "Sound management label")
               Spacer()
-              let hiddenCount = AudioManager.shared.sounds.filter { $0.isHidden }.count
-              if hiddenCount > 0 {
-                Text("\(hiddenCount) hidden")
-                  .font(.caption)
-                  .padding(.horizontal, 6)
-                  .padding(.vertical, 2)
-                  .background(.secondary.opacity(0.3))
-                  .foregroundColor(.secondary)
-                  .clipShape(Capsule())
-              }
             }
           }
         }

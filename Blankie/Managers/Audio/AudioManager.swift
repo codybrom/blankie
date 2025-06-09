@@ -260,7 +260,7 @@ class AudioManager: ObservableObject {
     }
 
     // Normal mode: play all selected sounds according to preset
-    for sound in sounds where sound.isSelected && !sound.isHidden {
+    for sound in sounds where sound.isSelected {
       print(
         "  - About to play '\(sound.fileName)', isSelected: \(sound.isSelected), player exists: \(sound.player != nil)"
       )

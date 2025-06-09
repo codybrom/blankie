@@ -97,9 +97,10 @@ struct PresetPickerView: View {
               // Exit solo mode if active, then apply the preset
               Task {
                 do {
-                  // Exit solo mode first if we're in it
+                  // Exit solo mode without resuming previous sounds if active
+                  // This prevents the previous preset from briefly playing
                   if audioManager.soloModeSound != nil {
-                    audioManager.exitSoloMode()
+                    audioManager.exitSoloModeWithoutResuming()
                   }
 
                   // Exit CarPlay Quick Mix if we're in it

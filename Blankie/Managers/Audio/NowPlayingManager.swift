@@ -36,21 +36,89 @@ final class NowPlayingManager {
   func updateInfo(
     presetName: String? = nil, creatorName: String? = nil, artworkData: Data? = nil, isPlaying: Bool
   ) {
-    setupNowPlaying()  // Ensure setup is done before updating
+    setupNowPlaying()
 
-    // Get the current preset name for the title
     let displayInfo = getDisplayInfo(presetName: presetName, creatorName: creatorName)
-
     print(
       "🎵 NowPlayingManager: Updating Now Playing info with title: \(displayInfo.title), artist: \(displayInfo.artist)"
     )
 
+    updateBasicInfo(displayInfo: displayInfo)
+    updateAlbumAndDuration(creatorName: creatorName)
+    updatePlaybackRate(isPlaying: isPlaying)
+    updateArtwork(artworkData: artworkData)
+
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+  }
+
+  private func updateBasicInfo(displayInfo: (title: String, artist: String)) {
     nowPlayingInfo[MPMediaItemPropertyTitle] = displayInfo.title
     nowPlayingInfo[MPMediaItemPropertyArtist] = displayInfo.artist
-    nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
-    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+  }
 
-    // Use custom artwork if available, otherwise fall back to default
+  private func updateAlbumAndDuration(creatorName: String?) {
+    if let soloSound = AudioManager.shared.soloModeSound {
+      updateSoloModeInfo(soloSound: soloSound)
+    } else {
+      updatePresetModeInfo(creatorName: creatorName)
+    }
+  }
+
+  private func updateSoloModeInfo(soloSound: Sound) {
+    nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie (Solo Mode)"
+
+    if let player = soloSound.player {
+      nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = player.duration
+      nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime
+    }
+  }
+
+  private func updatePresetModeInfo(creatorName: String?) {
+    updateAlbumTitle(creatorName: creatorName)
+    updateDurationFromPlayingSounds()
+  }
+
+  private func updateAlbumTitle(creatorName: String?) {
+    if creatorName != nil {
+      let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+      if !activeSounds.isEmpty {
+        let soundNames = activeSounds.map { $0.title }.joined(separator: ", ")
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = soundNames
+      } else {
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
+      }
+    } else {
+      nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = "Blankie"
+    }
+  }
+
+  private func updateDurationFromPlayingSounds() {
+    let playingSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+    if !playingSounds.isEmpty {
+      let longestSound = playingSounds.max {
+        ($0.player?.duration ?? 0) < ($1.player?.duration ?? 0)
+      }
+      if let longest = longestSound, let player = longest.player {
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = player.duration
+        nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = player.currentTime
+      } else {
+        setInfiniteDuration()
+      }
+    } else {
+      setInfiniteDuration()
+    }
+  }
+
+  private func setInfiniteDuration() {
+    nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = 0
+    nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = 0
+  }
+
+  private func updatePlaybackRate(isPlaying: Bool) {
+    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+  }
+
+  private func updateArtwork(artworkData: Data?) {
     print(
       "🎨 NowPlayingManager: Processing artwork data: \(artworkData != nil ? "✅ \(artworkData!.count) bytes" : "❌ None")"
     )
@@ -63,8 +131,6 @@ final class NowPlayingManager {
     } else {
       print("🎨 NowPlayingManager: ❌ No artwork available")
     }
-
-    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
 
   func updatePlaybackState(isPlaying: Bool) {
@@ -86,6 +152,15 @@ final class NowPlayingManager {
     print(
       "🎵 NowPlayingManager: Updating now playing state to \(isPlaying), playbackRate: \(nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] as? Double ?? -1)"
     )
+    MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+  }
+
+  func updateProgress(currentTime: TimeInterval, duration: TimeInterval) {
+    guard !nowPlayingInfo.isEmpty else { return }
+
+    nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
+    nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
+
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
 

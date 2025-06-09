@@ -41,6 +41,16 @@ import SwiftUI
       Button(action: {
         Task {
           do {
+            // Exit solo mode without resuming if active
+            if AudioManager.shared.soloModeSound != nil {
+              AudioManager.shared.exitSoloModeWithoutResuming()
+            }
+
+            // Exit CarPlay Quick Mix if active
+            if AudioManager.shared.isCarPlayQuickMix {
+              AudioManager.shared.exitCarPlayQuickMix()
+            }
+
             try presetManager.applyPreset(preset)
           } catch {
             print("Error applying preset: \(error)")

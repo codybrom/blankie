@@ -36,6 +36,8 @@ struct SoundSheet: View {
   @State var isPreviewing: Bool = false
   @State var previewSound: Sound?
   @State var originalCustomization: SoundCustomization?
+  @State var previousSoloModeSound: Sound?
+  @State var wasPreviewSoundPlaying: Bool = false
 
   let isFilePreselected: Bool
 
@@ -133,6 +135,10 @@ struct SoundSheet: View {
           // Footer buttons
           HStack {
             Button("Cancel") {
+              // Stop preview before dismissing
+              if isPreviewing {
+                stopPreview()
+              }
               dismiss()
             }
             .buttonStyle(.bordered)
@@ -174,6 +180,10 @@ struct SoundSheet: View {
           .navigationBarBackButtonHidden(true)
           .navigationBarItems(
             leading: Button("Cancel") {
+              // Stop preview before dismissing
+              if isPreviewing {
+                stopPreview()
+              }
               dismiss()
             },
             trailing: Button("Save") {

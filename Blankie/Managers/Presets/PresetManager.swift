@@ -17,7 +17,7 @@ class PresetManager: ObservableObject {
   static let shared = PresetManager()
 
   @Published private(set) var presets: [Preset] = []
-  @Published private(set) var currentPreset: Preset? {
+  @Published var currentPreset: Preset? {
     didSet {
       AudioManager.shared.updateNowPlayingInfoForPreset(
         presetName: currentPreset?.activeTitle,
@@ -229,56 +229,68 @@ extension PresetManager {
 
   @MainActor
   func updateCurrentPresetState() {
-    // Don't update during initialization
     if isInitializing { return }
 
     guard let preset = currentPreset else {
-      // Only log this once, not repeatedly
       if !isInitializing {
         print("❌ PresetManager: No current preset to update")
       }
       return
     }
 
-    // Get current state based on preset type
-    let newStates: [PresetState]
-    let currentSoundOrder: [String]
+    let (newStates, currentSoundOrder) = generateUpdatedPresetData(for: preset)
+    updatePresetIfChanged(
+      preset: preset, newStates: newStates, currentSoundOrder: currentSoundOrder)
+  }
 
+  private func generateUpdatedPresetData(for preset: Preset) -> ([PresetState], [String]) {
     if preset.isDefault {
-      // For default preset, include all sounds
-      newStates = AudioManager.shared.sounds.map { sound in
-        PresetState(
-          fileName: sound.fileName,
+      return generateDefaultPresetData()
+    } else {
+      return generateCustomPresetData(for: preset)
+    }
+  }
+
+  private func generateDefaultPresetData() -> ([PresetState], [String]) {
+    let newStates = AudioManager.shared.sounds.map { sound in
+      PresetState(
+        fileName: sound.fileName,
+        isSelected: sound.isSelected,
+        volume: sound.volume
+      )
+    }
+    let currentSoundOrder = AudioManager.shared.sounds
+      .sorted { $0.customOrder < $1.customOrder }
+      .map(\.fileName)
+    return (newStates, currentSoundOrder)
+  }
+
+  private func generateCustomPresetData(for preset: Preset) -> ([PresetState], [String]) {
+    let newStates = preset.soundStates.compactMap { existingState in
+      if let sound = AudioManager.shared.sounds.first(where: {
+        $0.fileName == existingState.fileName
+      }) {
+        return PresetState(
+          fileName: existingState.fileName,
           isSelected: sound.isSelected,
           volume: sound.volume
         )
       }
-      currentSoundOrder = AudioManager.shared.sounds
-        .sorted { $0.customOrder < $1.customOrder }
-        .map(\.fileName)
-    } else {
-      // For custom presets, only update sounds that are in the preset
-      newStates = preset.soundStates.compactMap { existingState in
-        if let sound = AudioManager.shared.sounds.first(where: {
-          $0.fileName == existingState.fileName
-        }) {
-          return PresetState(
-            fileName: existingState.fileName,
-            isSelected: sound.isSelected,
-            volume: sound.volume
-          )
-        }
-        return nil  // Remove sounds that no longer exist
-      }
-      // For custom presets, only track order of sounds in the preset
-      let presetSoundFileNames = Set(preset.soundStates.map(\.fileName))
-      currentSoundOrder = AudioManager.shared.sounds
-        .filter { presetSoundFileNames.contains($0.fileName) }
-        .sorted { $0.customOrder < $1.customOrder }
-        .map(\.fileName)
+      return nil
     }
 
-    // Only update if state or order has actually changed
+    let presetSoundFileNames = Set(preset.soundStates.map(\.fileName))
+    let currentSoundOrder = AudioManager.shared.sounds
+      .filter { presetSoundFileNames.contains($0.fileName) }
+      .sorted { $0.customOrder < $1.customOrder }
+      .map(\.fileName)
+
+    return (newStates, currentSoundOrder)
+  }
+
+  @MainActor private func updatePresetIfChanged(
+    preset: Preset, newStates: [PresetState], currentSoundOrder: [String]
+  ) {
     let orderChanged = preset.soundOrder != currentSoundOrder
     if preset.soundStates != newStates || orderChanged {
       var updatedPreset = preset
@@ -304,62 +316,12 @@ extension PresetManager {
     }
 
     if preset.id == currentPreset?.id && !isInitialLoad {
-      print("🎛️ PresetManager: Preset already active, but still updating Now Playing info")
-      print(
-        "🎨 PresetManager: Artwork data: \(preset.artworkData != nil ? "✅ \(preset.artworkData!.count) bytes" : "❌ None")"
-      )
-      // Still update Now Playing info for artwork changes
-      AudioManager.shared.updateNowPlayingInfoForPreset(
-        presetName: preset.activeTitle,
-        creatorName: preset.creatorName,
-        artworkData: preset.artworkData
-      )
+      handleAlreadyActivePreset(preset)
       return
     }
 
-    let targetStates = preset.soundStates
-    let wasPlaying = AudioManager.shared.isGloballyPlaying
-
-    // Update current preset before any audio changes
-    currentPreset = preset
-    PresetStorage.saveLastActivePresetID(preset.id)
-
-    // Explicitly update Now Playing info with preset name, creator, and artwork
-    print(
-      "🎨 PresetManager: Updating Now Playing with artwork: \(preset.artworkData != nil ? "✅ \(preset.artworkData!.count) bytes" : "❌ None")"
-    )
-    AudioManager.shared.updateNowPlayingInfoForPreset(
-      presetName: preset.activeTitle,
-      creatorName: preset.creatorName,
-      artworkData: preset.artworkData
-    )
-
-    Task {
-      if wasPlaying {
-        AudioManager.shared.pauseAll()
-        try? await Task.sleep(nanoseconds: 300_000_000)
-      }
-
-      // Apply states all at once
-      applySoundStates(targetStates)
-
-      // Apply custom sound order if preset has one
-      if let soundOrder = preset.soundOrder {
-        applySoundOrder(soundOrder)
-      }
-
-      // Wait a bit for states to settle
-      try? await Task.sleep(nanoseconds: 100_000_000)
-
-      // Start playing if:
-      // 1. Not an initial load (user manually selected preset)
-      // 2. OR initial load and auto-play is enabled
-      let shouldAutoPlay = !isInitialLoad || GlobalSettings.shared.autoPlayOnLaunch
-
-      if shouldAutoPlay && targetStates.contains(where: { $0.isSelected }) {
-        AudioManager.shared.setGlobalPlaybackState(true)
-      }
-    }
+    preparePresetApplication(preset)
+    executePresetApplication(preset: preset, isInitialLoad: isInitialLoad)
 
     print("🎛️ PresetManager: --- End Apply Preset ---\n")
   }

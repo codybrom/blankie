@@ -274,12 +274,23 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
       shouldLoop = true  // Default to true for all sounds
     }
 
-    // If not looping, deselect the sound
+    // If not looping, handle completion
     if !shouldLoop {
       DispatchQueue.main.async { [weak self] in
         guard let self = self else { return }
-        print("🔊 Sound: Non-looping sound '\(self.fileName)' finished playing, deselecting")
-        self.isSelected = false
+        print("🔊 Sound: Non-looping sound '\(self.fileName)' finished playing")
+
+        // Check if we're in solo mode with this sound
+        if AudioManager.shared.soloModeSound?.id == self.id {
+          print("🔊 Sound: Non-looping sound in solo mode finished, pausing global playback")
+          // Reset the sound position for next play
+          self.resetSoundPosition()
+          // Pause global playback but stay in solo mode
+          AudioManager.shared.setGlobalPlaybackState(false)
+        } else {
+          // Normal mode - deselect the sound
+          self.isSelected = false
+        }
       }
     }
   }

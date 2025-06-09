@@ -16,7 +16,16 @@ extension NowPlayingManager {
   ) {
     // Check if we're in solo mode
     if let soloSound = AudioManager.shared.soloModeSound {
-      return (title: soloSound.title, artist: "Solo Mode • Blankie")
+      // Check if the sound has a creator/credited author
+      let artist: String
+      if let author = SoundCreditsManager.shared.getAuthor(for: soloSound.title),
+        !author.isEmpty
+      {
+        artist = "Sound by \(author)"
+      } else {
+        artist = "Blankie"
+      }
+      return (title: soloSound.title, artist: artist)
     } else if let name = presetName {
       // Handle special presets
       let displayTitle: String
@@ -39,18 +48,14 @@ extension NowPlayingManager {
   private func getArtistInfo(creatorName: String? = nil) -> String {
     // If creator name is provided, show it first
     if let creator = creatorName {
-      return "by \(creator) • Blankie"
+      return "Mixed by \(creator)"
     }
 
     // Otherwise show active sounds
     let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
     if !activeSounds.isEmpty {
-      let soundNames = activeSounds.prefix(3).map { $0.title }.joined(separator: " + ")
-      if activeSounds.count > 3 {
-        return "\(soundNames) +\(activeSounds.count - 3)"
-      } else {
-        return soundNames
-      }
+      let soundNames = activeSounds.map { $0.title }.joined(separator: ", ")
+      return soundNames
     } else {
       return "Blankie"
     }
@@ -60,17 +65,17 @@ extension NowPlayingManager {
     guard let artworkData = data else { return nil }
 
     #if os(iOS) || os(visionOS)
-    if let image = UIImage(data: artworkData) {
-      return MPMediaItemArtwork(boundsSize: image.size) { _ in
-        return image
+      if let image = UIImage(data: artworkData) {
+        return MPMediaItemArtwork(boundsSize: image.size) { _ in
+          return image
+        }
       }
-    }
     #elseif os(macOS)
-    if let image = NSImage(data: artworkData) {
-      return MPMediaItemArtwork(boundsSize: image.size) { _ in
-        return image
+      if let image = NSImage(data: artworkData) {
+        return MPMediaItemArtwork(boundsSize: image.size) { _ in
+          return image
+        }
       }
-    }
     #endif
     return nil
   }

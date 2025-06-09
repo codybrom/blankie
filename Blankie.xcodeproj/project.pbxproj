@@ -231,7 +231,28 @@
 				"$(PROJECT_DIR)/Configuration.xcconfig",
 			);
 			shellPath = /bin/sh;
-			shellScript = "#!/bin/sh\nset -e\nset -x\n\n# Get paths\nCONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"\nTEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"\n\n# Get current build number from xcconfig\nbuildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')\n\n# Increment the build number\nbuildNumber=$((buildNumber + 1))\necho \"New build number: $buildNumber\"\n\n# Update xcconfig using a temp file\nsed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"\ncp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"\n\n";
+			shellScript = (
+				"#!/bin/sh",
+				"set -e",
+				"set -x",
+				"",
+				"# Get paths",
+				"CONFIG_PATH=\"${PROJECT_DIR}/Configuration.xcconfig\"",
+				"TEMP_CONFIG=\"${DERIVED_FILE_DIR}/temp_config.xcconfig\"",
+				"",
+				"# Get current build number from xcconfig",
+				"buildNumber=$(grep \"CURRENT_PROJECT_VERSION\" \"${CONFIG_PATH}\" | awk -F \"=\" '{print $2}' | tr -d '[:space:]')",
+				"",
+				"# Increment the build number",
+				"buildNumber=$((buildNumber + 1))",
+				"echo \"New build number: $buildNumber\"",
+				"",
+				"# Update xcconfig using a temp file",
+				"sed \"s/CURRENT_PROJECT_VERSION = [0-9]*/CURRENT_PROJECT_VERSION = $buildNumber/\" \"${CONFIG_PATH}\" > \"${TEMP_CONFIG}\"",
+				"cp \"${TEMP_CONFIG}\" \"${CONFIG_PATH}\"",
+				"",
+				"",
+			);
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -93,8 +93,11 @@ extension AudioManager {
         isPlaying: isGloballyPlaying)
 
       if isGloballyPlaying {
+        let currentPreset = PresetManager.shared.currentPreset
         nowPlayingManager.updateInfo(
-          presetName: PresetManager.shared.currentPreset?.name,
+          presetName: currentPreset?.name,
+          creatorName: currentPreset?.creatorName,
+          artworkData: currentPreset?.artworkData,
           isPlaying: true
         )
       }

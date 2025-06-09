@@ -46,8 +46,10 @@
     }
 
     private static func createGridButton(for sound: Sound) -> CPGridButton {
-      // Check if sound is currently playing (not in solo mode)
-      let isPlaying = sound.player?.isPlaying == true && AudioManager.shared.soloModeSound == nil
+      // Check if sound is currently playing in QuickMix mode
+      let isPlaying =
+        sound.player?.isPlaying == true && AudioManager.shared.isCarPlayQuickMix
+        && AudioManager.shared.soloModeSound == nil
 
       // Create button titles
       let titles = [sound.title]
@@ -132,6 +134,11 @@
 
     private static func handleSoundToggle(_ sound: Sound, button: CPGridButton) {
       Task { @MainActor in
+        // Exit solo mode if active
+        if AudioManager.shared.soloModeSound != nil {
+          AudioManager.shared.exitSoloModeWithoutResuming()
+        }
+
         // Check if we're in CarPlay Quick Mix mode
         if !AudioManager.shared.isCarPlayQuickMix {
           // Enter CarPlay Quick Mix mode with this sound

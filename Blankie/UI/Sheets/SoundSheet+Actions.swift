@@ -12,6 +12,11 @@ extension SoundSheet {
   // MARK: - Actions
 
   func performAction() {
+    // Stop preview before performing action
+    if isPreviewing {
+      stopPreview()
+    }
+
     switch mode {
     case .add:
       importSound()

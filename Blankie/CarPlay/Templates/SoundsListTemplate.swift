@@ -28,37 +28,27 @@
     static func updateTemplate(_ template: CPListTemplate) {
       var sections: [CPListSection] = []
 
-      // Get all sounds
-      let allSounds = AudioManager.shared.sounds
+      // Get all sounds and sort alphabetically
+      let allSounds = AudioManager.shared.sounds.sorted { $0.title < $1.title }
 
-      // Group sounds by category (built-in vs custom)
-      let builtInSounds = allSounds.filter { !$0.isCustom }
-      let customSounds = allSounds.filter { $0.isCustom }
-
-      // Built-in sounds section
-      if !builtInSounds.isEmpty {
-        let sortedSounds = builtInSounds.sorted { $0.title < $1.title }
-        let soundItems = sortedSounds.map { createSoundListItem($0) }
-        sections.append(
-          CPListSection(
-            items: soundItems,
-            header: "Built-in Sounds",
-            sectionIndexTitle: "B"
-          )
-        )
+      // Group sounds by first letter for better navigation
+      let groupedSounds = Dictionary(grouping: allSounds) { sound in
+        String(sound.title.prefix(1).uppercased())
       }
 
-      // Custom sounds section
-      if !customSounds.isEmpty {
-        let sortedCustom = customSounds.sorted { $0.title < $1.title }
-        let customItems = sortedCustom.map { createSoundListItem($0) }
-        sections.append(
-          CPListSection(
-            items: customItems,
-            header: "Custom Sounds",
-            sectionIndexTitle: "C"
+      // Create sections for each letter
+      let sortedKeys = groupedSounds.keys.sorted()
+      for key in sortedKeys {
+        if let sounds = groupedSounds[key] {
+          let soundItems = sounds.map { createSoundListItem($0) }
+          sections.append(
+            CPListSection(
+              items: soundItems,
+              header: nil,  // No header for cleaner look
+              sectionIndexTitle: key
+            )
           )
-        )
+        }
       }
 
       template.updateSections(sections)
@@ -69,7 +59,7 @@
 
       let item = CPListItem(
         text: sound.title,
-        detailText: sound.isCustom ? "Custom" : nil
+        detailText: nil
       )
 
       // Add accessory if playing in solo mode

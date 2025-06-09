@@ -19,13 +19,18 @@ extension SoundSheet {
   }
 
   private func prepareForPreview() {
+    // Save current solo mode sound if any
+    previousSoloModeSound = AudioManager.shared.soloModeSound
+
     // Exit any existing solo mode first
     if AudioManager.shared.soloModeSound != nil {
-      AudioManager.shared.exitSoloMode()
+      AudioManager.shared.exitSoloModeWithoutResuming()
     }
 
-    // Pause all sounds
-    AudioManager.shared.setGlobalPlaybackState(false)
+    // Only pause all sounds if we weren't in solo mode
+    if previousSoloModeSound == nil {
+      AudioManager.shared.setGlobalPlaybackState(false)
+    }
   }
 
   private func createPreviewSound() {
@@ -46,6 +51,9 @@ extension SoundSheet {
       isPreviewing = false
       return
     }
+
+    // Reset this flag for add mode
+    wasPreviewSoundPlaying = false
 
     // Create a temporary preview sound
     let fileName = fileURL.deletingPathExtension().lastPathComponent
@@ -79,6 +87,9 @@ extension SoundSheet {
   private func createEditPreview(_ customSound: CustomSoundData) {
     guard let fileURL = CustomSoundManager.shared.fileURL(for: customSound) else { return }
 
+    // Reset this flag for edit mode
+    wasPreviewSoundPlaying = false
+
     // Create a preview Sound with the edited settings
     let preview = Sound(
       title: soundName,
@@ -107,6 +118,9 @@ extension SoundSheet {
   }
 
   private func createCustomizePreview(_ sound: Sound) {
+    // Track if this sound was playing before preview
+    wasPreviewSoundPlaying = sound.player?.isPlaying == true && sound.isSelected
+
     // Stop the existing sound if it's playing
     if sound.player?.isPlaying == true {
       sound.pause(immediate: true)
@@ -131,6 +145,12 @@ extension SoundSheet {
     // Load the sound first
     preview.loadSound()
 
+    // For customize mode, ensure the sound maintains its selection state
+    // This helps exitSoloMode know whether to resume it
+    if case .customize = mode, wasPreviewSoundPlaying {
+      preview.isSelected = true
+    }
+
     // Enter solo mode and start playback
     AudioManager.shared.enterSoloMode(for: preview)
     AudioManager.shared.setGlobalPlaybackState(true)
@@ -138,10 +158,32 @@ extension SoundSheet {
 
   internal func stopPreview() {
     Task { @MainActor in
-      // Exit solo mode
       if let preview = previewSound {
-        AudioManager.shared.exitSoloMode()
-        AudioManager.shared.setGlobalPlaybackState(false)
+        // If we had a previous solo mode sound, restore it
+        if let previousSolo = previousSoloModeSound {
+          // Exit current solo mode without resuming
+          AudioManager.shared.exitSoloModeWithoutResuming()
+
+          // Enter solo mode for the previous sound
+          AudioManager.shared.enterSoloMode(for: previousSolo)
+        } else {
+          // No previous solo mode - exit normally to resume previous playback
+          AudioManager.shared.exitSoloMode()
+
+          // For customize mode, if the sound was playing before preview,
+          // ensure it resumes playing after solo mode exit
+          if case .customize = mode, wasPreviewSoundPlaying {
+            // Give exitSoloMode a moment to restore states
+            Task {
+              try? await Task.sleep(nanoseconds: 100_000_000)  // 100ms
+              if preview.isSelected && AudioManager.shared.isGloballyPlaying
+                && preview.player?.isPlaying != true
+              {
+                preview.play()
+              }
+            }
+          }
+        }
 
         // Restore original customization settings for built-in sounds
         if case .customize(let originalSound) = mode {
@@ -157,18 +199,29 @@ extension SoundSheet {
         }
 
         // Clean up the preview sound
-        preview.player?.stop()
-        preview.player = nil
+        // Only stop the player if it's not a sound that should resume playing
+        if case .customize = mode, wasPreviewSoundPlaying {
+          // Don't stop the player - it will resume when exitSoloMode restores playback
+          // The sound's player will be reused for normal playback
+        } else {
+          // For add/edit modes or non-playing sounds, clean up the player
+          preview.player?.stop()
+          preview.player = nil
+        }
       }
 
       previewSound = nil
+      previousSoloModeSound = nil
+      wasPreviewSoundPlaying = false
     }
   }
 
   internal func updatePreviewVolume() {
     guard isPreviewing, let preview = previewSound else { return }
 
-    print("🎵 SoundSheet: Updating preview volume - normalize: \(normalizeAudio), adjustment: \(volumeAdjustment)")
+    print(
+      "🎵 SoundSheet: Updating preview volume - normalize: \(normalizeAudio), adjustment: \(volumeAdjustment)"
+    )
 
     Task { @MainActor in
       switch mode {
@@ -185,7 +238,8 @@ extension SoundSheet {
   private func updateEditPreviewVolume(_ preview: Sound) async {
     guard preview.isCustom else { return }
 
-    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(for: preview.fileName)
+    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
+      for: preview.fileName)
     customization.normalizeAudio = normalizeAudio
     customization.volumeAdjustment = volumeAdjustment
     SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
@@ -194,12 +248,15 @@ extension SoundSheet {
     print("🎵 SoundSheet: Updated custom sound preview volume")
 
     if let player = preview.player {
-      print("🎵 SoundSheet: Custom sound player volume: \(player.volume), isPlaying: \(player.isPlaying)")
+      print(
+        "🎵 SoundSheet: Custom sound player volume: \(player.volume), isPlaying: \(player.isPlaying)"
+      )
     }
   }
 
   private func updateCustomizePreviewVolume(_ preview: Sound, _ sound: Sound) async {
-    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(for: sound.fileName)
+    var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
+      for: sound.fileName)
     customization.normalizeAudio = normalizeAudio
     customization.volumeAdjustment = volumeAdjustment
 
@@ -211,11 +268,17 @@ extension SoundSheet {
     print("🎵 SoundSheet: Updated built-in sound preview volume for \(sound.fileName)")
 
     if let player = preview.player {
-      print("🎵 SoundSheet: Built-in sound player volume: \(player.volume), isPlaying: \(player.isPlaying)")
+      print(
+        "🎵 SoundSheet: Built-in sound player volume: \(player.volume), isPlaying: \(player.isPlaying)"
+      )
     }
 
-    if let updatedCustomization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName) {
-      print("🎵 SoundSheet: Verified customization - normalize: \(updatedCustomization.normalizeAudio ?? true), adjustment: \(updatedCustomization.volumeAdjustment ?? 1.0)")
+    if let updatedCustomization = SoundCustomizationManager.shared.getCustomization(
+      for: sound.fileName)
+    {
+      print(
+        "🎵 SoundSheet: Verified customization - normalize: \(updatedCustomization.normalizeAudio ?? true), adjustment: \(updatedCustomization.volumeAdjustment ?? 1.0)"
+      )
     }
   }
 

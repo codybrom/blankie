@@ -285,9 +285,6 @@
         }
       }
     },
-    "Album artwork works best as a square. Drag and pinch to adjust the crop area." : {
-
-    },
     "All Sounds" : {
       "comment" : "All sounds label",
       "extractionState" : "manual",
@@ -1757,7 +1754,7 @@
     "Creator" : {
 
     },
-    "Crop to Square" : {
+    "Crop Image" : {
 
     },
     "Current Theme" : {
@@ -6739,9 +6736,6 @@
     },
     "Try a different search term" : {
       "comment" : "No icon search results suggestion"
-    },
-    "Use Crop" : {
-
     },
     "Version %@ (%@)" : {
       "comment" : "Version string",

@@ -16,7 +16,7 @@ extension AudioManager {
 
     // Exit solo mode if active
     if soloModeSound != nil {
-      exitSoloMode()
+      exitSoloModeWithoutResuming()
     }
 
     // Clear any current preset
@@ -80,9 +80,12 @@ extension AudioManager {
     // Exit CarPlay Quick Mix mode
     isCarPlayQuickMix = false
 
-    // Update Now Playing info with current preset
+    // Update Now Playing info with full preset details
+    let currentPreset = PresetManager.shared.currentPreset
     nowPlayingManager.updateInfo(
-      presetName: PresetManager.shared.currentPreset?.name,
+      presetName: currentPreset?.name,
+      creatorName: currentPreset?.creatorName,
+      artworkData: currentPreset?.artworkData,
       isPlaying: isGloballyPlaying
     )
   }

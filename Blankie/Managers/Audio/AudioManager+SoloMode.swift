@@ -135,12 +135,43 @@ extension AudioManager {
       print("🎵 AudioManager: Global playback is paused, keeping all sounds paused")
     }
 
-    // Update Now Playing info
+    // Update Now Playing info with full preset details
+    let currentPreset = PresetManager.shared.currentPreset
     nowPlayingManager.updateInfo(
-      presetName: PresetManager.shared.currentPreset?.name,
+      presetName: currentPreset?.name,
+      creatorName: currentPreset?.creatorName,
+      artworkData: currentPreset?.artworkData,
       isPlaying: isGloballyPlaying
     )
 
     print("🎵 AudioManager: Exit solo mode complete")
+  }
+
+  @MainActor
+  func exitSoloModeWithoutResuming() {
+    guard let soloSound = soloModeSound else { return }
+    print("🎵 AudioManager: Exiting solo mode (without resuming) for '\(soloSound.title)'")
+
+    // Pause the solo sound
+    soloSound.pause()
+
+    // Restore original state
+    if let originalVolume = soloModeOriginalVolume {
+      soloSound.volume = originalVolume
+      soloModeOriginalVolume = nil
+    }
+
+    if let originalSelection = soloModeOriginalSelection {
+      soloSound.isSelected = originalSelection
+      soloModeOriginalSelection = nil
+    }
+
+    // Clear solo mode
+    soloModeSound = nil
+
+    // Clear from persistent storage
+    GlobalSettings.shared.saveSoloModeSound(fileName: nil)
+
+    print("🎵 AudioManager: Exit solo mode (without resuming) complete")
   }
 }

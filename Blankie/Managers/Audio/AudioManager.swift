@@ -23,6 +23,15 @@ class AudioManager: ObservableObject {
   var soloModeOriginalVolume: Float?
   var soloModeOriginalSelection: Bool?
 
+  // Preview Mode (separate from solo mode for SoundSheet previews)
+  @Published var previewModeSound: Sound?
+  var previewModeOriginalStates: [String: PreviewOriginalState] = [:]
+
+  struct PreviewOriginalState {
+    let volume: Float
+    let isPlaying: Bool
+  }
+
   // CarPlay Quick Mix Mode
   @Published var isCarPlayQuickMix: Bool = false
   struct QuickMixState {

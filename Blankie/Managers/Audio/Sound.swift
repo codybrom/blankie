@@ -61,6 +61,7 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
               "🎵 Sound: Auto-playing newly selected sound '\(self.fileName)' during active playback"
             )
             self.loadSound()
+            self.resetSoundPosition()  // Apply randomization if enabled
             self.play()
           } else {
             // If playback isn't active yet, wait a bit for auto-start to kick in
@@ -71,6 +72,7 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
               print(
                 "🎵 Sound: Auto-playing newly selected sound '\(self.fileName)' after auto-start")
               self.loadSound()
+              self.resetSoundPosition()  // Apply randomization if enabled
               self.play()
             }
           }
@@ -104,7 +106,8 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
         return
       }
 
-      if player?.isPlaying == true {
+      // Always update volume if player exists, not just when playing
+      if player != nil {
         updateVolume()
       }
 
@@ -183,11 +186,15 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
         self?.updateVolume()
       }
 
-    // Observe customization changes to trigger UI updates
+    // Observe customization changes to trigger UI updates and volume changes
     customizationObserver = SoundCustomizationManager.shared.objectWillChange
       .sink { [weak self] _ in
         DispatchQueue.main.async {
           self?.objectWillChange.send()
+          // Update volume if player exists to apply new customization settings
+          if self?.player != nil {
+            self?.updateVolume()
+          }
         }
       }
 

@@ -59,25 +59,23 @@ extension CleanSoundSheetForm {
 // MARK: - Preview Helpers
 extension CleanSoundSheetForm {
   func togglePreview() {
-    if isPreviewing {
-      stopPreview()
-    } else {
-      startPreview()
-    }
+    print("🎵 CleanSoundSheetForm: togglePreview called, current isPreviewing: \(isPreviewing)")
+    isPreviewing.toggle()
   }
 
   func startPreview() {
-    // This will be implemented in the parent view
+    print("🎵 CleanSoundSheetForm: startPreview called")
     isPreviewing = true
   }
 
   func stopPreview() {
-    // This will be implemented in the parent view
+    print("🎵 CleanSoundSheetForm: stopPreview called")
     isPreviewing = false
   }
 
   func updatePreviewVolume() {
-    // This will be implemented in the parent view
+    print("🎵 CleanSoundSheetForm: updatePreviewVolume called")
+    // Volume updates will be handled by onChange modifiers
   }
 }
 

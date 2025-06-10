@@ -23,6 +23,7 @@ struct CleanSoundSheetForm: View {
   @Binding var previewSound: Sound?
   @Binding var showingDeleteConfirmation: Bool
   @Binding var showingResetConfirmation: Bool
+  @Binding var isDisappearing: Bool
 
   @ObservedObject var globalSettings = GlobalSettings.shared
   @State var showingIconPicker = false

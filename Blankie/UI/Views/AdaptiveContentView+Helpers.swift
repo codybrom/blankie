@@ -51,8 +51,9 @@ import SwiftUI
 
     // Computed properties for columns and columnWidth
     var columns: [GridItem] {
-      if isLargeDevice {
-        // iPad/larger screens
+      // This is now only used for macOS since iOS uses fixed 2-column grid
+      #if os(macOS)
+        // macOS can continue using icon size settings
         switch globalSettings.iconSize {
         case .small:
           return [GridItem(.adaptive(minimum: 50, maximum: 60), spacing: 4)]
@@ -61,32 +62,14 @@ import SwiftUI
         case .large:
           return [GridItem(.adaptive(minimum: 240, maximum: 280), spacing: 24)]
         }
-      } else {
-        // iPhone
-        let columnCount: Int
-        switch globalSettings.iconSize {
-        case .small:
-          columnCount = 4
-        case .medium:
-          columnCount = 3
-        case .large:
-          columnCount = 2
-        }
-        let spacing: CGFloat
-        switch globalSettings.iconSize {
-        case .small:
-          spacing = 1
-        case .medium:
-          spacing = 10
-        case .large:
-          spacing = 8
-        }
-        return Array(repeating: GridItem(.flexible(), spacing: spacing), count: columnCount)
-      }
+      #else
+        // iOS uses fixed 2-column grid (handled in gridView)
+        return Array(repeating: GridItem(.flexible(), spacing: 16), count: 2)
+      #endif
     }
 
     var columnWidth: CGFloat {
-      if isLargeDevice {
+      #if os(macOS)
         switch globalSettings.iconSize {
         case .small:
           return 60
@@ -95,33 +78,14 @@ import SwiftUI
         case .large:
           return 300
         }
-      } else {
-        #if os(iOS)
-          let screenWidth = UIScreen.main.bounds.width
-          let columnCount: CGFloat
-          switch globalSettings.iconSize {
-          case .small:
-            columnCount = 4
-          case .medium:
-            columnCount = 3
-          case .large:
-            columnCount = 2
-          }
-          let spacing: CGFloat
-          switch globalSettings.iconSize {
-          case .small:
-            spacing = 1
-          case .medium:
-            spacing = 10
-          case .large:
-            spacing = 8
-          }
-          let width = (screenWidth - (40 + (spacing * (columnCount - 1)))) / columnCount
-          return width
-        #else
-          return 100  // Fallback for other platforms
-        #endif
-      }
+      #else
+        // iOS uses fixed 2-column grid
+        let screenWidth = UIScreen.main.bounds.width
+        let spacing: CGFloat = 16
+        let padding: CGFloat = 32  // 16 on each side
+        let width = (screenWidth - padding - spacing) / 2
+        return width
+      #endif
     }
 
     // Calculate offset for dodging animation

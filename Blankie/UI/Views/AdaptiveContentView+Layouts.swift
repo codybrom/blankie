@@ -46,36 +46,58 @@ import SwiftUI
     @ViewBuilder
     var gridView: some View {
       ScrollView {
+        if editMode == .active {
+          // Edit mode helper text
+          Text("Drag sounds to reorder")
+            .font(.subheadline)
+            .foregroundColor(.secondary)
+            .padding(.top, 8)
+            .padding(.bottom, 4)
+        }
+
         LazyVGrid(
-          columns: columns,
-          spacing: globalSettings.iconSize == .small
-            ? 2 : (globalSettings.iconSize == .medium ? 8 : 12)
+          columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2),
+          spacing: 16
         ) {
           ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
-            DraggableSoundIcon(
+            GridSoundButtonWrapper(
               sound: sound,
-              maxWidth: columnWidth,
               index: index,
+              editMode: $editMode,
               draggedIndex: $draggedIndex,
-              hoveredIndex: $hoveredIndex,
-              onDragStart: {
-                draggedIndex = index
-                startDragResetTimer()
-              },
-              onDrop: { sourceIndex in
-                audioManager.moveVisibleSound(from: sourceIndex, to: index)
-                cancelDragResetTimer()
-              },
-              onEditSound: { sound in
-                soundToEdit = sound
-              },
-              onEnterEditMode: enterEditMode,
-              editMode: editMode
+              audioManager: audioManager
             )
           }
         }
         .padding()
-        .animation(.easeInOut, value: filteredSounds.count)
+      }
+      .overlay(alignment: .bottom) {
+        if editMode == .active {
+          // Done Moving button
+          VStack(spacing: 0) {
+            Divider()
+
+            Button(action: {
+              withAnimation(.easeInOut(duration: 0.3)) {
+                editMode = .inactive
+              }
+            }) {
+              HStack {
+                Image(systemName: "checkmark.circle.fill")
+                  .font(.title2)
+                Text("Done Moving")
+                  .font(.headline)
+              }
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 16)
+              .foregroundColor(.white)
+              .background(globalSettings.customAccentColor ?? .accentColor)
+            }
+            .sensoryFeedback(.selection, trigger: editMode)
+          }
+          .background(.regularMaterial)
+          .transition(.move(edge: .bottom).combined(with: .opacity))
+        }
       }
     }
 

@@ -30,21 +30,23 @@ import SwiftUI
               }
               .pickerStyle(.segmented)
 
-              // Icon Size - only show in grid view
-              if !showingListView {
-                Picker(
-                  "Icon Size",
-                  selection: Binding(
-                    get: { globalSettings.iconSize },
-                    set: { globalSettings.setIconSize($0) }
-                  )
-                ) {
-                  Text("Small").tag(IconSize.small)
-                  Text("Medium").tag(IconSize.medium)
-                  Text("Large").tag(IconSize.large)
+              // Icon Size - only show in grid view and only on macOS
+              #if os(macOS)
+                if !showingListView {
+                  Picker(
+                    "Icon Size",
+                    selection: Binding(
+                      get: { globalSettings.iconSize },
+                      set: { globalSettings.setIconSize($0) }
+                    )
+                  ) {
+                    Text("Small").tag(IconSize.small)
+                    Text("Medium").tag(IconSize.medium)
+                    Text("Large").tag(IconSize.large)
+                  }
+                  .pickerStyle(.menu)
                 }
-                .pickerStyle(.menu)
-              }
+              #endif
 
               // Toggles
               Toggle(
@@ -55,13 +57,15 @@ import SwiftUI
                 )
               )
 
-              Toggle(
-                "Show Inactive Sounds",
-                isOn: Binding(
-                  get: { !hideInactiveSounds },
-                  set: { hideInactiveSounds = !$0 }
+              #if os(macOS)
+                Toggle(
+                  "Show Inactive Sounds",
+                  isOn: Binding(
+                    get: { !hideInactiveSounds },
+                    set: { hideInactiveSounds = !$0 }
+                  )
                 )
-              )
+              #endif
             }
 
             // Progress Borders - show in solo mode and grid view, but not in Quick Mix
@@ -87,17 +91,6 @@ import SwiftUI
                 )
               )
             }
-
-            #if os(iOS)
-              // Lock Portrait Orientation
-              Toggle(
-                "Lock Portrait Orientation",
-                isOn: Binding(
-                  get: { globalSettings.lockPortraitOrientationiOS },
-                  set: { globalSettings.setLockPortraitOrientationiOS($0) }
-                )
-              )
-            #endif
 
             // Appearance
             Picker(

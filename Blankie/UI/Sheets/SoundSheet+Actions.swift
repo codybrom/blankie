@@ -114,13 +114,13 @@ extension SoundSheet {
   }
 
   func saveCustomization(_ sound: Sound) {
-    let hasCustomizations = checkForCustomizations(sound)
+    // Always apply customizations when save is clicked
+    // This ensures any preview changes are persisted
+    applyCustomizations(sound)
 
-    if hasCustomizations {
-      applyCustomizations(sound)
-    } else {
-      // Remove all customizations if there are no changes
-      SoundCustomizationManager.shared.resetCustomizations(for: sound.fileName)
+    // Force an immediate volume update for the sound
+    if sound.player != nil {
+      sound.updateVolume()
     }
 
     // Sound object will automatically update through customization observer
@@ -184,6 +184,9 @@ extension SoundSheet {
       loopSound != true ? loopSound : nil,
       for: sound.fileName
     )
+
+    // Force save all customizations
+    manager.saveCustomizations()
   }
 
   // MARK: - Preset Integration
@@ -304,5 +307,31 @@ extension SoundSheet {
     }
     PresetStorage.saveCustomPresets(customPresets)
     print("🎵 SoundSheet: Presets saved directly without state override")
+  }
+
+  // MARK: - Cancel Action
+
+  func handleCancel() {
+    // Stop preview before canceling
+    if isPreviewing {
+      stopPreview()
+    }
+
+    // Restore original customization for customize mode
+    if case .customize(let sound) = mode {
+      if let original = originalCustomization {
+        SoundCustomizationManager.shared.updateTemporaryCustomization(original)
+        SoundCustomizationManager.shared.saveCustomizations()
+      } else {
+        // If there was no original customization, remove any temporary one
+        SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
+      }
+      
+      // Force update the sound to reflect restored settings
+      sound.objectWillChange.send()
+      if sound.player != nil {
+        sound.updateVolume()
+      }
+    }
   }
 }

@@ -191,4 +191,93 @@ extension AudioManager {
 
     print("🎵 AudioManager: Exit solo mode (without resuming) complete")
   }
+
+  // MARK: - Preview Mode (for SoundSheet previews)
+
+  @MainActor
+  func enterPreviewMode(for sound: Sound) {
+    print("🎵 AudioManager: Entering preview mode for '\(sound.title)'")
+
+    // Store original volume and playback states (don't touch selection states)
+    previewModeOriginalStates.removeAll()
+    for existingSound in sounds {
+      previewModeOriginalStates[existingSound.fileName] = PreviewOriginalState(
+        volume: existingSound.volume,
+        isPlaying: existingSound.player?.isPlaying == true
+      )
+    }
+
+    // Pause all other sounds (but preserve their playback position)
+    // Don't pause the preview sound itself
+    for otherSound in sounds where otherSound.id != sound.id {
+      if otherSound.player?.isPlaying == true {
+        otherSound.pause()
+      }
+    }
+
+    // Set preview mode (this doesn't trigger UI changes like solo mode)
+    previewModeSound = sound
+
+    // Set the sound to full volume for preview (will be adjusted by customization)
+    sound.volume = 1.0
+
+    // Ensure the sound is loaded
+    if sound.player == nil {
+      sound.loadSound()
+    }
+
+    // Update volume based on any temporary customizations that might be applied
+    sound.updateVolume()
+
+    // Start playing the preview sound
+    let wasAlreadyPlaying = previewModeOriginalStates[sound.fileName]?.isPlaying ?? false
+    if !wasAlreadyPlaying {
+      // Sound wasn't playing before - reset position (respecting randomization)
+      sound.resetSoundPosition()
+    }
+    // Play the sound (continues from current position if it was already playing)
+    sound.play()
+
+    print("🎵 AudioManager: Preview mode started for '\(sound.title)'")
+  }
+
+  @MainActor
+  func exitPreviewMode() {
+    guard let previewSound = previewModeSound else { return }
+    print("🎵 AudioManager: Exiting preview mode for '\(previewSound.title)'")
+
+    // Handle the preview sound: pause it only if it wasn't playing before preview
+    let previewSoundWasPlaying =
+      previewModeOriginalStates[previewSound.fileName]?.isPlaying ?? false
+    if !previewSoundWasPlaying {
+      previewSound.pause()
+    }
+    // If it was playing before, let it continue playing (it will be handled in the restoration loop)
+
+    // Restore original volume and playback states for all sounds
+    for sound in sounds {
+      if let originalState = previewModeOriginalStates[sound.fileName] {
+        sound.volume = originalState.volume
+
+        // Update volume to reflect the restored state
+        sound.updateVolume()
+
+        // Restore playback state: if it was playing before and should still be playing
+        if originalState.isPlaying && isGloballyPlaying {
+          if sound.player?.isPlaying != true {
+            print("🎵 AudioManager: Resuming '\(sound.title)' - was playing before preview")
+            sound.play()
+          } else {
+            print("🎵 AudioManager: '\(sound.title)' already playing, continuing")
+          }
+        }
+      }
+    }
+
+    // Clear preview mode
+    previewModeSound = nil
+    previewModeOriginalStates.removeAll()
+
+    print("🎵 AudioManager: Preview mode exited")
+  }
 }

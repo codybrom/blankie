@@ -40,6 +40,7 @@ struct SoundSheet: View {
   @State var wasPreviewSoundPlaying: Bool = false
   @State var showingDeleteConfirmation: Bool = false
   @State var showingResetConfirmation: Bool = false
+  @State var isDisappearing: Bool = false
 
   // Track initial values to detect changes
   @State var initialSoundName: String = ""
@@ -194,22 +195,26 @@ struct SoundSheet: View {
   }
 
   private func handleOnAppear() {
+    let soundName = builtInSound?.title ?? sound?.title ?? "Unknown"
+    print("🎵 SoundSheet: handleOnAppear called for '\(soundName)'")
     originalCustomization = getOriginalCustomization()
-    if case .customize(let sound) = mode {
-      previewSound = sound
-    }
   }
 
   private func handleOnDisappear() {
-    if case .customize(let sound) = mode {
-      if let originalCustomization = originalCustomization {
-        SoundCustomizationManager.shared.updateTemporaryCustomization(originalCustomization)
-        SoundCustomizationManager.shared.saveCustomizations()
-      } else {
-        SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
-      }
+    // Mark that we're disappearing to prevent re-entrance
+    guard !isDisappearing else {
+      print("🎵 SoundSheet: handleOnDisappear called but already disappearing")
+      return
     }
+
+    let soundName = builtInSound?.title ?? sound?.title ?? "Unknown"
+    print(
+      "🎵 SoundSheet: handleOnDisappear called for '\(soundName)', isPreviewing: \(isPreviewing)")
+    isDisappearing = true
+
+    // Don't restore original customization on disappear - we want to keep the saved changes
     if isPreviewing {
+      print("🎵 SoundSheet: Stopping preview in onDisappear")
       stopPreview()
     }
   }

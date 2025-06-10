@@ -2294,10 +2294,13 @@
         }
       }
     },
+    "Done Moving" : {
+
+    },
     "Done Reordering" : {
 
     },
-    "Drag to Reorder" : {
+    "Drag sounds to reorder" : {
 
     },
     "Drop audio file to import" : {
@@ -3301,9 +3304,6 @@
         }
       }
     },
-    "Large" : {
-
-    },
     "Later" : {
       "comment" : "Cancel restart button",
       "localizations" : {
@@ -3579,9 +3579,6 @@
         }
       }
     },
-    "Lock Portrait Orientation" : {
-
-    },
     "Loop Sound" : {
       "comment" : "Toggle label for looping sound playback"
     },
@@ -3593,9 +3590,6 @@
     },
     "Manage Sounds" : {
       "comment" : "Sound management label"
-    },
-    "Medium" : {
-
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -3673,6 +3667,9 @@
 
     },
     "Mix with Other Audio" : {
+
+    },
+    "Move" : {
 
     },
     "Name" : {
@@ -5912,9 +5909,6 @@
 
     },
     "Shows in Now Playing info" : {
-
-    },
-    "Small" : {
 
     },
     "Software License" : {

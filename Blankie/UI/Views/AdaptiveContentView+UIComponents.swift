@@ -41,33 +41,6 @@ import SwiftUI
         .foregroundStyle(.primary)
         .background(.regularMaterial)
         .transition(.move(edge: .top).combined(with: .opacity))
-      } else if editMode == .active && !isLargeDevice {
-        // Reorder mode banner
-        HStack(spacing: 12) {
-          Image(systemName: "arrow.up.arrow.down.circle.fill")
-            .font(.system(size: 16))
-            .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-          Text("Drag to Reorder")
-            .font(.system(.subheadline, design: .rounded, weight: .medium))
-
-          Spacer()
-
-          Button("Done") {
-            withAnimation(.easeInOut(duration: 0.3)) {
-              editMode = .inactive
-            }
-          }
-          .font(.system(.subheadline, weight: .medium))
-          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-          .buttonStyle(.plain)
-          .sensoryFeedback(.selection, trigger: editMode)
-        }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 8)
-        .padding(.horizontal, 16)
-        .foregroundStyle(.primary)
-        .background(.regularMaterial)
-        .transition(.move(edge: .top).combined(with: .opacity))
       } else if !audioManager.hasSelectedSounds && editMode == .inactive {
         // No sounds selected banner
         HStack(spacing: 12) {

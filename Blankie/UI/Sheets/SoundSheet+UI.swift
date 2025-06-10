@@ -26,12 +26,14 @@ extension SoundSheet {
       previewSound: $previewSound,
       showingDeleteConfirmation: $showingDeleteConfirmation,
       showingResetConfirmation: $showingResetConfirmation,
+      isDisappearing: $isDisappearing,
       hasChanges: hasChanges,
       title: title,
       buttonTitle: buttonTitle,
       isDisabled: isDisabled,
       performAction: performAction,
       stopPreview: stopPreview,
+      handleCancel: handleCancel,
       dismiss: dismiss
     )
   }
@@ -53,7 +55,8 @@ extension SoundSheet {
         isPreviewing: $isPreviewing,
         previewSound: $previewSound,
         showingDeleteConfirmation: $showingDeleteConfirmation,
-        showingResetConfirmation: $showingResetConfirmation
+        showingResetConfirmation: $showingResetConfirmation,
+        isDisappearing: $isDisappearing
       )
       .navigationTitle(title)
       #if !os(macOS)
@@ -74,9 +77,7 @@ extension SoundSheet {
   var leadingNavigationButton: some View {
     if hasChanges {
       Button("Cancel") {
-        if isPreviewing {
-          stopPreview()
-        }
+        handleCancel()
         dismiss()
       }
     } else {

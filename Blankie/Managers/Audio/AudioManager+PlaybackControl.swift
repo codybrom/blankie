@@ -126,6 +126,14 @@ extension AudioManager {
       print(
         "  - About to play '\(sound.fileName)', isSelected: \(sound.isSelected), player exists: \(sound.player != nil)"
       )
+
+      // Check if this sound is starting fresh (not currently playing)
+      let wasPlaying = sound.player?.isPlaying == true
+      if !wasPlaying {
+        // Sound wasn't playing, reset position (respecting randomization)
+        sound.resetSoundPosition()
+      }
+
       sound.play()
       print(
         "  - After play call for '\(sound.fileName)', player playing: \(sound.player?.isPlaying ?? false), volume: \(sound.player?.volume ?? 0)"

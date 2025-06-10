@@ -23,12 +23,14 @@ struct SoundSheetMacOSLayout: View {
   @Binding var previewSound: Sound?
   @Binding var showingDeleteConfirmation: Bool
   @Binding var showingResetConfirmation: Bool
+  @Binding var isDisappearing: Bool
   let hasChanges: Bool
   let title: LocalizedStringKey
   let buttonTitle: LocalizedStringKey
   let isDisabled: Bool
   let performAction: () -> Void
   let stopPreview: () -> Void
+  let handleCancel: () -> Void
   let dismiss: DismissAction
 
   var body: some View {
@@ -57,7 +59,8 @@ struct SoundSheetMacOSLayout: View {
         isPreviewing: $isPreviewing,
         previewSound: $previewSound,
         showingDeleteConfirmation: $showingDeleteConfirmation,
-        showingResetConfirmation: $showingResetConfirmation
+        showingResetConfirmation: $showingResetConfirmation,
+        isDisappearing: $isDisappearing
       )
 
       Spacer()
@@ -67,9 +70,7 @@ struct SoundSheetMacOSLayout: View {
         if hasChanges {
           HStack {
             Button("Cancel") {
-              if isPreviewing {
-                stopPreview()
-              }
+              handleCancel()
               dismiss()
             }
             .buttonStyle(.bordered)

@@ -25,6 +25,9 @@ extension Sound {
 
     guard let validPlayer = preparePlayer() else { return }
 
+    // Ensure volume is set before playing
+    updateVolume()
+
     let success = validPlayer.play()
     if !success {
       print("❌ Sound: Failed to play '\(fileName)'")

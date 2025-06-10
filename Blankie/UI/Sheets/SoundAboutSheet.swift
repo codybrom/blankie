@@ -53,123 +53,15 @@ struct SoundAboutSheet: View {
   }
 
   private var editableCreditsView: some View {
-    Group {
-      // Original Work Title
-      HStack {
-        Text("Original Work")
-        Spacer()
-        TextField("Title", text: $editableCredits.soundName)
-          .multilineTextAlignment(.trailing)
-          .textFieldStyle(.plain)
-          .foregroundColor(.secondary)
-      }
-
-      // Author/Creator
-      HStack {
-        Text("Author")
-        Spacer()
-        TextField("Author name", text: $editableCredits.author)
-          .multilineTextAlignment(.trailing)
-          .textFieldStyle(.plain)
-          .foregroundColor(.secondary)
-      }
-
-      // Source URL
-      HStack {
-        Text("Source URL")
-        Spacer()
-        TextField("https://...", text: $editableCredits.sourceUrl)
-          .multilineTextAlignment(.trailing)
-          .textFieldStyle(.plain)
-          .foregroundColor(.secondary)
-          #if !os(macOS)
-            .keyboardType(.URL)
-          #endif
-      }
-
-      // License
-      Picker("License", selection: $selectedLicense) {
-        Text("None").tag(nil as License?)
-        ForEach(License.allCases, id: \.self) { license in
-          Text(license.linkText).tag(license as License?)
-        }
-      }
-
-      // Custom License Details
-      if selectedLicense == .custom {
-        VStack(alignment: .leading, spacing: 8) {
-          Text("License Details")
-          TextField(
-            "Describe the license terms", text: $editableCredits.customLicenseText, axis: .vertical
-          )
-          .textFieldStyle(.plain)
-          .foregroundColor(.secondary)
-          .lineLimit(3...6)
-
-          HStack {
-            Text("License URL")
-            Spacer()
-            TextField("https://...", text: $editableCredits.customLicenseUrl)
-              .multilineTextAlignment(.trailing)
-              .textFieldStyle(.plain)
-              .foregroundColor(.secondary)
-              #if !os(macOS)
-                .keyboardType(.URL)
-              #endif
-          }
-        }
-      }
-    }
-    .onChange(of: editableCredits) { _, _ in
-      saveCredits()
-    }
-    .onChange(of: selectedLicense) { _, _ in
-      saveCredits()
-    }
+    EditableCreditsView(
+      editableCredits: $editableCredits,
+      selectedLicense: $selectedLicense,
+      onChange: saveCredits
+    )
   }
-
   private var builtInCreditsView: some View {
-    Group {
-      if let soundCredit = creditsManager.credits.first(where: { $0.name == sound.title }) {
-        // Original Work
-        HStack {
-          Text("Original Work")
-          Spacer()
-          if let url = soundCredit.soundUrl {
-            Link(soundCredit.soundName, destination: url)
-              .foregroundColor(.accentColor)
-          } else {
-            Text(soundCredit.soundName)
-              .foregroundColor(.secondary)
-          }
-        }
-
-        // Author
-        HStack {
-          Text("Author")
-          Spacer()
-          Text(soundCredit.author)
-            .foregroundColor(.secondary)
-        }
-
-        // License
-        HStack {
-          Text("License")
-          Spacer()
-          if let url = soundCredit.license.url {
-            Link(soundCredit.license.linkText, destination: url)
-              .foregroundColor(.accentColor)
-          } else {
-            Text(soundCredit.license.linkText)
-              .foregroundColor(.secondary)
-          }
-        }
-      }
-    }
+    BuiltInCreditsView(sound: sound, creditsManager: creditsManager)
   }
-
-  // MARK: - Permissions Section
-
   @ViewBuilder
   private var permissionsSection: some View {
     Section(
@@ -182,111 +74,10 @@ struct SoundAboutSheet: View {
       Toggle("Allow others to re-share this sound", isOn: $allowOthersToReshare)
     }
   }
-
-  // MARK: - Combined Details Section
-
   @ViewBuilder
   private var detailsSection: some View {
-    Section(header: Text("Details")) {
-      // Added date for custom sounds
-      if sound.isCustom {
-        HStack {
-          Text("Added")
-          Spacer()
-          Text(
-            DateFormatter.localizedString(
-              from: sound.dateAdded ?? Date(), dateStyle: .medium, timeStyle: .none)
-          )
-          .foregroundColor(.secondary)
-        }
-      }
-
-      // Duration
-      if let duration = sound.duration {
-        HStack {
-          Text("Duration")
-          Spacer()
-          Text(getDurationText(from: duration))
-            .foregroundColor(.secondary)
-        }
-      }
-
-      // Channels
-      if let channels = sound.channelCount {
-        HStack {
-          Text("Channels")
-          Spacer()
-          Text(getChannelsText(from: channels))
-            .foregroundColor(.secondary)
-        }
-      }
-
-      // Format and File Size only for custom sounds
-      if sound.isCustom {
-        HStack {
-          Text("Format")
-          Spacer()
-          Text(sound.fileExtension.uppercased())
-            .foregroundColor(.secondary)
-        }
-
-        if let fileSize = sound.fileSize {
-          HStack {
-            Text("File Size")
-            Spacer()
-            Text(getFileSizeText(from: fileSize))
-              .foregroundColor(.secondary)
-          }
-        }
-      }
-
-      // LUFS
-      if let lufs = sound.lufs {
-        HStack {
-          Text("LUFS")
-          Spacer()
-          Text(String(format: "%.1f", lufs))
-            .foregroundColor(.secondary)
-        }
-      }
-
-      // Normalization Factor with Gain on same line
-      if let normalizationFactor = sound.normalizationFactor {
-        let gainDB = 20 * log10(normalizationFactor)
-        HStack {
-          Text("Normalization Factor")
-          Spacer()
-          Text(String(format: "%.2fx (%+.1fdB)", normalizationFactor, gainDB))
-            .foregroundColor(.secondary)
-        }
-      }
-    }
+    SoundDetailsSection(sound: sound)
   }
-
-  // MARK: - Helper Methods
-
-  private func getChannelsText(from channels: Int) -> String {
-    switch channels {
-    case 1:
-      return "Mono"
-    case 2:
-      return "Stereo"
-    default:
-      return "\(channels) (Multichannel)"
-    }
-  }
-
-  private func getDurationText(from duration: TimeInterval) -> String {
-    let minutes = Int(duration) / 60
-    let seconds = Int(duration) % 60
-    return String(format: "%d:%02d", minutes, seconds)
-  }
-
-  private func getFileSizeText(from fileSize: Int64) -> String {
-    let formatter = ByteCountFormatter()
-    return formatter.string(fromByteCount: fileSize)
-  }
-
   private func loadEditableCredits() {
     // Load existing credits for custom sounds
     if sound.isCustom {
@@ -359,17 +150,6 @@ struct SoundAboutSheet: View {
       }
     }
   }
-
-}
-
-// MARK: - Supporting Models
-
-struct EditableCredits: Equatable {
-  var soundName = ""
-  var author = ""
-  var sourceUrl = ""
-  var customLicenseText = ""
-  var customLicenseUrl = ""
 }
 
 // MARK: - Previews

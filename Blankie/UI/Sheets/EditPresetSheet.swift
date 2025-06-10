@@ -262,31 +262,7 @@ extension EditPresetSheet {
     }
 
     do {
-      let currentVersion =
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-
-      // Create sound states for all selected sounds
-      let selectedSoundStates =
-        orderedSounds
-        .filter { selectedSounds.contains($0.fileName) }
-        .map { sound in
-          PresetState(
-            fileName: sound.fileName,
-            isSelected: sound.isSelected,
-            volume: sound.volume
-          )
-        }
-
-      print(
-        "🎨 EditPresetSheet: Creating \(selectedSoundStates.count) sound states from \(selectedSounds.count) selected sounds"
-      )
-
-      var updatedPreset = preset
-      updatedPreset.name = presetName
-      updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
-      updatedPreset.soundStates = selectedSoundStates
-      updatedPreset.artworkData = artworkData
-      updatedPreset.lastModifiedVersion = currentVersion
+      let updatedPreset = createUpdatedPreset()
 
       var currentPresets = presetManager.presets
       if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
@@ -320,6 +296,36 @@ extension EditPresetSheet {
       print("❌ EditPresetSheet: Failed to save - \(error)")
       self.error = "Failed to save changes: \(error.localizedDescription)"
     }
+  }
+
+  private func createUpdatedPreset() -> Preset {
+    let currentVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+
+    // Create sound states for all selected sounds
+    let selectedSoundStates =
+      orderedSounds
+      .filter { selectedSounds.contains($0.fileName) }
+      .map { sound in
+        PresetState(
+          fileName: sound.fileName,
+          isSelected: sound.isSelected,
+          volume: sound.volume
+        )
+      }
+
+    print(
+      "🎨 EditPresetSheet: Creating \(selectedSoundStates.count) sound states from \(selectedSounds.count) selected sounds"
+    )
+
+    var updatedPreset = preset
+    updatedPreset.name = presetName
+    updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
+    updatedPreset.soundStates = selectedSoundStates
+    updatedPreset.artworkData = artworkData
+    updatedPreset.lastModifiedVersion = currentVersion
+
+    return updatedPreset
   }
 
   // MARK: - Direct Preset Saving

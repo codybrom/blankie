@@ -26,87 +26,91 @@ extension CustomSoundManager {
     do {
       let asset = AVURLAsset(url: url)
 
-      // Load common metadata which includes ID3 tags
+      // Process common metadata
       let commonMetadata = try await asset.load(.commonMetadata)
+      metadata = await processCommonMetadata(commonMetadata, metadata)
 
-      // Process each metadata item
-      for item in commonMetadata {
-        guard let key = item.commonKey else { continue }
-
-        // Try to load the value
-        if let value = try? await item.load(.value) {
-          switch key {
-          case .commonKeyTitle:
-            metadata.title = extractStringValue(from: value)
-
-          case .commonKeyArtist:
-            metadata.artist = extractStringValue(from: value)
-
-          case .commonKeyAlbumName:
-            metadata.album = extractStringValue(from: value)
-
-          case .commonKeyDescription:
-            // Description often contains comments or additional info
-            metadata.comment = extractStringValue(from: value)
-
-          default:
-            // Check for URL in other metadata fields
-            if let urlString = extractStringValue(from: value),
-              urlString.hasPrefix("http://") || urlString.hasPrefix("https://")
-            {
-              metadata.url = urlString
-            }
-          }
-        }
-      }
-
-      // Also check for format-specific metadata (ID3v2, iTunes metadata, etc.)
+      // Process format-specific metadata
       let formatMetadata = try await asset.load(.metadata)
-      for item in formatMetadata {
-        // Look for additional URL fields
-        if let identifier = item.identifier {
-          let idString = identifier.rawValue
+      metadata = await processFormatMetadata(formatMetadata, metadata)
 
-          // Common URL-related ID3 tags
-          if idString.contains("WOAR")  // Official artist/performer webpage
-            || idString.contains("WOAF")  // Official audio file webpage
-            || idString.contains("WOAS")  // Official audio source webpage
-            || idString.contains("WORS")  // Official internet radio station homepage
-            || idString.contains("WPUB")  // Publisher's official webpage
-            || idString.contains("WXXX")
-          {  // User defined URL link
-
-            if let urlValue = try? await item.load(.value),
-              let urlString = extractStringValue(from: urlValue),
-              metadata.url == nil
-            {
-              metadata.url = urlString
-            }
-          }
-
-          // Also check for comment fields
-          if idString.contains("COMM") || idString.contains("comment"),
-            metadata.comment == nil
-          {
-            if let commentValue = try? await item.load(.value) {
-              metadata.comment = extractStringValue(from: commentValue)
-            }
-          }
-        }
-      }
-
-      print("🎵 CustomSoundManager: Extracted metadata:")
-      print("   Title: \(metadata.title ?? "none")")
-      print("   Artist: \(metadata.artist ?? "none")")
-      print("   Album: \(metadata.album ?? "none")")
-      print("   Comment: \(metadata.comment ?? "none")")
-      print("   URL: \(metadata.url ?? "none")")
-
+      logExtractedMetadata(metadata)
     } catch {
       print("⚠️ CustomSoundManager: Failed to extract metadata: \(error)")
     }
 
     return metadata
+  }
+
+  private func processCommonMetadata(_ items: [AVMetadataItem], _ metadata: AudioMetadata) async -> AudioMetadata {
+    var result = metadata
+
+    for item in items {
+      guard let key = item.commonKey else { continue }
+      guard let value = try? await item.load(.value) else { continue }
+
+      switch key {
+      case .commonKeyTitle:
+        result.title = extractStringValue(from: value)
+      case .commonKeyArtist:
+        result.artist = extractStringValue(from: value)
+      case .commonKeyAlbumName:
+        result.album = extractStringValue(from: value)
+      case .commonKeyDescription:
+        result.comment = extractStringValue(from: value)
+      default:
+        if let urlString = extractStringValue(from: value),
+           isValidURL(urlString) {
+          result.url = urlString
+        }
+      }
+    }
+
+    return result
+  }
+
+  private func processFormatMetadata(_ items: [AVMetadataItem], _ metadata: AudioMetadata) async -> AudioMetadata {
+    var result = metadata
+
+    for item in items {
+      guard let identifier = item.identifier else { continue }
+      let idString = identifier.rawValue
+
+      if isURLIdentifier(idString) && result.url == nil {
+        if let urlValue = try? await item.load(.value),
+           let urlString = extractStringValue(from: urlValue) {
+          result.url = urlString
+        }
+      } else if isCommentIdentifier(idString) && result.comment == nil {
+        if let commentValue = try? await item.load(.value) {
+          result.comment = extractStringValue(from: commentValue)
+        }
+      }
+    }
+
+    return result
+  }
+
+  private func isValidURL(_ string: String) -> Bool {
+    return string.hasPrefix("http://") || string.hasPrefix("https://")
+  }
+
+  private func isURLIdentifier(_ idString: String) -> Bool {
+    let urlIdentifiers = ["WOAR", "WOAF", "WOAS", "WORS", "WPUB", "WXXX"]
+    return urlIdentifiers.contains { idString.contains($0) }
+  }
+
+  private func isCommentIdentifier(_ idString: String) -> Bool {
+    return idString.contains("COMM") || idString.contains("comment")
+  }
+
+  private func logExtractedMetadata(_ metadata: AudioMetadata) {
+    print("🎵 CustomSoundManager: Extracted metadata:")
+    print("   Title: \(metadata.title ?? "none")")
+    print("   Artist: \(metadata.artist ?? "none")")
+    print("   Album: \(metadata.album ?? "none")")
+    print("   Comment: \(metadata.comment ?? "none")")
+    print("   URL: \(metadata.url ?? "none")")
   }
 
   private func extractStringValue(from value: Any) -> String? {

@@ -108,40 +108,57 @@ extension CleanSoundSheetForm {
   }
 
   @ViewBuilder
-  var resetSection: some View {
-    if case .customize(let sound) = mode {
-      Section {
-        Button(action: {
-          resetToDefaults(for: sound)
-        }) {
-          HStack {
-            Image(systemName: "arrow.counterclockwise")
-            Text("Reset to Defaults")
-          }
+  var previewSection: some View {
+    Section {
+      HStack {
+        Button(action: togglePreview) {
+          Label(
+            isPreviewing ? "Stop" : "Preview", systemImage: isPreviewing ? "stop.fill" : "play.fill"
+          )
+          .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.bordered)
-        .controlSize(.large)
-        .frame(maxWidth: .infinity)
-      } footer: {
-        Text("Reset all customizations for this sound")
-          .font(.caption)
-          .foregroundColor(.secondary)
+        .buttonStyle(.borderedProminent)
+        .controlSize(.regular)
       }
+    } header: {
+      Text("Preview", comment: "Preview section header")
     }
   }
 
   @ViewBuilder
-  var previewSection: some View {
-    Section {
-      Button(action: togglePreview) {
-        HStack {
-          Image(systemName: isPreviewing ? "stop.fill" : "play.fill")
-          Text(isPreviewing ? "Stop Preview" : "Preview Sound")
+  var actionSection: some View {
+    if shouldShowActionSection {
+      Section {
+        // Reset button for customized sounds
+        if case .customize = mode {
+          Button(action: { showingResetConfirmation = true }) {
+            HStack {
+              Text("Reset to Defaults")
+                .foregroundColor(.accentColor)
+            }
+          }
+        }
+
+        // Delete button for custom sounds
+        if case .customize(let sound) = mode, sound.isCustom {
+          Button(action: { showingDeleteConfirmation = true }) {
+            HStack {
+              Text("Delete Sound")
+                .foregroundColor(.red)
+            }
+          }
         }
       }
-      .buttonStyle(.bordered)
-      .controlSize(.large)
-      .frame(maxWidth: .infinity)
     }
   }
+
+  private var shouldShowActionSection: Bool {
+    switch mode {
+    case .customize(let sound):
+      return true || sound.isCustom  // Show for all customize mode
+    default:
+      return false
+    }
+  }
+
 }

@@ -79,4 +79,26 @@ extension SoundSheet {
   var processingOverlay: some View {
     SoundSheetProcessingOverlay(progressMessage: progressMessage)
   }
+
+  var isCustomSoundInEditMode: Bool {
+    switch mode {
+    case .edit:
+      return true
+    case .customize(let sound):
+      return sound.isCustom
+    default:
+      return false
+    }
+  }
+
+  func handleResetToDefaults(for sound: Sound) {
+    // Reset all values to defaults
+    soundName = sound.originalTitle
+    selectedIcon = sound.originalSystemIconName
+    selectedColor = nil
+    randomizeStartPosition = true
+    normalizeAudio = true
+    volumeAdjustment = 1.0
+    loopSound = true
+  }
 }

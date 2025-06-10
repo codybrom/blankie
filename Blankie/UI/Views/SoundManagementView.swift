@@ -67,7 +67,13 @@ struct SoundManagementView: View {
         }
         .sheet(isPresented: $showingEditSheet) {
           if let sound = selectedSound {
-            SoundSheet(mode: .customize(sound))
+            if sound.isCustom, let customSoundDataID = sound.customSoundDataID,
+              let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+            {
+              SoundSheet(mode: .edit(customSoundData))
+            } else {
+              SoundSheet(mode: .customize(sound))
+            }
           }
         }
         .alert(

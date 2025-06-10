@@ -21,6 +21,8 @@ struct CleanSoundSheetForm: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var showingDeleteConfirmation: Bool
+  @Binding var showingResetConfirmation: Bool
 
   @ObservedObject var globalSettings = GlobalSettings.shared
   @State var showingIconPicker = false
@@ -42,14 +44,14 @@ struct CleanSoundSheetForm: View {
       // Basic Information
       basicInformationSection
 
+      // Preview Section
+      previewSection
+
       // Audio Processing
       audioProcessingSection
 
-      // Reset Section (only for built-in sounds)
-      resetSection
-
-      // Preview Section
-      previewSection
+      // Actions Section (Reset/Delete)
+      actionSection
     }
     .sheet(isPresented: $showingIconPicker) {
       NavigationStack {
@@ -59,21 +61,5 @@ struct CleanSoundSheetForm: View {
     #if os(macOS)
       .frame(minHeight: 500)
     #endif
-  }
-
-  func resetToDefaults(for sound: Sound) {
-    // Reset all values to defaults
-    soundName = sound.originalTitle
-    selectedIcon = sound.originalSystemIconName
-    selectedColor = nil
-    randomizeStartPosition = true
-    normalizeAudio = true
-    volumeAdjustment = 1.0
-    loopSound = true
-
-    // If previewing, update the preview with new settings
-    if isPreviewing {
-      updatePreviewVolume()
-    }
   }
 }

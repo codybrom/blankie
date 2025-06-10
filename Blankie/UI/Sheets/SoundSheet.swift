@@ -38,6 +38,8 @@ struct SoundSheet: View {
   @State var originalCustomization: SoundCustomization?
   @State var previousSoloModeSound: Sound?
   @State var wasPreviewSoundPlaying: Bool = false
+  @State var showingDeleteConfirmation: Bool = false
+  @State var showingResetConfirmation: Bool = false
 
   // Track initial values to detect changes
   @State var initialSoundName: String = ""
@@ -118,6 +120,34 @@ struct SoundSheet: View {
         Button("OK", role: .cancel) {}
       } message: { error in
         Text(error.localizedDescription)
+      }
+      .alert(
+        Text("Delete Sound", comment: "Delete sound confirmation alert title"),
+        isPresented: $showingDeleteConfirmation
+      ) {
+        Button("Delete", role: .destructive) {
+          deleteSound()
+        }
+        Button("Cancel", role: .cancel) {}
+      } message: {
+        Text(
+          "Are you sure you want to delete this sound? This action cannot be undone.",
+          comment: "Delete sound confirmation message")
+      }
+      .alert(
+        Text("Reset to Defaults", comment: "Reset confirmation alert title"),
+        isPresented: $showingResetConfirmation
+      ) {
+        Button("Reset", role: .destructive) {
+          if case .customize(let sound) = mode {
+            handleResetToDefaults(for: sound)
+          }
+        }
+        Button("Cancel", role: .cancel) {}
+      } message: {
+        Text(
+          "Are you sure you want to reset all customizations for this sound?",
+          comment: "Reset confirmation message")
       }
       .overlay(alignment: .center) {
         if isProcessing {

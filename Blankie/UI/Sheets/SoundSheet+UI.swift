@@ -24,6 +24,8 @@ extension SoundSheet {
       loopSound: $loopSound,
       isPreviewing: $isPreviewing,
       previewSound: $previewSound,
+      showingDeleteConfirmation: $showingDeleteConfirmation,
+      showingResetConfirmation: $showingResetConfirmation,
       hasChanges: hasChanges,
       title: title,
       buttonTitle: buttonTitle,
@@ -49,7 +51,9 @@ extension SoundSheet {
         volumeAdjustment: $volumeAdjustment,
         loopSound: $loopSound,
         isPreviewing: $isPreviewing,
-        previewSound: $previewSound
+        previewSound: $previewSound,
+        showingDeleteConfirmation: $showingDeleteConfirmation,
+        showingResetConfirmation: $showingResetConfirmation
       )
       .navigationTitle(title)
       #if !os(macOS)

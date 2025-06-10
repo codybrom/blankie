@@ -221,7 +221,13 @@ struct SoundIcon: View {
       }
     }
     .sheet(isPresented: $showingEditSheet) {
-      SoundSheet(mode: .customize(sound))
+      if sound.isCustom, let customSoundDataID = sound.customSoundDataID,
+        let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+      {
+        SoundSheet(mode: .edit(customSoundData))
+      } else {
+        SoundSheet(mode: .customize(sound))
+      }
     }
     .alert(
       Text("Delete Sound", comment: "Delete sound confirmation alert title"),

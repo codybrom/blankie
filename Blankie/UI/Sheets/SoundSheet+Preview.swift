@@ -121,10 +121,8 @@ extension SoundSheet {
     // Track if this sound was playing before preview
     wasPreviewSoundPlaying = sound.player?.isPlaying == true && sound.isSelected
 
-    // Stop the existing sound if it's playing
-    if sound.player?.isPlaying == true {
-      sound.pause(immediate: true)
-    }
+    // Don't stop the sound here - let solo mode handle the transition
+    // This preserves the player state for proper resumption
 
     // Save the original customization
     originalCustomization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
@@ -159,6 +157,14 @@ extension SoundSheet {
   internal func stopPreview() {
     Task { @MainActor in
       if let preview = previewSound {
+        // Store the playing state before making any changes
+        let shouldResumePlayback: Bool
+        if case .customize = mode {
+          shouldResumePlayback = wasPreviewSoundPlaying
+        } else {
+          shouldResumePlayback = false
+        }
+
         // If we had a previous solo mode sound, restore it
         if let previousSolo = previousSoloModeSound {
           // Exit current solo mode without resuming
@@ -169,23 +175,9 @@ extension SoundSheet {
         } else {
           // No previous solo mode - exit normally to resume previous playback
           AudioManager.shared.exitSoloMode()
-
-          // For customize mode, if the sound was playing before preview,
-          // ensure it resumes playing after solo mode exit
-          if case .customize = mode, wasPreviewSoundPlaying {
-            // Give exitSoloMode a moment to restore states
-            Task {
-              try? await Task.sleep(nanoseconds: 100_000_000)  // 100ms
-              if preview.isSelected && AudioManager.shared.isGloballyPlaying
-                && preview.player?.isPlaying != true
-              {
-                preview.play()
-              }
-            }
-          }
         }
 
-        // Restore original customization settings for built-in sounds
+        // Restore original customization settings
         if case .customize(let originalSound) = mode {
           // Restore the original customization
           if let original = originalCustomization {
@@ -194,17 +186,31 @@ extension SoundSheet {
             // If there was no original customization, remove it
             SoundCustomizationManager.shared.removeCustomization(for: originalSound.fileName)
           }
-          // Trigger update on the sound
-          originalSound.objectWillChange.send()
+
+          // If the sound should be playing, ensure it's in the correct state
+          if shouldResumePlayback {
+            // Make sure the sound maintains its selected state
+            originalSound.isSelected = true
+
+            // Force UI update
+            originalSound.objectWillChange.send()
+
+            // If global playback is on but the sound isn't playing, start it
+            if AudioManager.shared.isGloballyPlaying && originalSound.player?.isPlaying != true {
+              originalSound.play()
+            }
+          } else {
+            // Trigger update to reflect customization changes
+            originalSound.objectWillChange.send()
+          }
         }
 
         // Clean up the preview sound
-        // Only stop the player if it's not a sound that should resume playing
-        if case .customize = mode, wasPreviewSoundPlaying {
-          // Don't stop the player - it will resume when exitSoloMode restores playback
-          // The sound's player will be reused for normal playback
+        // For customize mode with a playing sound, don't clean up the player
+        if case .customize = mode {
+          // The player is shared with the original sound, don't clean it up
         } else {
-          // For add/edit modes or non-playing sounds, clean up the player
+          // For add/edit modes, clean up the player
           preview.player?.stop()
           preview.player = nil
         }

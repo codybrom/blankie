@@ -250,6 +250,48 @@ extension SoundSheet {
     }
   }
 
+  // MARK: - Delete Action
+
+  func deleteSound() {
+    let customSound: CustomSoundData
+
+    switch mode {
+    case .edit(let customSoundData):
+      customSound = customSoundData
+    case .customize(let sound):
+      guard sound.isCustom,
+        let customSoundDataID = sound.customSoundDataID,
+        let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+      else {
+        return
+      }
+      customSound = customSoundData
+    default:
+      return
+    }
+
+    // Stop preview before deleting
+    if isPreviewing {
+      stopPreview()
+    }
+
+    let result = CustomSoundManager.shared.deleteCustomSound(customSound)
+
+    switch result {
+    case .success:
+      // Remove any customizations for this sound
+      SoundCustomizationManager.shared.removeCustomization(for: customSound.fileName)
+
+      // Reload custom sounds in AudioManager
+      AudioManager.shared.loadCustomSounds()
+
+      dismiss()
+    case .failure(let error):
+      importError = error
+      showingError = true
+    }
+  }
+
   // MARK: - Direct Preset Saving
 
   private func savePresetsDirectly() {

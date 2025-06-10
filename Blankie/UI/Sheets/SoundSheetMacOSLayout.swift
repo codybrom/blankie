@@ -21,6 +21,8 @@ struct SoundSheetMacOSLayout: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var showingDeleteConfirmation: Bool
+  @Binding var showingResetConfirmation: Bool
   let hasChanges: Bool
   let title: LocalizedStringKey
   let buttonTitle: LocalizedStringKey
@@ -53,7 +55,9 @@ struct SoundSheetMacOSLayout: View {
         volumeAdjustment: $volumeAdjustment,
         loopSound: $loopSound,
         isPreviewing: $isPreviewing,
-        previewSound: $previewSound
+        previewSound: $previewSound,
+        showingDeleteConfirmation: $showingDeleteConfirmation,
+        showingResetConfirmation: $showingResetConfirmation
       )
 
       Spacer()

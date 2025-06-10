@@ -326,7 +326,7 @@ extension SoundSheet {
         // If there was no original customization, remove any temporary one
         SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
       }
-      
+
       // Force update the sound to reflect restored settings
       sound.objectWillChange.send()
       if sound.player != nil {

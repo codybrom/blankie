@@ -131,9 +131,6 @@ import SwiftUI
             // Solo Mode - only show if not already in solo mode
             if AudioManager.shared.soloModeSound?.id != sound.id {
               Button(action: {
-                // Haptic feedback for solo mode
-                provideHapticFeedback(style: "medium")
-
                 withAnimation(.easeInOut(duration: 0.3)) {
                   AudioManager.shared.toggleSoloMode(for: sound)
                 }

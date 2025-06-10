@@ -99,12 +99,6 @@ import SwiftUI
 
               if audioManager.soloModeSound?.id != sound.id {
                 Button {
-                  if globalSettings.enableHaptics {
-                    #if os(iOS)
-                      let generator = UIImpactFeedbackGenerator(style: .medium)
-                      generator.impactOccurred()
-                    #endif
-                  }
                   withAnimation(.easeInOut(duration: 0.3)) {
                     audioManager.toggleSoloMode(for: sound)
                   }
@@ -208,12 +202,6 @@ import SwiftUI
 
       if audioManager.soloModeSound?.id != sound.id {
         Button(action: {
-          if globalSettings.enableHaptics {
-            #if os(iOS)
-              let generator = UIImpactFeedbackGenerator(style: .medium)
-              generator.impactOccurred()
-            #endif
-          }
           withAnimation(.easeInOut(duration: 0.3)) {
             audioManager.toggleSoloMode(for: sound)
           }

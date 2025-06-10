@@ -24,7 +24,6 @@ enum UserDefaultsKeys {
   static let accentColor = "customAccentColor"
   static let autoPlayOnLaunch = "autoPlayOnLaunch"
   static let hideInactiveSounds = "hideInactiveSounds"
-  static let enableHaptics = "enableHaptics"
   static let enableSpatialAudio = "enableSpatialAudio"
   static let language = "languagePreference"
   static let mixWithOthers = "mixWithOthers"
@@ -60,7 +59,6 @@ class GlobalSettings: ObservableObject {
   @Published var availableLanguages: [Language] = []
 
   // Platform-specific settings
-  @Published var enableHaptics: Bool = true
   @Published var enableSpatialAudio: Bool = false
   @Published var mixWithOthers: Bool = false
   @Published var lowerVolumeWithOtherAudio: Bool = false

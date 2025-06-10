@@ -41,22 +41,6 @@ import SwiftUI
       }
     }
 
-    func provideHapticFeedback(style: String = "light") {
-      guard GlobalSettings.shared.enableHaptics else { return }
-      #if os(iOS)
-        let generator: UIImpactFeedbackGenerator
-        switch style {
-        case "medium":
-          print("🎯 HAPTIC: medium impact")
-          generator = UIImpactFeedbackGenerator(style: .medium)
-        default:
-          print("🎯 HAPTIC: light impact")
-          generator = UIImpactFeedbackGenerator(style: .light)
-        }
-        generator.impactOccurred()
-      #endif
-    }
-
     func createDragItem() -> NSItemProvider {
       return NSItemProvider(object: "\(index)" as NSString)
     }

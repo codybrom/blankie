@@ -207,13 +207,6 @@ import SwiftUI
 
     func enterEditMode() {
       editMode = .active
-
-      if globalSettings.enableHaptics {
-        #if os(iOS)
-          let generator = UIImpactFeedbackGenerator(style: .medium)
-          generator.impactOccurred()
-        #endif
-      }
     }
 
     func exitEditMode() {

@@ -15,7 +15,6 @@ extension GlobalSettings {
     print("  - Custom Accent Color: \(customAccentColor?.toString ?? "System")")
     print("  - Autoplay on Open: \(autoPlayOnLaunch)")
     print("  - Hide Inactive Sounds: \(hideInactiveSounds)")
-    print("  - Enable Haptics: \(enableHaptics)")
     print("  - Enable Spatial Audio: \(enableSpatialAudio)")
     print("  - Mix With Others: \(mixWithOthers)")
     print("  - Volume With Other Audio: \(volumeWithOtherAudio)")

@@ -57,7 +57,6 @@ enum UITestingHelper {
   private static func resetGlobalSettings() {
     UserDefaults.standard.removeObject(forKey: "globalVolume")
     UserDefaults.standard.removeObject(forKey: "customAccentColor")
-    UserDefaults.standard.removeObject(forKey: "enableHaptics")
     UserDefaults.standard.removeObject(forKey: "colorScheme")
   }
 

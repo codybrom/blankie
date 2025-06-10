@@ -178,12 +178,6 @@ import SwiftUI
     var playPauseButton: some View {
       Button(action: {
         if audioManager.hasSelectedSounds {
-          if globalSettings.enableHaptics {
-            #if os(iOS)
-              let generator = UIImpactFeedbackGenerator(style: .light)
-              generator.impactOccurred()
-            #endif
-          }
           audioManager.togglePlayback()
         }
       }) {

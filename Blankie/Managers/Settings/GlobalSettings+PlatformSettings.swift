@@ -9,13 +9,6 @@ import Foundation
 
 extension GlobalSettings {
   @MainActor
-  func setEnableHaptics(_ value: Bool) {
-    enableHaptics = value
-    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.enableHaptics)
-    logCurrentSettings()
-  }
-
-  @MainActor
   func setEnableSpatialAudio(_ value: Bool) {
     enableSpatialAudio = value
     UserDefaults.standard.set(value, forKey: UserDefaultsKeys.enableSpatialAudio)

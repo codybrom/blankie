@@ -50,14 +50,6 @@ struct VolumeControlsView: View {
               // This should restore volumes to the current preset's default settings
               // For now, reset to global defaults
 
-              // Provide haptic feedback if enabled (iOS only)
-              if globalSettings.enableHaptics {
-                #if os(iOS)
-                  let generator = UINotificationFeedbackGenerator()
-                  generator.notificationOccurred(.success)
-                #endif
-              }
-
               audioManager.resetSounds()
             }) {
               Text("Reset", comment: "Reset sounds button")

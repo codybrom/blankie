@@ -72,8 +72,6 @@ extension GlobalSettings {
 
   func loadPlatformSettings() {
     // Load platform-specific preferences
-    enableHaptics =
-      UserDefaults.standard.object(forKey: UserDefaultsKeys.enableHaptics) as? Bool ?? true
     enableSpatialAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableSpatialAudio) as? Bool ?? false
     mixWithOthers =

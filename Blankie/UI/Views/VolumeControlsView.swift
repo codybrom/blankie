@@ -55,6 +55,7 @@ struct VolumeControlsView: View {
               Text("Reset", comment: "Reset sounds button")
             }
             .disabled(isAtDefaultVolumes)
+            .sensoryFeedback(.success, trigger: isAtDefaultVolumes)
           }
 
           ToolbarItem(placement: .primaryAction) {
@@ -120,6 +121,7 @@ struct VolumeControlsView: View {
       }
       .font(.caption)
       .disabled(isAtDefaultVolumes)
+      .sensoryFeedback(.success, trigger: isAtDefaultVolumes)
     }
     .padding()
   }

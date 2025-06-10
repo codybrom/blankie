@@ -161,6 +161,7 @@ struct SoundIcon: View {
           }
       )
       .accessibilityIdentifier("sound-\(sound.fileName)")
+      .sensoryFeedback(.selection, trigger: sound.isSelected)
 
       if globalSettings.showSoundNames {
         Text(LocalizedStringKey(sound.title))

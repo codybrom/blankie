@@ -20,7 +20,6 @@ struct SoundDropDelegate: DropDelegate {
     guard draggedIndex != nil else { return }
 
     hoveredIndex = targetIndex
-
   }
 
   func dropExited(info: DropInfo) {

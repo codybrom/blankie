@@ -33,6 +33,7 @@ import SwiftUI
           .font(.system(.subheadline, weight: .medium))
           .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
           .buttonStyle(.plain)
+          .sensoryFeedback(.selection, trigger: audioManager.soloModeSound?.id)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
@@ -59,6 +60,7 @@ import SwiftUI
           .font(.system(.subheadline, weight: .medium))
           .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
           .buttonStyle(.plain)
+          .sensoryFeedback(.selection, trigger: editMode)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
@@ -87,6 +89,7 @@ import SwiftUI
                 .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
             }
             .buttonStyle(.plain)
+            .sensoryFeedback(.selection, trigger: editMode)
           }
         }
         .frame(maxWidth: .infinity)
@@ -137,6 +140,7 @@ import SwiftUI
             .foregroundColor(.secondary)
         }
       }
+      .sensoryFeedback(.selection, trigger: showingPresetPicker)
     }
 
     // MARK: - Toolbar Components
@@ -157,6 +161,7 @@ import SwiftUI
               .contentTransition(.symbolEffect(.replace))
           }
           .buttonStyle(.plain)
+          .sensoryFeedback(.selection, trigger: showingListView)
           Spacer()
 
           // Play/Pause button
@@ -178,6 +183,7 @@ import SwiftUI
     var playPauseButton: some View {
       Button(action: {
         if audioManager.hasSelectedSounds {
+          playPauseTrigger += 1
           audioManager.togglePlayback()
         }
       }) {
@@ -205,6 +211,7 @@ import SwiftUI
       }
       .buttonStyle(.plain)
       .disabled(!audioManager.hasSelectedSounds)
+      .sensoryFeedback(.selection, trigger: playPauseTrigger)
     }
 
     var menuButton: some View {
@@ -277,7 +284,11 @@ import SwiftUI
         Image(systemName: "ellipsis.circle")
           .font(.system(size: 22))
           .foregroundColor(.primary)
+          .onTapGesture {
+            menuTrigger += 1
+          }
       }
+      .sensoryFeedback(.selection, trigger: menuTrigger)
     }
   }
 #endif

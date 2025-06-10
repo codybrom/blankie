@@ -19,8 +19,7 @@ struct QuickMixView: View {
 
   var body: some View {
     NavigationView {
-      VStack(spacing: 0) {
-        // Quick Mix Grid
+      GeometryReader { geometry in
         ScrollView {
           LazyVGrid(
             columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16
@@ -32,9 +31,9 @@ struct QuickMixView: View {
             }
           }
           .padding()
+          .padding(.bottom, geometry.safeAreaInsets.bottom)
         }
-
-        Spacer()
+        .ignoresSafeArea(edges: .bottom)
       }
       #if !os(macOS)
         .navigationBarHidden(true)
@@ -51,6 +50,9 @@ struct QuickMixSoundButton: View {
   @ObservedObject var audioManager = AudioManager.shared
   @ObservedObject var globalSettings = GlobalSettings.shared
   @State private var showingQuickMixOptions = false
+  @State private var popoverPosition: CGRect = .zero
+  @State private var isPressed = false
+  @State private var selectionTrigger = 0
 
   var body: some View {
     VStack(spacing: 12) {
@@ -83,24 +85,89 @@ struct QuickMixSoundButton: View {
             .stroke(borderColor, lineWidth: sound.isSelected ? 2 : 1)
         )
     )
-    .scaleEffect(sound.isSelected ? 1.05 : 1.0)
-    .animation(.easeInOut(duration: 0.2), value: sound.isSelected)
+    .scaleEffect(isPressed ? 0.95 : (sound.isSelected ? 1.05 : 1.0))
+    .animation(.easeInOut(duration: 0.15), value: sound.isSelected)
+    .animation(.easeInOut(duration: 0.1), value: isPressed)
+    .background(
+      GeometryReader { geometry in
+        Color.clear
+          .onAppear {
+            popoverPosition = geometry.frame(in: .global)
+          }
+          .onChange(of: geometry.frame(in: .global)) { _, newFrame in
+            popoverPosition = newFrame
+          }
+      }
+    )
     .onTapGesture {
       audioManager.toggleCarPlayQuickMixSound(sound)
     }
-    .onLongPressGesture {
-      #if os(iOS)
-        let generator = UIImpactFeedbackGenerator(style: .medium)
-        generator.impactOccurred()
-      #endif
-      showingQuickMixOptions = true
+    .sensoryFeedback(.selection, trigger: sound.isSelected)
+    .onLongPressGesture(
+      minimumDuration: 0.3,
+      maximumDistance: 5.0,  // Reduced from infinity to prevent scroll triggering
+      pressing: { pressing in
+        withAnimation(.easeInOut(duration: 0.1)) {
+          isPressed = pressing
+        }
+        if pressing {
+          // Start selection feedback after delay
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            if isPressed {
+              // Trigger repeated selection feedback
+              Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                guard isPressed else {
+                  timer.invalidate()
+                  return
+                }
+                selectionTrigger += 1
+
+                // Stop after ~0.2 seconds (4 triggers)
+                if selectionTrigger >= 4 {
+                  timer.invalidate()
+                }
+              }
+            }
+          }
+        }
+      },
+      perform: {
+        showingQuickMixOptions = true
+      }
+    )
+    .sensoryFeedback(.selection, trigger: selectionTrigger)
+    .sensoryFeedback(.levelChange, trigger: showingQuickMixOptions) { _, newValue in
+      newValue == true
     }
-    .popover(isPresented: $showingQuickMixOptions, arrowEdge: .top) {
+    .simultaneousGesture(
+      TapGesture()
+        .onEnded { _ in
+          // This helps prevent accidental long press triggers
+        }
+    )
+    .popover(isPresented: $showingQuickMixOptions, attachmentAnchor: popoverAnchor) {
       QuickMixSoundOptionsPopover(
         sound: sound
       )
       .presentationCompactAdaptation(.popover)
+      .interactiveDismissDisabled(false)
     }
+  }
+
+  private var popoverAnchor: PopoverAttachmentAnchor {
+    #if os(iOS)
+      let screenHeight = UIScreen.main.bounds.height
+      let isNearTop = popoverPosition.minY < screenHeight * 0.5
+
+      // Prefer bottom, but use top if we're in the top half of the screen
+      if isNearTop {
+        return .point(.bottom)
+      } else {
+        return .point(.top)
+      }
+    #else
+      return .point(.bottom)
+    #endif
   }
 
   private var backgroundColor: Color {
@@ -145,6 +212,8 @@ struct QuickMixSoundOptionsPopover: View {
   @ObservedObject var audioManager = AudioManager.shared
   @ObservedObject var globalSettings = GlobalSettings.shared
   @Environment(\.dismiss) var dismiss
+  @State private var currentVolume: Double = 0
+  @State private var volumeChangeTrigger = 0
 
   // Available sounds for replacement (exclude custom sounds and sounds already in Quick Mix)
   private var availableSounds: [Sound] {
@@ -163,7 +232,7 @@ struct QuickMixSoundOptionsPopover: View {
             .font(.subheadline)
             .fontWeight(.medium)
           Spacer()
-          Text("\(Int(sound.volume * 100))%")
+          Text("\(Int(currentVolume * 100))%")
             .font(.subheadline)
             .fontWeight(.medium)
             .foregroundColor(.secondary)
@@ -175,10 +244,17 @@ struct QuickMixSoundOptionsPopover: View {
             .foregroundColor(.secondary)
 
           Slider(
-            value: Binding(
-              get: { sound.volume },
-              set: { sound.volume = $0 }
-            ), in: 0...1)
+            value: $currentVolume,
+            in: 0...1,
+            onEditingChanged: { editing in
+              if !editing {
+                sound.volume = Float(currentVolume)
+              }
+            }
+          )
+          .onChange(of: currentVolume) { _, _ in
+            volumeChangeTrigger += 1
+          }
 
           Image(systemName: "speaker.wave.3.fill")
             .font(.caption)
@@ -210,6 +286,10 @@ struct QuickMixSoundOptionsPopover: View {
     .padding(16)
     .frame(minWidth: 280)
     .background(.regularMaterial)
+    .sensoryFeedback(.selection, trigger: volumeChangeTrigger)
+    .onAppear {
+      currentVolume = Double(sound.volume)
+    }
   }
 
   private func replaceSound(with newSound: Sound) {

@@ -22,6 +22,8 @@ import SwiftUI
     @State var soundToEdit: Sound?
     @State var soundsUpdateTrigger = 0
     @State var editMode: EditMode = .inactive
+    @State var playPauseTrigger = 0
+    @State var menuTrigger = 0
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 

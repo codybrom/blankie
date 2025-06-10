@@ -23,9 +23,71 @@ import SwiftUI
     var editMode: EditMode = .inactive
     @ObservedObject var globalSettings = GlobalSettings.shared
     @State var jiggleAnimation = false
+    @State private var longPressTrigger = 0
+    @State private var dragStartTrigger = 0
+    @State private var hoverTrigger = 0
 
     private var filteredSounds: [Sound] {
       AudioManager.shared.getVisibleSounds()
+    }
+
+    private var shouldShowProgressBorder: Bool {
+      globalSettings.showProgressBorder && sound.isSelected && AudioManager.shared.isGloballyPlaying
+        && editMode == .inactive
+    }
+
+    private var rotationDegrees: Double {
+      editMode == .active && jiggleAnimation ? 2.5 : 0
+    }
+
+    private var jiggleAnimationValue: Animation? {
+      editMode == .active && jiggleAnimation
+        ? Animation.easeInOut(duration: 0.13).repeatForever(autoreverses: true) : nil
+    }
+
+    @ViewBuilder
+    private var contextMenuContent: some View {
+      if editMode == .inactive {
+        // Title with credits
+        Text(
+          isCustomSound(sound)
+            ? "\(sound.title) (Custom • Added By You)"
+            : "\(sound.title) (Built-in\(getSoundAuthor(for: sound).map { " • By \($0)" } ?? ""))"
+        )
+        .font(.title2)
+        .fontWeight(.bold)
+
+        // Solo Mode - only show if not already in solo mode
+        if AudioManager.shared.soloModeSound?.id != sound.id {
+          Button(action: {
+            withAnimation(.easeInOut(duration: 0.3)) {
+              AudioManager.shared.toggleSoloMode(for: sound)
+            }
+          }) {
+            Label("Solo", systemImage: "headphones")
+          }
+          .sensoryFeedback(
+            .selection, trigger: AudioManager.shared.soloModeSound?.id)
+        }
+
+        // Customize Sound
+        Button(action: {
+          onEditSound(sound)
+        }) {
+          Label("Customize", systemImage: "paintbrush")
+        }
+
+        Divider()
+
+        // Reorder - only show when not already in edit mode
+        if editMode == .inactive, let onEnterEditMode = onEnterEditMode {
+          Button(action: {
+            onEnterEditMode()
+          }) {
+            Label("Reorder", systemImage: "arrow.up.arrow.down")
+          }
+        }
+      }
     }
 
     @ViewBuilder
@@ -43,162 +105,131 @@ import SwiftUI
       }
     }
 
+    @ViewBuilder
+    private var mainIconView: some View {
+      ZStack {
+        iconView
+
+        // Progress border (inner border) - hide in edit mode
+        if shouldShowProgressBorder {
+          let borderSize = iconSize - borderWidth
+
+          // Background track
+          Circle()
+            .stroke(Color.gray.opacity(0.3), lineWidth: borderWidth)
+            .frame(width: borderSize, height: borderSize)
+
+          // Progress indicator
+          ProgressBorderView(
+            iconSize: borderSize,
+            borderWidth: borderWidth,
+            playbackProgress: max(0.01, sound.playbackProgress),
+            color: sound.customColor ?? accentColor
+          )
+        }
+
+        // Dashed border in edit mode
+        if editMode == .active {
+          Circle()
+            .stroke(
+              Color.primary.opacity(0.3),
+              style: StrokeStyle(lineWidth: 2, dash: [5, 5])
+            )
+            .frame(width: iconSize, height: iconSize)
+        }
+      }
+      .frame(width: iconSize, height: iconSize)
+      .contentShape(Circle())
+      .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
+      .overlay(dropOverlay)
+      .rotationEffect(.degrees(rotationDegrees))
+      .animation(jiggleAnimationValue, value: jiggleAnimation)
+    }
+
     var body: some View {
       VStack(spacing: globalSettings.iconSize == .small ? 2 : 6) {
         // Icon area with drag gesture
-        ZStack {
-          iconView
+        mainIconView
+          .onTapGesture {
+            // Disable tap when in edit mode
+            guard editMode == .inactive else { return }
 
-          // Progress border (inner border) - hide in edit mode
-          if globalSettings.showProgressBorder && sound.isSelected
-            && AudioManager.shared.isGloballyPlaying && editMode == .inactive
-          {
-            let borderSize = iconSize - borderWidth
-
-            // Background track
-            Circle()
-              .stroke(Color.gray.opacity(0.3), lineWidth: borderWidth)
-              .frame(width: borderSize, height: borderSize)
-
-            // Progress indicator
-            ProgressBorderView(
-              iconSize: borderSize,
-              borderWidth: borderWidth,
-              playbackProgress: max(0.01, sound.playbackProgress),
-              color: sound.customColor ?? accentColor
-            )
-          }
-
-          // Dashed border in edit mode
-          if editMode == .active {
-            Circle()
-              .stroke(
-                Color.primary.opacity(0.3),
-                style: StrokeStyle(lineWidth: 2, dash: [5, 5])
-              )
-              .frame(width: iconSize, height: iconSize)
-          }
-        }
-        .frame(width: iconSize, height: iconSize)
-        .contentShape(Circle())
-        .scaleEffect(draggedIndex == index ? 0.85 : 1.0)
-        .overlay(dropOverlay)
-        .rotationEffect(
-          editMode == .active && jiggleAnimation
-            ? .degrees(2.5)
-            : .zero
-        )
-        .animation(
-          editMode == .active && jiggleAnimation
-            ? Animation.easeInOut(duration: 0.13).repeatForever(autoreverses: true)
-            : nil,
-          value: jiggleAnimation
-        )
-        .onTapGesture {
-          // Disable tap when in edit mode
-          guard editMode == .inactive else { return }
-
-          // If this sound is in solo mode, exit solo mode
-          if AudioManager.shared.soloModeSound?.id == sound.id {
-            withAnimation(.easeInOut(duration: 0.3)) {
-              AudioManager.shared.exitSoloMode()
-            }
-          } else {
-            // If global playback is paused and this sound is already selected,
-            // start global playback instead of deselecting the sound
-            if !AudioManager.shared.isGloballyPlaying && sound.isSelected {
-              AudioManager.shared.setGlobalPlaybackState(true)
+            // If this sound is in solo mode, exit solo mode
+            if AudioManager.shared.soloModeSound?.id == sound.id {
+              withAnimation(.easeInOut(duration: 0.3)) {
+                AudioManager.shared.exitSoloMode()
+              }
             } else {
-              // Normal behavior: toggle sound selection
-              sound.toggle()
-            }
-          }
-        }
-        .contextMenu {
-          // Disable context menu when in edit mode
-          if editMode == .active {
-            EmptyView()
-          } else {
-            // Title with credits
-            Text(
-              isCustomSound(sound)
-                ? "\(sound.title) (Custom • Added By You)"
-                : "\(sound.title) (Built-in\(getSoundAuthor(for: sound).map { " • By \($0)" } ?? ""))"
-            )
-            .font(.title2)
-            .fontWeight(.bold)
-
-            // Solo Mode - only show if not already in solo mode
-            if AudioManager.shared.soloModeSound?.id != sound.id {
-              Button(action: {
-                withAnimation(.easeInOut(duration: 0.3)) {
-                  AudioManager.shared.toggleSoloMode(for: sound)
-                }
-              }) {
-                Label("Solo", systemImage: "headphones")
-              }
-            }
-
-            // Customize Sound
-            Button(action: {
-              onEditSound(sound)
-            }) {
-              Label("Customize", systemImage: "paintbrush")
-            }
-
-            Divider()
-
-            // Reorder - only show when not already in edit mode
-            if editMode == .inactive, let onEnterEditMode = onEnterEditMode {
-              Button(action: {
-                onEnterEditMode()
-              }) {
-                Label("Reorder", systemImage: "arrow.up.arrow.down")
+              // If global playback is paused and this sound is already selected,
+              // start global playback instead of deselecting the sound
+              if !AudioManager.shared.isGloballyPlaying && sound.isSelected {
+                AudioManager.shared.setGlobalPlaybackState(true)
+              } else {
+                // Normal behavior: toggle sound selection
+                sound.toggle()
               }
             }
           }
-        }
-        .onLongPressGesture(
-          minimumDuration: 0.5, maximumDistance: .infinity,
-          pressing: { pressing in
-            // Only provide haptic feedback when not in edit mode
-            if pressing && editMode == .inactive {
-              provideHapticFeedback()
-            }
-          }, perform: {}
-        )
-        .onDrag {
-          if editMode == .active {
-            // Only provide haptic feedback when actually starting a new drag
-            if draggedIndex != index {
-              provideHapticFeedback()
-              onDragStart()
-            }
-
-            return NSItemProvider(object: "\(index)" as NSString)
-          } else {
-            return NSItemProvider()
+          .sensoryFeedback(.selection, trigger: sound.isSelected) { _, _ in
+            editMode == .inactive
           }
-        } preview: {
-          if editMode == .active {
-            // Custom drag preview - just the icon without background
-            iconView
-              .opacity(0.8)
-          } else {
-            EmptyView()
+          .contextMenu {
+            contextMenuContent
           }
-        }
-        .onDrop(
-          of: [.text],
-          delegate: SoundDropDelegate(
-            audioManager: AudioManager.shared,
-            targetIndex: index,
-            sounds: filteredSounds,
-            draggedIndex: $draggedIndex,
-            hoveredIndex: $hoveredIndex,
-            cancelTimer: { draggedIndex = nil }
+          .onLongPressGesture(
+            minimumDuration: 0.5, maximumDistance: .infinity,
+            pressing: { pressing in
+              // Only provide haptic feedback when not in edit mode
+              if pressing && editMode == .inactive {
+                longPressTrigger += 1
+              }
+            }, perform: {}
           )
-        )
+          .onDrag {
+            if editMode == .active {
+              // Update state for drag start
+              if draggedIndex != index {
+                dragStartTrigger += 1
+                onDragStart()
+              }
+
+              return NSItemProvider(object: "\(index)" as NSString)
+            } else {
+              return NSItemProvider()
+            }
+          } preview: {
+            if editMode == .active {
+              // Custom drag preview - just the icon without background
+              iconView
+                .opacity(0.8)
+            } else {
+              EmptyView()
+            }
+          }
+          .onDrop(
+            of: [.text],
+            delegate: SoundDropDelegate(
+              audioManager: AudioManager.shared,
+              targetIndex: index,
+              sounds: filteredSounds,
+              draggedIndex: $draggedIndex,
+              hoveredIndex: $hoveredIndex,
+              cancelTimer: { draggedIndex = nil }
+            )
+          )
+          .sensoryFeedback(.selection, trigger: longPressTrigger)
+          .sensoryFeedback(.levelChange, trigger: dragStartTrigger)
+          .sensoryFeedback(.alignment, trigger: hoverTrigger)
+          .sensoryFeedback(.success, trigger: draggedIndex) { oldValue, newValue in
+            // Trigger when drop completes
+            oldValue != nil && newValue == nil
+          }
+          .onChange(of: hoveredIndex) { oldValue, newValue in
+            // Trigger alignment feedback when this icon becomes the hover target
+            if oldValue != index && newValue == index && draggedIndex != nil {
+              hoverTrigger += 1
+            }
+          }
 
         // Title (not draggable) - hidden in solo mode since it's shown in navigation title
         if AudioManager.shared.soloModeSound == nil && globalSettings.showSoundNames {

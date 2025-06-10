@@ -106,6 +106,7 @@ import SwiftUI
                   Label("Solo", systemImage: "headphones")
                 }
                 .tint(.orange)
+                .sensoryFeedback(.selection, trigger: audioManager.soloModeSound?.id)
               }
             }
             .contextMenu {
@@ -208,6 +209,7 @@ import SwiftUI
         }) {
           Label("Solo", systemImage: "headphones")
         }
+        .sensoryFeedback(.impact(weight: .medium), trigger: audioManager.soloModeSound?.id)
       }
 
       Button(action: {

@@ -91,6 +91,13 @@ extension GlobalSettings {
   }
 
   @MainActor
+  func setQuickMixSoundFileNames(_ value: [String]) {
+    quickMixSoundFileNames = value
+    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.quickMixSoundFileNames)
+    logCurrentSettings()
+  }
+
+  @MainActor
   func setLanguage(_ newLanguage: Language) {
     guard newLanguage.code != language.code else {
       print("🌐 Language not changed (already set to \(language.code))")

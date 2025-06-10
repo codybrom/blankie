@@ -37,6 +37,7 @@ enum UserDefaultsKeys {
   static let showProgressBorder = "showProgressBorder"
   static let hideInactiveSoundSliders = "hideInactiveSoundSliders"
   static let lockPortraitOrientationiOS = "lockPortraitOrientationiOS"
+  static let quickMixSoundFileNames = "quickMixSoundFileNames"
 }
 
 class GlobalSettings: ObservableObject {
@@ -55,6 +56,7 @@ class GlobalSettings: ObservableObject {
   @Published var showProgressBorder: Bool
   @Published var hideInactiveSoundSliders: Bool
   @Published var lockPortraitOrientationiOS: Bool
+  @Published var quickMixSoundFileNames: [String]
   @Published var availableLanguages: [Language] = []
 
   // Platform-specific settings
@@ -81,6 +83,10 @@ class GlobalSettings: ObservableObject {
     showProgressBorder = true
     hideInactiveSoundSliders = false
     lockPortraitOrientationiOS = false
+    quickMixSoundFileNames = [
+      "rain", "waves", "fireplace", "white-noise",
+      "wind", "stream", "birds", "coffee-shop",
+    ]
     availableLanguages = []
 
     // Then load actual values from UserDefaults

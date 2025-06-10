@@ -61,6 +61,13 @@ extension GlobalSettings {
     lockPortraitOrientationiOS =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.lockPortraitOrientationiOS) as? Bool
       ?? false
+
+    // Load Quick Mix sound file names (default to original 8 sounds)
+    if let savedQuickMixSounds = UserDefaults.standard.array(
+      forKey: UserDefaultsKeys.quickMixSoundFileNames) as? [String]
+    {
+      quickMixSoundFileNames = savedQuickMixSounds
+    }
   }
 
   func loadPlatformSettings() {

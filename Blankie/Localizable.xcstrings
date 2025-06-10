@@ -5370,6 +5370,9 @@
     "Repeat continuously when playing" : {
       "comment" : "Description for loop sound toggle"
     },
+    "Replace Sound" : {
+
+    },
     "Report an Issue" : {
       "comment" : "Report an issue label",
       "extractionState" : "manual",

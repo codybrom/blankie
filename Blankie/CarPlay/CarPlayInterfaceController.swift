@@ -23,11 +23,10 @@
     private var quickMixTemplate: CPGridTemplate?
     private var soundsTemplate: CPListTemplate?
 
-    // Quick Mix sounds (8 most popular)
-    let quickMixSoundFileNames = [
-      "rain", "waves", "fireplace", "white-noise",
-      "wind", "stream", "birds", "coffee-shop",
-    ]
+    // Quick Mix sounds (persisted from GlobalSettings)
+    var quickMixSoundFileNames: [String] {
+      return GlobalSettings.shared.quickMixSoundFileNames
+    }
 
     private init() {
       observeAudioManagerChanges()

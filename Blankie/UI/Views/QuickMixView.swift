@@ -145,7 +145,7 @@ struct QuickMixSoundButton: View {
           // This helps prevent accidental long press triggers
         }
     )
-    .popover(isPresented: $showingQuickMixOptions, attachmentAnchor: popoverAnchor) {
+    .popover(isPresented: $showingQuickMixOptions, arrowEdge: popoverArrowEdge) {
       QuickMixSoundOptionsPopover(
         sound: sound
       )
@@ -154,19 +154,19 @@ struct QuickMixSoundButton: View {
     }
   }
 
-  private var popoverAnchor: PopoverAttachmentAnchor {
+  private var popoverArrowEdge: Edge {
     #if os(iOS)
       let screenHeight = UIScreen.main.bounds.height
-      let isNearTop = popoverPosition.minY < screenHeight * 0.5
+      let isNearBottom = popoverPosition.maxY > screenHeight * 0.7
 
-      // Prefer bottom, but use top if we're in the top half of the screen
-      if isNearTop {
-        return .point(.bottom)
+      // Prefer bottom edge arrow (pointing up from bottom), but use top edge if we're near the bottom of the screen
+      if isNearBottom {
+        return .bottom
       } else {
-        return .point(.top)
+        return .top
       }
     #else
-      return .point(.bottom)
+      return .bottom
     #endif
   }
 

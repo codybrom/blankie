@@ -95,41 +95,38 @@
           height: iconSize.height
         )
 
-        // Draw icon - use color when playing, gray when not
         if isPlaying {
           backgroundColor.setFill()
         } else {
-          UIColor.label.setFill()  // Adapts to light/dark mode
+          UIColor.systemGray.setFill()
         }
         configuredIcon.withRenderingMode(.alwaysTemplate).draw(in: iconRect)
       }
     }
 
     private static func getBackgroundColor(for sound: Sound, isPlaying: Bool) -> UIColor {
-      // When not playing, use gray (matching Blankie app behavior)
+      // When not playing, use gray
       guard isPlaying else {
-        return UIColor.systemGray.withAlphaComponent(0.3)
+        return UIColor.systemGray
       }
 
-      // When playing, use the sound's custom color or a default color
+      // When playing, use the same color hierarchy
+      return getIconColor(for: sound)
+    }
+
+    private static func getIconColor(for sound: Sound) -> UIColor {
+      // First priority: sound's custom color
       if let customColor = sound.customColor {
-        // Convert SwiftUI Color to UIColor
         return UIColor(customColor)
       }
 
-      // Define default colors for each sound (matching Blankie's defaults)
-      let soundColors: [String: UIColor] = [
-        "rain": UIColor.systemBlue,
-        "waves": UIColor.systemTeal,
-        "fireplace": UIColor.systemOrange,
-        "white-noise": UIColor.systemGray,
-        "wind": UIColor.systemGreen,
-        "stream": UIColor.systemCyan,
-        "birds": UIColor.systemYellow,
-        "coffee-shop": UIColor.systemBrown,
-      ]
+      // Second priority: user's theme color
+      if let themeColor = GlobalSettings.shared.customAccentColor {
+        return UIColor(themeColor)
+      }
 
-      return soundColors[sound.fileName] ?? UIColor.systemPurple
+      // Default: system tint color
+      return UIColor.tintColor
     }
 
     private static func handleSoundToggle(_ sound: Sound, button: CPGridButton) {

@@ -61,48 +61,34 @@
       if isInSoloMode {
         getBackgroundColor(for: sound, isInSoloMode: isInSoloMode).setFill()
       } else {
-        // Use custom color if available, otherwise use accent/tint color
-        if let customColor = sound.customColor {
-          UIColor(customColor).setFill()
-        } else {
-          UIColor.tintColor.setFill()  // This will use the system accent color
-        }
+        // Use icon color (custom color > theme color > tint color)
+        getIconColor(for: sound).setFill()
       }
       configuredIcon.withRenderingMode(.alwaysTemplate).draw(in: iconRect)
     }
 
     private static func getBackgroundColor(for sound: Sound, isInSoloMode: Bool) -> UIColor {
       if isInSoloMode {
-        // Use sound's color when playing
-        if let customColor = sound.customColor {
-          return UIColor(customColor)
-        } else {
-          // Default colors for built-in sounds
-          return getDefaultColor(for: sound)
-        }
+        // Use the same color hierarchy as the main app
+        return getIconColor(for: sound)
       } else {
         return UIColor.systemGray
       }
     }
 
-    private static func getDefaultColor(for sound: Sound) -> UIColor {
-      let soundColors: [String: UIColor] = [
-        "rain": UIColor.systemBlue,
-        "waves": UIColor.systemTeal,
-        "fireplace": UIColor.systemOrange,
-        "white-noise": UIColor.systemGray,
-        "wind": UIColor.systemGreen,
-        "stream": UIColor.systemCyan,
-        "birds": UIColor.systemYellow,
-        "coffee-shop": UIColor.systemBrown,
-        "storm": UIColor.systemPurple,
-        "city": UIColor.systemIndigo,
-        "train": UIColor.systemRed,
-        "boat": UIColor.systemMint,
-        "summer-night": UIColor.systemPink,
-        "pink-noise": UIColor.systemGray2,
-      ]
-      return soundColors[sound.fileName] ?? UIColor.systemPurple
+    private static func getIconColor(for sound: Sound) -> UIColor {
+      // First priority: sound's custom color
+      if let customColor = sound.customColor {
+        return UIColor(customColor)
+      }
+
+      // Second priority: user's theme color
+      if let themeColor = GlobalSettings.shared.customAccentColor {
+        return UIColor(themeColor)
+      }
+
+      // Default: system tint color
+      return UIColor.tintColor
     }
   }
 

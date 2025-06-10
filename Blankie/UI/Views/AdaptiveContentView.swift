@@ -129,6 +129,9 @@ import SwiftUI
         if let soloSound = audioManager.soloModeSound {
           // Solo mode view
           soloModeView(for: soloSound)
+        } else if audioManager.isCarPlayQuickMix {
+          // Quick Mix mode view
+          QuickMixView()
         } else if showingListView && !isLargeDevice {
           // List view for iPhone
           listView
@@ -141,6 +144,7 @@ import SwiftUI
         }
       }
       .animation(.easeInOut(duration: 0.3), value: audioManager.soloModeSound?.id)
+      .animation(.easeInOut(duration: 0.3), value: audioManager.isCarPlayQuickMix)
       .animation(.easeInOut(duration: 0.3), value: showingListView)
     }
 

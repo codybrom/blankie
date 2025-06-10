@@ -12,13 +12,17 @@ import Foundation
 extension Sound {
 
   private var loadedPlayer: AVAudioPlayer? {
-    if player == nil {
-      loadSound()
-    }
+    // Prevent race conditions by not auto-loading here
+    // loadSound() should be called explicitly when needed
     return player
   }
 
   func play() {
+    // Ensure player is loaded first
+    if player == nil {
+      loadSound()
+    }
+
     guard let validPlayer = preparePlayer() else { return }
 
     let success = validPlayer.play()
@@ -35,14 +39,13 @@ extension Sound {
   }
 
   private func preparePlayer() -> AVAudioPlayer? {
-    var player = loadedPlayer
-    guard player != nil else {
+    guard let player = self.player else {
       print("❌ Sound: No player available for '\(fileName)'")
       return nil
     }
 
     // Additional validation
-    if !player!.prepareToPlay() {
+    if !player.prepareToPlay() {
       print("❌ Sound: Player not ready for '\(fileName)' - attempting to reload")
       loadSound()
       guard let reloadedPlayer = self.player else {
@@ -53,15 +56,14 @@ extension Sound {
         print("❌ Sound: Player still not ready after reload for '\(fileName)'")
         return nil
       }
-      // Update the local player reference to the reloaded one
-      player = reloadedPlayer
+      return reloadedPlayer
     }
 
     return player
   }
 
   func resetSoundPosition() {
-    guard let player = loadedPlayer else {
+    guard let player = self.player else {
       // If player doesn't exist yet, it will be randomized when loaded
       return
     }
@@ -99,26 +101,41 @@ extension Sound {
   }
 
   func pause(immediate: Bool = false) {
+    guard let currentPlayer = player else {
+      print("🔊 Sound: No player to pause for '\(fileName)'")
+      return
+    }
+
     if immediate {
-      player?.stop()
-      player?.currentTime = 0  // Reset to beginning for next play
+      currentPlayer.stop()
+      currentPlayer.currentTime = 0  // Reset to beginning for next play
       print("🔊 Sound: Immediately stopped '\(fileName)'")
     } else {
-      player?.pause()
+      currentPlayer.pause()
       print("🔊 Sound: Paused '\(fileName)'")
     }
     stopProgressTracking()
   }
 
   func stop() {
-    player?.stop()
-    player?.currentTime = 0  // Reset to beginning for next play
+    guard let currentPlayer = player else {
+      print("🔊 Sound: No player to stop for '\(fileName)'")
+      return
+    }
+
+    currentPlayer.stop()
+    currentPlayer.currentTime = 0  // Reset to beginning for next play
     print("🔊 Sound: Stopped '\(fileName)'")
     stopProgressTracking()
   }
 
   func fadeIn(duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
-    guard let player = loadedPlayer else {
+    // Ensure player is loaded first
+    if player == nil {
+      loadSound()
+    }
+
+    guard let player = self.player else {
       completion?()
       return
     }
@@ -166,7 +183,7 @@ extension Sound {
   }
 
   func fadeOut(duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
-    guard let player = loadedPlayer, player.isPlaying else {
+    guard let player = self.player, player.isPlaying else {
       completion?()
       return
     }
@@ -282,7 +299,9 @@ extension Sound {
       } else if let self = self {
         // For presets, check if this is the longest playing sound
         let playingSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
-        let longestSound = playingSounds.max { ($0.player?.duration ?? 0) < ($1.player?.duration ?? 0) }
+        let longestSound = playingSounds.max {
+          ($0.player?.duration ?? 0) < ($1.player?.duration ?? 0)
+        }
 
         if longestSound?.id == self.id {
           // This is the longest sound, update Now Playing progress

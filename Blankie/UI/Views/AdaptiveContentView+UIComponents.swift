@@ -125,7 +125,7 @@ import SwiftUI
             Image(systemName: "headphones.circle.fill")
               .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
           } else if audioManager.isCarPlayQuickMix {
-            Image(systemName: "car.circle.fill")
+            Image(systemName: "square.grid.2x2.fill")
               .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
           }
           Text(navigationTitle)
@@ -231,7 +231,15 @@ import SwiftUI
               audioManager.exitCarPlayQuickMix()
             }
           }) {
-            Label("Exit Quick Mix", systemImage: "car.slash")
+            Label("Exit Quick Mix", systemImage: "square.grid.2x2.slash")
+          }
+        } else {
+          Button(action: {
+            withAnimation(.easeInOut(duration: 0.3)) {
+              audioManager.enterCarPlayQuickMix()
+            }
+          }) {
+            Label("Quick Mix Mode", systemImage: "square.grid.2x2")
           }
         }
 

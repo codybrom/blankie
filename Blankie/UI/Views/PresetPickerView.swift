@@ -73,13 +73,14 @@ struct PresetPickerView: View {
             .listRowBackground(Color.secondary.opacity(0.1))
           }
 
-          // CarPlay Quick Mix indicator (if active)
+          // Quick Mix mode
           if audioManager.isCarPlayQuickMix {
+            // Quick Mix indicator (if active)
             HStack {
               HStack(spacing: 8) {
-                Image(systemName: "car.circle.fill")
+                Image(systemName: "square.grid.2x2.fill")
                   .foregroundColor(.accentColor)
-                Text("Quick Mix (CarPlay)")
+                Text("Quick Mix")
                   .foregroundColor(.secondary)
               }
 
@@ -89,6 +90,25 @@ struct PresetPickerView: View {
                 .foregroundColor(.accentColor)
             }
             .listRowBackground(Color.secondary.opacity(0.1))
+          } else {
+            // Quick Mix button (if not active)
+            Button {
+              Task { @MainActor in
+                audioManager.enterCarPlayQuickMix()
+                dismiss()
+              }
+            } label: {
+              HStack {
+                HStack(spacing: 8) {
+                  Image(systemName: "square.grid.2x2")
+                    .foregroundColor(.accentColor)
+                  Text("Quick Mix")
+                    .foregroundColor(.primary)
+                }
+
+                Spacer()
+              }
+            }
           }
 
           // List of all presets (default first, then custom presets)

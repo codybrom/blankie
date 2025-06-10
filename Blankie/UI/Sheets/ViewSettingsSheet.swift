@@ -21,8 +21,8 @@ import SwiftUI
       NavigationStack {
         Form {
           Section {
-            // Options that don't apply in solo mode
-            if audioManager.soloModeSound == nil {
+            // Options that don't apply in solo mode or Quick Mix mode
+            if audioManager.soloModeSound == nil && !audioManager.isCarPlayQuickMix {
               // View Mode
               Picker("View Mode", selection: $showingListView) {
                 Text("Grid").tag(false)
@@ -64,8 +64,10 @@ import SwiftUI
               )
             }
 
-            // Progress Borders - show in solo mode and grid view
-            if audioManager.soloModeSound != nil || !showingListView {
+            // Progress Borders - show in solo mode and grid view, but not in Quick Mix
+            if !audioManager.isCarPlayQuickMix
+              && (audioManager.soloModeSound != nil || !showingListView)
+            {
               Toggle(
                 "Show Progress Borders",
                 isOn: Binding(
@@ -75,14 +77,16 @@ import SwiftUI
               )
             }
 
-            // Hide sliders for inactive sounds
-            Toggle(
-              "Hide Sliders for Inactive Sounds",
-              isOn: Binding(
-                get: { globalSettings.hideInactiveSoundSliders },
-                set: { globalSettings.setHideInactiveSoundSliders($0) }
+            // Hide sliders for inactive sounds - not applicable in Quick Mix mode
+            if !audioManager.isCarPlayQuickMix {
+              Toggle(
+                "Hide Sliders for Inactive Sounds",
+                isOn: Binding(
+                  get: { globalSettings.hideInactiveSoundSliders },
+                  set: { globalSettings.setHideInactiveSoundSliders($0) }
+                )
               )
-            )
+            }
 
             #if os(iOS)
               // Lock Portrait Orientation

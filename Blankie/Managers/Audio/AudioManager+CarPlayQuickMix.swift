@@ -27,17 +27,34 @@ extension AudioManager {
       QuickMixState(sound: sound, isSelected: sound.isSelected, volume: sound.volume)
     }
 
-    // Pause all sounds first
+    // Stop all sounds first
     for sound in sounds {
-      sound.pause()
+      sound.pause(immediate: true)
       sound.isSelected = false
     }
 
     // Set CarPlay Quick Mix mode
     isCarPlayQuickMix = true
 
-    // Enable only the initial sounds (if any)
-    for sound in initialSounds {
+    // Filter initial sounds to only include Quick Mix sounds (built-in only)
+    #if CARPLAY_ENABLED
+      let quickMixSounds = CarPlayInterfaceController.shared.quickMixSoundFileNames
+    #else
+      let quickMixSounds = [
+        "rain", "waves", "fireplace", "white-noise",
+        "wind", "stream", "birds", "coffee-shop",
+      ]
+    #endif
+    let validInitialSounds = initialSounds.filter { sound in
+      quickMixSounds.contains(sound.fileName) && !sound.isCustom
+    }
+
+    print(
+      "🚗 AudioManager: Filtered \\(initialSounds.count) initial sounds to \\(validInitialSounds.count) valid Quick Mix sounds"
+    )
+
+    // Enable only the valid initial sounds
+    for sound in validInitialSounds {
       sound.isSelected = true
       sound.play()
     }
@@ -93,6 +110,20 @@ extension AudioManager {
   @MainActor
   func toggleCarPlayQuickMixSound(_ sound: Sound) {
     guard isCarPlayQuickMix else { return }
+
+    // Only allow toggling of valid Quick Mix sounds (built-in only)
+    #if CARPLAY_ENABLED
+      let quickMixSounds = CarPlayInterfaceController.shared.quickMixSoundFileNames
+    #else
+      let quickMixSounds = [
+        "rain", "waves", "fireplace", "white-noise",
+        "wind", "stream", "birds", "coffee-shop",
+      ]
+    #endif
+    guard quickMixSounds.contains(sound.fileName) && !sound.isCustom else {
+      print("🚗 AudioManager: Attempted to toggle invalid Quick Mix sound: \\(sound.fileName)")
+      return
+    }
 
     if sound.isSelected {
       sound.isSelected = false

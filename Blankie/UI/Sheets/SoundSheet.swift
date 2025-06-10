@@ -48,19 +48,6 @@ struct SoundSheet: View {
   @State var initialVolumeAdjustment: Float = 1.0
   @State var initialLoopSound: Bool = true
 
-  var hasChanges: Bool {
-    switch mode {
-    case .customize:
-      return soundName != initialSoundName || selectedIcon != initialSelectedIcon
-        || selectedColor != initialSelectedColor
-        || randomizeStartPosition != initialRandomizeStartPosition
-        || normalizeAudio != initialNormalizeAudio || volumeAdjustment != initialVolumeAdjustment
-        || loopSound != initialLoopSound
-    case .add, .edit:
-      return true
-    }
-  }
-
   let isFilePreselected: Bool
 
   init(mode: SoundSheetMode, preselectedFile: URL? = nil) {
@@ -69,15 +56,95 @@ struct SoundSheet: View {
 
     switch mode {
     case .add:
-      initializeAddMode(preselectedFile: preselectedFile)
+      let values = Self.createAddModeInitValues(preselectedFile: preselectedFile)
+      self._soundName = State(initialValue: values.soundName)
+      self._selectedIcon = State(initialValue: values.selectedIcon)
+      self._selectedFile = State(initialValue: values.selectedFile)
+      self._initialSoundName = State(initialValue: values.initialSoundName)
+      self._initialSelectedIcon = State(initialValue: values.initialSelectedIcon)
+
     case .edit(let customSoundData):
-      initializeEditMode(customSoundData: customSoundData)
+      let values = Self.createEditModeInitValues(customSoundData: customSoundData)
+      self._soundName = State(initialValue: values.soundName)
+      self._selectedIcon = State(initialValue: values.selectedIcon)
+      self._randomizeStartPosition = State(initialValue: values.randomizeStartPosition)
+      self._normalizeAudio = State(initialValue: values.normalizeAudio)
+      self._volumeAdjustment = State(initialValue: values.volumeAdjustment)
+      self._loopSound = State(initialValue: values.loopSound)
+      self._selectedColor = State(initialValue: values.selectedColor)
+      self._initialSoundName = State(initialValue: values.initialSoundName)
+      self._initialSelectedIcon = State(initialValue: values.initialSelectedIcon)
+      self._initialRandomizeStartPosition = State(
+        initialValue: values.initialRandomizeStartPosition)
+      self._initialNormalizeAudio = State(initialValue: values.initialNormalizeAudio)
+      self._initialVolumeAdjustment = State(initialValue: values.initialVolumeAdjustment)
+      self._initialLoopSound = State(initialValue: values.initialLoopSound)
+      self._initialSelectedColor = State(initialValue: values.initialSelectedColor)
+
     case .customize(let sound):
-      initializeCustomizeMode(sound: sound)
+      let values = Self.createCustomizeModeInitValues(sound: sound)
+      self._soundName = State(initialValue: values.soundName)
+      self._selectedIcon = State(initialValue: values.selectedIcon)
+      self._randomizeStartPosition = State(initialValue: values.randomizeStartPosition)
+      self._normalizeAudio = State(initialValue: values.normalizeAudio)
+      self._volumeAdjustment = State(initialValue: values.volumeAdjustment)
+      self._loopSound = State(initialValue: values.loopSound)
+      self._selectedColor = State(initialValue: values.selectedColor)
+      self._initialSoundName = State(initialValue: values.initialSoundName)
+      self._initialSelectedIcon = State(initialValue: values.initialSelectedIcon)
+      self._initialRandomizeStartPosition = State(
+        initialValue: values.initialRandomizeStartPosition)
+      self._initialNormalizeAudio = State(initialValue: values.initialNormalizeAudio)
+      self._initialVolumeAdjustment = State(initialValue: values.initialVolumeAdjustment)
+      self._initialLoopSound = State(initialValue: values.initialLoopSound)
+      self._initialSelectedColor = State(initialValue: values.initialSelectedColor)
     }
   }
 
   var body: some View {
+    baseContent
+      .fileImporter(
+        isPresented: $isImporting,
+        allowedContentTypes: allowedContentTypes,
+        allowsMultipleSelection: false
+      ) { result in
+        handleFileImport(result: result)
+      }
+      .alert(
+        Text("Import Error", comment: "Import error alert title"),
+        isPresented: $showingError,
+        presenting: importError
+      ) { _ in
+        Button("OK", role: .cancel) {}
+      } message: { error in
+        Text(error.localizedDescription)
+      }
+      .overlay(alignment: .center) {
+        if isProcessing {
+          processingOverlay
+        }
+      }
+      .modifier(
+        SoundSheetChangeHandlers(
+          isPreviewing: $isPreviewing,
+          normalizeAudio: $normalizeAudio,
+          volumeAdjustment: $volumeAdjustment,
+          randomizeStartPosition: $randomizeStartPosition,
+          loopSound: $loopSound,
+          startPreview: startPreview,
+          stopPreview: stopPreview,
+          updateSoundSettings: updateSoundSettings
+        )
+      )
+      .onAppear {
+        handleOnAppear()
+      }
+      .onDisappear {
+        handleOnDisappear()
+      }
+  }
+
+  private var baseContent: some View {
     Group {
       #if os(macOS)
         macOSLayout
@@ -85,173 +152,38 @@ struct SoundSheet: View {
         iOSLayout
       #endif
     }
-    .fileImporter(
-      isPresented: $isImporting,
-      allowedContentTypes: [
-        UTType.audio,
-        UTType.mp3,
-        UTType.wav,
-        UTType.mpeg4Audio,
-      ],
-      allowsMultipleSelection: false
-    ) { result in
-      handleFileImport(result: result)
+  }
+
+  private var allowedContentTypes: [UTType] {
+    [
+      UTType.audio,
+      UTType.mp3,
+      UTType.wav,
+      UTType.mpeg4Audio,
+    ]
+  }
+
+  private func handleOnAppear() {
+    originalCustomization = getOriginalCustomization()
+    if case .customize(let sound) = mode {
+      previewSound = sound
     }
-    .alert(
-      Text("Import Error", comment: "Import error alert title"), isPresented: $showingError,
-      presenting: importError
-    ) { _ in
-      Button("OK", role: .cancel) {}
-    } message: { error in
-      Text(error.localizedDescription)
-    }
-    .overlay(alignment: .center) {
-      if isProcessing {
-        processingOverlay
-      }
-    }
-    .onChange(of: isPreviewing) { _, previewing in
-      if previewing {
-        startPreview()
+  }
+
+  private func handleOnDisappear() {
+    if case .customize(let sound) = mode {
+      if let originalCustomization = originalCustomization {
+        SoundCustomizationManager.shared.updateTemporaryCustomization(originalCustomization)
+        SoundCustomizationManager.shared.saveCustomizations()
       } else {
-        stopPreview()
+        SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
       }
     }
-    .onChange(of: normalizeAudio) { _, _ in
-      updateSoundSettings()
-    }
-    .onChange(of: volumeAdjustment) { _, _ in
-      updateSoundSettings()
-    }
-    .onChange(of: randomizeStartPosition) { _, _ in
-      updateSoundSettings()
-    }
-    .onChange(of: loopSound) { _, _ in
-      updateSoundSettings()
-    }
-    .onAppear {
-      originalCustomization = getOriginalCustomization()
-      if case .customize(let sound) = mode {
-        previewSound = sound
-      }
-    }
-    .onDisappear {
-      if case .customize(let sound) = mode {
-        if let originalCustomization = originalCustomization {
-          SoundCustomizationManager.shared.addCustomization(originalCustomization)
-        } else {
-          SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
-        }
-      }
-      if isPreviewing {
-        stopPreview()
-      }
+    if isPreviewing {
+      stopPreview()
     }
   }
 
-  private var macOSLayout: some View {
-    SoundSheetMacOSLayout(
-      mode: mode,
-      isFilePreselected: isFilePreselected,
-      soundName: $soundName,
-      selectedIcon: $selectedIcon,
-      selectedFile: $selectedFile,
-      isImporting: $isImporting,
-      selectedColor: $selectedColor,
-      randomizeStartPosition: $randomizeStartPosition,
-      normalizeAudio: $normalizeAudio,
-      volumeAdjustment: $volumeAdjustment,
-      loopSound: $loopSound,
-      isPreviewing: $isPreviewing,
-      previewSound: $previewSound,
-      hasChanges: hasChanges,
-      title: title,
-      buttonTitle: buttonTitle,
-      isDisabled: isDisabled,
-      performAction: performAction,
-      stopPreview: stopPreview,
-      dismiss: dismiss
-    )
-  }
-
-  private var iOSLayout: some View {
-    NavigationView {
-      CleanSoundSheetForm(
-        mode: mode,
-        isFilePreselected: isFilePreselected,
-        soundName: $soundName,
-        selectedIcon: $selectedIcon,
-        selectedFile: $selectedFile,
-        isImporting: $isImporting,
-        selectedColor: $selectedColor,
-        randomizeStartPosition: $randomizeStartPosition,
-        normalizeAudio: $normalizeAudio,
-        volumeAdjustment: $volumeAdjustment,
-        loopSound: $loopSound,
-        isPreviewing: $isPreviewing,
-        previewSound: $previewSound
-      )
-      .navigationTitle(title)
-      .navigationBarTitleDisplayMode(.inline)
-      .navigationBarBackButtonHidden(true)
-      .navigationBarItems(
-        leading: leadingNavigationButton,
-        trailing: trailingNavigationButton
-      )
-    }
-    .navigationViewStyle(.stack)
-  }
-
-  @ViewBuilder
-  private var leadingNavigationButton: some View {
-    if hasChanges {
-      Button("Cancel") {
-        if isPreviewing {
-          stopPreview()
-        }
-        dismiss()
-      }
-    } else {
-      Button("Done") {
-        if isPreviewing {
-          stopPreview()
-        }
-        dismiss()
-      }
-    }
-  }
-
-  @ViewBuilder
-  private var trailingNavigationButton: some View {
-    if hasChanges {
-      Button("Save") {
-        performAction()
-      }
-      .disabled(isDisabled)
-    }
-  }
-
-  private func handleFileImport(result: Result<[URL], Error>) {
-    switch result {
-    case .success(let files):
-      if let file = files.first {
-        selectedFile = file
-        if soundName.isEmpty {
-          Task {
-            if let metadataTitle = await CustomSoundManager.shared.extractMetadataTitle(from: file)
-            {
-              soundName = metadataTitle
-            } else {
-              soundName = file.deletingPathExtension().lastPathComponent
-            }
-          }
-        }
-      }
-    case .failure(let error):
-      importError = error
-      showingError = true
-    }
-  }
 }
 
 extension SoundSheetMode {
@@ -267,6 +199,6 @@ extension SoundSheetMode {
   SoundSheet(mode: .add)
 }
 
-#Preview("Customize Mode") {
-  SoundSheet(mode: .customize(Sound.preview))
-}
+// #Preview("Customize Mode") {
+//   SoundSheet(mode: .customize(Sound.preview))
+// }

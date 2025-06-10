@@ -4992,7 +4992,10 @@
         }
       }
     },
-    "Quick Mix (CarPlay)" : {
+    "Quick Mix" : {
+
+    },
+    "Quick Mix Mode" : {
 
     },
     "Quit" : {

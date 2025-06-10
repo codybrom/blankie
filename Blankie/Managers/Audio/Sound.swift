@@ -79,11 +79,8 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
 
       // If sound was just deselected, stop playing it immediately
       if !isSelected && oldValue == true {
-        DispatchQueue.main.async { [weak self] in
-          guard let self = self else { return }
-          print("🎵 Sound: Auto-stopping newly deselected sound '\(self.fileName)'")
-          self.pause(immediate: true)
-        }
+        print("🎵 Sound: Auto-stopping newly deselected sound '\(self.fileName)'")
+        self.pause(immediate: true)
       }
     }
   }
@@ -130,6 +127,7 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
   private var globalSettingsObserver: AnyCancellable?
   private var customizationObserver: AnyCancellable?
   internal var isResetting = false
+  private var isLoading = false
 
   // Metadata properties
   @Published var channelCount: Int?
@@ -198,6 +196,21 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
   }
 
   open func loadSound() {
+    // Prevent concurrent loading
+    guard !isLoading else {
+      print("⚠️ Sound: Already loading '\(fileName).\(fileExtension)', skipping")
+      return
+    }
+
+    // If player already exists, no need to reload
+    guard player == nil else {
+      print("🔍 Sound: Player already loaded for '\(fileName).\(fileExtension)'")
+      return
+    }
+
+    isLoading = true
+    defer { isLoading = false }
+
     print("🔍 Sound: Loading '\(fileName).\(fileExtension)'")
 
     guard let soundURL = getSoundURL() else {

@@ -162,7 +162,24 @@ extension AudioManager {
     }
 
     if let originalSelection = soloModeOriginalSelection {
-      soloSound.isSelected = originalSelection
+      // Don't restore selection for non-Quick Mix sounds when in CarPlay Quick Mix mode
+      if isCarPlayQuickMix {
+        #if CARPLAY_ENABLED
+          let quickMixSounds = CarPlayInterfaceController.shared.quickMixSoundFileNames
+        #else
+          let quickMixSounds = [
+            "rain", "waves", "fireplace", "white-noise",
+            "wind", "stream", "birds", "coffee-shop",
+          ]
+        #endif
+        if quickMixSounds.contains(soloSound.fileName) {
+          soloSound.isSelected = originalSelection
+        } else {
+          soloSound.isSelected = false
+        }
+      } else {
+        soloSound.isSelected = originalSelection
+      }
       soloModeOriginalSelection = nil
     }
 

@@ -71,8 +71,8 @@
               }
 
               // Exit Quick Mix mode if active
-              if AudioManager.shared.isCarPlayQuickMix {
-                AudioManager.shared.exitCarPlayQuickMix()
+              if AudioManager.shared.isQuickMix {
+                AudioManager.shared.exitQuickMix()
               }
             }
 
@@ -120,8 +120,8 @@
               }
 
               // Exit Quick Mix mode if active
-              if AudioManager.shared.isCarPlayQuickMix {
-                AudioManager.shared.exitCarPlayQuickMix()
+              if AudioManager.shared.isQuickMix {
+                AudioManager.shared.exitQuickMix()
               }
             }
 
@@ -207,7 +207,9 @@
       }
     }
 
-    private static func addCustomPresetsSection(to sections: inout [CPListSection], customPresets: [Preset]) {
+    private static func addCustomPresetsSection(
+      to sections: inout [CPListSection], customPresets: [Preset]
+    ) {
       let allItems = customPresets.map { createPresetListItem($0) }
       sections.append(
         CPListSection(
@@ -218,7 +220,9 @@
       )
     }
 
-    private static func addAllSoundsSection(to sections: inout [CPListSection], defaultPreset: Preset?) {
+    private static func addAllSoundsSection(
+      to sections: inout [CPListSection], defaultPreset: Preset?
+    ) {
       if let defaultPreset = defaultPreset {
         let allSoundsItem = createAllSoundsItem(defaultPreset)
         sections.append(
@@ -231,7 +235,9 @@
       }
     }
 
-    private static func addEmptyStateSection(to sections: inout [CPListSection], defaultPreset: Preset?) {
+    private static func addEmptyStateSection(
+      to sections: inout [CPListSection], defaultPreset: Preset?
+    ) {
       if let defaultPreset = defaultPreset {
         let allSoundsItem = createAllSoundsItem(defaultPreset)
         sections.append(
@@ -278,8 +284,8 @@
               }
 
               // Exit Quick Mix mode if active
-              if AudioManager.shared.isCarPlayQuickMix {
-                AudioManager.shared.exitCarPlayQuickMix()
+              if AudioManager.shared.isQuickMix {
+                AudioManager.shared.exitQuickMix()
               }
             }
 

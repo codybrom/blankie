@@ -42,7 +42,7 @@ import SwiftUI
         .background(.regularMaterial)
         .transition(.move(edge: .top).combined(with: .opacity))
       } else if !audioManager.hasSelectedSounds && editMode == .inactive
-        && !audioManager.isCarPlayQuickMix
+        && !audioManager.isQuickMix
       {
         // No sounds selected banner (not shown in Quick Mix mode)
         HStack(spacing: 12) {
@@ -83,7 +83,7 @@ import SwiftUI
         return soloSound.title
       }
 
-      if audioManager.isCarPlayQuickMix {
+      if audioManager.isQuickMix {
         return "Quick Mix"
       }
 
@@ -102,7 +102,7 @@ import SwiftUI
           if audioManager.soloModeSound != nil {
             Image(systemName: "headphones.circle.fill")
               .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-          } else if audioManager.isCarPlayQuickMix {
+          } else if audioManager.isQuickMix {
             Image(systemName: "square.grid.2x2.fill")
               .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
           }
@@ -127,9 +127,9 @@ import SwiftUI
           Spacer()
           Button(action: {
             withAnimation(.easeInOut(duration: 0.2)) {
-              if audioManager.isCarPlayQuickMix {
+              if audioManager.isQuickMix {
                 // Exit Quick Mix mode and return to previous view mode
-                audioManager.exitCarPlayQuickMix()
+                audioManager.exitQuickMix()
               } else {
                 // Normal toggle between grid and list
                 showingListView.toggle()
@@ -137,7 +137,7 @@ import SwiftUI
             }
           }) {
             Image(
-              systemName: audioManager.isCarPlayQuickMix
+              systemName: audioManager.isQuickMix
                 ? "arrow.backward"
                 : (showingListView ? "list.bullet" : "square.grid.3x3")
             )
@@ -148,8 +148,8 @@ import SwiftUI
           .buttonStyle(.plain)
           .sensoryFeedback(
             .selection,
-            trigger: audioManager.isCarPlayQuickMix
-              ? audioManager.isCarPlayQuickMix : showingListView)
+            trigger: audioManager.isQuickMix
+              ? audioManager.isQuickMix : showingListView)
           Spacer()
 
           // Play/Pause button

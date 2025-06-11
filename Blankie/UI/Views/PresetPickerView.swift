@@ -74,7 +74,7 @@ struct PresetPickerView: View {
           }
 
           // Quick Mix mode
-          if audioManager.isCarPlayQuickMix {
+          if audioManager.isQuickMix {
             // Quick Mix indicator (if active)
             HStack {
               HStack(spacing: 8) {
@@ -94,7 +94,7 @@ struct PresetPickerView: View {
             // Quick Mix button (if not active)
             Button {
               Task { @MainActor in
-                audioManager.enterCarPlayQuickMix()
+                audioManager.enterQuickMix()
                 dismiss()
               }
             } label: {
@@ -123,9 +123,9 @@ struct PresetPickerView: View {
                     audioManager.exitSoloModeWithoutResuming()
                   }
 
-                  // Exit CarPlay Quick Mix if we're in it
-                  if audioManager.isCarPlayQuickMix {
-                    audioManager.exitCarPlayQuickMix()
+                  // Exit Quick Mix if we're in it
+                  if audioManager.isQuickMix {
+                    audioManager.exitQuickMix()
                   }
 
                   try presetManager.applyPreset(preset)

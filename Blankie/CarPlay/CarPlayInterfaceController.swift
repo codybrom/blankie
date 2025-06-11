@@ -56,8 +56,8 @@
       }
 
       // Exit CarPlay Quick Mix mode if active
-      if AudioManager.shared.isCarPlayQuickMix {
-        AudioManager.shared.exitCarPlayQuickMix()
+      if AudioManager.shared.isQuickMix {
+        AudioManager.shared.exitQuickMix()
       }
 
       NotificationCenter.default.post(

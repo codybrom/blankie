@@ -106,43 +106,82 @@ import SwiftUI
 
     @ViewBuilder
     var listView: some View {
-      List {
-        ForEach(filteredSounds) { sound in
-          soundRow(for: sound)
-            .id("\(sound.id)-\(sound.isSelected)-\(audioManager.isGloballyPlaying)")
-            .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
-            .listRowSeparator(.hidden)
-            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-              Button {
-                soundToEdit = sound
-              } label: {
-                Label("Edit", systemImage: "pencil")
-              }
-              .tint(.blue)
-
-              if audioManager.soloModeSound?.id != sound.id {
+      ZStack {
+        List {
+          ForEach(filteredSounds) { sound in
+            soundRow(for: sound)
+              .id("\(sound.id)-\(sound.isSelected)-\(audioManager.isGloballyPlaying)")
+              .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
+              .listRowSeparator(.hidden)
+              .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 Button {
-                  withAnimation(.easeInOut(duration: 0.3)) {
-                    audioManager.toggleSoloMode(for: sound)
-                  }
+                  soundToEdit = sound
                 } label: {
-                  Label("Solo", systemImage: "headphones")
+                  Label("Edit", systemImage: "pencil")
                 }
-                .tint(.orange)
-                .sensoryFeedback(.selection, trigger: audioManager.soloModeSound?.id)
+                .tint(.blue)
+
+                if audioManager.soloModeSound?.id != sound.id {
+                  Button {
+                    withAnimation(.easeInOut(duration: 0.3)) {
+                      audioManager.toggleSoloMode(for: sound)
+                    }
+                  } label: {
+                    Label("Solo", systemImage: "headphones")
+                  }
+                  .tint(.orange)
+                  .sensoryFeedback(.selection, trigger: audioManager.soloModeSound?.id)
+                }
               }
-            }
-            .contextMenu {
-              contextMenuContent(for: sound)
-            }
+              .contextMenu {
+                contextMenuContent(for: sound)
+              }
+          }
+          .onMove(perform: editMode == .active ? moveItems : nil)
+          .deleteDisabled(true)
+
+          // Add padding at bottom when in edit mode
+          if editMode == .active {
+            Color.clear
+              .frame(height: 80)
+              .listRowInsets(EdgeInsets())
+              .listRowBackground(Color.clear)
+              .listRowSeparator(.hidden)
+          }
         }
-        .onMove(perform: editMode == .active ? moveItems : nil)
-        .deleteDisabled(true)
+        .listStyle(.plain)
+        .environment(\.editMode, $editMode)
+        .padding(.top, 8)
+        .id("\(globalSettings.showSoundNames)-\(globalSettings.hideInactiveSoundSliders)")
       }
-      .listStyle(.plain)
-      .environment(\.editMode, $editMode)
-      .padding(.top, 8)
-      .id("\(globalSettings.showSoundNames)-\(globalSettings.hideInactiveSoundSliders)")
+      .overlay(alignment: .bottom) {
+        if editMode == .active {
+          // Done Moving button
+          VStack(spacing: 0) {
+            Divider()
+
+            Button(action: {
+              withAnimation(.easeInOut(duration: 0.3)) {
+                editMode = .inactive
+              }
+            }) {
+              HStack {
+                Image(systemName: "checkmark.circle.fill")
+                  .font(.title2)
+                Text("Done Moving")
+                  .font(.headline)
+              }
+              .frame(maxWidth: .infinity)
+              .padding(.vertical, 16)
+              .foregroundColor(.white)
+              .background(globalSettings.customAccentColor ?? .accentColor)
+            }
+            .sensoryFeedback(.selection, trigger: editMode)
+          }
+          .background(.regularMaterial)
+          .transition(.move(edge: .bottom).combined(with: .opacity))
+        }
+      }
     }
 
     // MARK: - Empty State View

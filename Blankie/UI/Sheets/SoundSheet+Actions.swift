@@ -199,11 +199,11 @@ extension SoundSheet {
     // 1. There's a current preset
     // 2. It's not the default preset (All Sounds)
     // 3. We're not in solo mode
-    // 4. We're not in CarPlay Quick Mix mode
+    // 4. We're not in Quick Mix mode
     guard let currentPreset = presetManager.currentPreset,
       !currentPreset.isDefault,
       audioManager.soloModeSound == nil,
-      !audioManager.isCarPlayQuickMix
+      !audioManager.isQuickMix
     else {
       print("🎵 SoundSheet: Not adding to preset - conditions not met")
       return

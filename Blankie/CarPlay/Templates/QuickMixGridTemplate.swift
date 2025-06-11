@@ -48,7 +48,7 @@
     private static func createGridButton(for sound: Sound) -> CPGridButton {
       // Check if sound is currently playing in QuickMix mode
       let isPlaying =
-        sound.player?.isPlaying == true && AudioManager.shared.isCarPlayQuickMix
+        sound.player?.isPlaying == true && AudioManager.shared.isQuickMix
         && AudioManager.shared.soloModeSound == nil
 
       // Create button titles
@@ -137,12 +137,12 @@
         }
 
         // Check if we're in CarPlay Quick Mix mode
-        if !AudioManager.shared.isCarPlayQuickMix {
-          // Enter CarPlay Quick Mix mode with this sound
-          AudioManager.shared.enterCarPlayQuickMix(with: [sound])
+        if !AudioManager.shared.isQuickMix {
+          // Enter Quick Mix mode with this sound
+          AudioManager.shared.enterQuickMix(with: [sound])
         } else {
           // We're already in Quick Mix, toggle this specific sound
-          AudioManager.shared.toggleCarPlayQuickMixSound(sound)
+          AudioManager.shared.toggleQuickMixSound(sound)
         }
 
         // Update the interface

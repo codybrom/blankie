@@ -100,7 +100,7 @@ struct QuickMixSoundButton: View {
       }
     )
     .onTapGesture {
-      audioManager.toggleCarPlayQuickMixSound(sound)
+      audioManager.toggleQuickMixSound(sound)
     }
     .sensoryFeedback(.selection, trigger: sound.isSelected)
     .onLongPressGesture(

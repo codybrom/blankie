@@ -163,7 +163,7 @@ extension AudioManager {
 
     if let originalSelection = soloModeOriginalSelection {
       // Don't restore selection for non-Quick Mix sounds when in CarPlay Quick Mix mode
-      if isCarPlayQuickMix {
+      if isQuickMix {
         #if CARPLAY_ENABLED
           let quickMixSounds = CarPlayInterfaceController.shared.quickMixSoundFileNames
         #else

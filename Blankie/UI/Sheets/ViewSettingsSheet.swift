@@ -22,7 +22,7 @@ import SwiftUI
         Form {
           Section {
             // Options that don't apply in solo mode or Quick Mix mode
-            if audioManager.soloModeSound == nil && !audioManager.isCarPlayQuickMix {
+            if audioManager.soloModeSound == nil && !audioManager.isQuickMix {
               // View Mode
               Picker("View Mode", selection: $showingListView) {
                 Text("Grid").tag(false)
@@ -69,7 +69,7 @@ import SwiftUI
             }
 
             // Progress Borders - show in solo mode and grid view, but not in Quick Mix
-            if !audioManager.isCarPlayQuickMix
+            if !audioManager.isQuickMix
               && (audioManager.soloModeSound != nil || !showingListView)
             {
               Toggle(
@@ -82,7 +82,7 @@ import SwiftUI
             }
 
             // Hide sliders for inactive sounds - not applicable in Quick Mix mode
-            if !audioManager.isCarPlayQuickMix {
+            if !audioManager.isQuickMix {
               Toggle(
                 "Hide Sliders for Inactive Sounds",
                 isOn: Binding(

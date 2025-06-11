@@ -142,16 +142,22 @@ import SwiftUI
     @ViewBuilder
     private var mainContentView: some View {
       Group {
-        if let soloSound = audioManager.soloModeSound, soundToEdit == nil, audioManager.previewModeSound == nil {
+        if let soloSound = audioManager.soloModeSound, soundToEdit == nil,
+          audioManager.previewModeSound == nil
+        {
           // Solo mode view (only when no SoundSheet is presented and not in preview mode)
           soloModeView(for: soloSound)
             .onAppear {
-              print("🎵 AdaptiveContentView: Showing solo mode view for '\(soloSound.title)' (no SoundSheet open, no preview)")
+              print(
+                "🎵 AdaptiveContentView: Showing solo mode view for '\(soloSound.title)' (no SoundSheet open, no preview)"
+              )
             }
-        } else if let soloSound = audioManager.soloModeSound, soundToEdit != nil || audioManager.previewModeSound != nil {
+        } else if let soloSound = audioManager.soloModeSound,
+          soundToEdit != nil || audioManager.previewModeSound != nil
+        {
           // Solo mode is active but SoundSheet is open or in preview mode, maintain normal layout
           Group {
-            if audioManager.isCarPlayQuickMix {
+            if audioManager.isQuickMix {
               QuickMixView()
             } else if showingListView && !isLargeDevice {
               listView
@@ -163,12 +169,16 @@ import SwiftUI
           }
           .onAppear {
             if audioManager.previewModeSound != nil {
-              print("🎵 AdaptiveContentView: Solo mode active for '\(soloSound.title)' but preview mode active - maintaining normal layout")
+              print(
+                "🎵 AdaptiveContentView: Solo mode active for '\(soloSound.title)' but preview mode active - maintaining normal layout"
+              )
             } else {
-              print("🎵 AdaptiveContentView: Solo mode active for '\(soloSound.title)' but SoundSheet is open - maintaining normal layout")
+              print(
+                "🎵 AdaptiveContentView: Solo mode active for '\(soloSound.title)' but SoundSheet is open - maintaining normal layout"
+              )
             }
           }
-        } else if audioManager.isCarPlayQuickMix {
+        } else if audioManager.isQuickMix {
           // Quick Mix mode view
           QuickMixView()
         } else if showingListView && !isLargeDevice {
@@ -182,14 +192,22 @@ import SwiftUI
           gridView
         }
       }
-      .animation(.easeInOut(duration: 0.3), value: soundToEdit == nil && audioManager.previewModeSound == nil ? audioManager.soloModeSound?.id : nil)
-      .animation(.easeInOut(duration: 0.3), value: audioManager.isCarPlayQuickMix)
+      .animation(
+        .easeInOut(duration: 0.3),
+        value: soundToEdit == nil && audioManager.previewModeSound == nil
+          ? audioManager.soloModeSound?.id : nil
+      )
+      .animation(.easeInOut(duration: 0.3), value: audioManager.isQuickMix)
       .animation(.easeInOut(duration: 0.3), value: showingListView)
       .onChange(of: audioManager.soloModeSound) { oldValue, newValue in
         if let newSolo = newValue {
-          print("🎵 AdaptiveContentView: Solo mode started for '\(newSolo.title)' (SoundSheet open: \(soundToEdit != nil))")
+          print(
+            "🎵 AdaptiveContentView: Solo mode started for '\(newSolo.title)' (SoundSheet open: \(soundToEdit != nil))"
+          )
         } else if let oldSolo = oldValue {
-          print("🎵 AdaptiveContentView: Solo mode ended for '\(oldSolo.title)' (SoundSheet open: \(soundToEdit != nil))")
+          print(
+            "🎵 AdaptiveContentView: Solo mode ended for '\(oldSolo.title)' (SoundSheet open: \(soundToEdit != nil))"
+          )
         }
       }
     }

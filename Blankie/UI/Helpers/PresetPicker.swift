@@ -136,8 +136,8 @@ private struct PresetRow: View {
           }
 
           // Exit CarPlay Quick Mix if active
-          if AudioManager.shared.isCarPlayQuickMix {
-            AudioManager.shared.exitCarPlayQuickMix()
+          if AudioManager.shared.isQuickMix {
+            AudioManager.shared.exitQuickMix()
           }
 
           try presetManager.applyPreset(preset)

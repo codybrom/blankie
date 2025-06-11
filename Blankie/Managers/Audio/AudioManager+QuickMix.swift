@@ -1,5 +1,5 @@
 //
-//  AudioManager+CarPlayQuickMix.swift
+//  AudioManager+QuickMix.swift
 //  Blankie
 //
 //  Created by Cody Bromley on 6/7/25.
@@ -8,22 +8,25 @@
 import Foundation
 
 extension AudioManager {
-  // MARK: - CarPlay Quick Mix Mode
+  // MARK: - Quick Mix Mode
 
   @MainActor
-  func enterCarPlayQuickMix(with initialSounds: [Sound] = []) {
-    print("🚗 AudioManager: Entering CarPlay Quick Mix mode")
+  func enterQuickMix(with initialSounds: [Sound] = []) {
+    print("🚗 AudioManager: Entering Quick Mix mode")
 
     // Exit solo mode if active
     if soloModeSound != nil {
       exitSoloModeWithoutResuming()
     }
 
+    // Save current preset before clearing
+    preQuickMixPreset = PresetManager.shared.currentPreset
+
     // Clear any current preset
     PresetManager.shared.clearCurrentPreset()
 
     // Save original states of all sounds
-    carPlayQuickMixOriginalStates = sounds.map { sound in
+    quickMixOriginalStates = sounds.map { sound in
       QuickMixState(sound: sound, isSelected: sound.isSelected, volume: sound.volume)
     }
 
@@ -33,8 +36,8 @@ extension AudioManager {
       sound.isSelected = false
     }
 
-    // Set CarPlay Quick Mix mode
-    isCarPlayQuickMix = true
+    // Set Quick Mix mode
+    isQuickMix = true
 
     // Filter initial sounds to only include Quick Mix sounds (built-in only)
     #if CARPLAY_ENABLED
@@ -62,15 +65,15 @@ extension AudioManager {
 
     // Update Now Playing info
     nowPlayingManager.updateInfo(
-      presetName: "Quick Mix (CarPlay)",
+      presetName: "Quick Mix",
       isPlaying: hasActiveSounds
     )
   }
 
   @MainActor
-  func exitCarPlayQuickMix() {
-    guard isCarPlayQuickMix else { return }
-    print("🚗 AudioManager: Exiting CarPlay Quick Mix mode")
+  func exitQuickMix() {
+    guard isQuickMix else { return }
+    print("🚗 AudioManager: Exiting Quick Mix mode")
 
     // Pause all current sounds
     for sound in sounds {
@@ -78,7 +81,7 @@ extension AudioManager {
     }
 
     // Restore original states
-    for state in carPlayQuickMixOriginalStates {
+    for state in quickMixOriginalStates {
       state.sound.isSelected = state.isSelected
       state.sound.volume = state.volume
 
@@ -89,24 +92,40 @@ extension AudioManager {
     }
 
     // Clear the saved states
-    carPlayQuickMixOriginalStates = []
+    quickMixOriginalStates = []
 
-    // Exit CarPlay Quick Mix mode
-    isCarPlayQuickMix = false
+    // Exit Quick Mix mode
+    isQuickMix = false
 
-    // Update Now Playing info with full preset details
-    let currentPreset = PresetManager.shared.currentPreset
-    nowPlayingManager.updateInfo(
-      presetName: currentPreset?.name,
-      creatorName: currentPreset?.creatorName,
-      artworkData: currentPreset?.artworkData,
-      isPlaying: isGloballyPlaying
-    )
+    // Restore the previous preset if it exists
+    if let savedPreset = preQuickMixPreset {
+      print("🚗 AudioManager: Restoring previous preset: '\(savedPreset.name)'")
+      PresetManager.shared.setCurrentPreset(savedPreset)
+
+      // Update Now Playing info with restored preset
+      nowPlayingManager.updateInfo(
+        presetName: savedPreset.name,
+        creatorName: savedPreset.creatorName,
+        artworkData: savedPreset.artworkData,
+        isPlaying: isGloballyPlaying
+      )
+    } else {
+      // No previous preset, just update with current state
+      nowPlayingManager.updateInfo(
+        presetName: nil,
+        creatorName: nil,
+        artworkData: nil,
+        isPlaying: isGloballyPlaying
+      )
+    }
+
+    // Clear the saved preset
+    preQuickMixPreset = nil
   }
 
   @MainActor
-  func toggleCarPlayQuickMixSound(_ sound: Sound) {
-    guard isCarPlayQuickMix else { return }
+  func toggleQuickMixSound(_ sound: Sound) {
+    guard isQuickMix else { return }
 
     // Only allow toggling of built-in sounds (no custom sounds)
     guard !sound.isCustom else {
@@ -128,7 +147,7 @@ extension AudioManager {
 
     // Update Now Playing info
     nowPlayingManager.updateInfo(
-      presetName: "Quick Mix (CarPlay)",
+      presetName: "Quick Mix",
       isPlaying: hasActiveSounds
     )
   }

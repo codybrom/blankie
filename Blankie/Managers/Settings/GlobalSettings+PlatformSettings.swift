@@ -16,31 +16,30 @@ extension GlobalSettings {
     logCurrentSettings()
   }
 
-  @MainActor
-  func setMixWithOthers(_ value: Bool) {
-    mixWithOthers = value
-    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.mixWithOthers)
-    #if os(iOS) || os(visionOS)
-      // Update audio session configuration
-      updateAudioSession()
-    #endif
-    logCurrentSettings()
-  }
+  #if os(iOS) || os(visionOS)
+    @MainActor
+    func setMixWithOthers(_ value: Bool) {
+      mixWithOthers = value
+      UserDefaults.standard.set(value, forKey: UserDefaultsKeys.mixWithOthers)
 
-  @MainActor
-  func setLowerVolumeWithOtherAudio(_ value: Bool) {
-    lowerVolumeWithOtherAudio = value
-    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio)
-    #if os(iOS) || os(visionOS)
+      // Reset volume to 100% when disabling mix with others
+      if !value && volumeWithOtherAudio < 1.0 {
+        volumeWithOtherAudio = 1.0
+        UserDefaults.standard.set(
+          volumeWithOtherAudio, forKey: UserDefaultsKeys.volumeWithOtherAudio)
+      }
+
       // Update audio session configuration
       updateAudioSession()
-    #endif
-    // Apply the new setting to currently playing sounds
-    if AudioManager.shared.isGloballyPlaying {
-      AudioManager.shared.applyVolumeSettings()
+
+      // Apply the new volume settings to currently playing sounds
+      if AudioManager.shared.isGloballyPlaying {
+        AudioManager.shared.applyVolumeSettings()
+      }
+
+      logCurrentSettings()
     }
-    logCurrentSettings()
-  }
+  #endif
 
   @MainActor
   func setVolumeWithOtherAudio(_ level: Double) {

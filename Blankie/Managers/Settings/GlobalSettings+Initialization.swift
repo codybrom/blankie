@@ -71,9 +71,6 @@ extension GlobalSettings {
       UserDefaults.standard.object(forKey: UserDefaultsKeys.enableSpatialAudio) as? Bool ?? false
     mixWithOthers =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.mixWithOthers) as? Bool ?? false
-    lowerVolumeWithOtherAudio =
-      UserDefaults.standard.object(forKey: UserDefaultsKeys.lowerVolumeWithOtherAudio) as? Bool
-      ?? false
     volumeWithOtherAudio =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.volumeWithOtherAudio) as? Double ?? 0.5
   }

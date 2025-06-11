@@ -27,7 +27,6 @@ enum UserDefaultsKeys {
   static let enableSpatialAudio = "enableSpatialAudio"
   static let language = "languagePreference"
   static let mixWithOthers = "mixWithOthers"
-  static let lowerVolumeWithOtherAudio = "lowerVolumeWithOtherAudio"
   static let volumeWithOtherAudio = "volumeWithOtherAudio"
   static let showSoundNames = "showSoundNames"
   static let iconSize = "iconSize"
@@ -59,7 +58,6 @@ class GlobalSettings: ObservableObject {
   // Platform-specific settings
   @Published var enableSpatialAudio: Bool = false
   @Published var mixWithOthers: Bool = false
-  @Published var lowerVolumeWithOtherAudio: Bool = false
   @Published var volumeWithOtherAudio: Double = 0.5  // 0.0 = silent, 1.0 = full volume
 
   var observers = Set<AnyCancellable>()

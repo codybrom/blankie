@@ -22,7 +22,8 @@
         if mixWithOthers && !isCarPlayConnected {
           // Use manual volume control when mixing
           let options: AVAudioSession.CategoryOptions = [.mixWithOthers]
-          print("🎵 AudioSessionManager: Setting options to [.mixWithOthers] - MANUAL VOLUME CONTROL")
+          print(
+            "🎵 AudioSessionManager: Setting options to [.mixWithOthers] - MANUAL VOLUME CONTROL")
 
           try AVAudioSession.sharedInstance().setCategory(
             .playback,
@@ -38,7 +39,7 @@
         }
         try AVAudioSession.sharedInstance().setActive(true)
         print(
-          "🎵 AudioSessionManager: Audio session activated for playback (mixWithOthers: \(mixWithOthers && !isCarPlayConnected), lowerVolumeWithOtherAudio: \(GlobalSettings.shared.lowerVolumeWithOtherAudio), CarPlay: \(isCarPlayConnected))"
+          "🎵 AudioSessionManager: Audio session activated for playback (mixWithOthers: \(mixWithOthers && !isCarPlayConnected), CarPlay: \(isCarPlayConnected))"
         )
       } catch {
         print("❌ AudioSessionManager: Failed to setup audio session: \(error)")

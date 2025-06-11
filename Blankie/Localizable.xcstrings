@@ -1138,9 +1138,6 @@
         }
       }
     },
-    "Built-in sound" : {
-
-    },
     "Built-in Sounds" : {
 
     },
@@ -1788,9 +1785,6 @@
       "comment" : "Current theme color option"
     },
     "Custom artwork for Now Playing" : {
-
-    },
-    "Custom imported sound" : {
 
     },
     "Custom Sounds" : {

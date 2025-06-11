@@ -144,32 +144,34 @@ struct SoundManagementView: View {
   }
 
   private func builtInSoundRow(sound: Sound, isLast: Bool) -> some View {
-    SoundManagementRow(
-      sound: sound,
-      isLast: isLast,
-      onCustomize: {
-        selectedSound = sound
-        showingEditSheet = true
-      },
-      onEdit: {},
-      onDelete: {}
-    )
+    Button {
+      selectedSound = sound
+      showingEditSheet = true
+    } label: {
+      SoundManagementRowContent(
+        sound: sound,
+        isLast: isLast,
+        onDelete: {}
+      )
+    }
+    .buttonStyle(.plain)
   }
 
   private func customSoundRow(sound: Sound, isLast: Bool) -> some View {
-    SoundManagementRow(
-      sound: sound,
-      isLast: isLast,
-      onCustomize: {},
-      onEdit: {
-        selectedSound = sound
-        showingEditSheet = true
-      },
-      onDelete: {
-        selectedSound = sound
-        showingDeleteConfirmation = true
-      }
-    )
+    Button {
+      selectedSound = sound
+      showingEditSheet = true
+    } label: {
+      SoundManagementRowContent(
+        sound: sound,
+        isLast: isLast,
+        onDelete: {
+          selectedSound = sound
+          showingDeleteConfirmation = true
+        }
+      )
+    }
+    .buttonStyle(.plain)
   }
 
   private var customSoundsEmptyState: some View {

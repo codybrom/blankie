@@ -141,9 +141,9 @@ struct SoundWaveformView: View {
     let chunkSize = samples.count / targetCount
     var downsampled: [Float] = []
 
-    for i in 0..<targetCount {
-      let start = i * chunkSize
-      let end = min((i + 1) * chunkSize, samples.count)
+    for index in 0..<targetCount {
+      let start = index * chunkSize
+      let end = min((index + 1) * chunkSize, samples.count)
       let chunk = samples[start..<end]
 
       // Use RMS (Root Mean Square) for better visual representation

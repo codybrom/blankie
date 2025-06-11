@@ -152,7 +152,7 @@ import SwiftUI
         .listStyle(.plain)
         .environment(\.editMode, $editMode)
         .padding(.top, 8)
-        .id("\(globalSettings.showSoundNames)-\(globalSettings.hideInactiveSoundSliders)")
+        .id("\(globalSettings.showSoundNames)")
       }
       .overlay(alignment: .bottom) {
         if editMode == .active {

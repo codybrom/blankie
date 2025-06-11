@@ -81,17 +81,6 @@ import SwiftUI
               )
             }
 
-            // Hide sliders for inactive sounds - not applicable in Quick Mix mode
-            if !audioManager.isQuickMix {
-              Toggle(
-                "Hide Sliders for Inactive Sounds",
-                isOn: Binding(
-                  get: { globalSettings.hideInactiveSoundSliders },
-                  set: { globalSettings.setHideInactiveSoundSliders($0) }
-                )
-              )
-            }
-
             // Appearance
             Picker(
               "Appearance",

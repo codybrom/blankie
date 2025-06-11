@@ -173,25 +173,18 @@ struct SoundIcon: View {
           .contentShape(Rectangle())
       }
 
-      if !globalSettings.hideInactiveSoundSliders || sound.isSelected {
-        Slider(
-          value: Binding(
-            get: { Double(sound.volume) },
-            set: { sound.volume = Float($0) }
-          ), in: 0...1
-        )
-        .frame(width: configuration.sliderWidth)
-        .tint(
-          audioManager.isGloballyPlaying
-            ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
-        )
-        .disabled(!sound.isSelected)
-      } else if audioManager.sounds.contains(where: { $0.isSelected }) {
-        // Only add spacer if there are other selected sounds that might show sliders
-        Rectangle()
-          .fill(Color.clear)
-          .frame(width: configuration.sliderWidth, height: 31)  // Standard slider height
-      }
+      Slider(
+        value: Binding(
+          get: { Double(sound.volume) },
+          set: { sound.volume = Float($0) }
+        ), in: 0...1
+      )
+      .frame(width: configuration.sliderWidth)
+      .tint(
+        audioManager.isGloballyPlaying
+          ? (sound.isSelected ? (sound.customColor ?? accentColor) : .gray) : .gray
+      )
+      .disabled(!sound.isSelected)
     }
     .padding(.vertical, configuration.padding.top)
     .padding(.horizontal, configuration.padding.leading)

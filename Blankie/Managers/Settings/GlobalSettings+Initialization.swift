@@ -52,11 +52,6 @@ extension GlobalSettings {
     showProgressBorder =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.showProgressBorder) as? Bool ?? true
 
-    // Hide inactive sound sliders preference (default to false)
-    hideInactiveSoundSliders =
-      UserDefaults.standard.object(forKey: UserDefaultsKeys.hideInactiveSoundSliders) as? Bool
-      ?? false
-
     // Lock portrait orientation on iOS preference (default to false)
     lockPortraitOrientationiOS =
       UserDefaults.standard.object(forKey: UserDefaultsKeys.lockPortraitOrientationiOS) as? Bool

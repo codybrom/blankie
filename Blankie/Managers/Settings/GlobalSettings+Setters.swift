@@ -77,12 +77,6 @@ extension GlobalSettings {
     logCurrentSettings()
   }
 
-  func setHideInactiveSoundSliders(_ value: Bool) {
-    hideInactiveSoundSliders = value
-    UserDefaults.standard.set(value, forKey: UserDefaultsKeys.hideInactiveSoundSliders)
-    logCurrentSettings()
-  }
-
   @MainActor
   func setLockPortraitOrientationiOS(_ value: Bool) {
     lockPortraitOrientationiOS = value

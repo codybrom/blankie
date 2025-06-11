@@ -34,7 +34,6 @@ enum UserDefaultsKeys {
   static let soloModeSoundFileName = "soloModeSoundFileName"
   static let showingListView = "showingListView"
   static let showProgressBorder = "showProgressBorder"
-  static let hideInactiveSoundSliders = "hideInactiveSoundSliders"
   static let lockPortraitOrientationiOS = "lockPortraitOrientationiOS"
   static let quickMixSoundFileNames = "quickMixSoundFileNames"
 }
@@ -53,7 +52,6 @@ class GlobalSettings: ObservableObject {
   @Published var language: Language
   @Published var showingListView: Bool
   @Published var showProgressBorder: Bool
-  @Published var hideInactiveSoundSliders: Bool
   @Published var lockPortraitOrientationiOS: Bool
   @Published var quickMixSoundFileNames: [String]
   @Published var availableLanguages: [Language] = []
@@ -79,7 +77,6 @@ class GlobalSettings: ObservableObject {
     language = .system
     showingListView = false
     showProgressBorder = true
-    hideInactiveSoundSliders = false
     lockPortraitOrientationiOS = false
     quickMixSoundFileNames = [
       "rain", "waves", "fireplace", "white-noise",

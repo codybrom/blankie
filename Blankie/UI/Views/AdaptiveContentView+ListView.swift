@@ -181,7 +181,7 @@ import SwiftUI
       .environment(\.editMode, $editMode)
       .transition(.opacity)
       .padding(.top, 8)
-      .id("\(globalSettings.showSoundNames)-\(globalSettings.hideInactiveSoundSliders)")
+      .id("\(globalSettings.showSoundNames)")
     }
 
     private func moveItems(from source: IndexSet, to destination: Int) {

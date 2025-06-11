@@ -249,14 +249,12 @@ import SwiftUI
 
         // Slider (not draggable) - hide in solo mode and edit mode
         if !isSoloMode && editMode == .inactive {
-          if !globalSettings.hideInactiveSoundSliders || sound.isSelected {
-            VolumeSliderView(
-              sound: sound,
-              width: sliderWidth,
-              tintColor: sliderTintColor,
-              isEnabled: isSliderEnabled
-            )
-          }
+          VolumeSliderView(
+            sound: sound,
+            width: sliderWidth,
+            tintColor: sliderTintColor,
+            isEnabled: isSliderEnabled
+          )
         }
       }
       .opacity(draggedIndex == index ? 0.5 : (editMode == .active ? 0.85 : 1.0))

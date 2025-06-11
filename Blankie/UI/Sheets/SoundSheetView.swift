@@ -26,6 +26,7 @@ struct SoundSheetView: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var previewProgress: Double
 
   var body: some View {
     #if os(macOS)
@@ -53,7 +54,8 @@ struct SoundSheetView: View {
           volumeAdjustment: $volumeAdjustment,
           loopSound: $loopSound,
           isPreviewing: $isPreviewing,
-          previewSound: $previewSound
+          previewSound: $previewSound,
+          previewProgress: $previewProgress
         )
 
         Spacer()
@@ -96,7 +98,8 @@ struct SoundSheetView: View {
           volumeAdjustment: $volumeAdjustment,
           loopSound: $loopSound,
           isPreviewing: $isPreviewing,
-          previewSound: $previewSound
+          previewSound: $previewSound,
+          previewProgress: $previewProgress
         )
         .navigationTitle(title)
         .navigationBarTitleDisplayMode(.inline)

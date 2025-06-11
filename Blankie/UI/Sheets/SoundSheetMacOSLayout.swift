@@ -21,6 +21,7 @@ struct SoundSheetMacOSLayout: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var previewProgress: Double
   @Binding var showingDeleteConfirmation: Bool
   @Binding var showingResetConfirmation: Bool
   @Binding var isDisappearing: Bool
@@ -58,6 +59,7 @@ struct SoundSheetMacOSLayout: View {
         loopSound: $loopSound,
         isPreviewing: $isPreviewing,
         previewSound: $previewSound,
+        previewProgress: $previewProgress,
         showingDeleteConfirmation: $showingDeleteConfirmation,
         showingResetConfirmation: $showingResetConfirmation,
         isDisappearing: $isDisappearing

@@ -25,7 +25,35 @@ extension SoundSheet {
       prepareForPreview()
       createPreviewSound()
       await startPreviewPlayback()
+      startPreviewProgressTimer()
       print("🎵 SoundSheet: Preview started successfully for '\(soundName)'")
+    }
+  }
+
+  private func startPreviewProgressTimer() {
+    // Reset progress
+    previewProgress = 0
+
+    // Cancel any existing timer
+    previewTimer?.invalidate()
+
+    // Start a new timer to update progress
+    previewTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { _ in
+      guard let preview = self.previewSound,
+        let player = preview.player,
+        player.isPlaying
+      else {
+        self.previewTimer?.invalidate()
+        self.previewTimer = nil
+        return
+      }
+
+      let duration = player.duration
+      let currentTime = player.currentTime
+
+      if duration > 0 {
+        self.previewProgress = currentTime / duration
+      }
     }
   }
 
@@ -201,6 +229,11 @@ extension SoundSheet {
   internal func stopPreview() {
     let soundName = builtInSound?.title ?? sound?.title ?? "Unknown"
     print("🎵 SoundSheet: Stopping preview for '\(soundName)'")
+
+    // Stop the progress timer
+    previewTimer?.invalidate()
+    previewTimer = nil
+    previewProgress = 0
 
     Task { @MainActor in
       if let preview = previewSound {

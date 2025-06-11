@@ -24,6 +24,7 @@ extension SoundSheet {
       loopSound: $loopSound,
       isPreviewing: $isPreviewing,
       previewSound: $previewSound,
+      previewProgress: $previewProgress,
       showingDeleteConfirmation: $showingDeleteConfirmation,
       showingResetConfirmation: $showingResetConfirmation,
       isDisappearing: $isDisappearing,
@@ -54,6 +55,7 @@ extension SoundSheet {
         loopSound: $loopSound,
         isPreviewing: $isPreviewing,
         previewSound: $previewSound,
+        previewProgress: $previewProgress,
         showingDeleteConfirmation: $showingDeleteConfirmation,
         showingResetConfirmation: $showingResetConfirmation,
         isDisappearing: $isDisappearing

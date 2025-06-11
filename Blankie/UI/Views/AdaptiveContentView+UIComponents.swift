@@ -41,8 +41,10 @@ import SwiftUI
         .foregroundStyle(.primary)
         .background(.regularMaterial)
         .transition(.move(edge: .top).combined(with: .opacity))
-      } else if !audioManager.hasSelectedSounds && editMode == .inactive {
-        // No sounds selected banner
+      } else if !audioManager.hasSelectedSounds && editMode == .inactive
+        && !audioManager.isCarPlayQuickMix
+      {
+        // No sounds selected banner (not shown in Quick Mix mode)
         HStack(spacing: 12) {
           Image(systemName: "speaker.slash.fill")
             .font(.system(size: 16))
@@ -121,20 +123,33 @@ import SwiftUI
     var bottomToolbar: some View {
       VStack(spacing: 0) {
         HStack(spacing: 0) {
-          // Grid/List toggle
+          // Grid/List toggle (or exit Quick Mix)
           Spacer()
           Button(action: {
             withAnimation(.easeInOut(duration: 0.2)) {
-              showingListView.toggle()
+              if audioManager.isCarPlayQuickMix {
+                // Exit Quick Mix mode and return to previous view mode
+                audioManager.exitCarPlayQuickMix()
+              } else {
+                // Normal toggle between grid and list
+                showingListView.toggle()
+              }
             }
           }) {
-            Image(systemName: showingListView ? "list.bullet" : "square.grid.3x3")
-              .font(.system(size: 22))
-              .foregroundColor(.primary)
-              .contentTransition(.symbolEffect(.replace))
+            Image(
+              systemName: audioManager.isCarPlayQuickMix
+                ? "arrow.backward"
+                : (showingListView ? "list.bullet" : "square.grid.3x3")
+            )
+            .font(.system(size: 22))
+            .foregroundColor(.primary)
+            .contentTransition(.symbolEffect(.replace))
           }
           .buttonStyle(.plain)
-          .sensoryFeedback(.selection, trigger: showingListView)
+          .sensoryFeedback(
+            .selection,
+            trigger: audioManager.isCarPlayQuickMix
+              ? audioManager.isCarPlayQuickMix : showingListView)
           Spacer()
 
           // Play/Pause button
@@ -196,24 +211,6 @@ import SwiftUI
             }
           }) {
             Label("Exit Solo Mode", systemImage: "headphones.slash")
-          }
-        }
-
-        if audioManager.isCarPlayQuickMix {
-          Button(action: {
-            withAnimation(.easeInOut(duration: 0.3)) {
-              audioManager.exitCarPlayQuickMix()
-            }
-          }) {
-            Label("Exit Quick Mix", systemImage: "square.grid.2x2.slash")
-          }
-        } else {
-          Button(action: {
-            withAnimation(.easeInOut(duration: 0.3)) {
-              audioManager.enterCarPlayQuickMix()
-            }
-          }) {
-            Label("Quick Mix Mode", systemImage: "square.grid.2x2")
           }
         }
 

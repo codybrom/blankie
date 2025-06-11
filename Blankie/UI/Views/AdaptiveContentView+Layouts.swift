@@ -70,6 +70,7 @@ import SwiftUI
           }
         }
         .padding()
+        .padding(.bottom, editMode == .active ? 80 : 0)
       }
       .overlay(alignment: .bottom) {
         if editMode == .active {

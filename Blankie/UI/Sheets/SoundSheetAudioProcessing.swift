@@ -11,6 +11,65 @@ extension CleanSoundSheetForm {
   @ViewBuilder
   var audioProcessingSection: some View {
     Section(header: Text("Audio", comment: "Audio options section header")) {
+      // Preview with waveform
+      HStack(spacing: 12) {
+        // Play/Stop button
+        Button(action: {
+          print("🎵 SoundSheetAudioProcessing: Preview button tapped, isPreviewing: \(isPreviewing)")
+          togglePreview()
+          print("🎵 SoundSheetAudioProcessing: After togglePreview(), isPreviewing: \(isPreviewing)")
+        }) {
+          ZStack {
+            Circle()
+              .fill(isPreviewing ? Color.red.opacity(0.1) : Color.secondary.opacity(0.1))
+              .frame(width: 44, height: 44)
+
+            Image(systemName: isPreviewing ? "stop.fill" : "play.fill")
+              .font(.system(size: 18, weight: .medium))
+              .foregroundColor(
+                isPreviewing ? .red : (globalSettings.customAccentColor ?? .accentColor)
+              )
+              .contentTransition(
+                .symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .nonRepeating))
+          }
+        }
+        .buttonStyle(.plain)
+        .disabled(isDisappearing)
+        .scaleEffect(isPreviewing ? 1.1 : 1.0)
+        .animation(.easeInOut(duration: 0.15), value: isPreviewing)
+
+        // Waveform
+        if let fileURL = selectedFile {
+          // For add mode with selected file
+          SoundWaveformView(
+            sound: nil,
+            fileURL: fileURL,
+            progress: $previewProgress,
+            isPlaying: isPreviewing
+          )
+        } else if case .customize(let sound) = mode {
+          // For customize mode
+          SoundWaveformView(
+            sound: sound,
+            fileURL: nil,
+            progress: $previewProgress,
+            isPlaying: isPreviewing
+          )
+        } else if case .edit(let customSoundData) = mode,
+          let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData)
+        {
+          // For edit mode
+          SoundWaveformView(
+            sound: nil,
+            fileURL: fileURL,
+            progress: $previewProgress,
+            isPlaying: isPreviewing
+          )
+        }
+      }
+      .frame(height: 44)
+      .padding(.vertical, 4)
+
       Toggle(isOn: $randomizeStartPosition) {
         Text(
           "Randomize Start Position",

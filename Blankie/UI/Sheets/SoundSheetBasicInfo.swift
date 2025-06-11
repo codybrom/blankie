@@ -108,29 +108,6 @@ extension CleanSoundSheetForm {
   }
 
   @ViewBuilder
-  var previewSection: some View {
-    Section {
-      HStack {
-        Button(action: {
-          print("🎵 SoundSheetBasicInfo: Preview button tapped, isPreviewing: \(isPreviewing)")
-          togglePreview()
-          print("🎵 SoundSheetBasicInfo: After togglePreview(), isPreviewing: \(isPreviewing)")
-        }) {
-          Label(
-            isPreviewing ? "Stop" : "Preview", systemImage: isPreviewing ? "stop.fill" : "play.fill"
-          )
-          .frame(maxWidth: .infinity)
-        }
-        .buttonStyle(.borderedProminent)
-        .controlSize(.regular)
-        .disabled(isDisappearing)
-      }
-    } header: {
-      Text("Preview", comment: "Preview section header")
-    }
-  }
-
-  @ViewBuilder
   var actionSection: some View {
     if shouldShowActionSection {
       Section {

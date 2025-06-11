@@ -2565,9 +2565,6 @@
     "Exit" : {
 
     },
-    "Exit Quick Mix" : {
-
-    },
     "Exit Solo Mode" : {
 
     },
@@ -3951,6 +3948,9 @@
     "No Visible Sounds" : {
 
     },
+    "No waveform data" : {
+
+    },
     "None" : {
 
     },
@@ -4845,9 +4845,6 @@
         }
       }
     },
-    "Preview" : {
-      "comment" : "Preview section header"
-    },
     "Public Domain" : {
       "comment" : "Audio license type",
       "extractionState" : "manual",
@@ -4993,9 +4990,6 @@
       }
     },
     "Quick Mix" : {
-
-    },
-    "Quick Mix Mode" : {
 
     },
     "Quit" : {
@@ -6178,12 +6172,6 @@
       "comment" : "Description for randomize start position toggle"
     },
     "Start Timer" : {
-
-    },
-    "Stop" : {
-
-    },
-    "Stop Preview" : {
 
     },
     "Stop Timer" : {

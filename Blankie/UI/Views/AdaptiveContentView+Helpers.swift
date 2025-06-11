@@ -13,8 +13,8 @@ import SwiftUI
         if let currentPreset = presetManager.currentPreset {
           // For default preset, show all sounds
           if currentPreset.isDefault {
-            // Apply hideInactiveSounds filter for default preset
-            if hideInactiveSounds {
+            // Apply hideInactiveSounds filter for default preset (but not in edit mode)
+            if hideInactiveSounds && editMode == .inactive {
               return sound.isSelected
             } else {
               return true
@@ -26,16 +26,16 @@ import SwiftUI
               return false
             }
 
-            // If sound is in preset, apply hideInactiveSounds filter
-            if hideInactiveSounds {
+            // If sound is in preset, apply hideInactiveSounds filter (but not in edit mode)
+            if hideInactiveSounds && editMode == .inactive {
               return sound.isSelected
             } else {
               return true
             }
           }
         } else {
-          // No current preset - show all sounds with hideInactiveSounds filter
-          if hideInactiveSounds {
+          // No current preset - show all sounds with hideInactiveSounds filter (but not in edit mode)
+          if hideInactiveSounds && editMode == .inactive {
             return sound.isSelected
           } else {
             return true

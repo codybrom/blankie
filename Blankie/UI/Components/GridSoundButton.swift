@@ -15,6 +15,8 @@ import SwiftUI
     @State private var showingOptions = false
     @State private var isPressed = false
     @State private var isDragging = false
+    @State private var selectionTrigger = 0
+    @State private var popoverPosition: CGRect = .zero
     @Binding var editMode: EditMode
 
     // For progress border
@@ -24,7 +26,7 @@ import SwiftUI
 
     var body: some View {
       VStack(spacing: 12) {
-        // Icon with tap gesture
+        // Icon without tap gesture (moved to parent)
         ZStack {
           // Background circle
           Circle()
@@ -46,15 +48,6 @@ import SwiftUI
             .font(.system(size: 32, weight: .medium))
             .foregroundColor(iconForegroundColor)
         }
-        .contentShape(Circle())
-        .onTapGesture {
-          if !audioManager.isGloballyPlaying && sound.isSelected {
-            audioManager.setGlobalPlaybackState(true)
-          } else {
-            sound.toggle()
-          }
-        }
-        .sensoryFeedback(.selection, trigger: sound.isSelected)
 
         // Title
         if globalSettings.showSoundNames {
@@ -77,6 +70,7 @@ import SwiftUI
               .stroke(borderColor, lineWidth: sound.isSelected ? 2 : 1)
           )
       )
+      .contentShape(RoundedRectangle(cornerRadius: 16))
       .overlay(alignment: .topTrailing) {
         // Edit mode indicator
         if editMode == .active {
@@ -87,27 +81,80 @@ import SwiftUI
             .transition(.opacity)
         }
       }
-      .scaleEffect(isPressed ? 0.98 : 1.0)
+      .scaleEffect(isPressed ? 0.95 : (sound.isSelected ? 1.05 : 1.0))
       .opacity(isDragging ? 0.8 : (editMode == .active ? 0.9 : 1.0))
       .animation(.easeInOut(duration: 0.15), value: sound.isSelected)
       .animation(.easeInOut(duration: 0.1), value: isPressed)
       .animation(.easeInOut(duration: 0.1), value: isDragging)
-      .onLongPressGesture(
-        minimumDuration: 0.3,
-        maximumDistance: .infinity
-      ) {
-        // Only show options when not in edit mode
-        if editMode == .inactive {
-          showingOptions = true
+      .background(
+        GeometryReader { geometry in
+          Color.clear
+            .onAppear {
+              popoverPosition = geometry.frame(in: .global)
+            }
+            .onChange(of: geometry.frame(in: .global)) { _, newFrame in
+              popoverPosition = newFrame
+            }
         }
-      } onPressingChanged: { pressing in
-        withAnimation(.easeInOut(duration: 0.1)) {
-          isPressed = pressing && editMode == .inactive
+      )
+      .onTapGesture {
+        if editMode == .inactive {
+          if !audioManager.isGloballyPlaying && sound.isSelected {
+            audioManager.setGlobalPlaybackState(true)
+          } else {
+            sound.toggle()
+          }
         }
       }
-      .popover(isPresented: $showingOptions) {
+      .sensoryFeedback(.selection, trigger: sound.isSelected)
+      .onLongPressGesture(
+        minimumDuration: 0.3,
+        maximumDistance: 5.0,  // Reduced from infinity to prevent scroll triggering
+        pressing: { pressing in
+          withAnimation(.easeInOut(duration: 0.1)) {
+            isPressed = pressing && editMode == .inactive
+          }
+          if pressing && editMode == .inactive {
+            // Start selection feedback after delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+              if isPressed {
+                // Trigger repeated selection feedback
+                Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                  guard isPressed else {
+                    timer.invalidate()
+                    return
+                  }
+                  selectionTrigger += 1
+
+                  // Stop after ~0.2 seconds (4 triggers)
+                  if selectionTrigger >= 4 {
+                    timer.invalidate()
+                  }
+                }
+              }
+            }
+          }
+        },
+        perform: {
+          if editMode == .inactive {
+            showingOptions = true
+          }
+        }
+      )
+      .sensoryFeedback(.selection, trigger: selectionTrigger)
+      .sensoryFeedback(.levelChange, trigger: showingOptions) { _, newValue in
+        newValue == true
+      }
+      .simultaneousGesture(
+        TapGesture()
+          .onEnded { _ in
+            // This helps prevent accidental long press triggers
+          }
+      )
+      .popover(isPresented: $showingOptions, arrowEdge: popoverArrowEdge) {
         GridSoundOptionsPopover(sound: sound, editMode: $editMode)
           .presentationCompactAdaptation(.popover)
+          .interactiveDismissDisabled(false)
       }
     }
 
@@ -149,6 +196,22 @@ import SwiftUI
       }
       return sound.isSelected ? effectiveColor : .gray
     }
+
+    private var popoverArrowEdge: Edge {
+      #if os(iOS)
+        let screenHeight = UIScreen.main.bounds.height
+        let isNearBottom = popoverPosition.maxY > screenHeight * 0.7
+
+        // Prefer bottom edge arrow (pointing up from bottom), but use top edge if we're near the bottom of the screen
+        if isNearBottom {
+          return .bottom
+        } else {
+          return .top
+        }
+      #else
+        return .bottom
+      #endif
+    }
   }
 
   // MARK: - Options Popover
@@ -183,16 +246,17 @@ import SwiftUI
               .foregroundColor(.secondary)
 
             Slider(
-              value: Binding(
-                get: { currentVolume },
-                set: { newValue in
-                  currentVolume = newValue
-                  sound.volume = Float(newValue)
-                  volumeChangeTrigger += 1
+              value: $currentVolume,
+              in: 0...1,
+              onEditingChanged: { editing in
+                if !editing {
+                  sound.volume = Float(currentVolume)
                 }
-              ),
-              in: 0...1
+              }
             )
+            .onChange(of: currentVolume) { _, _ in
+              volumeChangeTrigger += 1
+            }
 
             Image(systemName: "speaker.wave.3.fill")
               .font(.caption)

@@ -21,6 +21,7 @@ struct CleanSoundSheetForm: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var previewProgress: Double
   @Binding var showingDeleteConfirmation: Bool
   @Binding var showingResetConfirmation: Bool
   @Binding var isDisappearing: Bool
@@ -45,10 +46,7 @@ struct CleanSoundSheetForm: View {
       // Basic Information
       basicInformationSection
 
-      // Preview Section
-      previewSection
-
-      // Audio Processing
+      // Audio Processing (includes preview)
       audioProcessingSection
 
       // Actions Section (Reset/Delete)

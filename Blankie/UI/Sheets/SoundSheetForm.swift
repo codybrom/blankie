@@ -20,8 +20,17 @@ struct SoundSheetForm: View {
   @Binding var loopSound: Bool
   @Binding var isPreviewing: Bool
   @Binding var previewSound: Sound?
+  @Binding var previewProgress: Double
 
   @ObservedObject var globalSettings = GlobalSettings.shared
+  @State private var previewTrigger = 0
+
+  var isAddMode: Bool {
+    if case .add = mode {
+      return true
+    }
+    return false
+  }
 
   var volumePercentageText: String {
     let percentage = Int((volumeAdjustment - 1.0) * 100)
@@ -35,6 +44,7 @@ struct SoundSheetForm: View {
   }
 
   func togglePreview() {
+    previewTrigger += 1
     isPreviewing.toggle()
   }
 
@@ -68,6 +78,63 @@ struct SoundSheetForm: View {
         ColorSelectionView(selectedColor: $selectedColor)
       case .add:
         EmptyView()
+      }
+
+      // Audio Section Header
+      Text("Audio")
+        .font(.headline)
+        .padding(.top, 8)
+
+      // Preview with Waveform (moved from above)
+      if selectedFile != nil || !isAddMode {
+        HStack(spacing: 12) {
+          // Play/Stop button
+          Button(action: togglePreview) {
+            ZStack {
+              Circle()
+                .fill(isPreviewing ? Color.red.opacity(0.1) : Color.secondary.opacity(0.1))
+                .frame(width: 44, height: 44)
+
+              Image(systemName: isPreviewing ? "stop.fill" : "play.fill")
+                .font(.system(size: 18, weight: .medium))
+                .foregroundColor(isPreviewing ? .red : (globalSettings.customAccentColor ?? .accentColor))
+                .contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .nonRepeating))
+            }
+          }
+          .buttonStyle(.plain)
+          .scaleEffect(isPreviewing ? 1.1 : 1.0)
+          .animation(.easeInOut(duration: 0.15), value: isPreviewing)
+          .sensoryFeedback(.selection, trigger: previewTrigger)
+
+          // Waveform
+          if let fileURL = selectedFile {
+            // For add mode with selected file
+            SoundWaveformView(
+              sound: nil,
+              fileURL: fileURL,
+              progress: $previewProgress,
+              isPlaying: isPreviewing
+            )
+          } else if case .customize(let sound) = mode {
+            // For customize mode
+            SoundWaveformView(
+              sound: sound,
+              fileURL: nil,
+              progress: $previewProgress,
+              isPlaying: isPreviewing
+            )
+          } else if case .edit(let customSoundData) = mode,
+                    let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData) {
+            // For edit mode
+            SoundWaveformView(
+              sound: nil,
+              fileURL: fileURL,
+              progress: $previewProgress,
+              isPlaying: isPreviewing
+            )
+          }
+        }
+        .frame(height: 44)
       }
 
       // Randomize Start Position Toggle
@@ -129,19 +196,6 @@ struct SoundSheetForm: View {
         }
         .toggleStyle(.switch)
       }
-
-      // Preview Button (always visible)
-      HStack {
-        Spacer()
-        Button(action: togglePreview) {
-          Label(
-            isPreviewing ? "Stop Preview" : "Preview",
-            systemImage: isPreviewing ? "stop.fill" : "play.fill"
-          )
-        }
-        .buttonStyle(.bordered)
-      }
-      .padding(.top, 8)
 
       // Volume Adjustment (only visible when normalization is OFF)
       if !normalizeAudio {

@@ -35,6 +35,8 @@ struct SoundSheet: View {
   @State var loopSound: Bool = true
   @State var isPreviewing: Bool = false
   @State var previewSound: Sound?
+  @State var previewProgress: Double = 0
+  @State var previewTimer: Timer?
   @State var originalCustomization: SoundCustomization?
   @State var previousSoloModeSound: Sound?
   @State var wasPreviewSoundPlaying: Bool = false

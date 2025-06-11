@@ -48,9 +48,9 @@ extension GlobalSettings {
     // Show list view preference (default to false - grid view)
     showingListView = UserDefaults.standard.bool(forKey: UserDefaultsKeys.showingListView)
 
-    // Show progress border preference (default to true)
+    // Show progress border preference (default to false)
     showProgressBorder =
-      UserDefaults.standard.object(forKey: UserDefaultsKeys.showProgressBorder) as? Bool ?? true
+      UserDefaults.standard.object(forKey: UserDefaultsKeys.showProgressBorder) as? Bool ?? false
 
     // Lock portrait orientation on iOS preference (default to false)
     lockPortraitOrientationiOS =
@@ -63,6 +63,7 @@ extension GlobalSettings {
     {
       quickMixSoundFileNames = savedQuickMixSounds
     }
+
   }
 
   func loadPlatformSettings() {

@@ -74,7 +74,7 @@ class GlobalSettings: ObservableObject {
     iconSize = .medium
     language = .system
     showingListView = false
-    showProgressBorder = true
+    showProgressBorder = false
     lockPortraitOrientationiOS = false
     quickMixSoundFileNames = [
       "rain", "waves", "fireplace", "white-noise",

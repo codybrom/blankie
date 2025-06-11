@@ -119,7 +119,8 @@ import SwiftUI
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
               if isPressed {
                 // Trigger repeated selection feedback
-                Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) {
+                  timer in
                   guard isPressed else {
                     timer.invalidate()
                     return
@@ -131,6 +132,8 @@ import SwiftUI
                     timer.invalidate()
                   }
                 }
+
+                feedbackTimer.tolerance = 0.01
               }
             }
           }

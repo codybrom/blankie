@@ -37,7 +37,6 @@ extension Sound {
       ErrorReporter.shared.report(AudioError.playbackFailed(error))
     } else {
       print("🔊 Sound: Playing '\(fileName)' from position: \(validPlayer.currentTime)s")
-      startProgressTracking()
     }
   }
 
@@ -117,7 +116,6 @@ extension Sound {
       currentPlayer.pause()
       print("🔊 Sound: Paused '\(fileName)'")
     }
-    stopProgressTracking()
   }
 
   func stop() {
@@ -129,7 +127,6 @@ extension Sound {
     currentPlayer.stop()
     currentPlayer.currentTime = 0  // Reset to beginning for next play
     print("🔊 Sound: Stopped '\(fileName)'")
-    stopProgressTracking()
   }
 
   func fadeIn(duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
@@ -153,19 +150,18 @@ extension Sound {
     if !player.isPlaying {
       player.play()
     }
-    startProgressTracking()
 
     // Fade in
     fadeTimer?.invalidate()
     fadeStartVolume = 0.0
     targetVolume = originalVolume
 
-    let steps = Int(duration * 60)  // 60 steps per second
+    let steps = Int(duration * 30)
     let volumeIncrement = targetVolume / Float(steps)
     let stepDuration = duration / Double(steps)
 
     var currentStep = 0
-    fadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) {
+    let timer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) {
       [weak self] timer in
       guard let self = self else {
         timer.invalidate()
@@ -183,6 +179,9 @@ extension Sound {
         completion?()
       }
     }
+
+    timer.tolerance = stepDuration * 0.1  // Allow 10% variance
+    fadeTimer = timer
   }
 
   func fadeOut(duration: TimeInterval = 0.5, completion: (() -> Void)? = nil) {
@@ -197,12 +196,12 @@ extension Sound {
     fadeStartVolume = player.volume
     targetVolume = 0.0
 
-    let steps = Int(duration * 60)  // 60 steps per second
+    let steps = Int(duration * 30)  // 30 steps per second
     let volumeDecrement = fadeStartVolume / Float(steps)
     let stepDuration = duration / Double(steps)
 
     var currentStep = 0
-    fadeTimer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) {
+    let timer = Timer.scheduledTimer(withTimeInterval: stepDuration, repeats: true) {
       [weak self] timer in
       guard let self = self else {
         timer.invalidate()
@@ -217,10 +216,12 @@ extension Sound {
         timer.invalidate()
         self.player?.volume = 0.0
         self.player?.pause()
-        self.stopProgressTracking()
         completion?()
       }
     }
+
+    timer.tolerance = stepDuration * 0.1  // Allow 10% variance
+    fadeTimer = timer
   }
 
   func reset() {
@@ -236,7 +237,6 @@ extension Sound {
     volumeDebounceTimer = nil
     updateVolumeLogTimer?.invalidate()
     updateVolumeLogTimer = nil
-    stopProgressTracking()
 
     // Reset player
     player?.stop()
@@ -256,32 +256,7 @@ extension Sound {
     isResetting = false
   }
 
-  private func startProgressTracking() {
-    stopProgressTracking()
-
-    guard let player = player, player.duration > 0 else { return }
-
-    print("🎵 Starting progress tracking for \(fileName) - duration: \(player.duration)")
-
-    // Update progress immediately
-    updateProgress()
-
-    // Update progress every 60th of a second for smooth animation
-    DispatchQueue.main.async { [weak self] in
-      self?.progressTimer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) {
-        [weak self] _ in
-        self?.updateProgress()
-      }
-    }
-  }
-
-  private func stopProgressTracking() {
-    progressTimer?.invalidate()
-    progressTimer = nil
-    playbackProgress = 0.0
-  }
-
-  private func updateProgress() {
+  func updateProgress() {
     guard let player = player, player.duration > 0 else {
       playbackProgress = 0.0
       return

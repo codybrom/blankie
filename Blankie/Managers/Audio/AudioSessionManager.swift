@@ -37,6 +37,7 @@
             options: []  // Exclusive playback
           )
         }
+
         try AVAudioSession.sharedInstance().setActive(true)
         print(
           "🎵 AudioSessionManager: Audio session activated for playback (mixWithOthers: \(mixWithOthers && !isCarPlayConnected), CarPlay: \(isCarPlayConnected))"

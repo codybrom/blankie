@@ -25,6 +25,5 @@ struct ProgressBorderView: View {
       )
       .frame(width: iconSize, height: iconSize)
       .rotationEffect(.degrees(-90))
-      .animation(.linear(duration: 0.1), value: playbackProgress)
   }
 }

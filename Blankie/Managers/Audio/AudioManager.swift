@@ -50,6 +50,10 @@ class AudioManager: ObservableObject {
     var audioSessionObserversSetup = false
   #endif
 
+  // Shared progress tracking timer
+  var progressTimer: Timer?
+  var lastProgressUpdate: Date = Date()
+
   private init() {
     print("🎵 AudioManager: Initializing - START")
 

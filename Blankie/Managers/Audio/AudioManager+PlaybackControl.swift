@@ -148,6 +148,9 @@ extension AudioManager {
       artworkData: currentPreset?.artworkData,
       isPlaying: true
     )
+
+    // Start shared progress tracking
+    startSharedProgressTracking()
   }
 
   func pauseAll() {
@@ -160,6 +163,9 @@ extension AudioManager {
         sound.pause()
       }
     }
+
+    // Stop shared progress tracking
+    stopSharedProgressTracking()
 
     #if os(iOS) || os(visionOS)
       // Deactivate audio session when stopping to allow other apps to play
@@ -211,6 +217,68 @@ extension AudioManager {
         artworkData: currentPreset?.artworkData,
         isPlaying: isGloballyPlaying
       )
+    }
+  }
+
+  // MARK: - Shared Progress Tracking
+
+  func startSharedProgressTracking() {
+    stopSharedProgressTracking()
+
+    // Only track progress if progress borders are enabled
+    guard GlobalSettings.shared.showProgressBorder else { return }
+
+    print("🎵 AudioManager: Starting shared progress tracking")
+
+    // Update progress at 5 FPS for all playing sounds
+    DispatchQueue.main.async { [weak self] in
+      let timer = Timer.scheduledTimer(withTimeInterval: 0.2, repeats: true) { [weak self] _ in
+        guard let self = self else { return }
+
+        // Check if window is visible on macOS
+        #if os(macOS)
+          guard WindowObserver.shared.hasVisibleWindow else { return }
+        #endif
+
+        // Check if device is locked on iOS
+        #if os(iOS)
+          if UIApplication.shared.isProtectedDataAvailable == false {
+            // Device is locked, skip update
+            return
+          }
+        #endif
+
+        // Only update if progress borders are still enabled
+        guard GlobalSettings.shared.showProgressBorder else {
+          self.stopSharedProgressTracking()
+          return
+        }
+
+        // Update progress for all playing sounds
+        let now = Date()
+        let timeSinceLastUpdate = now.timeIntervalSince(self.lastProgressUpdate)
+
+        // Only update if enough time has passed (throttle updates)
+        if timeSinceLastUpdate >= 0.1 {
+          self.lastProgressUpdate = now
+          self.updateAllSoundProgress()
+        }
+      }
+
+      timer.tolerance = 0.1  // Allow up to 100ms variance
+      self?.progressTimer = timer
+    }
+  }
+
+  func stopSharedProgressTracking() {
+    progressTimer?.invalidate()
+    progressTimer = nil
+    print("🎵 AudioManager: Stopped shared progress tracking")
+  }
+
+  private func updateAllSoundProgress() {
+    for sound in sounds where sound.isSelected && sound.player?.isPlaying == true {
+      sound.updateProgress()
     }
   }
 }

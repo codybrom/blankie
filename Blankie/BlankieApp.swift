@@ -61,6 +61,14 @@ struct BlankieApp: App {
               audioFileImporter.clearImport()
             }
         }
+        .onChange(of: windowObserver.hasVisibleWindow) { _, hasWindow in
+          // Update progress tracking based on window visibility
+          if hasWindow && audioManager.isGloballyPlaying {
+            audioManager.startSharedProgressTracking()
+          } else {
+            audioManager.stopSharedProgressTracking()
+          }
+        }
       }
       .modelContainer(modelContainer)
       .defaultPosition(.center)
@@ -102,8 +110,20 @@ struct BlankieApp: App {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
         }
-        .onChange(of: scenePhase) {
+        .onChange(of: scenePhase) { _, phase in
           timerManager.handleScenePhaseChange()
+
+          // Update progress tracking based on scene phase
+          switch phase {
+          case .active:
+            if audioManager.isGloballyPlaying {
+              audioManager.startSharedProgressTracking()
+            }
+          case .inactive, .background:
+            audioManager.stopSharedProgressTracking()
+          @unknown default:
+            break
+          }
         }
         .onOpenURL { url in
           audioFileImporter.handleIncomingFile(url)

@@ -137,7 +137,6 @@ struct SoundIcon: View {
             )
             .frame(width: borderSize, height: borderSize)
             .rotationEffect(.degrees(-90))
-            .animation(.linear(duration: 0.1), value: sound.playbackProgress)
         }
 
         Image(systemName: sound.systemIconName)

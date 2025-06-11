@@ -24,6 +24,7 @@ extension AudioManager {
       setupTerminationObserver()
       setupCarPlayObserver()
       setupBackgroundObservers()
+      setupDeviceLockObservers()
       // Delay audio session observers until first playback to avoid interrupting other apps
       // setupAudioInterruptionObserver()
       // setupAudioRouteChangeObserver()
@@ -80,6 +81,29 @@ extension AudioManager {
         queue: .main
       ) { [weak self] _ in
         self?.handleWillEnterForeground()
+      }
+    }
+
+    private func setupDeviceLockObservers() {
+      // Observe device lock state changes
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.protectedDataWillBecomeUnavailableNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        print("🎵 AudioManager: Device is being locked - stopping progress tracking")
+        self?.stopSharedProgressTracking()
+      }
+
+      NotificationCenter.default.addObserver(
+        forName: UIApplication.protectedDataDidBecomeAvailableNotification,
+        object: nil,
+        queue: .main
+      ) { [weak self] _ in
+        print("🎵 AudioManager: Device unlocked - resuming progress tracking if playing")
+        if self?.isGloballyPlaying == true {
+          self?.startSharedProgressTracking()
+        }
       }
     }
 

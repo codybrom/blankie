@@ -24,6 +24,59 @@ import SwiftUI
   }
 #endif
 
+// MARK: - macOS Image Handling
+#if os(macOS)
+  extension EditPresetSheet {
+    func handleMacOSImageImport(_ result: Result<[URL], Error>) {
+      switch result {
+      case .success(let urls):
+        guard let url = urls.first else { return }
+
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer {
+          if accessing {
+            url.stopAccessingSecurityScopedResource()
+          }
+        }
+
+        do {
+          let data = try Data(contentsOf: url)
+          if let nsImage = NSImage(data: data) {
+            if abs(nsImage.size.width - nsImage.size.height) < 1 {
+              artworkData = nsImage.jpegData(compressionQuality: 0.8)
+            } else {
+              let squareImage = cropToSquareMacOS(image: nsImage)
+              artworkData = squareImage.jpegData(compressionQuality: 0.8)
+            }
+          } else {
+            artworkData = data
+          }
+        } catch {
+          print("❌ macOS Image Picker: Failed to load image: \(error)")
+        }
+      case .failure(let error):
+        print("❌ macOS Image Picker: Image picker error: \(error)")
+      }
+    }
+
+    private func cropToSquareMacOS(image: NSImage) -> NSImage {
+      let size = min(image.size.width, image.size.height)
+      let offsetX = (image.size.width - size) / 2
+      let offsetY = (image.size.height - size) / 2
+      let cropRect = NSRect(x: offsetX, y: offsetY, width: size, height: size)
+
+      guard
+        let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil)?.cropping(
+          to: cropRect)
+      else {
+        return image
+      }
+
+      return NSImage(cgImage: cgImage, size: NSSize(width: size, height: size))
+    }
+  }
+#endif
+
 #if os(iOS) || os(visionOS)
   struct ImagePicker: UIViewControllerRepresentable {
     @Binding var selectedImage: UIImage?

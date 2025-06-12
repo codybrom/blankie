@@ -18,9 +18,9 @@ struct Preset: Codable, Identifiable, Equatable {
   var creatorName: String?
   var artworkData: Data?
 
-  /// Display name for the preset (shows "All Sounds" for default preset)
+  /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
   var displayName: String {
-    return isDefault ? "All Sounds" : name
+    return isDefault ? "Blankie – All Sounds" : name
   }
 
   /// Title to show when this preset is active (shows "Blankie" for default preset)

@@ -2796,6 +2796,9 @@
         }
       }
     },
+    "Hide Labels" : {
+
+    },
     "Hours" : {
 
     },
@@ -2893,6 +2896,9 @@
           }
         }
       }
+    },
+    "If enabled, Blankie will immediately play your most recent preset on launch" : {
+
     },
     "Import" : {
 
@@ -3589,7 +3595,7 @@
 
     },
     "Manage Sounds" : {
-      "comment" : "Sound management label"
+      "comment" : "Menu item to manage sounds\nSound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -4042,6 +4048,9 @@
       }
     },
     "Optional" : {
+
+    },
+    "Options" : {
 
     },
     "Orange" : {

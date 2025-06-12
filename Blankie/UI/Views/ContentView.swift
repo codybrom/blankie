@@ -192,8 +192,8 @@ import UniformTypeIdentifiers
           .background(Color(NSColor.windowBackgroundColor).opacity(0.3))
           .background(.ultraThinMaterial)
         }
-        .background(.thinMaterial)
-        .background(Color.black.opacity(0.05))
+        .background(.ultraThickMaterial)
+        .background(Color.black.opacity(0.25))
         .dropzone(
           manager: dropzoneManager,
           isDragTargeted: $isDragTargeted,

@@ -43,7 +43,7 @@ import SwiftUI
           .presentationDetents([.medium, .large])
       }
       .sheet(item: $soundToEdit) { sound in
-        SoundSheet(mode: .customize(sound))
+        SoundSheet(mode: .edit(sound))
           .interactiveDismissDisabled()  // Prevent accidental dismissal
           .onAppear {
             print("🎵 AdaptiveContentView: SoundSheet appeared for '\(sound.title)'")

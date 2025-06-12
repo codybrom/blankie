@@ -346,7 +346,7 @@ import SwiftUI
         currentVolume = Double(sound.volume)
       }
       .sheet(isPresented: $showingEditSheet) {
-        SoundSheet(mode: .customize(sound))
+        SoundSheet(mode: .edit(sound))
           .interactiveDismissDisabled()  // Prevent accidental dismissal
       }
     }

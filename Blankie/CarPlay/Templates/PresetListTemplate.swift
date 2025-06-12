@@ -265,7 +265,7 @@
 
       let item = CPListItem(
         text: isActive ? "Custom Mix ✓" : "Custom Mix",
-        detailText: "Your current selections in \"All Sounds\"",
+        detailText: "Your current selections in \"Blankie — All Sounds\"",
         image: getPresetArtwork(preset)
       )
 

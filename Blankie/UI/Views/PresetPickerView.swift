@@ -136,8 +136,16 @@ struct PresetPickerView: View {
               }
             } label: {
               HStack {
-                Text(preset.displayName)
-                  .foregroundColor(.primary)
+                HStack(spacing: 8) {
+                  // Special badge for default preset
+                  if preset.isDefault {
+                    Image(systemName: "square.stack")
+                      .foregroundColor(.accentColor)
+                  }
+
+                  Text(preset.displayName)
+                    .foregroundColor(.primary)
+                }
 
                 Spacer()
 
@@ -149,24 +157,18 @@ struct PresetPickerView: View {
                   Image(systemName: "checkmark")
                     .foregroundColor(.accentColor)
                 }
-              }
-            }
-            .swipeActions {
-              if !isEditMode {
-                Button {
-                  presetToRename = preset
-                  updatedPresetName = preset.name
-                } label: {
-                  Label(preset.isDefault ? "View Preset" : "Edit Preset", systemImage: "pencil")
-                }
-                .tint(.blue)
 
-                if !preset.isDefault {
-                  Button(role: .destructive) {
-                    presetToDelete = preset
+                // Show settings cog for custom presets
+                if !preset.isDefault && !isEditMode {
+                  Button {
+                    presetToRename = preset
+                    updatedPresetName = preset.name
                   } label: {
-                    Label("Delete Preset", systemImage: "trash")
+                    Image(systemName: "gearshape")
+                      .font(.body)
+                      .foregroundColor(.secondary)
                   }
+                  .buttonStyle(.plain)
                 }
               }
             }

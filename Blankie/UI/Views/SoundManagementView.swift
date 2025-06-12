@@ -41,15 +41,15 @@ struct SoundManagementView: View {
         #endif
         .toolbar {
           ToolbarItem(placement: .cancellationAction) {
-            Button {
-              showingFilePicker = true
-            } label: {
-              Image(systemName: "plus")
+            Button("Done") {
+              dismiss()
             }
           }
           ToolbarItem(placement: .primaryAction) {
-            Button("Done") {
-              dismiss()
+            Button {
+              showingFilePicker = true
+            } label: {
+              Label("Import", systemImage: "plus")
             }
           }
         }
@@ -67,13 +67,7 @@ struct SoundManagementView: View {
         }
         .sheet(isPresented: $showingEditSheet) {
           if let sound = selectedSound {
-            if sound.isCustom, let customSoundDataID = sound.customSoundDataID,
-              let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
-            {
-              SoundSheet(mode: .edit(customSoundData))
-            } else {
-              SoundSheet(mode: .customize(sound))
-            }
+            SoundSheet(mode: .edit(sound))
           }
         }
         .alert(

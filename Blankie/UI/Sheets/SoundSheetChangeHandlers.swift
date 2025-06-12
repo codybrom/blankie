@@ -13,6 +13,9 @@ struct SoundSheetChangeHandlers: ViewModifier {
   @Binding var volumeAdjustment: Float
   @Binding var randomizeStartPosition: Bool
   @Binding var loopSound: Bool
+  @Binding var soundName: String
+  @Binding var selectedIcon: String
+  @Binding var selectedColor: AccentColor?
 
   let startPreview: () -> Void
   let stopPreview: () -> Void
@@ -38,6 +41,15 @@ struct SoundSheetChangeHandlers: ViewModifier {
         updateSoundSettings()
       }
       .onChange(of: loopSound) { _, _ in
+        updateSoundSettings()
+      }
+      .onChange(of: soundName) { _, _ in
+        updateSoundSettings()
+      }
+      .onChange(of: selectedIcon) { _, _ in
+        updateSoundSettings()
+      }
+      .onChange(of: selectedColor) { _, _ in
         updateSoundSettings()
       }
   }

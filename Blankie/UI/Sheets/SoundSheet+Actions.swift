@@ -20,10 +20,9 @@ extension SoundSheet {
     switch mode {
     case .add:
       importSound()
-    case .edit(let sound):
-      saveChanges(sound)
-    case .customize(let sound):
-      saveCustomization(sound)
+    case .edit:
+      // For edit mode, just dismiss - changes are already applied
+      dismiss()
     }
   }
 
@@ -71,60 +70,13 @@ extension SoundSheet {
     }
   }
 
-  func saveChanges(_ sound: CustomSoundData) {
-    sound.title = soundName.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-    sound.systemIconName = selectedIcon
-    sound.randomizeStartPosition = randomizeStartPosition
-    sound.loopSound = loopSound
-    sound.normalizeAudio = normalizeAudio
-    sound.volumeAdjustment = volumeAdjustment
-
-    do {
-      try modelContext.save()
-
-      // Update the sound customization to sync with CustomSoundData
-      var customization = SoundCustomizationManager.shared.getOrCreateCustomization(
-        for: sound.fileName)
-      customization.customTitle = sound.title
-      customization.customIconName = sound.systemIconName
-      customization.randomizeStartPosition = sound.randomizeStartPosition
-      customization.loopSound = sound.loopSound
-      customization.normalizeAudio = sound.normalizeAudio
-      customization.volumeAdjustment = sound.volumeAdjustment
-
-      // Handle color customization
-      if let selectedColor = selectedColor {
-        customization.customColorName = selectedColor.color?.toString
-      } else {
-        // Remove color customization if "Current Theme" is selected
-        customization.customColorName = nil
-      }
-
-      SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
-      SoundCustomizationManager.shared.saveCustomizations()
-
-      // Trigger sound reload to update with new settings
-      AudioManager.shared.loadCustomSounds()
-
-      dismiss()
-    } catch {
-      importError = error
-      showingError = true
-    }
-  }
-
-  func saveCustomization(_ sound: Sound) {
-    // Always apply customizations when save is clicked
-    // This ensures any preview changes are persisted
+  func applyCustomizationInstantly(_ sound: Sound) {
     applyCustomizations(sound)
 
     // Force an immediate volume update for the sound
     if sound.player != nil {
       sound.updateVolume()
     }
-
-    // Sound object will automatically update through customization observer
-    dismiss()
   }
 
   private func checkForCustomizations(_ sound: Sound) -> Bool {
@@ -256,20 +208,11 @@ extension SoundSheet {
   // MARK: - Delete Action
 
   func deleteSound() {
-    let customSound: CustomSoundData
-
-    switch mode {
-    case .edit(let customSoundData):
-      customSound = customSoundData
-    case .customize(let sound):
-      guard sound.isCustom,
-        let customSoundDataID = sound.customSoundDataID,
-        let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
-      else {
-        return
-      }
-      customSound = customSoundData
-    default:
+    guard case .edit(let sound) = mode,
+      sound.isCustom,
+      let customSoundDataID = sound.customSoundDataID,
+      let customSound = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+    else {
       return
     }
 
@@ -309,29 +252,13 @@ extension SoundSheet {
     print("🎵 SoundSheet: Presets saved directly without state override")
   }
 
-  // MARK: - Cancel Action
+  // MARK: - Dismiss Action
 
-  func handleCancel() {
-    // Stop preview before canceling
+  func handleDismiss() {
+    // Stop preview before dismissing
     if isPreviewing {
       stopPreview()
     }
-
-    // Restore original customization for customize mode
-    if case .customize(let sound) = mode {
-      if let original = originalCustomization {
-        SoundCustomizationManager.shared.updateTemporaryCustomization(original)
-        SoundCustomizationManager.shared.saveCustomizations()
-      } else {
-        // If there was no original customization, remove any temporary one
-        SoundCustomizationManager.shared.removeCustomization(for: sound.fileName)
-      }
-
-      // Force update the sound to reflect restored settings
-      sound.objectWillChange.send()
-      if sound.player != nil {
-        sound.updateVolume()
-      }
-    }
+    dismiss()
   }
 }

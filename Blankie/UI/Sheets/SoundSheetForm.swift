@@ -72,9 +72,9 @@ struct SoundSheetForm: View {
       // Icon Selection
       SoundIconSelector(selectedIcon: $selectedIcon)
 
-      // Color Selection (for customize and edit modes)
+      // Color Selection
       switch mode {
-      case .customize, .edit:
+      case .edit:
         ColorSelectionView(selectedColor: $selectedColor)
       case .add:
         EmptyView()
@@ -97,8 +97,11 @@ struct SoundSheetForm: View {
 
               Image(systemName: isPreviewing ? "stop.fill" : "play.fill")
                 .font(.system(size: 18, weight: .medium))
-                .foregroundColor(isPreviewing ? .red : (globalSettings.customAccentColor ?? .accentColor))
-                .contentTransition(.symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .nonRepeating))
+                .foregroundColor(
+                  isPreviewing ? .red : (globalSettings.customAccentColor ?? .accentColor)
+                )
+                .contentTransition(
+                  .symbolEffect(.replace.magic(fallback: .downUp.byLayer), options: .nonRepeating))
             }
           }
           .buttonStyle(.plain)
@@ -115,23 +118,29 @@ struct SoundSheetForm: View {
               progress: $previewProgress,
               isPlaying: isPreviewing
             )
-          } else if case .customize(let sound) = mode {
-            // For customize mode
-            SoundWaveformView(
-              sound: sound,
-              fileURL: nil,
-              progress: $previewProgress,
-              isPlaying: isPreviewing
-            )
-          } else if case .edit(let customSoundData) = mode,
-                    let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData) {
+          } else if case .edit(let sound) = mode {
             // For edit mode
-            SoundWaveformView(
-              sound: nil,
-              fileURL: fileURL,
-              progress: $previewProgress,
-              isPlaying: isPreviewing
-            )
+            if sound.isCustom,
+              let customSoundDataID = sound.customSoundDataID,
+              let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID),
+              let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData)
+            {
+              // Custom sound - use file URL
+              SoundWaveformView(
+                sound: nil,
+                fileURL: fileURL,
+                progress: $previewProgress,
+                isPlaying: isPreviewing
+              )
+            } else {
+              // Built-in sound - use sound directly
+              SoundWaveformView(
+                sound: sound,
+                fileURL: nil,
+                progress: $previewProgress,
+                isPlaying: isPreviewing
+              )
+            }
           }
         }
         .frame(height: 44)

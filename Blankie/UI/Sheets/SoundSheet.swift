@@ -11,8 +11,7 @@ import UniformTypeIdentifiers
 
 enum SoundSheetMode {
   case add
-  case edit(CustomSoundData)
-  case customize(Sound)
+  case edit(Sound)
 }
 
 struct SoundSheet: View {
@@ -37,7 +36,6 @@ struct SoundSheet: View {
   @State var previewSound: Sound?
   @State var previewProgress: Double = 0
   @State var previewTimer: Timer?
-  @State var originalCustomization: SoundCustomization?
   @State var previousSoloModeSound: Sound?
   @State var wasPreviewSoundPlaying: Bool = false
   @State var showingDeleteConfirmation: Bool = false
@@ -68,26 +66,8 @@ struct SoundSheet: View {
       self._initialSoundName = State(initialValue: values.initialSoundName)
       self._initialSelectedIcon = State(initialValue: values.initialSelectedIcon)
 
-    case .edit(let customSoundData):
-      let values = Self.createEditModeInitValues(customSoundData: customSoundData)
-      self._soundName = State(initialValue: values.soundName)
-      self._selectedIcon = State(initialValue: values.selectedIcon)
-      self._randomizeStartPosition = State(initialValue: values.randomizeStartPosition)
-      self._normalizeAudio = State(initialValue: values.normalizeAudio)
-      self._volumeAdjustment = State(initialValue: values.volumeAdjustment)
-      self._loopSound = State(initialValue: values.loopSound)
-      self._selectedColor = State(initialValue: values.selectedColor)
-      self._initialSoundName = State(initialValue: values.initialSoundName)
-      self._initialSelectedIcon = State(initialValue: values.initialSelectedIcon)
-      self._initialRandomizeStartPosition = State(
-        initialValue: values.initialRandomizeStartPosition)
-      self._initialNormalizeAudio = State(initialValue: values.initialNormalizeAudio)
-      self._initialVolumeAdjustment = State(initialValue: values.initialVolumeAdjustment)
-      self._initialLoopSound = State(initialValue: values.initialLoopSound)
-      self._initialSelectedColor = State(initialValue: values.initialSelectedColor)
-
-    case .customize(let sound):
-      let values = Self.createCustomizeModeInitValues(sound: sound)
+    case .edit(let sound):
+      let values = Self.createEditModeInitValues(sound: sound)
       self._soundName = State(initialValue: values.soundName)
       self._selectedIcon = State(initialValue: values.selectedIcon)
       self._randomizeStartPosition = State(initialValue: values.randomizeStartPosition)
@@ -142,7 +122,7 @@ struct SoundSheet: View {
         isPresented: $showingResetConfirmation
       ) {
         Button("Reset", role: .destructive) {
-          if case .customize(let sound) = mode {
+          if case .edit(let sound) = mode {
             handleResetToDefaults(for: sound)
           }
         }
@@ -164,6 +144,9 @@ struct SoundSheet: View {
           volumeAdjustment: $volumeAdjustment,
           randomizeStartPosition: $randomizeStartPosition,
           loopSound: $loopSound,
+          soundName: $soundName,
+          selectedIcon: $selectedIcon,
+          selectedColor: $selectedColor,
           startPreview: startPreview,
           stopPreview: stopPreview,
           updateSoundSettings: updateSoundSettings
@@ -199,7 +182,6 @@ struct SoundSheet: View {
   private func handleOnAppear() {
     let soundName = builtInSound?.title ?? sound?.title ?? "Unknown"
     print("🎵 SoundSheet: handleOnAppear called for '\(soundName)'")
-    originalCustomization = getOriginalCustomization()
   }
 
   private func handleOnDisappear() {
@@ -214,7 +196,6 @@ struct SoundSheet: View {
       "🎵 SoundSheet: handleOnDisappear called for '\(soundName)', isPreviewing: \(isPreviewing)")
     isDisappearing = true
 
-    // Don't restore original customization on disappear - we want to keep the saved changes
     if isPreviewing {
       print("🎵 SoundSheet: Stopping preview in onDisappear")
       stopPreview()

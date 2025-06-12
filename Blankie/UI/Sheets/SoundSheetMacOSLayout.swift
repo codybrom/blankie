@@ -31,7 +31,7 @@ struct SoundSheetMacOSLayout: View {
   let isDisabled: Bool
   let performAction: () -> Void
   let stopPreview: () -> Void
-  let handleCancel: () -> Void
+  let handleDismiss: () -> Void
   let dismiss: DismissAction
 
   var body: some View {
@@ -68,44 +68,39 @@ struct SoundSheetMacOSLayout: View {
       Spacer()
       Divider()
 
-      Group {
+      HStack {
         if hasChanges {
-          HStack {
-            Button("Cancel") {
-              handleCancel()
-              dismiss()
-            }
-            .buttonStyle(.bordered)
-            .keyboardShortcut(.escape)
-
-            Spacer()
-
-            Button {
-              performAction()
-            } label: {
-              Text(buttonTitle)
-            }
-            .buttonStyle(.borderedProminent)
-            .disabled(isDisabled)
-            .keyboardShortcut(.return)
+          Button("Cancel") {
+            handleDismiss()
+            dismiss()
           }
-          .padding()
+          .buttonStyle(.bordered)
+          .keyboardShortcut(.escape)
+
+          Spacer()
+
+          Button {
+            performAction()
+          } label: {
+            Text(buttonTitle)
+          }
+          .buttonStyle(.borderedProminent)
+          .disabled(isDisabled)
+          .keyboardShortcut(.return)
         } else {
-          HStack {
-            Button("Done") {
-              if isPreviewing {
-                stopPreview()
-              }
-              dismiss()
+          Button("Done") {
+            if isPreviewing {
+              stopPreview()
             }
-            .buttonStyle(.bordered)
-            .keyboardShortcut(.escape)
-
-            Spacer()
+            dismiss()
           }
-          .padding()
+          .buttonStyle(.bordered)
+          .keyboardShortcut(.escape)
+
+          Spacer()
         }
       }
+      .padding()
     }
     .frame(width: 450, height: mode.isAdd ? 600 : 580)
   }

@@ -74,11 +74,8 @@ extension SoundSheet {
     case .add:
       createAddPreview()
 
-    case .edit(let customSound):
-      createEditPreview(customSound)
-
-    case .customize(let sound):
-      createCustomizePreview(sound)
+    case .edit(let sound):
+      createEditPreview(sound)
     }
   }
 
@@ -106,70 +103,17 @@ extension SoundSheet {
       customSoundDataID: nil
     )
 
-    // Create and apply temporary customization with current settings
-    var tempCustomization = SoundCustomization(fileName: fileName)
-    tempCustomization.customTitle = soundName.isEmpty ? fileName : soundName
-    tempCustomization.customIconName = selectedIcon
-    tempCustomization.randomizeStartPosition = randomizeStartPosition
-    tempCustomization.normalizeAudio = normalizeAudio
-    tempCustomization.volumeAdjustment = volumeAdjustment
-    SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
-
     // Set preview volume
     preview.volume = 1.0
     previewSound = preview
   }
 
-  private func createEditPreview(_ customSound: CustomSoundData) {
-    guard let fileURL = CustomSoundManager.shared.fileURL(for: customSound) else { return }
-
-    // Reset this flag for edit mode
-    wasPreviewSoundPlaying = false
-
-    // Create a preview Sound with the edited settings
-    let preview = Sound(
-      title: soundName,
-      systemIconName: selectedIcon,
-      fileName: customSound.fileName,
-      fileExtension: customSound.fileExtension,
-      lufs: customSound.detectedLUFS,
-      normalizationFactor: customSound.normalizationFactor,
-      isCustom: true,
-      fileURL: fileURL,
-      dateAdded: customSound.dateAdded,
-      customSoundDataID: customSound.id
-    )
-
-    // Apply the preview settings via customization
-    var tempCustomization = SoundCustomization(fileName: customSound.fileName)
-    tempCustomization.customTitle = soundName
-    tempCustomization.customIconName = selectedIcon
-    tempCustomization.randomizeStartPosition = randomizeStartPosition
-    tempCustomization.normalizeAudio = normalizeAudio
-    tempCustomization.volumeAdjustment = volumeAdjustment
-    SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
-
-    preview.volume = 1.0
-    previewSound = preview
-  }
-
-  private func createCustomizePreview(_ sound: Sound) {
+  private func createEditPreview(_ sound: Sound) {
     // Track if this sound was playing before preview
     wasPreviewSoundPlaying = sound.player?.isPlaying == true && sound.isSelected
 
-    // Don't pause the sound here - preview mode will handle playback coordination
-    // We want to preserve the current playback position
-
-    // Save the original customization
-    originalCustomization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-
-    // Apply current settings as temporary customization
-    var tempCustomization = originalCustomization ?? SoundCustomization(fileName: sound.fileName)
-    tempCustomization.normalizeAudio = normalizeAudio
-    tempCustomization.volumeAdjustment = volumeAdjustment
-    tempCustomization.randomizeStartPosition = randomizeStartPosition
-    SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
-
+    // For edit mode, the preview sound is just the actual sound
+    // Changes are already applied instantly, no need for temporary customization
     previewSound = sound
   }
 
@@ -181,49 +125,15 @@ extension SoundSheet {
 
     // Note: We don't modify isSelected state during preview to avoid triggering auto-play logic
 
-    // Apply current sheet settings as temporary customization before starting preview
-    applyTemporaryCustomizationForPreview()
+    // No need to apply temporary customization - changes are instant in edit mode
 
     // Enter preview mode (separate from solo mode)
     AudioManager.shared.enterPreviewMode(for: preview)
   }
 
   private func applyTemporaryCustomizationForPreview() {
-    guard let preview = previewSound else { return }
-
-    // Create temporary customization with current sheet settings
-    var tempCustomization =
-      SoundCustomizationManager.shared.getCustomization(for: preview.fileName)
-      ?? SoundCustomization(fileName: preview.fileName)
-
-    // Apply the current sheet settings
-    tempCustomization.normalizeAudio = normalizeAudio
-    tempCustomization.volumeAdjustment = volumeAdjustment
-    tempCustomization.randomizeStartPosition = randomizeStartPosition
-
-    // For customize and edit modes, also apply name and icon if changed
-    switch mode {
-    case .customize(let sound):
-      if soundName != sound.title {
-        tempCustomization.customTitle = soundName
-      }
-      if selectedIcon != sound.systemIconName {
-        tempCustomization.customIconName = selectedIcon
-      }
-    case .edit:
-      tempCustomization.customTitle = soundName
-      tempCustomization.customIconName = selectedIcon
-    case .add:
-      tempCustomization.customTitle = soundName
-      tempCustomization.customIconName = selectedIcon
-    }
-
-    // Apply the temporary customization
-    SoundCustomizationManager.shared.updateTemporaryCustomization(tempCustomization)
-
-    print(
-      "🎵 SoundSheet: Applied temporary customization for preview - normalize: \(normalizeAudio), volume: \(volumeAdjustment)"
-    )
+    // No longer needed - changes are applied instantly in edit mode
+    // For add mode, the preview sound is temporary and doesn't need persistent customization
   }
 
   internal func stopPreview() {
@@ -248,13 +158,6 @@ extension SoundSheet {
           AudioManager.shared.enterSoloMode(for: previousSolo)
         }
 
-        // Restore original customization settings
-        if case .customize(let originalSound) = mode {
-          // Don't restore anything here - let the save/cancel actions handle it
-          // Just trigger update to reflect any changes
-          originalSound.objectWillChange.send()
-        }
-
         // Clean up preview sound for add/edit modes
         if case .add = mode {
           // For add mode, clean up the temporary preview sound
@@ -265,8 +168,8 @@ extension SoundSheet {
           preview.player?.stop()
           preview.player = nil
         }
-        // For customize mode, the preview sound is the same as the original sound,
-        // so we don't clean up the player
+        // For edit mode with built-in sounds, the preview sound is the same as the original sound,
+        // so we don't clean up the player in that case
       }
 
       previewSound = nil
@@ -283,10 +186,7 @@ extension SoundSheet {
     )
 
     Task { @MainActor in
-      // Apply current sheet settings as temporary customization
-      applyTemporaryCustomizationForPreview()
-
-      // Update the sound's volume based on the new customization
+      // Update the sound's volume based on the current customization
       preview.updateVolume()
 
       print("🎵 SoundSheet: Preview volume updated with current sheet settings")

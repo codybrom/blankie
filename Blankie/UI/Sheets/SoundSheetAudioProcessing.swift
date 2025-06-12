@@ -47,24 +47,28 @@ extension CleanSoundSheetForm {
             progress: $previewProgress,
             isPlaying: isPreviewing
           )
-        } else if case .customize(let sound) = mode {
-          // For customize mode
-          SoundWaveformView(
-            sound: sound,
-            fileURL: nil,
-            progress: $previewProgress,
-            isPlaying: isPreviewing
-          )
-        } else if case .edit(let customSoundData) = mode,
-          let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData)
-        {
-          // For edit mode
-          SoundWaveformView(
-            sound: nil,
-            fileURL: fileURL,
-            progress: $previewProgress,
-            isPlaying: isPreviewing
-          )
+        } else if case .edit(let sound) = mode {
+          if sound.isCustom,
+            let customSoundDataID = sound.customSoundDataID,
+            let customSoundData = CustomSoundManager.shared.getCustomSound(by: customSoundDataID),
+            let fileURL = CustomSoundManager.shared.fileURL(for: customSoundData)
+          {
+            // Custom sound - use file URL
+            SoundWaveformView(
+              sound: nil,
+              fileURL: fileURL,
+              progress: $previewProgress,
+              isPlaying: isPreviewing
+            )
+          } else {
+            // Built-in sound - use sound directly
+            SoundWaveformView(
+              sound: sound,
+              fileURL: nil,
+              progress: $previewProgress,
+              isPlaying: isPreviewing
+            )
+          }
         }
       }
       .frame(height: 44)

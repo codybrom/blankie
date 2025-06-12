@@ -17,9 +17,9 @@ extension CleanSoundSheetForm {
       // Icon
       iconRow
 
-      // Color (for customize and edit modes)
+      // Color
       switch mode {
-      case .customize, .edit:
+      case .edit:
         ColorPickerRow(selectedColor: $selectedColor)
         aboutRow
       case .add:
@@ -98,10 +98,8 @@ extension CleanSoundSheetForm {
 
   private func getCurrentSound() -> Sound? {
     switch mode {
-    case .customize(let sound):
+    case .edit(let sound):
       return sound
-    case .edit(let customSoundData):
-      return AudioManager.shared.sounds.first { $0.customSoundDataID == customSoundData.id }
     case .add:
       return nil
     }
@@ -111,8 +109,7 @@ extension CleanSoundSheetForm {
   var actionSection: some View {
     if shouldShowActionSection {
       Section {
-        // Reset button for customized sounds
-        if case .customize = mode {
+        if case .edit = mode {
           Button(action: { showingResetConfirmation = true }) {
             HStack {
               Text("Reset to Defaults")
@@ -122,7 +119,7 @@ extension CleanSoundSheetForm {
         }
 
         // Delete button for custom sounds
-        if case .customize(let sound) = mode, sound.isCustom {
+        if case .edit(let sound) = mode, sound.isCustom {
           Button(action: { showingDeleteConfirmation = true }) {
             HStack {
               Text("Delete Sound")
@@ -136,8 +133,8 @@ extension CleanSoundSheetForm {
 
   private var shouldShowActionSection: Bool {
     switch mode {
-    case .customize(let sound):
-      return true || sound.isCustom  // Show for all customize mode
+    case .edit:
+      return true
     default:
       return false
     }

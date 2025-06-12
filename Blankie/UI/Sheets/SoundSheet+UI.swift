@@ -34,7 +34,7 @@ extension SoundSheet {
       isDisabled: isDisabled,
       performAction: performAction,
       stopPreview: stopPreview,
-      handleCancel: handleCancel,
+      handleDismiss: handleDismiss,
       dismiss: dismiss
     )
   }
@@ -77,18 +77,11 @@ extension SoundSheet {
 
   @ViewBuilder
   var leadingNavigationButton: some View {
-    if hasChanges {
-      Button("Cancel") {
-        handleCancel()
-        dismiss()
+    Button("Done") {
+      if isPreviewing {
+        stopPreview()
       }
-    } else {
-      Button("Done") {
-        if isPreviewing {
-          stopPreview()
-        }
-        dismiss()
-      }
+      dismiss()
     }
   }
 

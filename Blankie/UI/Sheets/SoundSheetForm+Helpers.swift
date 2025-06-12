@@ -102,52 +102,58 @@ extension CleanSoundSheetForm {
 extension CleanSoundSheetForm {
   func getNormalizationInfo() -> NormalizationInfo? {
     switch mode {
-    case .edit(let customSound):
-      var lufsStr: String?
-      var peakStr: String?
-      var normFactor: Float = 1.0
+    case .edit(let sound):
+      if sound.isCustom,
+        let customSoundDataID = sound.customSoundDataID,
+        let customSound = CustomSoundManager.shared.getCustomSound(by: customSoundDataID)
+      {
+        // Custom sound - get detailed info from CustomSoundData
+        var lufsStr: String?
+        var peakStr: String?
+        var normFactor: Float = 1.0
 
-      // Get LUFS if available
-      if let lufs = customSound.detectedLUFS {
-        lufsStr = String(format: "%.1f LUFS", lufs)
-        normFactor =
-          customSound.normalizationFactor
-          ?? AudioAnalyzer.calculateLUFSNormalizationFactor(lufs: lufs)
-      }
-
-      // Get peak level
-      if let peakLevel = customSound.detectedPeakLevel {
-        let percentage = Int(peakLevel * 100)
-        peakStr = "\(percentage)%"
-        if normFactor == 1.0 {
-          normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
+        // Get LUFS if available
+        if let lufs = customSound.detectedLUFS {
+          lufsStr = String(format: "%.1f LUFS", lufs)
+          normFactor =
+            customSound.normalizationFactor
+            ?? AudioAnalyzer.calculateLUFSNormalizationFactor(lufs: lufs)
         }
+
+        // Get peak level
+        if let peakLevel = customSound.detectedPeakLevel {
+          let percentage = Int(peakLevel * 100)
+          peakStr = "\(percentage)%"
+          if normFactor == 1.0 {
+            normFactor = AudioAnalyzer.calculateNormalizationFactor(peakLevel: peakLevel)
+          }
+        }
+
+        let gainDB = 20 * log10(normFactor)
+        return NormalizationInfo(
+          lufs: lufsStr,
+          peak: peakStr,
+          gain: String(format: "%+.1fdB", gainDB),
+          factor: String(format: "%.2fx", normFactor)
+        )
+      } else {
+        // Built-in sound
+        var lufsStr: String?
+
+        if let lufs = sound.lufs {
+          lufsStr = String(format: "%.1f LUFS", lufs)
+        }
+
+        let normFactor = sound.normalizationFactor ?? 1.0
+        let gainDB = 20 * log10(normFactor)
+
+        return NormalizationInfo(
+          lufs: lufsStr,
+          peak: nil,
+          gain: String(format: "%+.1fdB", gainDB),
+          factor: String(format: "%.2fx", normFactor)
+        )
       }
-
-      let gainDB = 20 * log10(normFactor)
-      return NormalizationInfo(
-        lufs: lufsStr,
-        peak: peakStr,
-        gain: String(format: "%+.1fdB", gainDB),
-        factor: String(format: "%.2fx", normFactor)
-      )
-
-    case .customize(let sound):
-      var lufsStr: String?
-
-      if let lufs = sound.lufs {
-        lufsStr = String(format: "%.1f LUFS", lufs)
-      }
-
-      let normFactor = sound.normalizationFactor ?? 1.0
-      let gainDB = 20 * log10(normFactor)
-
-      return NormalizationInfo(
-        lufs: lufsStr,
-        peak: nil,
-        gain: String(format: "%+.1fdB", gainDB),
-        factor: String(format: "%.2fx", normFactor)
-      )
 
     case .add:
       return nil
@@ -159,17 +165,8 @@ extension CleanSoundSheetForm {
 extension CleanSoundSheetForm {
   func getSoundInfo() -> SoundInfo? {
     switch mode {
-    case .edit(let customSound):
-      guard
-        let sound = AudioManager.shared.sounds.first(where: {
-          $0.customSoundDataID == customSound.id
-        })
-      else { return nil }
-
-      return createSoundInfo(from: sound, includeCredits: false)
-
-    case .customize(let sound):
-      return createSoundInfo(from: sound, includeCredits: true)
+    case .edit(let sound):
+      return createSoundInfo(from: sound, includeCredits: !sound.isCustom)
 
     case .add:
       return nil

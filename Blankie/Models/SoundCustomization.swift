@@ -226,13 +226,6 @@ class SoundCustomizationManager: ObservableObject {
     saveCustomizationsInternal()
   }
 
-  /// Update customization temporarily without saving (for preview)
-  func updateTemporaryCustomization(_ customization: SoundCustomization) {
-    customizations[customization.fileName] = customization
-    // Trigger UI updates
-    objectWillChange.send()
-  }
-
   /// Get all customized sound file names
   var customizedSounds: [String] {
     return Array(customizations.keys)

@@ -11,24 +11,17 @@ import UniformTypeIdentifiers
 // MARK: - Helper Properties
 extension SoundSheet {
 
-  var sound: CustomSoundData? {
+  var sound: Sound? {
     switch mode {
     case .add:
       return nil
     case .edit(let sound):
       return sound
-    case .customize:
-      return nil
     }
   }
 
   var builtInSound: Sound? {
-    switch mode {
-    case .customize(let sound):
-      return sound
-    default:
-      return nil
-    }
+    return sound
   }
 
   var title: LocalizedStringKey {
@@ -37,8 +30,6 @@ extension SoundSheet {
       return "Import Sound"
     case .edit:
       return "Edit Sound"
-    case .customize:
-      return "Customize Sound"
     }
   }
 
@@ -47,9 +38,7 @@ extension SoundSheet {
     case .add:
       return "Import Sound"
     case .edit:
-      return "Save"
-    case .customize:
-      return "Save"
+      return ""  // No save button in edit mode
     }
   }
 
@@ -59,8 +48,6 @@ extension SoundSheet {
       return "Importing sound..."
     case .edit:
       return "Saving changes..."
-    case .customize:
-      return "Saving customization..."
     }
   }
 
@@ -70,9 +57,7 @@ extension SoundSheet {
     case .add:
       return selectedFile == nil || nameTrimmed.isEmpty || isProcessing
     case .edit:
-      return nameTrimmed.isEmpty || isProcessing
-    case .customize:
-      return isProcessing
+      return false  // Edit mode changes are instant, no disable needed
     }
   }
 
@@ -82,9 +67,7 @@ extension SoundSheet {
 
   var isCustomSoundInEditMode: Bool {
     switch mode {
-    case .edit:
-      return true
-    case .customize(let sound):
+    case .edit(let sound):
       return sound.isCustom
     default:
       return false

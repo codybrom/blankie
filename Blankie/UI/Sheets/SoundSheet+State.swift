@@ -57,14 +57,10 @@ struct SoundSheetInitValues {
 extension SoundSheet {
   var hasChanges: Bool {
     switch mode {
-    case .customize:
-      return soundName != initialSoundName || selectedIcon != initialSelectedIcon
-        || selectedColor != initialSelectedColor
-        || randomizeStartPosition != initialRandomizeStartPosition
-        || normalizeAudio != initialNormalizeAudio || volumeAdjustment != initialVolumeAdjustment
-        || loopSound != initialLoopSound
-    case .add, .edit:
-      return true
+    case .edit:
+      return false  // No save/cancel buttons in edit mode - changes are instant
+    case .add:
+      return true  // Add mode still needs save button
     }
   }
 
@@ -72,19 +68,16 @@ extension SoundSheet {
     if isPreviewing {
       updatePreviewVolume()
     }
+
+    if case .edit(let sound) = mode {
+      applyCustomizationInstantly(sound)
+    }
   }
 
   func getOriginalCustomization() -> SoundCustomization? {
     switch mode {
-    case .customize(let sound):
+    case .edit(let sound):
       return SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-    case .edit(let customSound):
-      if let sound = AudioManager.shared.sounds.first(where: {
-        $0.customSoundDataID == customSound.id
-      }) {
-        return SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-      }
-      return nil
     case .add:
       return nil
     }
@@ -99,37 +92,7 @@ extension SoundSheet {
     )
   }
 
-  static func createEditModeInitValues(customSoundData: CustomSoundData) -> SoundSheetInitValues {
-    if let sound = AudioManager.shared.sounds.first(where: {
-      $0.customSoundDataID == customSoundData.id
-    }) {
-      let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
-      let color = customization?.customColorName.flatMap { colorName in
-        AccentColor.allCases.first { $0.color?.toString == colorName }
-      }
-
-      return SoundSheetInitValues(
-        soundName: customization?.customTitle ?? sound.originalTitle,
-        selectedIcon: customization?.customIconName ?? sound.originalSystemIconName,
-        randomizeStartPosition: customization?.randomizeStartPosition ?? true,
-        normalizeAudio: customization?.normalizeAudio ?? true,
-        volumeAdjustment: customization?.volumeAdjustment ?? 1.0,
-        loopSound: customization?.loopSound ?? true,
-        selectedColor: color
-      )
-    } else {
-      return SoundSheetInitValues(
-        soundName: customSoundData.title,
-        selectedIcon: customSoundData.systemIconName,
-        randomizeStartPosition: customSoundData.randomizeStartPosition,
-        normalizeAudio: customSoundData.normalizeAudio,
-        volumeAdjustment: customSoundData.volumeAdjustment,
-        loopSound: customSoundData.loopSound
-      )
-    }
-  }
-
-  static func createCustomizeModeInitValues(sound: Sound) -> SoundSheetInitValues {
+  static func createEditModeInitValues(sound: Sound) -> SoundSheetInitValues {
     let customization = SoundCustomizationManager.shared.getCustomization(for: sound.fileName)
     let color = customization?.customColorName.flatMap { colorName in
       AccentColor.allCases.first { $0.color?.toString == colorName }

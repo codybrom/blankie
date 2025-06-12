@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "-50%" : {
       "comment" : "Volume decrease label"
     },
@@ -15,6 +18,9 @@
       }
     },
     "%@ (Custom • Added By You)" : {
+
+    },
+    "%lld Selected" : {
 
     },
     "%lld sounds" : {
@@ -587,6 +593,9 @@
           }
         }
       }
+    },
+    "Are you sure you want to delete \"%@\"? This action cannot be undone." : {
+
     },
     "Are you sure you want to delete this sound? This action cannot be undone." : {
       "comment" : "Delete sound confirmation message"
@@ -2885,6 +2894,9 @@
         }
       }
     },
+    "Import" : {
+
+    },
     "Import custom sounds and manage hidden sounds" : {
 
     },
@@ -3953,6 +3965,9 @@
     },
     "Normalize Audio" : {
       "comment" : "Toggle label for audio normalization"
+    },
+    "Now Playing" : {
+
     },
     "OK" : {
       "comment" : "OK button label",
@@ -5739,9 +5754,6 @@
           }
         }
       }
-    },
-    "Saving customization..." : {
-
     },
     "Search icons..." : {
       "comment" : "Icon search field placeholder"

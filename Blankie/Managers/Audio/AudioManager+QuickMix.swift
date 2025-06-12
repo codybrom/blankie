@@ -53,6 +53,12 @@ extension AudioManager {
       "🚗 AudioManager: Filtered \(initialSounds.count) initial sounds to \(validInitialSounds.count) valid Quick Mix sounds"
     )
 
+    // Reset all Quick Mix sounds to 80% volume
+    for sound in sounds where quickMixSounds.contains(sound.fileName) && !sound.isCustom {
+      sound.volume = 0.8
+      print("🚗 AudioManager: Reset \(sound.fileName) volume to 80%")
+    }
+
     // Enable only the valid initial sounds
     for sound in validInitialSounds {
       sound.isSelected = true

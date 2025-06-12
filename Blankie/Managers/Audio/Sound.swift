@@ -111,11 +111,18 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
         updateVolume()
       }
 
-      // Debounce the save to UserDefaults
+      // Debounce the save to UserDefaults (skip during Quick Mix)
       volumeDebounceTimer?.invalidate()
       volumeDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) {
         [weak self] _ in
         guard let self = self else { return }
+
+        // Don't persist volume changes during Quick Mix mode
+        guard !AudioManager.shared.isQuickMix else {
+          print("🚗 Sound: Skipping volume save for '\(self.fileName)' during Quick Mix mode")
+          return
+        }
+
         UserDefaults.standard.set(self.volume, forKey: "\(self.fileName)_volume")
         print("🔊 Sound: \(self.fileName) final volume saved as \(self.volume)")
       }

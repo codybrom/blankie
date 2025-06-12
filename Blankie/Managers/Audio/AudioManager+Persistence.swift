@@ -24,6 +24,12 @@ extension AudioManager {
   }
 
   func saveState() {
+    // Don't save state during Quick Mix mode - volume changes are temporary
+    guard !isQuickMix else {
+      print("🚗 AudioManager: Skipping state save during Quick Mix mode")
+      return
+    }
+
     let state = sounds.map { sound in
       [
         "id": sound.id.uuidString,

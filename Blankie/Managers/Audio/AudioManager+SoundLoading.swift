@@ -197,17 +197,28 @@ extension AudioManager {
     let existingCustomization = SoundCustomizationManager.shared.getCustomization(
       for: data.fileName)
     if existingCustomization == nil {
-      let customization = SoundCustomization(
-        fileName: data.fileName,
-        customTitle: data.title,
-        customIconName: data.systemIconName,
-        customColorName: nil,
-        randomizeStartPosition: data.randomizeStartPosition,
-        normalizeAudio: data.normalizeAudio,
-        volumeAdjustment: data.volumeAdjustment,
-        loopSound: data.loopSound
-      )
-      SoundCustomizationManager.shared.updateTemporaryCustomization(customization)
+      // Create customization for the custom sound using individual setters
+      let manager = SoundCustomizationManager.shared
+
+      // Only set values that differ from defaults to avoid creating unnecessary customizations
+      if data.title != data.fileName {
+        manager.setCustomTitle(data.title, for: data.fileName)
+      }
+      if data.systemIconName != "waveform.circle" {
+        manager.setCustomIcon(data.systemIconName, for: data.fileName)
+      }
+      if data.randomizeStartPosition != true {
+        manager.setRandomizeStartPosition(data.randomizeStartPosition, for: data.fileName)
+      }
+      if data.normalizeAudio != true {
+        manager.setNormalizeAudio(data.normalizeAudio, for: data.fileName)
+      }
+      if data.volumeAdjustment != 1.0 {
+        manager.setVolumeAdjustment(data.volumeAdjustment, for: data.fileName)
+      }
+      if data.loopSound != true {
+        manager.setLoopSound(data.loopSound, for: data.fileName)
+      }
     }
   }
 

@@ -43,6 +43,10 @@ struct PresetStorage {
       print("Saving presets:")
       presets.forEach { preset in
         print("  - '\(preset.name)':")
+        print(
+          "    * Artwork: \(preset.artworkData != nil ? "✅ Has artwork (\(preset.artworkData!.count) bytes)" : "❌ No artwork")"
+        )
+        print("    * Creator: \(preset.creatorName ?? "None")")
         print("    * Active sounds:")
         preset.soundStates
           .filter { $0.isSelected }
@@ -64,6 +68,10 @@ struct PresetStorage {
       // Add debug logging
       presets.forEach { preset in
         print("  - Loaded preset '\(preset.name)':")
+        print(
+          "    * Artwork: \(preset.artworkData != nil ? "✅ Has artwork (\(preset.artworkData!.count) bytes)" : "❌ No artwork")"
+        )
+        print("    * Creator: \(preset.creatorName ?? "None")")
         print("    * Active sounds:")
         preset.soundStates
           .filter { $0.isSelected }

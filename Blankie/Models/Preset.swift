@@ -12,19 +12,54 @@ struct Preset: Codable, Identifiable, Equatable {
   var name: String
   var soundStates: [PresetState]
   let isDefault: Bool
+  let createdVersion: String?
+  var lastModifiedVersion: String?
+  var soundOrder: [String]?
+  var creatorName: String?
+  var artworkData: Data?
+
+  // Background customization
+  var showBackgroundImage: Bool?
+  var useArtworkAsBackground: Bool?
+  var backgroundImageData: Data?
+  var backgroundBlurRadius: Double?
+  var backgroundOpacity: Double?
+
+  /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
+  var displayName: String {
+    return isDefault ? "Blankie – All Sounds" : name
+  }
+
+  /// Title to show when this preset is active (shows "Blankie" for default preset)
+  var activeTitle: String {
+    return isDefault ? "Blankie" : name
+  }
 
   static func == (lhs: Preset, rhs: Preset) -> Bool {
     lhs.id == rhs.id && lhs.name == rhs.name && lhs.soundStates == rhs.soundStates
-      && lhs.isDefault == rhs.isDefault
+      && lhs.isDefault == rhs.isDefault && lhs.createdVersion == rhs.createdVersion
+      && lhs.lastModifiedVersion == rhs.lastModifiedVersion && lhs.soundOrder == rhs.soundOrder
+      && lhs.creatorName == rhs.creatorName && lhs.artworkData == rhs.artworkData
+      && lhs.showBackgroundImage == rhs.showBackgroundImage
+      && lhs.useArtworkAsBackground == rhs.useArtworkAsBackground
+      && lhs.backgroundImageData == rhs.backgroundImageData
+      && lhs.backgroundBlurRadius == rhs.backgroundBlurRadius
+      && lhs.backgroundOpacity == rhs.backgroundOpacity
   }
 
   func validate() -> Bool {
-    // Check required sound states
-    let requiredSounds = AudioManager.shared.sounds.map(\.fileName)
-    let presetSounds = Set(soundStates.map(\.fileName))
+    // Preset must have at least one sound
+    guard !soundStates.isEmpty else {
+      print("❌ Preset: Must contain at least one sound")
+      return false
+    }
 
-    guard requiredSounds.allSatisfy(presetSounds.contains) else {
-      print("❌ Preset: Missing required sounds")
+    // Check that all sounds referenced in the preset actually exist
+    let availableSounds = Set(AudioManager.shared.sounds.map(\.fileName))
+    let presetSounds = soundStates.map(\.fileName)
+
+    for soundFileName in presetSounds where !availableSounds.contains(soundFileName) {
+      print("❌ Preset: References non-existent sound '\(soundFileName)'")
       return false
     }
 

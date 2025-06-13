@@ -15,7 +15,11 @@ import SwiftUI
 
     @ObservedObject private var globalSettings = GlobalSettings.shared
     @ObservedObject private var audioManager = AudioManager.shared
+    @ObservedObject private var presetManager = PresetManager.shared
     @Environment(\.dismiss) var dismiss
+
+    @State private var backgroundBlurRadius: Double = 20.0
+    @State private var backgroundOpacity: Double = 0.5
 
     var body: some View {
       NavigationStack {
@@ -106,6 +110,77 @@ import SwiftUI
               colorPickerSection
             }
           }
+
+          // Background settings section
+          if let preset = presetManager.currentPreset,
+            !preset.isDefault
+          {
+            Section("Background") {
+              // Show background toggle
+              Toggle(
+                "Show Background Image",
+                isOn: Binding(
+                  get: { preset.showBackgroundImage ?? false },
+                  set: { newValue in
+                    updatePresetBackgroundVisibility(newValue)
+                  }
+                ))
+
+              // Only show controls if background is enabled and has an image
+              if preset.showBackgroundImage ?? false,
+                preset.backgroundImageData != nil
+                  || (preset.useArtworkAsBackground ?? false && preset.artworkData != nil)
+              {
+                // Blur Control
+                VStack(alignment: .leading, spacing: 8) {
+                  Text("Blur")
+                    .font(.subheadline)
+
+                  Picker("Blur", selection: $backgroundBlurRadius) {
+                    Text("None").tag(0.0)
+                    Text("Low").tag(3.0)
+                    Text("Medium").tag(15.0)
+                    Text("High").tag(25.0)
+                  }
+                  .pickerStyle(.segmented)
+                  .labelsHidden()
+                }
+
+                // Opacity Control
+                VStack(alignment: .leading, spacing: 8) {
+                  Text("Opacity")
+                    .font(.subheadline)
+
+                  Picker(
+                    "Opacity",
+                    selection: Binding(
+                      get: {
+                        // Convert opacity value to closest option
+                        switch backgroundOpacity {
+                        case 0..<0.5: return 0.3
+                        case 0.5..<0.85: return 0.65
+                        default: return 1.0
+                        }
+                      },
+                      set: { newValue in
+                        backgroundOpacity = newValue
+                      }
+                    )
+                  ) {
+                    Text("Low").tag(0.3)
+                    Text("Medium").tag(0.65)
+                    Text("Full").tag(1.0)
+                  }
+                  .pickerStyle(.segmented)
+                  .labelsHidden()
+                }
+
+                Text("Edit background image in preset settings")
+                  .font(.caption)
+                  .foregroundColor(.secondary)
+              }
+            }
+          }
         }
         .padding(.top, -30)
         .navigationTitle("View Settings")
@@ -127,6 +202,18 @@ import SwiftUI
           ? nil
           : (globalSettings.appearance == .dark ? .dark : .light)
       )
+      .onAppear {
+        if let preset = presetManager.currentPreset {
+          backgroundBlurRadius = preset.backgroundBlurRadius ?? 15.0
+          backgroundOpacity = preset.backgroundOpacity ?? 0.65
+        }
+      }
+      .onChange(of: backgroundBlurRadius) { _, _ in
+        updatePresetBackground()
+      }
+      .onChange(of: backgroundOpacity) { _, _ in
+        updatePresetBackground()
+      }
     }
 
     @ViewBuilder
@@ -213,6 +300,55 @@ import SwiftUI
           }
         }
         .buttonStyle(.plain)
+      }
+    }
+
+    private func updatePresetBackground() {
+      guard let preset = presetManager.currentPreset,
+        !preset.isDefault
+      else { return }
+
+      var updatedPreset = preset
+      updatedPreset.backgroundBlurRadius = backgroundBlurRadius
+      updatedPreset.backgroundOpacity = backgroundOpacity
+
+      // Update the preset in the manager
+      if let index = presetManager.presets.firstIndex(where: { $0.id == preset.id }) {
+        var updatedPresets = presetManager.presets
+        updatedPresets[index] = updatedPreset
+        presetManager.setPresets(updatedPresets)
+
+        // Update current preset if it's the active one
+        if presetManager.currentPreset?.id == preset.id {
+          presetManager.setCurrentPreset(updatedPreset)
+        }
+
+        // Save the changes
+        PresetStorage.saveCustomPresets(presetManager.presets.filter { !$0.isDefault })
+      }
+    }
+
+    private func updatePresetBackgroundVisibility(_ show: Bool) {
+      guard let preset = presetManager.currentPreset,
+        !preset.isDefault
+      else { return }
+
+      var updatedPreset = preset
+      updatedPreset.showBackgroundImage = show
+
+      // Update the preset in the manager
+      if let index = presetManager.presets.firstIndex(where: { $0.id == preset.id }) {
+        var updatedPresets = presetManager.presets
+        updatedPresets[index] = updatedPreset
+        presetManager.setPresets(updatedPresets)
+
+        // Update current preset if it's the active one
+        if presetManager.currentPreset?.id == preset.id {
+          presetManager.setCurrentPreset(updatedPreset)
+        }
+
+        // Save the changes
+        PresetStorage.saveCustomPresets(presetManager.presets.filter { !$0.isDefault })
       }
     }
   }

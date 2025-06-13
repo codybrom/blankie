@@ -20,6 +20,9 @@
     "%@ (Custom • Added By You)" : {
 
     },
+    "%lld" : {
+
+    },
     "%lld Selected" : {
 
     },
@@ -37,6 +40,9 @@
     },
     "+700%" : {
       "comment" : "Volume increase label"
+    },
+    "9:16 aspect ratio recommended" : {
+
     },
     "About & Sharing" : {
       "comment" : "About and sharing button label"
@@ -627,6 +633,12 @@
     "Autoplay on Open" : {
 
     },
+    "Background" : {
+
+    },
+    "Background Image" : {
+
+    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -1003,6 +1015,9 @@
         }
       }
     },
+    "Blur" : {
+
+    },
     "Boat" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -1334,7 +1349,13 @@
     "Channels" : {
       "comment" : "Audio channels label"
     },
+    "Choose" : {
+
+    },
     "Choose Icon" : {
+
+    },
+    "Choose Photo" : {
 
     },
     "City" : {
@@ -1408,6 +1429,9 @@
           }
         }
       }
+    },
+    "Clear" : {
+
     },
     "Clear All" : {
 
@@ -2315,6 +2339,9 @@
     "Edit" : {
 
     },
+    "Edit background image in preset settings" : {
+
+    },
     "Edit Preset" : {
       "comment" : "Edit preset sheet title",
       "extractionState" : "manual",
@@ -2649,6 +2676,9 @@
     "Format" : {
       "comment" : "File format label"
     },
+    "Full" : {
+
+    },
     "Green" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -2797,6 +2827,9 @@
       }
     },
     "Hide Labels" : {
+
+    },
+    "High" : {
 
     },
     "Hours" : {
@@ -3591,11 +3624,14 @@
     "Loudness (LUFS)" : {
       "comment" : "Audio LUFS loudness label"
     },
+    "Low" : {
+
+    },
     "LUFS" : {
 
     },
     "Manage Sounds" : {
-      "comment" : "Menu item to manage sounds\nSound management label"
+      "comment" : "Sound management label"
     },
     "Mint" : {
       "comment" : "Accent color name",
@@ -4046,6 +4082,9 @@
           }
         }
       }
+    },
+    "Opacity" : {
+
     },
     "Optional" : {
 
@@ -5902,6 +5941,9 @@
         }
       }
     },
+    "Show Background Image" : {
+
+    },
     "Show Inactive Sounds" : {
 
     },
@@ -6799,6 +6841,9 @@
     },
     "Try a different search term" : {
       "comment" : "No icon search results suggestion"
+    },
+    "Use Cover Art" : {
+
     },
     "Version %@ (%@)" : {
       "comment" : "Version string",

@@ -98,13 +98,18 @@ import SwiftUI
         )
       } detail: {
         NavigationStack {
-          mainContentView
-            .navigationTitle(navigationTitle)
-            .toolbar {
-              ToolbarItem(placement: .primaryAction) {
-                TimerButton()
+          ZStack {
+            // Background layer
+            presetBackgroundView
+
+            mainContentView
+              .navigationTitle(navigationTitle)
+              .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                  TimerButton()
+                }
               }
-            }
+          }
         }
       }
       .navigationSplitViewStyle(.balanced)
@@ -113,27 +118,32 @@ import SwiftUI
     @ViewBuilder
     private var iPhoneLayout: some View {
       NavigationStack {
-        VStack(spacing: 0) {
-          mainContentView
+        ZStack {
+          // Background layer
+          presetBackgroundView
 
-          // Status banners above bottom toolbar
-          statusBanners
-            .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
-            .animation(.easeInOut(duration: 0.2), value: audioManager.hasSelectedSounds)
-            .animation(.easeInOut(duration: 0.2), value: editMode)
+          VStack(spacing: 0) {
+            mainContentView
 
-          bottomToolbar
-        }
-        .toolbar {
-          ToolbarItem(placement: .navigationBarLeading) {
-            presetButton
+            // Status banners above bottom toolbar
+            statusBanners
+              .animation(.easeInOut(duration: 0.2), value: audioManager.soloModeSound?.id)
+              .animation(.easeInOut(duration: 0.2), value: audioManager.hasSelectedSounds)
+              .animation(.easeInOut(duration: 0.2), value: editMode)
+
+            bottomToolbar
           }
-          ToolbarItem(placement: .navigationBarTrailing) {
-            TimerButton()
+          .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+              presetButton
+            }
+            ToolbarItem(placement: .navigationBarTrailing) {
+              TimerButton()
+            }
           }
+          .toolbarBackground(.visible, for: .navigationBar)
+          .toolbarBackground(.regularMaterial, for: .navigationBar)
         }
-        .toolbarBackground(.visible, for: .navigationBar)
-        .toolbarBackground(.regularMaterial, for: .navigationBar)
       }
     }
 

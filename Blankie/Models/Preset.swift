@@ -18,6 +18,13 @@ struct Preset: Codable, Identifiable, Equatable {
   var creatorName: String?
   var artworkData: Data?
 
+  // Background customization
+  var showBackgroundImage: Bool?
+  var useArtworkAsBackground: Bool?
+  var backgroundImageData: Data?
+  var backgroundBlurRadius: Double?
+  var backgroundOpacity: Double?
+
   /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
   var displayName: String {
     return isDefault ? "Blankie – All Sounds" : name
@@ -33,6 +40,11 @@ struct Preset: Codable, Identifiable, Equatable {
       && lhs.isDefault == rhs.isDefault && lhs.createdVersion == rhs.createdVersion
       && lhs.lastModifiedVersion == rhs.lastModifiedVersion && lhs.soundOrder == rhs.soundOrder
       && lhs.creatorName == rhs.creatorName && lhs.artworkData == rhs.artworkData
+      && lhs.showBackgroundImage == rhs.showBackgroundImage
+      && lhs.useArtworkAsBackground == rhs.useArtworkAsBackground
+      && lhs.backgroundImageData == rhs.backgroundImageData
+      && lhs.backgroundBlurRadius == rhs.backgroundBlurRadius
+      && lhs.backgroundOpacity == rhs.backgroundOpacity
   }
 
   func validate() -> Bool {

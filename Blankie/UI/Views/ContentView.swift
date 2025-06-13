@@ -79,7 +79,29 @@ import UniformTypeIdentifiers
     }
 
     var body: some View {
-      GeometryReader { geometry in
+      ZStack {
+        // Background layer
+        if let preset = presetManager.currentPreset,
+          preset.showBackgroundImage ?? false,
+          let imageData = preset.useArtworkAsBackground ?? false
+            ? preset.artworkData : preset.backgroundImageData,
+          let nsImage = NSImage(data: imageData)
+        {
+          GeometryReader { geometry in
+            Image(nsImage: nsImage)
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .blur(radius: preset.backgroundBlurRadius ?? 15)
+              .opacity(preset.backgroundOpacity ?? 0.65)
+              .clipped()
+              .overlay(
+                Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
+              )
+          }
+          .ignoresSafeArea()
+        }
+
         VStack(spacing: 0) {
           if !audioManager.isGloballyPlaying {
             HStack {
@@ -199,8 +221,7 @@ import UniformTypeIdentifiers
           isDragTargeted: $isDragTargeted,
           globalSettings: globalSettings
         )
-      }
-
+      }  // End of ZStack
       .ignoresSafeArea(.container, edges: .horizontal)
       .animation(.easeInOut(duration: 0.2), value: audioManager.isGloballyPlaying)
       .sheet(isPresented: $showingShortcuts) {

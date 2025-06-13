@@ -49,6 +49,31 @@ import SwiftUI
       horizontalSizeClass == .regular
     }
 
+    // Preset background view
+    @ViewBuilder
+    var presetBackgroundView: some View {
+      if let preset = presetManager.currentPreset,
+        preset.showBackgroundImage ?? false,
+        let imageData = preset.useArtworkAsBackground ?? false
+          ? preset.artworkData : preset.backgroundImageData,
+        let uiImage = UIImage(data: imageData)
+      {
+        GeometryReader { geometry in
+          Image(uiImage: uiImage)
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .blur(radius: preset.backgroundBlurRadius ?? 15)
+            .opacity(preset.backgroundOpacity ?? 0.65)
+            .clipped()
+            .overlay(
+              Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
+            )
+        }
+        .ignoresSafeArea()
+      }
+    }
+
     // Computed properties for columns and columnWidth
     var columns: [GridItem] {
       // This is now only used for macOS since iOS uses fixed 2-column grid

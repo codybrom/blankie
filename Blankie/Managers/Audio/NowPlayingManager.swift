@@ -10,6 +10,7 @@ import MediaPlayer
 import SwiftUI
 
 /// Manages Now Playing info for media playback controls
+@MainActor
 final class NowPlayingManager {
   private var nowPlayingInfo: [String: Any] = [:]
 
@@ -34,7 +35,7 @@ final class NowPlayingManager {
   }
 
   func updateInfo(
-    presetName: String? = nil, creatorName: String? = nil, artworkData: Data? = nil, isPlaying: Bool
+    presetName: String? = nil, creatorName: String? = nil, artworkId: UUID? = nil, isPlaying: Bool
   ) {
     setupNowPlaying()
 
@@ -46,7 +47,16 @@ final class NowPlayingManager {
     updateBasicInfo(displayInfo: displayInfo)
     updateAlbumAndDuration(creatorName: creatorName)
     updatePlaybackRate(isPlaying: isPlaying)
-    updateArtwork(artworkData: artworkData)
+
+    // Load artwork from SwiftData if we have an ID
+    if let artworkId = artworkId {
+      Task {
+        await loadAndUpdateArtwork(artworkId: artworkId)
+      }
+    } else {
+      // No artwork
+      updateArtwork(artworkData: nil)
+    }
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
@@ -166,5 +176,23 @@ final class NowPlayingManager {
 
   func clear() {
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
+  }
+
+  /// Load artwork from SwiftData and update Now Playing info
+  private func loadAndUpdateArtwork(artworkId: UUID) async {
+    print("🎨 NowPlayingManager: Loading artwork from SwiftData with ID: \(artworkId)")
+
+    if let image = await PresetArtworkManager.shared.loadArtwork(id: artworkId),
+      let artworkData = image.pngData()
+    {
+      print("🎨 NowPlayingManager: ✅ Loaded artwork from SwiftData (\(artworkData.count) bytes)")
+      updateArtwork(artworkData: artworkData)
+      // Update the Now Playing info with the loaded artwork
+      MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    } else {
+      print("🎨 NowPlayingManager: ⚠️ No artwork found in SwiftData")
+      updateArtwork(artworkData: nil)
+      MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+    }
   }
 }

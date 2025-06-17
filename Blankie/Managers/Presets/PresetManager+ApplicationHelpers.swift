@@ -12,12 +12,12 @@ extension PresetManager {
   @MainActor func handleAlreadyActivePreset(_ preset: Preset) {
     print("🎛️ PresetManager: Preset already active, but still updating Now Playing info")
     print(
-      "🎨 PresetManager: Artwork data: \(preset.artworkData != nil ? "✅ \(preset.artworkData!.count) bytes" : "❌ None")"
+      "🎨 PresetManager: Artwork ID: \(preset.artworkId != nil ? "✅ \(preset.artworkId!)" : "❌ None")"
     )
     AudioManager.shared.updateNowPlayingInfoForPreset(
       presetName: preset.activeTitle,
       creatorName: preset.creatorName,
-      artworkData: preset.artworkData
+      artworkId: preset.artworkId
     )
   }
 
@@ -26,12 +26,12 @@ extension PresetManager {
     PresetStorage.saveLastActivePresetID(preset.id)
 
     print(
-      "🎨 PresetManager: Updating Now Playing with artwork: \(preset.artworkData != nil ? "✅ \(preset.artworkData!.count) bytes" : "❌ None")"
+      "🎨 PresetManager: Updating Now Playing with artwork ID: \(preset.artworkId != nil ? "✅ \(preset.artworkId!)" : "❌ None")"
     )
     AudioManager.shared.updateNowPlayingInfoForPreset(
       presetName: preset.activeTitle,
       creatorName: preset.creatorName,
-      artworkData: preset.artworkData
+      artworkId: preset.artworkId
     )
   }
 

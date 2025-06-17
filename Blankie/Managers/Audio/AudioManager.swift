@@ -43,7 +43,7 @@ class AudioManager: ObservableObject {
   var preQuickMixPreset: Preset?
 
   var modelContext: ModelContext?
-  let nowPlayingManager = NowPlayingManager()
+  var nowPlayingManager: NowPlayingManager!
   @MainActor var isInitializing = true
   var customSoundObserver: AnyCancellable?
   #if os(iOS) || os(visionOS)
@@ -65,6 +65,9 @@ class AudioManager: ObservableObject {
 
     // Delay media controls and notification setup to avoid triggering audio session
     Task { @MainActor in
+      // Initialize NowPlayingManager on MainActor
+      self.nowPlayingManager = NowPlayingManager()
+
       // Longer delay to allow app to fully launch first
       try? await Task.sleep(nanoseconds: 500_000_000)  // 0.5 seconds
 
@@ -102,7 +105,7 @@ class AudioManager: ObservableObject {
           self.nowPlayingManager.updateInfo(
             presetName: currentPreset?.name,
             creatorName: currentPreset?.creatorName,
-            artworkData: currentPreset?.artworkData,
+            artworkId: currentPreset?.artworkId,
             isPlaying: true
           )
         }
@@ -113,7 +116,7 @@ class AudioManager: ObservableObject {
         self.nowPlayingManager.updateInfo(
           presetName: currentPreset?.name,
           creatorName: currentPreset?.creatorName,
-          artworkData: currentPreset?.artworkData,
+          artworkId: currentPreset?.artworkId,
           isPlaying: false
         )
       }

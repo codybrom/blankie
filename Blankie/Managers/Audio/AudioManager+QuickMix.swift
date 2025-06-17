@@ -112,7 +112,7 @@ extension AudioManager {
       nowPlayingManager.updateInfo(
         presetName: savedPreset.name,
         creatorName: savedPreset.creatorName,
-        artworkData: savedPreset.artworkData,
+        artworkId: savedPreset.artworkId,
         isPlaying: isGloballyPlaying
       )
     } else {
@@ -120,7 +120,6 @@ extension AudioManager {
       nowPlayingManager.updateInfo(
         presetName: nil,
         creatorName: nil,
-        artworkData: nil,
         isPlaying: isGloballyPlaying
       )
     }

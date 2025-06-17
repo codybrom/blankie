@@ -114,6 +114,12 @@ extension PresetManager {
       PresetStorage.saveDefaultPreset(defaultPreset)
     }
     PresetStorage.saveCustomPresets(customPresets)
+
+    // Cache thumbnails for quick access
+    Task {
+      await cacheAllThumbnails()
+    }
+
     print("🎛️ PresetManager: --- End Saving Presets ---\n")
   }
 

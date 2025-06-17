@@ -53,22 +53,21 @@ import SwiftUI
     @ViewBuilder
     var presetBackgroundView: some View {
       if let preset = presetManager.currentPreset,
-        preset.showBackgroundImage ?? false,
-        let imageData = preset.useArtworkAsBackground ?? false
-          ? preset.artworkData : preset.backgroundImageData,
-        let uiImage = UIImage(data: imageData)
+        preset.showBackgroundImage ?? false
       {
         GeometryReader { geometry in
-          Image(uiImage: uiImage)
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: geometry.size.width, height: geometry.size.height)
-            .blur(radius: preset.backgroundBlurRadius ?? 15)
-            .opacity(preset.backgroundOpacity ?? 0.65)
-            .clipped()
-            .overlay(
-              Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
-            )
+          if let image = PresetArtworkManager.shared.loadBackgroundImage(for: preset) {
+            Image(uiImage: image)
+              .resizable()
+              .aspectRatio(contentMode: .fill)
+              .frame(width: geometry.size.width, height: geometry.size.height)
+              .blur(radius: preset.backgroundBlurRadius ?? 15)
+              .opacity(preset.backgroundOpacity ?? 0.65)
+              .clipped()
+              .overlay(
+                Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
+              )
+          }
         }
         .ignoresSafeArea()
       }

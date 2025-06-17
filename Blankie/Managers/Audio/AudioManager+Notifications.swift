@@ -117,13 +117,15 @@ extension AudioManager {
         isPlaying: isGloballyPlaying)
 
       if isGloballyPlaying {
-        let currentPreset = PresetManager.shared.currentPreset
-        nowPlayingManager.updateInfo(
-          presetName: currentPreset?.name,
-          creatorName: currentPreset?.creatorName,
-          artworkData: currentPreset?.artworkData,
-          isPlaying: true
-        )
+        Task { @MainActor in
+          let currentPreset = PresetManager.shared.currentPreset
+          nowPlayingManager.updateInfo(
+            presetName: currentPreset?.name,
+            creatorName: currentPreset?.creatorName,
+            artworkId: currentPreset?.artworkId,
+            isPlaying: true
+          )
+        }
       }
     }
 
@@ -236,7 +238,9 @@ extension AudioManager {
 
   func cleanup() {
     saveState()
-    nowPlayingManager.clear()
+    Task { @MainActor in
+      nowPlayingManager.clear()
+    }
     print("🎵 AudioManager: Cleanup complete")
   }
 }

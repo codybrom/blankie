@@ -16,12 +16,12 @@ struct Preset: Codable, Identifiable, Equatable {
   var lastModifiedVersion: String?
   var soundOrder: [String]?
   var creatorName: String?
-  var artworkData: Data?
+  var artworkId: UUID?  // Reference to PresetArtwork in SwiftData
 
   // Background customization
   var showBackgroundImage: Bool?
   var useArtworkAsBackground: Bool?
-  var backgroundImageData: Data?
+  var backgroundImageId: UUID?  // Reference to PresetArtwork for background
   var backgroundBlurRadius: Double?
   var backgroundOpacity: Double?
 
@@ -39,10 +39,10 @@ struct Preset: Codable, Identifiable, Equatable {
     lhs.id == rhs.id && lhs.name == rhs.name && lhs.soundStates == rhs.soundStates
       && lhs.isDefault == rhs.isDefault && lhs.createdVersion == rhs.createdVersion
       && lhs.lastModifiedVersion == rhs.lastModifiedVersion && lhs.soundOrder == rhs.soundOrder
-      && lhs.creatorName == rhs.creatorName && lhs.artworkData == rhs.artworkData
+      && lhs.creatorName == rhs.creatorName && lhs.artworkId == rhs.artworkId
       && lhs.showBackgroundImage == rhs.showBackgroundImage
       && lhs.useArtworkAsBackground == rhs.useArtworkAsBackground
-      && lhs.backgroundImageData == rhs.backgroundImageData
+      && lhs.backgroundImageId == rhs.backgroundImageId
       && lhs.backgroundBlurRadius == rhs.backgroundBlurRadius
       && lhs.backgroundOpacity == rhs.backgroundOpacity
   }

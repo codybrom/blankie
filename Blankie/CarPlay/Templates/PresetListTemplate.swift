@@ -173,23 +173,17 @@
     }
 
     private static func getPresetArtwork(_ preset: Preset) -> UIImage? {
-      // Use custom artwork if available
-      if let artworkData = preset.artworkData,
-        let image = UIImage(data: artworkData)
+      // Check if we have a cached thumbnail for this preset
+      let thumbnailKey = "preset_thumb_\(preset.id.uuidString)"
+
+      if let thumbnailData = UserDefaults.standard.data(forKey: thumbnailKey),
+        let image = UIImage(data: thumbnailData)
       {
-        // Resize to a square format suitable for CarPlay (44x44 points is standard)
-        let size = CGSize(width: 44, height: 44)
-        return resizeImage(image, to: size)
+        return image
       }
 
-      // Fall back to default app icon
-      return UIImage(named: "AppIcon")
-    }
-    private static func resizeImage(_ image: UIImage, to size: CGSize) -> UIImage? {
-      UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-      defer { UIGraphicsEndImageContext() }
-      image.draw(in: CGRect(origin: .zero, size: size))
-      return UIGraphicsGetImageFromCurrentImageContext()
+      // No cached thumbnail available
+      return nil
     }
 
     private static func addRecentSection(to sections: inout [CPListSection]) {

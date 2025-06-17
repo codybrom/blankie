@@ -82,22 +82,21 @@ import UniformTypeIdentifiers
       ZStack {
         // Background layer
         if let preset = presetManager.currentPreset,
-          preset.showBackgroundImage ?? false,
-          let imageData = preset.useArtworkAsBackground ?? false
-            ? preset.artworkData : preset.backgroundImageData,
-          let nsImage = NSImage(data: imageData)
+          preset.showBackgroundImage ?? false
         {
           GeometryReader { geometry in
-            Image(nsImage: nsImage)
-              .resizable()
-              .aspectRatio(contentMode: .fill)
-              .frame(width: geometry.size.width, height: geometry.size.height)
-              .blur(radius: preset.backgroundBlurRadius ?? 15)
-              .opacity(preset.backgroundOpacity ?? 0.65)
-              .clipped()
-              .overlay(
-                Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
-              )
+            if let image = PresetArtworkManager.shared.loadBackgroundImage(for: preset) {
+              Image(nsImage: image)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: geometry.size.width, height: geometry.size.height)
+                .blur(radius: preset.backgroundBlurRadius ?? 15)
+                .opacity(preset.backgroundOpacity ?? 0.65)
+                .clipped()
+                .overlay(
+                  Color.black.opacity(0.2)  // Add slight darkening for better UI contrast
+                )
+            }
           }
           .ignoresSafeArea()
         }
@@ -115,26 +114,28 @@ import UniformTypeIdentifiers
             .foregroundStyle(.secondary)
           }
           // Main content
-          ScrollView(.vertical, showsIndicators: true) {
-            LazyVGrid(
-              columns: calculateColumns(for: geometry.size.width),
-              spacing: minimumSpacing
-            ) {
-              ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
-                DraggableSoundIcon(
-                  sound: sound,
-                  maxWidth: itemWidth,
-                  dragIndex: index,
-                  onDrop: { sourceIndex in
-                    audioManager.moveVisibleSound(from: sourceIndex, to: index)
-                  }
-                )
+          GeometryReader { geometry in
+            ScrollView(.vertical, showsIndicators: true) {
+              LazyVGrid(
+                columns: calculateColumns(for: geometry.size.width),
+                spacing: minimumSpacing
+              ) {
+                ForEach(Array(filteredSounds.enumerated()), id: \.element.id) { index, sound in
+                  DraggableSoundIcon(
+                    sound: sound,
+                    maxWidth: itemWidth,
+                    dragIndex: index,
+                    onDrop: { sourceIndex in
+                      audioManager.moveVisibleSound(from: sourceIndex, to: index)
+                    }
+                  )
+                }
               }
+              .padding()
+              .animation(.easeInOut, value: filteredSounds.count)
             }
-            .padding()
-            .animation(.easeInOut, value: filteredSounds.count)
+            .frame(maxHeight: .infinity)
           }
-          .frame(maxHeight: .infinity)
 
           // App bar
           VStack(spacing: 0) {

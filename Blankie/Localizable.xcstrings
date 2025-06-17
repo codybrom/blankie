@@ -639,6 +639,9 @@
     "Background Image" : {
 
     },
+    "Background Source" : {
+
+    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -1811,13 +1814,13 @@
     "Credits" : {
 
     },
-    "Crop Image" : {
-
-    },
     "Current Theme" : {
       "comment" : "Current theme color option"
     },
     "Custom artwork for Now Playing" : {
+
+    },
+    "Custom Background" : {
 
     },
     "Custom Sounds" : {
@@ -2826,9 +2829,6 @@
         }
       }
     },
-    "Hide Labels" : {
-
-    },
     "High" : {
 
     },
@@ -2929,9 +2929,6 @@
           }
         }
       }
-    },
-    "If enabled, Blankie will immediately play your most recent preset on launch" : {
-
     },
     "Import" : {
 
@@ -3633,6 +3630,9 @@
     "Manage Sounds" : {
       "comment" : "Sound management label"
     },
+    "Medium" : {
+
+    },
     "Mint" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -4087,9 +4087,6 @@
 
     },
     "Optional" : {
-
-    },
-    "Options" : {
 
     },
     "Orange" : {
@@ -6843,6 +6840,9 @@
       "comment" : "No icon search results suggestion"
     },
     "Use Cover Art" : {
+
+    },
+    "Use Preset Artwork" : {
 
     },
     "Version %@ (%@)" : {

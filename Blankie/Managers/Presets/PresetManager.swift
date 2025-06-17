@@ -22,7 +22,7 @@ class PresetManager: ObservableObject {
       AudioManager.shared.updateNowPlayingInfoForPreset(
         presetName: currentPreset?.activeTitle,
         creatorName: currentPreset?.creatorName,
-        artworkData: currentPreset?.artworkData
+        artworkId: currentPreset?.artworkId
       )
     }
   }
@@ -178,6 +178,9 @@ extension PresetManager {
     presets.removeAll { $0.id == preset.id }
     updateCustomPresetStatus()
 
+    // Remove cached thumbnail
+    removeThumbnail(for: preset.id)
+
     if wasCurrentPreset {
       print("🎛️ PresetManager: Deleted current preset, switching to default/next")
 
@@ -244,42 +247,21 @@ extension PresetManager {
   }
 
   private func generateUpdatedPresetData(for preset: Preset) -> ([PresetState], [String]) {
-    if preset.isDefault {
-      return generateDefaultPresetData()
-    } else {
-      return generateCustomPresetData(for: preset)
-    }
-  }
+    // Get the file names of sounds that should be in this preset
+    let presetSoundFileNames = Set(preset.soundStates.map(\.fileName))
 
-  private func generateDefaultPresetData() -> ([PresetState], [String]) {
-    let newStates = AudioManager.shared.sounds.map { sound in
-      PresetState(
-        fileName: sound.fileName,
-        isSelected: sound.isSelected,
-        volume: sound.volume
-      )
-    }
-    let currentSoundOrder = AudioManager.shared.sounds
-      .sorted { $0.customOrder < $1.customOrder }
-      .map(\.fileName)
-    return (newStates, currentSoundOrder)
-  }
-
-  private func generateCustomPresetData(for preset: Preset) -> ([PresetState], [String]) {
-    let newStates = preset.soundStates.compactMap { existingState in
-      if let sound = AudioManager.shared.sounds.first(where: {
-        $0.fileName == existingState.fileName
-      }) {
-        return PresetState(
-          fileName: existingState.fileName,
+    // Only include sounds that are part of this preset
+    let newStates = AudioManager.shared.sounds
+      .filter { presetSoundFileNames.contains($0.fileName) }
+      .map { sound in
+        PresetState(
+          fileName: sound.fileName,
           isSelected: sound.isSelected,
           volume: sound.volume
         )
       }
-      return nil
-    }
 
-    let presetSoundFileNames = Set(preset.soundStates.map(\.fileName))
+    // Only include sound order for sounds in this preset
     let currentSoundOrder = AudioManager.shared.sounds
       .filter { presetSoundFileNames.contains($0.fileName) }
       .sorted { $0.customOrder < $1.customOrder }
@@ -308,14 +290,15 @@ extension PresetManager {
   }
 
   @MainActor
-  func applyPreset(_ preset: Preset, isInitialLoad: Bool = false) throws {
+  func applyPreset(_ preset: Preset, isInitialLoad: Bool = false, forceReapply: Bool = false) throws
+  {
     logPresetApplication(preset)
 
     guard preset.validate() else {
       throw PresetError.invalidPreset
     }
 
-    if preset.id == currentPreset?.id && !isInitialLoad {
+    if preset.id == currentPreset?.id && !isInitialLoad && !forceReapply {
       handleAlreadyActivePreset(preset)
       return
     }

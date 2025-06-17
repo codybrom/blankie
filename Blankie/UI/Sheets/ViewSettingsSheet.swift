@@ -13,13 +13,13 @@ import SwiftUI
     @Binding var showingListView: Bool
     @Binding var hideInactiveSounds: Bool
 
-    @ObservedObject private var globalSettings = GlobalSettings.shared
-    @ObservedObject private var audioManager = AudioManager.shared
-    @ObservedObject private var presetManager = PresetManager.shared
+    @ObservedObject var globalSettings = GlobalSettings.shared
+    @ObservedObject var audioManager = AudioManager.shared
+    @ObservedObject var presetManager = PresetManager.shared
     @Environment(\.dismiss) var dismiss
 
-    @State private var backgroundBlurRadius: Double = 20.0
-    @State private var backgroundOpacity: Double = 0.5
+    @State var backgroundBlurRadius: Double = 20.0
+    @State var backgroundOpacity: Double = 0.5
 
     var body: some View {
       NavigationStack {
@@ -128,8 +128,8 @@ import SwiftUI
 
               // Only show controls if background is enabled and has an image
               if preset.showBackgroundImage ?? false,
-                preset.backgroundImageData != nil
-                  || (preset.useArtworkAsBackground ?? false && preset.artworkData != nil)
+                preset.backgroundImageId != nil
+                  || (preset.useArtworkAsBackground ?? false && preset.artworkId != nil)
               {
                 // Blur Control
                 VStack(alignment: .leading, spacing: 8) {
@@ -213,93 +213,6 @@ import SwiftUI
       }
       .onChange(of: backgroundOpacity) { _, _ in
         updatePresetBackground()
-      }
-    }
-
-    @ViewBuilder
-    private var colorPickerSection: some View {
-      LazyVGrid(
-        columns: Array(
-          repeating: GridItem(.flexible(), spacing: 10),
-          count: {
-            #if os(macOS)
-              return 7  // 13 colors (including system) = 1 row of 7 + 1 row of 6
-            #else
-              return 6  // 12 colors = 2 rows of 6
-            #endif
-          }()),
-        spacing: 10
-      ) {
-        #if os(macOS)
-          systemColorButton
-        #endif
-        customColorButtons
-      }
-      .padding(.vertical, 8)
-    }
-
-    #if os(macOS)
-      @ViewBuilder
-      private var systemColorButton: some View {
-        Button(action: {
-          globalSettings.setAccentColor(nil)
-        }) {
-          ZStack {
-            Circle()
-              .fill(
-                LinearGradient(
-                  colors: [.red, .orange, .yellow, .green, .blue, .purple],
-                  startPoint: .topLeading,
-                  endPoint: .bottomTrailing
-                )
-              )
-              .frame(width: 36, height: 36)
-              .opacity(0.8)
-
-            Circle()
-              .fill(Color(white: 0.9))
-              .frame(width: 28, height: 28)
-
-            Image(systemName: "gearshape.fill")
-              .font(.system(size: 16))
-              .foregroundColor(.secondary)
-
-            if globalSettings.customAccentColor == nil {
-              Circle()
-                .strokeBorder(Color.primary, lineWidth: 2)
-                .frame(width: 36, height: 36)
-            }
-          }
-        }
-        .buttonStyle(.plain)
-      }
-    #endif
-
-    @ViewBuilder
-    private var customColorButtons: some View {
-      ForEach(AccentColor.allCases.filter { $0 != .system }, id: \.self) { accentColor in
-        Button(action: {
-          globalSettings.setAccentColor(accentColor.color)
-        }) {
-          ZStack {
-            Circle()
-              .fill(accentColor.color ?? .accentColor)
-              .frame(width: 36, height: 36)
-
-            if let customColor = globalSettings.customAccentColor,
-              let colorOption = accentColor.color,
-              customColor.description == colorOption.description
-            {
-              Circle()
-                .strokeBorder(Color.primary, lineWidth: 2)
-                .frame(width: 36, height: 36)
-              Image(systemName: "checkmark")
-                .font(.caption.bold())
-                .foregroundColor(.white)
-            }
-          }
-        }
-        .buttonStyle(.plain)
       }
     }
 

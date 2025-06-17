@@ -78,20 +78,9 @@ struct CreatePresetSheet: View {
           }
         }
         .sheet(isPresented: $showingImagePicker) {
-          ImagePicker(selectedImage: $selectedImage)
-          .onDisappear {
-            if selectedImage != nil {
-              showingImageCropper = true
-            }
-          }
-        }
-        .sheet(isPresented: $showingImageCropper) {
-          if let image = selectedImage {
-            ImageCropperView(
-              originalImage: .constant(image),
-              croppedImageData: $artworkData
-            )
-          }
+          #if os(iOS)
+            ImagePicker(imageData: $artworkData)
+          #endif
         }
       #else
         .fileImporter(
@@ -233,46 +222,72 @@ extension CreatePresetSheet {
       return
     }
 
-    do {
-      let currentVersion =
-        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
-      let selectedSoundStates =
-        orderedSounds
-        .filter { selectedSounds.contains($0.fileName) }
-        .map { sound in
-          PresetState(
-            fileName: sound.fileName,
-            isSelected: sound.isSelected,
-            volume: sound.volume
-          )
+    Task {
+      do {
+        let newPreset = try await buildNewPreset()
+
+        var currentPresets = presetManager.presets
+        currentPresets.append(newPreset)
+        presetManager.setPresets(currentPresets)
+        presetManager.updateCustomPresetStatus()
+        presetManager.savePresets()
+
+        try presetManager.applyPreset(newPreset)
+        isPresented = false
+      } catch {
+        await MainActor.run {
+          self.error = "Failed to create preset"
         }
+      }
+    }
+  }
 
-      let newPreset = Preset(
-        id: UUID(),
-        name: presetName,
-        soundStates: selectedSoundStates,
-        isDefault: false,
-        createdVersion: currentVersion,
-        lastModifiedVersion: currentVersion,
-        soundOrder: nil,
-        creatorName: creatorName.isEmpty ? nil : creatorName,
-        artworkData: artworkData
-      )
+  private func buildNewPreset() async throws -> Preset {
+    let currentVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    let selectedSoundStates =
+      orderedSounds
+      .filter { selectedSounds.contains($0.fileName) }
+      .map { sound in
+        PresetState(
+          fileName: sound.fileName,
+          isSelected: sound.isSelected,
+          volume: sound.volume
+        )
+      }
 
-      print(
-        "🎨 CreatePresetSheet: Creating preset '\(presetName)' with artwork: \(artworkData != nil ? "✅ \(artworkData!.count) bytes" : "❌ None")"
-      )
+    let presetId = UUID()
+    let artworkId = await saveArtworkIfPresent(for: presetId)
 
-      var currentPresets = presetManager.presets
-      currentPresets.append(newPreset)
-      presetManager.setPresets(currentPresets)
-      presetManager.updateCustomPresetStatus()
-      presetManager.savePresets()
+    let newPreset = Preset(
+      id: presetId,
+      name: presetName,
+      soundStates: selectedSoundStates,
+      isDefault: false,
+      createdVersion: currentVersion,
+      lastModifiedVersion: currentVersion,
+      soundOrder: nil,
+      creatorName: creatorName.isEmpty ? nil : creatorName,
+      artworkId: artworkId
+    )
 
-      try presetManager.applyPreset(newPreset)
-      isPresented = false
+    print(
+      "🎨 CreatePresetSheet: Creating preset '\(presetName)' with artwork: \(artworkId != nil ? "✅" : "❌ None")"
+    )
+
+    return newPreset
+  }
+
+  private func saveArtworkIfPresent(for presetId: UUID) async -> UUID? {
+    guard let data = artworkData else { return nil }
+
+    do {
+      let artworkId = try await PresetArtworkManager.shared.saveArtwork(data, for: presetId)
+      print("🎨 CreatePresetSheet: Saved artwork with ID: \(artworkId)")
+      return artworkId
     } catch {
-      self.error = "Failed to create preset"
+      print("❌ CreatePresetSheet: Failed to save artwork: \(error)")
+      return nil
     }
   }
 }

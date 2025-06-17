@@ -20,7 +20,7 @@ struct BlankieApp: App {
     UITestingHelper.resetAllDefaults()
 
     do {
-      modelContainer = try ModelContainer(for: CustomSoundData.self)
+      modelContainer = try ModelContainer(for: CustomSoundData.self, PresetArtwork.self)
       print("🗄️ BlankieApp: Successfully created SwiftData model container")
     } catch {
       fatalError("❌ BlankieApp: Failed to create SwiftData model container: \(error)")
@@ -50,6 +50,9 @@ struct BlankieApp: App {
         .onAppear {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
+
+          // Pass model context to PresetArtworkManager
+          PresetArtworkManager.shared.setModelContext(modelContainer.mainContext)
         }
         .accentColor(globalSettings.customAccentColor ?? .accentColor)
         .onOpenURL { url in
@@ -109,6 +112,9 @@ struct BlankieApp: App {
         .onAppear {
           // Pass model context to AudioManager for custom sounds
           AudioManager.shared.setModelContext(modelContainer.mainContext)
+
+          // Pass model context to PresetArtworkManager
+          PresetArtworkManager.shared.setModelContext(modelContainer.mainContext)
         }
         .onChange(of: scenePhase) { _, phase in
           timerManager.handleScenePhaseChange()

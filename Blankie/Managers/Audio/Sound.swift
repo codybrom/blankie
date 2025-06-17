@@ -82,7 +82,17 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
       // If sound was just deselected, stop playing it immediately
       if !isSelected && oldValue == true {
         print("🎵 Sound: Auto-stopping newly deselected sound '\(self.fileName)'")
-        self.pause(immediate: true)
+        // If player exists, pause it
+        if self.player != nil {
+          self.pause(immediate: true)
+        }
+        // Also make sure AudioManager stops it if it's playing there
+        DispatchQueue.main.async {
+          if AudioManager.shared.isGloballyPlaying {
+            // Force AudioManager to update its playing sounds
+            AudioManager.shared.updatePlayingSounds()
+          }
+        }
       }
     }
   }

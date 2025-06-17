@@ -112,7 +112,6 @@
         text: "Current Soundscape\(activeIndicator)", detailText: getPresetDetailText(preset))
 
       // Use a weak capture to avoid the 'self' in concurrently-executing code error
-      let weakSelf = self
       item.handler = { _, completion in
         Task {
           do {
@@ -120,7 +119,6 @@
             await MainActor.run {
               // Always ensure playback starts when selecting a preset in CarPlay
               AudioManager.shared.setGlobalPlaybackState(true)
-              weakSelf.updateInterface()
             }
           } catch {
             print("🚗 CarPlay: Error applying preset: \(error)")
@@ -145,7 +143,6 @@
         text: "\(preset.name)\(activeIndicator)", detailText: getPresetDetailText(preset))
 
       // Use a weak capture to avoid the 'self' in concurrently-executing code error
-      let weakSelf = self
       item.handler = { _, completion in
         Task {
           do {
@@ -153,7 +150,6 @@
             await MainActor.run {
               // Always ensure playback starts when selecting a preset in CarPlay
               AudioManager.shared.setGlobalPlaybackState(true)
-              weakSelf.updateInterface()
             }
           } catch {
             print("🚗 CarPlay: Error applying preset: \(error)")
@@ -220,7 +216,6 @@
           CPNowPlayingTemplate.shared, animated: true, completion: nil)
       }
 
-      updateInterface()
     }
 
     // MARK: - Observers
@@ -242,16 +237,18 @@
     }
 
     private func observePresetManagerChanges() {
-      // Observe current preset
+      // Observe current preset with debouncing
       PresetManager.shared.$currentPreset
+        .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
         .sink { [weak self] preset in
           print("🚗 CarPlay: Current preset changed to: \(preset?.name ?? "nil")")
           self?.updateInterface()
         }
         .store(in: &cancellables)
 
-      // Also observe presets array changes
+      // Also observe presets array changes with debouncing
       PresetManager.shared.$presets
+        .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
         .sink { [weak self] _ in
           print("🚗 CarPlay: Presets array changed")
           self?.updateInterface()

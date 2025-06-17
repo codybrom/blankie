@@ -45,18 +45,22 @@ extension AudioManager {
   }
 
   public func updateNowPlayingInfoForPreset(
-    presetName: String? = nil, creatorName: String? = nil, artworkData: Data? = nil
+    presetName: String? = nil, creatorName: String? = nil, artworkId: UUID? = nil
   ) {
-    nowPlayingManager.updateInfo(
-      presetName: presetName,
-      creatorName: creatorName,
-      artworkData: artworkData,
-      isPlaying: isGloballyPlaying
-    )
+    Task { @MainActor in
+      nowPlayingManager.updateInfo(
+        presetName: presetName,
+        creatorName: creatorName,
+        artworkId: artworkId,
+        isPlaying: isGloballyPlaying
+      )
+    }
   }
 
   func updateNowPlayingState() {
-    nowPlayingManager.updatePlaybackState(isPlaying: isGloballyPlaying)
+    Task { @MainActor in
+      nowPlayingManager.updatePlaybackState(isPlaying: isGloballyPlaying)
+    }
   }
 
   func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
@@ -83,7 +87,7 @@ extension AudioManager {
         self.nowPlayingManager.updateInfo(
           presetName: currentPreset?.name,
           creatorName: currentPreset?.creatorName,
-          artworkData: currentPreset?.artworkData,
+          artworkId: currentPreset?.artworkId,
           isPlaying: playing
         )
       } else {
@@ -114,10 +118,12 @@ extension AudioManager {
       soloSound.play()
 
       // Update Now Playing info for solo mode
-      nowPlayingManager.updateInfo(
-        presetName: soloSound.title,
-        isPlaying: true
-      )
+      Task { @MainActor in
+        nowPlayingManager.updateInfo(
+          presetName: soloSound.title,
+          isPlaying: true
+        )
+      }
       return
     }
 
@@ -141,13 +147,15 @@ extension AudioManager {
     }
 
     // Update Now Playing info with full preset details
-    let currentPreset = PresetManager.shared.currentPreset
-    self.nowPlayingManager.updateInfo(
-      presetName: currentPreset?.name,
-      creatorName: currentPreset?.creatorName,
-      artworkData: currentPreset?.artworkData,
-      isPlaying: true
-    )
+    Task { @MainActor in
+      let currentPreset = PresetManager.shared.currentPreset
+      self.nowPlayingManager.updateInfo(
+        presetName: currentPreset?.name,
+        creatorName: currentPreset?.creatorName,
+        artworkId: currentPreset?.artworkId,
+        isPlaying: true
+      )
+    }
 
     // Start shared progress tracking
     startSharedProgressTracking()
@@ -214,9 +222,21 @@ extension AudioManager {
       nowPlayingManager.updateInfo(
         presetName: currentPreset?.name,
         creatorName: currentPreset?.creatorName,
-        artworkData: currentPreset?.artworkData,
+        artworkId: currentPreset?.artworkId,
         isPlaying: isGloballyPlaying
       )
+    }
+  }
+
+  // MARK: - Update Playing Sounds
+
+  func updatePlayingSounds() {
+    // Stop any sounds that are playing but shouldn't be
+    sounds.forEach { sound in
+      if !sound.isSelected && sound.player?.isPlaying == true {
+        print("🎵 AudioManager: Stopping deselected sound '\(sound.fileName)' that was still playing")
+        sound.pause(immediate: true)
+      }
     }
   }
 

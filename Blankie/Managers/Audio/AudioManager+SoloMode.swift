@@ -140,7 +140,7 @@ extension AudioManager {
     nowPlayingManager.updateInfo(
       presetName: currentPreset?.name,
       creatorName: currentPreset?.creatorName,
-      artworkData: currentPreset?.artworkData,
+      artworkId: currentPreset?.artworkId,
       isPlaying: isGloballyPlaying
     )
 

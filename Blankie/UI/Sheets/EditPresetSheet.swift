@@ -19,19 +19,16 @@ struct EditPresetSheet: View {
   @State var error: String?
   @State var showingSoundSelection = false
   @State var artworkData: Data?
+  @State var artworkId: UUID?
   @State var showingImagePicker = false
-  @State var showingImageCropper = false
   @State var presetToDelete: Preset?
   @State var showBackgroundImage: Bool = false
   @State var useArtworkAsBackground: Bool = false
   @State var backgroundImageData: Data?
+  @State var backgroundImageId: UUID?
   @State var backgroundBlurRadius: Double = 15.0
   @State var backgroundOpacity: Double = 0.65
   @State var selectedBackgroundPhoto: PhotosPickerItem?
-  #if os(iOS) || os(visionOS)
-    @State private var selectedImage: UIImage?
-    @State private var navigationPath = NavigationPath()
-  #endif
   @Environment(\.dismiss) private var dismiss
 
   var orderedSounds: [Sound] {
@@ -81,20 +78,9 @@ struct EditPresetSheet: View {
           }
         }
         .sheet(isPresented: $showingImagePicker) {
-          ImagePicker(selectedImage: $selectedImage)
-          .onDisappear {
-            if selectedImage != nil {
-              showingImageCropper = true
-            }
-          }
-        }
-        .sheet(isPresented: $showingImageCropper) {
-          if let image = selectedImage {
-            ImageCropperView(
-              originalImage: .constant(image),
-              croppedImageData: $artworkData
-            )
-          }
+          #if os(iOS)
+            ImagePicker(imageData: $artworkData)
+          #endif
         }
       #else
         .fileImporter(
@@ -156,13 +142,39 @@ extension EditPresetSheet {
     presetName = preset.name
     creatorName = preset.creatorName ?? ""
     selectedSounds = Set(preset.soundStates.map(\.fileName))
-    artworkData = preset.artworkData
+    artworkId = preset.artworkId
     showBackgroundImage = preset.showBackgroundImage ?? false
     // Default to using artwork as background if artwork exists and useArtworkAsBackground hasn't been set
-    useArtworkAsBackground = preset.useArtworkAsBackground ?? (preset.artworkData != nil)
-    backgroundImageData = preset.backgroundImageData
+    useArtworkAsBackground = preset.useArtworkAsBackground ?? (preset.artworkId != nil)
+    backgroundImageId = preset.backgroundImageId
     backgroundBlurRadius = preset.backgroundBlurRadius ?? 15.0
     backgroundOpacity = preset.backgroundOpacity ?? 0.65
+
+    // Load existing images if they exist
+    Task {
+      if let id = artworkId {
+        if let image = await PresetArtworkManager.shared.loadArtwork(id: id) {
+          await MainActor.run {
+            #if os(macOS)
+              self.artworkData = image.jpegData(compressionQuality: 0.8)
+            #else
+              self.artworkData = image.jpegData(compressionQuality: 0.8)
+            #endif
+          }
+        }
+      }
+      if let id = backgroundImageId {
+        if let image = await PresetArtworkManager.shared.loadArtwork(id: id) {
+          await MainActor.run {
+            #if os(macOS)
+              self.backgroundImageData = image.jpegData(compressionQuality: 0.8)
+            #else
+              self.backgroundImageData = image.jpegData(compressionQuality: 0.8)
+            #endif
+          }
+        }
+      }
+    }
   }
 
   func applyChangesInstantly() {
@@ -172,30 +184,25 @@ extension EditPresetSheet {
       return
     }
 
-    do {
-      let updatedPreset = createUpdatedPreset()
-      print(
-        "🎨 EditPresetSheet: Updated preset has background: \(updatedPreset.backgroundImageData != nil)"
-      )
+    let updatedPreset = createUpdatedPreset()
+    print(
+      "🎨 EditPresetSheet: Updated preset has background: \(updatedPreset.backgroundImageId != nil)"
+    )
 
-      var currentPresets = presetManager.presets
-      if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
-        currentPresets[index] = updatedPreset
-        presetManager.setPresets(currentPresets)
+    var currentPresets = presetManager.presets
+    if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
+      currentPresets[index] = updatedPreset
+      presetManager.setPresets(currentPresets)
 
-        // Update current preset reference if this is the active preset
-        if presetManager.currentPreset?.id == preset.id {
-          presetManager.setCurrentPreset(updatedPreset)
-          // Apply the preset changes immediately if it's currently active
-          try presetManager.applyPreset(updatedPreset)
-        }
-
-        // Save presets directly without overriding the current preset state
-        savePresetsDirectly()
+      // Update current preset reference if this is the active preset
+      if presetManager.currentPreset?.id == preset.id {
+        presetManager.setCurrentPreset(updatedPreset)
+        // Don't reapply the preset - just update the metadata
+        // This prevents audio from restarting when editing non-sound properties
       }
-    } catch {
-      print("❌ EditPresetSheet: Failed to apply changes - \(error)")
-      self.error = "Failed to apply changes: \(error.localizedDescription)"
+
+      // Save presets directly without overriding the current preset state
+      savePresetsDirectly()
     }
   }
 
@@ -203,12 +210,13 @@ extension EditPresetSheet {
     let currentVersion =
       Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
 
-    // Create sound states for all selected sounds
-    let selectedSoundStates =
-      orderedSounds
-      .filter { selectedSounds.contains($0.fileName) }
-      .map { sound in
-        PresetState(
+    // Create sound states ONLY for sounds that were selected in the form
+    let selectedSoundStates: [PresetState] =
+      selectedSounds.compactMap { fileName in
+        guard let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) else {
+          return nil
+        }
+        return PresetState(
           fileName: sound.fileName,
           isSelected: sound.isSelected,
           volume: sound.volume
@@ -223,10 +231,23 @@ extension EditPresetSheet {
     updatedPreset.name = presetName
     updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
     updatedPreset.soundStates = selectedSoundStates
-    updatedPreset.artworkData = artworkData
+
+    // Handle artwork saving
+    Task {
+      if let data = artworkData, artworkId == nil {
+        // New artwork - save it
+        artworkId = try? await PresetArtworkManager.shared.saveArtwork(data, for: preset.id)
+      }
+      if let data = backgroundImageData, backgroundImageId == nil {
+        // New background - save it
+        backgroundImageId = try? await PresetArtworkManager.shared.saveArtwork(data, for: preset.id)
+      }
+    }
+
+    updatedPreset.artworkId = artworkId
     updatedPreset.showBackgroundImage = showBackgroundImage
     updatedPreset.useArtworkAsBackground = useArtworkAsBackground
-    updatedPreset.backgroundImageData = backgroundImageData
+    updatedPreset.backgroundImageId = backgroundImageId
     updatedPreset.backgroundBlurRadius = backgroundBlurRadius
     updatedPreset.backgroundOpacity = backgroundOpacity
     updatedPreset.lastModifiedVersion = currentVersion
@@ -251,6 +272,54 @@ extension EditPresetSheet {
     presetManager.deletePreset(preset)
     isPresented = nil
   }
+
+  #if os(macOS)
+    func handleMacOSImageImport(_ result: Result<[URL], Error>) {
+      switch result {
+      case .success(let urls):
+        guard let url = urls.first else { return }
+
+        let accessing = url.startAccessingSecurityScopedResource()
+        defer {
+          if accessing {
+            url.stopAccessingSecurityScopedResource()
+          }
+        }
+
+        do {
+          let data = try Data(contentsOf: url)
+          if let nsImage = NSImage(data: data) {
+            // Process and crop the image
+            let targetSize = CGSize(width: 300, height: 300)
+            if let processedData = processImage(nsImage: nsImage, targetSize: targetSize) {
+              artworkData = processedData
+            }
+          }
+        } catch {
+          print("❌ EditPresetSheet: Failed to import image: \(error)")
+        }
+      case .failure(let error):
+        print("❌ EditPresetSheet: Failed to import image: \(error)")
+      }
+    }
+
+    private func processImage(nsImage: NSImage, targetSize: CGSize) -> Data? {
+      let imageSize = nsImage.size
+      let scale = min(targetSize.width / imageSize.width, targetSize.height / imageSize.height)
+      let newSize = CGSize(width: imageSize.width * scale, height: imageSize.height * scale)
+
+      let image = NSImage(size: newSize)
+      image.lockFocus()
+      nsImage.draw(
+        in: NSRect(origin: .zero, size: newSize),
+        from: NSRect(origin: .zero, size: imageSize),
+        operation: .copy,
+        fraction: 1.0)
+      image.unlockFocus()
+
+      return image.jpegData(compressionQuality: 0.8)
+    }
+  #endif
 
   func loadBackgroundImage(from item: PhotosPickerItem) async {
     do {

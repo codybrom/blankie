@@ -52,7 +52,7 @@ extension NowPlayingManager {
     }
 
     // Otherwise show active sounds
-    let activeSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
+    let activeSounds = AudioManager.shared.sounds.filter { $0.isSelected }
     if !activeSounds.isEmpty {
       let soundNames = activeSounds.map { $0.title }.joined(separator: ", ")
       return soundNames

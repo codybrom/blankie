@@ -20,6 +20,7 @@ import SwiftUI
 
     @State var backgroundBlurRadius: Double = 20.0
     @State var backgroundOpacity: Double = 0.5
+    @State var showScrollIndicator = false
 
     var body: some View {
       NavigationStack {

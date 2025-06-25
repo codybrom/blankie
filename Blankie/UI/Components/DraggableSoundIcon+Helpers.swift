@@ -22,7 +22,7 @@ import SwiftUI
 
     func startJiggle() {
       withAnimation(
-        Animation.linear(duration: 0.08)
+        Animation.linear(duration: 0.2)
           .repeatForever(autoreverses: true)
       ) {
         jiggleAnimation = true

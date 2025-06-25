@@ -11,15 +11,37 @@ import SwiftUI
   extension ViewSettingsSheet {
     @ViewBuilder
     var colorPickerSection: some View {
-      ScrollView(.horizontal, showsIndicators: false) {
-        HStack(spacing: 12) {
-          ForEach(AccentColor.allCases, id: \.self) { color in
-            colorPickerItem(for: color)
+      ScrollViewReader { proxy in
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 12) {
+            ForEach(AccentColor.allCases.filter { $0 != .system }, id: \.self) { color in
+              colorPickerItem(for: color)
+                .id(color)  // Add ID for ScrollViewReader
+            }
+          }
+          .padding(.horizontal, 20)  // Increased padding to prevent clipping
+          .padding(.vertical, 2)  // Add vertical padding inside ScrollView
+          .padding(.bottom, 10)
+        }
+        .scrollIndicators(.visible, axes: .horizontal)  // Always show horizontal indicator
+        .scrollIndicatorsFlash(trigger: showScrollIndicator)  // Flash when triggered
+        .onAppear {
+          // Find the currently selected color and scroll to it
+          if let currentColor = AccentColor.allCases.first(where: {
+            $0.color == globalSettings.customAccentColor
+          }) {
+            // Use a slight delay to prevent visual glitches
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+              proxy.scrollTo(currentColor, anchor: .center)
+            }
+          }
+          // Flash indicators on appear to show it's scrollable
+          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            showScrollIndicator.toggle()
           }
         }
-        .padding(.horizontal, 16)
       }
-      .padding(.vertical, 8)
+      .padding(.vertical, 4)
     }
 
     @ViewBuilder
@@ -43,7 +65,7 @@ import SwiftUI
               .foregroundColor(.white)
             : nil
         )
-        .scaleEffect(isSelected ? 1.1 : 1.0)
+        .scaleEffect(isSelected ? 1.05 : 1.0)  // Reduced scale to prevent clipping
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: isSelected)
         .onTapGesture {
           withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {

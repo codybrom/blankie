@@ -76,12 +76,6 @@ extension GlobalSettings {
     UserDefaults.standard.set(value, forKey: UserDefaultsKeys.showProgressBorder)
     logCurrentSettings()
 
-    // Immediately start/stop progress tracking based on the new value
-    if value && AudioManager.shared.isGloballyPlaying {
-      AudioManager.shared.startSharedProgressTracking()
-    } else {
-      AudioManager.shared.stopSharedProgressTracking()
-    }
   }
 
   @MainActor

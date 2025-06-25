@@ -24,7 +24,6 @@ extension AudioManager {
       setupTerminationObserver()
       setupCarPlayObserver()
       setupBackgroundObservers()
-      setupDeviceLockObservers()
       // Delay audio session observers until first playback to avoid interrupting other apps
       // setupAudioInterruptionObserver()
       // setupAudioRouteChangeObserver()
@@ -84,29 +83,6 @@ extension AudioManager {
       }
     }
 
-    private func setupDeviceLockObservers() {
-      // Observe device lock state changes
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.protectedDataWillBecomeUnavailableNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        print("🎵 AudioManager: Device is being locked - stopping progress tracking")
-        self?.stopSharedProgressTracking()
-      }
-
-      NotificationCenter.default.addObserver(
-        forName: UIApplication.protectedDataDidBecomeAvailableNotification,
-        object: nil,
-        queue: .main
-      ) { [weak self] _ in
-        print("🎵 AudioManager: Device unlocked - resuming progress tracking if playing")
-        if self?.isGloballyPlaying == true {
-          self?.startSharedProgressTracking()
-        }
-      }
-    }
-
     func handleWillEnterForeground() {
       print(
         "🎵 AudioManager: handleWillEnterForeground called - isGloballyPlaying: \(isGloballyPlaying)"
@@ -161,6 +137,20 @@ extension AudioManager {
       print("🎵 AudioManager: Audio interruption began - pausing playback")
       if isGloballyPlaying {
         Task { @MainActor in
+          // Update Now Playing info to show paused state with current position
+          // Use active (selected) sounds to ensure we have position even when pausing
+          let activeSounds = self.sounds.filter { $0.isSelected }
+          if let longestSound = activeSounds.max(by: {
+            ($0.player?.duration ?? 0) < ($1.player?.duration ?? 0)
+          }),
+            let player = longestSound.player
+          {
+            self.nowPlayingManager.updateProgress(
+              currentTime: player.currentTime,
+              duration: player.duration
+            )
+          }
+
           self.setGlobalPlaybackState(false)
         }
       }

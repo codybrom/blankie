@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+// Animation trigger struct to consolidate multiple animation values
+private struct GridButtonAnimationTrigger: Equatable {
+  let isSelected: Bool
+  let isPressed: Bool
+  let isDragging: Bool
+}
+
 #if os(iOS) || os(visionOS)
   struct GridSoundButton: View {
     @ObservedObject var sound: Sound
@@ -38,9 +45,10 @@ import SwiftUI
             ProgressBorderView(
               iconSize: 80,
               borderWidth: 3,
-              playbackProgress: sound.playbackProgress,
+              sound: sound,
               color: sound.customColor ?? globalSettings.customAccentColor ?? .accentColor
             )
+            .allowsHitTesting(false)  // Progress border is decorative, doesn't need hit testing
           }
 
           // Icon
@@ -83,9 +91,14 @@ import SwiftUI
       }
       .scaleEffect(isPressed ? 0.95 : (sound.isSelected ? 1.05 : 1.0))
       .opacity(isDragging ? 0.8 : (editMode == .active ? 0.9 : 1.0))
-      .animation(.easeInOut(duration: 0.15), value: sound.isSelected)
-      .animation(.easeInOut(duration: 0.1), value: isPressed)
-      .animation(.easeInOut(duration: 0.1), value: isDragging)
+      .animation(
+        .easeInOut(duration: 0.1),
+        value: GridButtonAnimationTrigger(
+          isSelected: sound.isSelected,
+          isPressed: isPressed,
+          isDragging: isDragging
+        )
+      )
       .background(
         GeometryReader { geometry in
           Color.clear

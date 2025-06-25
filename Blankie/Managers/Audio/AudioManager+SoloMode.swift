@@ -43,6 +43,9 @@ extension AudioManager {
     // Save to persistent storage
     GlobalSettings.shared.saveSoloModeSound(fileName: sound.fileName)
 
+    // Update media control command state
+    updateNextPreviousCommandState()
+
     // Set the sound to full volume for solo mode
     sound.volume = 1.0
 
@@ -120,6 +123,9 @@ extension AudioManager {
     // Clear from persistent storage
     GlobalSettings.shared.saveSoloModeSound(fileName: nil)
 
+    // Update media control command state
+    updateNextPreviousCommandState()
+
     // Restore normal playback if we were playing
     if shouldKeepPlaying {
       print("🎵 AudioManager: Restoring playback for selected sounds")
@@ -188,6 +194,9 @@ extension AudioManager {
 
     // Clear from persistent storage
     GlobalSettings.shared.saveSoloModeSound(fileName: nil)
+
+    // Update media control command state
+    updateNextPreviousCommandState()
 
     print("🎵 AudioManager: Exit solo mode (without resuming) complete")
   }

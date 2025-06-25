@@ -27,18 +27,6 @@ extension AudioManager {
         .store(in: &cancellables)
     }
 
-    // Observe progress border setting changes
-    GlobalSettings.shared.$showProgressBorder
-      .sink { [weak self] showProgressBorder in
-        guard let self = self else { return }
-        if showProgressBorder && self.isGloballyPlaying {
-          self.startSharedProgressTracking()
-        } else {
-          self.stopSharedProgressTracking()
-        }
-      }
-      .store(in: &cancellables)
-
     // Update initial state
     updateHasSelectedSounds()
   }

@@ -1,5 +1,12 @@
 import SwiftUI
 
+// Animation trigger struct to consolidate multiple animation values
+private struct AnimationTrigger: Equatable {
+  let soloMode: UUID?
+  let quickMix: Bool
+  let listView: Bool
+}
+
 #if os(iOS) || os(visionOS)
   struct AdaptiveContentView: View {
     @Binding var showingAbout: Bool
@@ -24,6 +31,14 @@ import SwiftUI
     @State var editMode: EditMode = .inactive
     @State var playPauseTrigger = 0
     @State var menuTrigger = 0
+
+    // Performance optimization: cached state properties
+    @State var cachedFilteredSounds: [Sound] = []
+    @State var lastFilterHash: Int = 0
+    @State var backgroundImage: PlatformImage?
+    @State var lastPresetId: UUID?
+    @State var cachedColumnWidth: CGFloat = 0
+    @State var lastScreenWidth: CGFloat = 0
 
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
 
@@ -204,11 +219,13 @@ import SwiftUI
       }
       .animation(
         .easeInOut(duration: 0.3),
-        value: soundToEdit == nil && audioManager.previewModeSound == nil
-          ? audioManager.soloModeSound?.id : nil
+        value: AnimationTrigger(
+          soloMode: soundToEdit == nil && audioManager.previewModeSound == nil
+            ? audioManager.soloModeSound?.id : nil,
+          quickMix: audioManager.isQuickMix,
+          listView: showingListView
+        )
       )
-      .animation(.easeInOut(duration: 0.3), value: audioManager.isQuickMix)
-      .animation(.easeInOut(duration: 0.3), value: showingListView)
       .onChange(of: audioManager.soloModeSound) { oldValue, newValue in
         if let newSolo = newValue {
           print(

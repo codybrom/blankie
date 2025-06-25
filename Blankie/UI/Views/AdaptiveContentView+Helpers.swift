@@ -4,8 +4,32 @@ import SwiftUI
   extension AdaptiveContentView {
     // Calculate filtered sounds based on current preset and hideInactiveSounds preference
     var filteredSounds: [Sound] {
-      // Include soundsUpdateTrigger to force updates when sounds change
-      _ = soundsUpdateTrigger
+      // Create hash of dependencies to detect changes
+      let currentHash =
+        audioManager.getVisibleSounds().count.hashValue ^ hideInactiveSounds.hashValue
+        ^ editMode.hashValue ^ (presetManager.currentPreset?.id.hashValue ?? 0)
+        ^ soundsUpdateTrigger.hashValue
+
+      // Only recompute if dependencies changed
+      if currentHash != lastFilterHash {
+        return computeFilteredSounds(currentHash: currentHash)
+      }
+
+      return cachedFilteredSounds
+    }
+
+    private func computeFilteredSounds(currentHash: Int) -> [Sound] {
+      let filteredSounds = filterSounds()
+
+      DispatchQueue.main.async {
+        self.lastFilterHash = currentHash
+        self.cachedFilteredSounds = filteredSounds
+      }
+
+      return filteredSounds
+    }
+
+    private func filterSounds() -> [Sound] {
       let visibleSounds = audioManager.getVisibleSounds()
 
       return visibleSounds.filter { sound in
@@ -56,7 +80,7 @@ import SwiftUI
         preset.showBackgroundImage ?? false
       {
         GeometryReader { geometry in
-          if let image = PresetArtworkManager.shared.loadBackgroundImage(for: preset) {
+          if let image = backgroundImage {
             Image(uiImage: image)
               .resizable()
               .aspectRatio(contentMode: .fill)
@@ -70,6 +94,16 @@ import SwiftUI
           }
         }
         .ignoresSafeArea()
+        .task(
+          id:
+            "\(preset.id)-\(preset.artworkId?.uuidString ?? "")-\(preset.backgroundImageId?.uuidString ?? "")-\(preset.useArtworkAsBackground ?? false)"
+        ) {
+          Task { @MainActor in
+            self.lastPresetId = preset.id
+            self.backgroundImage = await PresetArtworkManager.shared.loadBackgroundImageAsync(
+              for: preset)
+          }
+        }
       }
     }
 
@@ -103,12 +137,20 @@ import SwiftUI
           return 300
         }
       #else
-        // iOS uses fixed 2-column grid
+        // Cache column width calculation for iOS
         let screenWidth = UIScreen.main.bounds.width
-        let spacing: CGFloat = 16
-        let padding: CGFloat = 32  // 16 on each side
-        let width = (screenWidth - padding - spacing) / 2
-        return width
+        if screenWidth != lastScreenWidth {
+          DispatchQueue.main.async {
+            self.lastScreenWidth = screenWidth
+            let spacing: CGFloat = 16
+            let padding: CGFloat = 32  // 16 on each side
+            self.cachedColumnWidth = (screenWidth - padding - spacing) / 2
+          }
+          let spacing: CGFloat = 16
+          let padding: CGFloat = 32  // 16 on each side
+          return (screenWidth - padding - spacing) / 2
+        }
+        return cachedColumnWidth
       #endif
     }
 
@@ -177,8 +219,10 @@ import SwiftUI
       dragResetTimer?.invalidate()
       dragResetTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { _ in
         // Reset drag state after 3 seconds of no activity
-        draggedIndex = nil
-        hoveredIndex = nil
+        Task { @MainActor in
+          self.draggedIndex = nil
+          self.hoveredIndex = nil
+        }
       }
     }
 

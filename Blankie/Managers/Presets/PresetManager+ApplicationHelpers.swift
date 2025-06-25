@@ -25,6 +25,11 @@ extension PresetManager {
     currentPreset = preset
     PresetStorage.saveLastActivePresetID(preset.id)
 
+    // Pre-cache artwork for instant display
+    Task {
+      await PresetArtworkManager.shared.preCacheArtwork(for: preset)
+    }
+
     print(
       "🎨 PresetManager: Updating Now Playing with artwork ID: \(preset.artworkId != nil ? "✅ \(preset.artworkId!)" : "❌ None")"
     )

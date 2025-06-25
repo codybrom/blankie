@@ -128,15 +128,17 @@ struct SoundIcon: View {
             .stroke(Color.gray.opacity(0.3), lineWidth: configuration.borderWidth)
             .frame(width: borderSize, height: borderSize)
 
-          // Progress indicator
-          Circle()
-            .trim(from: 0, to: max(0.01, sound.playbackProgress))  // Ensure minimum visibility
-            .stroke(
-              sound.customColor ?? accentColor,
-              style: StrokeStyle(lineWidth: configuration.borderWidth, lineCap: .round)
-            )
-            .frame(width: borderSize, height: borderSize)
-            .rotationEffect(.degrees(-90))
+          // Progress indicator with TimelineView for 30 FPS updates
+          TimelineView(.periodic(from: .now, by: 1.0 / 30.0)) { _ in
+            Circle()
+              .trim(from: 0, to: max(0.01, getCurrentProgress()))  // Ensure minimum visibility
+              .stroke(
+                sound.customColor ?? accentColor,
+                style: StrokeStyle(lineWidth: configuration.borderWidth, lineCap: .round)
+              )
+              .frame(width: borderSize, height: borderSize)
+              .rotationEffect(.degrees(-90))
+          }
         }
 
         Image(systemName: sound.systemIconName)
@@ -242,6 +244,13 @@ struct SoundIcon: View {
     if case .failure(let error) = result {
       print("❌ SoundIcon: Failed to delete custom sound: \(error)")
     }
+  }
+
+  private func getCurrentProgress() -> Double {
+    guard let player = sound.player, player.duration > 0 else {
+      return 0.0
+    }
+    return player.currentTime / player.duration
   }
 }
 

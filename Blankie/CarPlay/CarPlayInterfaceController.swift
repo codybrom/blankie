@@ -9,6 +9,7 @@
 
   import CarPlay
   import Combine
+  import SwiftData
   import SwiftUI
 
   class CarPlayInterfaceController: ObservableObject {
@@ -36,7 +37,30 @@
     func setInterfaceController(_ controller: CPInterfaceController) {
       interfaceController = controller
       isConnected = true
-      setupTabBarInterface()
+
+      // Ensure sounds and presets are loaded for CarPlay
+      Task {
+        await MainActor.run {
+          // Set up SwiftData model context if not already set
+          if AudioManager.shared.modelContext == nil {
+            let modelContainer = AppSetup.createModelContainer()
+            AudioManager.shared.setModelContext(modelContainer.mainContext)
+            PresetArtworkManager.shared.setModelContext(modelContainer.mainContext)
+          }
+
+          // Load sounds if not already loaded (this will now include custom sounds)
+          if AudioManager.shared.sounds.isEmpty {
+            AudioManager.shared.loadSounds()
+          }
+        }
+
+        // Initialize PresetManager
+        await PresetManager.shared.initializePresetManager()
+
+        await MainActor.run {
+          setupTabBarInterface()
+        }
+      }
 
       NotificationCenter.default.post(
         name: NSNotification.Name("CarPlayConnectionChanged"),

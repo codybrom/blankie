@@ -39,6 +39,9 @@ extension AudioManager {
     // Set Quick Mix mode
     isQuickMix = true
 
+    // Update media control command state
+    updateNextPreviousCommandState()
+
     // Filter initial sounds to only include Quick Mix sounds (built-in only)
     #if CARPLAY_ENABLED
       let quickMixSounds = CarPlayInterfaceController.shared.quickMixSoundFileNames
@@ -102,6 +105,9 @@ extension AudioManager {
 
     // Exit Quick Mix mode
     isQuickMix = false
+
+    // Update media control command state
+    updateNextPreviousCommandState()
 
     // Restore the previous preset if it exists
     if let savedPreset = preQuickMixPreset {

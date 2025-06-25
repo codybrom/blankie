@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+// Animation trigger struct for drag operations
+private struct DragAnimationTrigger: Equatable {
+  let draggedIndex: Int?
+  let hoveredIndex: Int?
+}
+
 #if os(iOS) || os(visionOS)
   // Custom draggable sound icon that only applies drag gesture to the icon area
   struct DraggableSoundIcon: View {
@@ -123,7 +129,7 @@ import SwiftUI
           ProgressBorderView(
             iconSize: borderSize,
             borderWidth: borderWidth,
-            playbackProgress: max(0.01, sound.playbackProgress),
+            sound: sound,
             color: sound.customColor ?? accentColor
           )
         }
@@ -262,8 +268,13 @@ import SwiftUI
       .padding(.horizontal, 10)
       .frame(width: maxWidth)
       .zIndex(draggedIndex == index ? 1 : 0)
-      .animation(.easeInOut(duration: 0.3), value: draggedIndex)
-      .animation(.easeInOut(duration: 0.3), value: hoveredIndex)
+      .animation(
+        .easeInOut(duration: 0.3),
+        value: DragAnimationTrigger(
+          draggedIndex: draggedIndex,
+          hoveredIndex: hoveredIndex
+        )
+      )
       .onAppear { handleJiggle() }
       .onChange(of: editMode) { _, _ in handleJiggle() }
       .onDisappear { stopJiggle() }

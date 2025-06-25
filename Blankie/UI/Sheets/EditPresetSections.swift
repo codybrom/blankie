@@ -43,14 +43,29 @@ extension EditPresetSheet {
       }
 
       // Artwork field
-      Button {
-        showingImagePicker = true
-      } label: {
-        LabeledContent("Artwork") {
-          artworkPreview
+      LabeledContent("Artwork") {
+        HStack(spacing: 8) {
+          if artworkData != nil {
+            Button {
+              artworkData = nil
+              artworkId = nil
+              // Apply changes to persist the removal
+              applyChangesInstantly()
+            } label: {
+              Image(systemName: "xmark.circle.fill")
+                .foregroundColor(.secondary)
+            }
+            .buttonStyle(.plain)
+          }
+
+          Button {
+            showingImagePicker = true
+          } label: {
+            artworkPreview
+          }
+          .buttonStyle(.plain)
         }
       }
-      .buttonStyle(.plain)
     }
     .onChange(of: artworkData) { _, _ in
       applyChangesInstantly()
@@ -178,8 +193,11 @@ extension EditPresetSheet {
                   print("🎨 Clear tapped - removing background")
                   withAnimation {
                     backgroundImageData = nil
+                    backgroundImageId = nil
                     backgroundBlurRadius = 15.0
                     backgroundOpacity = 0.65
+                    // Apply changes to persist the removal
+                    applyChangesInstantly()
                   }
                 } label: {
                   Image(systemName: "xmark.circle.fill")

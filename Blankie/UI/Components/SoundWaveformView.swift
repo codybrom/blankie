@@ -34,9 +34,9 @@ struct SoundWaveformView: View {
                 .frame(width: barWidth, height: height * 0.3)
                 .scaleEffect(y: isLoading ? 1.0 : 0.5)
                 .animation(
-                  .easeInOut(duration: 0.8)
+                  .easeInOut(duration: 1.2)
                     .repeatForever(autoreverses: true)
-                    .delay(Double(index) * 0.05),
+                    .delay(Double(index) * 0.08),
                   value: isLoading
                 )
             }

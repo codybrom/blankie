@@ -26,8 +26,8 @@ struct EditPresetSheet: View {
   @State var useArtworkAsBackground: Bool = false
   @State var backgroundImageData: Data?
   @State var backgroundImageId: UUID?
-  @State var backgroundBlurRadius: Double = 15.0
-  @State var backgroundOpacity: Double = 0.65
+  @State var backgroundBlurRadius: Double = 3.0  // Low Blur by default
+  @State var backgroundOpacity: Double = 0.3  // Low Opacity by default
   @State var selectedBackgroundPhoto: PhotosPickerItem?
   @Environment(\.dismiss) private var dismiss
 
@@ -184,29 +184,33 @@ extension EditPresetSheet {
       return
     }
 
-    let updatedPreset = createUpdatedPreset()
-    print(
-      "🎨 EditPresetSheet: Updated preset has background: \(updatedPreset.backgroundImageId != nil)"
-    )
+    Task {
+      let updatedPreset = await createUpdatedPreset()
+      print(
+        "🎨 EditPresetSheet: Updated preset has background: \(updatedPreset.backgroundImageId != nil)"
+      )
 
-    var currentPresets = presetManager.presets
-    if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
-      currentPresets[index] = updatedPreset
-      presetManager.setPresets(currentPresets)
+      await MainActor.run {
+        var currentPresets = presetManager.presets
+        if let index = currentPresets.firstIndex(where: { $0.id == preset.id }) {
+          currentPresets[index] = updatedPreset
+          presetManager.setPresets(currentPresets)
 
-      // Update current preset reference if this is the active preset
-      if presetManager.currentPreset?.id == preset.id {
-        presetManager.setCurrentPreset(updatedPreset)
-        // Don't reapply the preset - just update the metadata
-        // This prevents audio from restarting when editing non-sound properties
+          // Update current preset reference if this is the active preset
+          if presetManager.currentPreset?.id == preset.id {
+            presetManager.setCurrentPreset(updatedPreset)
+            // Don't reapply the preset - just update the metadata
+            // This prevents audio from restarting when editing non-sound properties
+          }
+
+          // Save presets directly without overriding the current preset state
+          savePresetsDirectly()
+        }
       }
-
-      // Save presets directly without overriding the current preset state
-      savePresetsDirectly()
     }
   }
 
-  private func createUpdatedPreset() -> Preset {
+  private func createUpdatedPreset() async -> Preset {
     let currentVersion =
       Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
 
@@ -232,15 +236,28 @@ extension EditPresetSheet {
     updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
     updatedPreset.soundStates = selectedSoundStates
 
-    // Handle artwork saving
-    Task {
-      if let data = artworkData, artworkId == nil {
-        // New artwork - save it
-        artworkId = try? await PresetArtworkManager.shared.saveArtwork(data, for: preset.id)
+    // Handle artwork saving - await completion before returning
+    if let data = artworkData {
+      // Save artwork (this will update existing or create new)
+      do {
+        let savedId = try await PresetArtworkManager.shared.saveArtwork(
+          data, for: preset.id, type: .artwork)
+        artworkId = savedId
+        print("🎨 EditPresetSheet: Saved artwork with ID: \(savedId)")
+      } catch {
+        print("❌ EditPresetSheet: Failed to save artwork: \(error)")
       }
-      if let data = backgroundImageData, backgroundImageId == nil {
-        // New background - save it
-        backgroundImageId = try? await PresetArtworkManager.shared.saveArtwork(data, for: preset.id)
+    }
+
+    if let data = backgroundImageData {
+      // Save background (this will update existing or create new)
+      do {
+        let savedId = try await PresetArtworkManager.shared.saveArtwork(
+          data, for: preset.id, type: .background)
+        backgroundImageId = savedId
+        print("🎨 EditPresetSheet: Saved background with ID: \(savedId)")
+      } catch {
+        print("❌ EditPresetSheet: Failed to save background: \(error)")
       }
     }
 

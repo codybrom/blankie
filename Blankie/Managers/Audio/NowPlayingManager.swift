@@ -15,6 +15,7 @@ final class NowPlayingManager {
   private var nowPlayingInfo: [String: Any] = [:]
 
   private var isSetup = false
+  private var currentArtworkId: UUID?
 
   init() {
     // Don't setup immediately to avoid triggering audio session
@@ -48,14 +49,17 @@ final class NowPlayingManager {
     updateAlbumAndDuration(creatorName: creatorName)
     updatePlaybackRate(isPlaying: isPlaying)
 
-    // Load artwork from SwiftData if we have an ID
-    if let artworkId = artworkId {
-      Task {
-        await loadAndUpdateArtwork(artworkId: artworkId)
+    // Only load artwork if it's different from currently loaded
+    if artworkId != currentArtworkId {
+      currentArtworkId = artworkId
+      if let artworkId = artworkId {
+        Task {
+          await loadAndUpdateArtwork(artworkId: artworkId)
+        }
+      } else {
+        // No artwork
+        updateArtwork(artworkData: nil)
       }
-    } else {
-      // No artwork
-      updateArtwork(artworkData: nil)
     }
 
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
@@ -103,9 +107,11 @@ final class NowPlayingManager {
   }
 
   private func updateDurationFromPlayingSounds() {
-    let playingSounds = AudioManager.shared.sounds.filter { $0.player?.isPlaying == true }
-    if !playingSounds.isEmpty {
-      let longestSound = playingSounds.max {
+    // Use active (selected) sounds instead of only playing sounds
+    // This ensures we track time even when paused
+    let activeSounds = AudioManager.shared.sounds.filter { $0.isSelected }
+    if !activeSounds.isEmpty {
+      let longestSound = activeSounds.max {
         ($0.player?.duration ?? 0) < ($1.player?.duration ?? 0)
       }
       if let longest = longestSound, let player = longest.player {
@@ -171,6 +177,10 @@ final class NowPlayingManager {
     nowPlayingInfo[MPNowPlayingInfoPropertyElapsedPlaybackTime] = currentTime
     nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = duration
 
+    // Ensure playback rate reflects current state
+    let isPlaying = AudioManager.shared.isGloballyPlaying
+    nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
+
     MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
   }
 
@@ -182,16 +192,23 @@ final class NowPlayingManager {
   private func loadAndUpdateArtwork(artworkId: UUID) async {
     print("🎨 NowPlayingManager: Loading artwork from SwiftData with ID: \(artworkId)")
 
-    if let image = await PresetArtworkManager.shared.loadArtwork(id: artworkId),
-      let artworkData = image.pngData()
-    {
-      print("🎨 NowPlayingManager: ✅ Loaded artwork from SwiftData (\(artworkData.count) bytes)")
+    // Load artwork on background thread to prevent UI blocking
+    let artworkData = await Task.detached {
+      if let image = await PresetArtworkManager.shared.loadArtwork(id: artworkId) {
+        print(
+          "🎨 NowPlayingManager: ✅ Loaded artwork from SwiftData (\(image.pngData()?.count ?? 0) bytes)"
+        )
+        return image.pngData()
+      }
+      return nil
+    }.value
+
+    // Update UI on main thread
+    await MainActor.run {
+      if artworkData == nil {
+        print("🎨 NowPlayingManager: ⚠️ No artwork found in SwiftData")
+      }
       updateArtwork(artworkData: artworkData)
-      // Update the Now Playing info with the loaded artwork
-      MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
-    } else {
-      print("🎨 NowPlayingManager: ⚠️ No artwork found in SwiftData")
-      updateArtwork(artworkData: nil)
       MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
     }
   }

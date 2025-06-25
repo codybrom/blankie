@@ -45,6 +45,7 @@ struct PresetStorage {
       print("Saving presets:")
       presets.forEach { preset in
         print("  - '\(preset.name)':")
+        print("    * Order: \(preset.order ?? -1)")
         print(
           "    * Artwork ID: \(preset.artworkId?.uuidString ?? "None")"
         )
@@ -77,6 +78,7 @@ struct PresetStorage {
       // Add debug logging
       presets.forEach { preset in
         print("  - Loaded preset '\(preset.name)':")
+        print("    * Order: \(preset.order ?? -1)")
         print(
           "    * Artwork ID: \(preset.artworkId?.uuidString ?? "None")"
         )

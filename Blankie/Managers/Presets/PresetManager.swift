@@ -38,7 +38,7 @@ class PresetManager: ObservableObject {
 
     // Set up a single observer for state changes
     AudioManager.shared.$sounds
-      .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
+      .debounce(for: .milliseconds(800), scheduler: RunLoop.main)
       .sink { [weak self] _ in
         Task { @MainActor in
           self?.updateCurrentPresetState()  // Remove await
@@ -244,6 +244,12 @@ extension PresetManager {
     let (newStates, currentSoundOrder) = generateUpdatedPresetData(for: preset)
     updatePresetIfChanged(
       preset: preset, newStates: newStates, currentSoundOrder: currentSoundOrder)
+  }
+
+  /// Get recently used presets for caching
+  func getRecentPresets(limit: Int = 5) -> [Preset] {
+    // For now, return first N presets - could be enhanced to track actual usage
+    return Array(presets.prefix(limit))
   }
 
   private func generateUpdatedPresetData(for preset: Preset) -> ([PresetState], [String]) {

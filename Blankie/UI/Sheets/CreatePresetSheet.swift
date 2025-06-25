@@ -259,6 +259,9 @@ extension CreatePresetSheet {
     let presetId = UUID()
     let artworkId = await saveArtworkIfPresent(for: presetId)
 
+    // Assign order based on existing custom presets count
+    let customPresetsCount = presetManager.presets.filter { !$0.isDefault }.count
+
     let newPreset = Preset(
       id: presetId,
       name: presetName,
@@ -268,7 +271,13 @@ extension CreatePresetSheet {
       lastModifiedVersion: currentVersion,
       soundOrder: nil,
       creatorName: creatorName.isEmpty ? nil : creatorName,
-      artworkId: artworkId
+      artworkId: artworkId,
+      showBackgroundImage: nil,
+      useArtworkAsBackground: nil,
+      backgroundImageId: nil,
+      backgroundBlurRadius: nil,
+      backgroundOpacity: nil,
+      order: customPresetsCount
     )
 
     print(
@@ -282,7 +291,8 @@ extension CreatePresetSheet {
     guard let data = artworkData else { return nil }
 
     do {
-      let artworkId = try await PresetArtworkManager.shared.saveArtwork(data, for: presetId)
+      let artworkId = try await PresetArtworkManager.shared.saveArtwork(
+        data, for: presetId, type: .artwork)
       print("🎨 CreatePresetSheet: Saved artwork with ID: \(artworkId)")
       return artworkId
     } catch {

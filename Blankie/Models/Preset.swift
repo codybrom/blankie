@@ -25,6 +25,9 @@ struct Preset: Codable, Identifiable, Equatable {
   var backgroundBlurRadius: Double?
   var backgroundOpacity: Double?
 
+  // Preset order for navigation
+  var order: Int?
+
   /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
   var displayName: String {
     return isDefault ? "Blankie – All Sounds" : name
@@ -45,6 +48,7 @@ struct Preset: Codable, Identifiable, Equatable {
       && lhs.backgroundImageId == rhs.backgroundImageId
       && lhs.backgroundBlurRadius == rhs.backgroundBlurRadius
       && lhs.backgroundOpacity == rhs.backgroundOpacity
+      && lhs.order == rhs.order
   }
 
   func validate() -> Bool {

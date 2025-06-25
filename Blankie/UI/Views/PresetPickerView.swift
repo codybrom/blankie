@@ -1,5 +1,75 @@
 import SwiftUI
 
+struct PresetPickerRow: View {
+  let preset: Preset
+  let isEditMode: Bool
+  let onEditTap: () -> Void
+  @ObservedObject private var presetManager = PresetManager.shared
+  @ObservedObject private var audioManager = AudioManager.shared
+  @Environment(\.dismiss) private var dismiss
+
+  var body: some View {
+    Button {
+      // Exit solo mode if active, then apply the preset
+      Task {
+        do {
+          // Exit solo mode without resuming previous sounds if active
+          // This prevents the previous preset from briefly playing
+          if audioManager.soloModeSound != nil {
+            audioManager.exitSoloModeWithoutResuming()
+          }
+
+          // Exit Quick Mix if we're in it
+          if audioManager.isQuickMix {
+            audioManager.exitQuickMix()
+          }
+
+          try presetManager.applyPreset(preset)
+          dismiss()
+        } catch {
+          print("Error applying preset: \(error)")
+        }
+      }
+    } label: {
+      HStack {
+        HStack(spacing: 8) {
+          // Special badge for default preset
+          if preset.isDefault {
+            Image(systemName: "square.stack")
+              .foregroundColor(.accentColor)
+          }
+
+          Text(preset.displayName)
+            .foregroundColor(.primary)
+        }
+
+        Spacer()
+
+        // Only show checkmark if not in solo mode AND this is the current preset
+        let isSoloModeActive = audioManager.soloModeSound != nil
+        let isCurrentPreset = presetManager.currentPreset?.id == preset.id
+
+        if !isSoloModeActive && isCurrentPreset {
+          Image(systemName: "checkmark")
+            .foregroundColor(.accentColor)
+        }
+
+        // Show settings cog for custom presets
+        if !preset.isDefault && !isEditMode {
+          Button {
+            onEditTap()
+          } label: {
+            Image(systemName: "gearshape")
+              .font(.body)
+              .foregroundColor(.secondary)
+          }
+          .buttonStyle(.plain)
+        }
+      }
+    }
+  }
+}
+
 struct PresetPickerView: View {
   @ObservedObject private var presetManager = PresetManager.shared
   @ObservedObject private var audioManager = AudioManager.shared
@@ -9,13 +79,87 @@ struct PresetPickerView: View {
   @State private var updatedPresetName = ""
   @State private var presetToDelete: Preset?
   @State private var isEditMode = false
+  @State private var editingPresets: [Preset] = []
   @Environment(\.dismiss) private var dismiss
 
+  private var sortedCustomPresets: [Preset] {
+    presetManager.presets
+      .filter { !$0.isDefault }
+      .sorted {
+        let order1 = $0.order ?? Int.max
+        let order2 = $1.order ?? Int.max
+        return order1 < order2
+      }
+  }
+
   private func deletePresets(at offsets: IndexSet) {
-    let presetsToDelete = offsets.map { presetManager.presets.filter { !$0.isDefault }[$0] }
-    for preset in presetsToDelete {
+    // Remove from editing array
+    editingPresets.remove(atOffsets: offsets)
+  }
+
+  private func movePresets(from source: IndexSet, to destination: Int) {
+    print("🎵 PresetPickerView: Moving preset from \(source) to \(destination)")
+    // Work with the editing copy
+    editingPresets.move(fromOffsets: source, toOffset: destination)
+
+    // Log the new order
+    for (index, preset) in editingPresets.enumerated() {
+      print("🎵 PresetPickerView: Position \(index): \(preset.name)")
+    }
+  }
+
+  private func startEditing() {
+    // Create a copy of custom presets sorted by order for editing
+    editingPresets = sortedCustomPresets
+    isEditMode = true
+  }
+
+  private func cancelEditing() {
+    isEditMode = false
+    editingPresets = []
+  }
+
+  private func saveEditing() {
+    // First, handle deletions by finding presets that are no longer in editingPresets
+    let editingIds = Set(editingPresets.map { $0.id })
+    let customPresets = presetManager.presets.filter { !$0.isDefault }
+    let deletedPresets = customPresets.filter { !editingIds.contains($0.id) }
+
+    // Delete removed presets
+    for preset in deletedPresets {
       presetManager.deletePreset(preset)
     }
+
+    // Create a map of updated presets with their new order values
+    var updatedPresetsMap: [UUID: Preset] = [:]
+
+    // Update order property for each preset in editingPresets
+    for (index, editedPreset) in editingPresets.enumerated() {
+      var updatedPreset = editedPreset
+      updatedPreset.order = index
+      print("🎵 PresetPickerView: Setting order \(index) for preset '\(updatedPreset.name)'")
+      updatedPresetsMap[updatedPreset.id] = updatedPreset
+    }
+
+    // Get all presets and update only the ones we edited
+    var allPresets = presetManager.presets
+    for index in 0..<allPresets.count {
+      if let updatedPreset = updatedPresetsMap[allPresets[index].id] {
+        allPresets[index] = updatedPreset
+        print(
+          "🎵 PresetPickerView: Updated preset '\(updatedPreset.name)' at index \(index) with order \(updatedPreset.order ?? -1)"
+        )
+      }
+    }
+
+    // Update all presets at once
+    presetManager.setPresets(allPresets)
+
+    // Save the updated order
+    presetManager.savePresets()
+
+    isEditMode = false
+    editingPresets = []
   }
 
   var body: some View {
@@ -111,70 +255,26 @@ struct PresetPickerView: View {
             }
           }
 
-          // List of all presets (default first, then custom presets)
-          ForEach(presetManager.presets.sorted { $0.isDefault && !$1.isDefault }) { preset in
-            Button {
-              // Exit solo mode if active, then apply the preset
-              Task {
-                do {
-                  // Exit solo mode without resuming previous sounds if active
-                  // This prevents the previous preset from briefly playing
-                  if audioManager.soloModeSound != nil {
-                    audioManager.exitSoloModeWithoutResuming()
-                  }
+          // Default preset (not reorderable)
+          if let defaultPreset = presetManager.presets.first(where: { $0.isDefault }) {
+            PresetPickerRow(preset: defaultPreset, isEditMode: isEditMode) {
+              presetToRename = defaultPreset
+              updatedPresetName = defaultPreset.name
+            }
+          }
 
-                  // Exit Quick Mix if we're in it
-                  if audioManager.isQuickMix {
-                    audioManager.exitQuickMix()
-                  }
+          // Custom presets (reorderable)
+          let customPresets = isEditMode ? editingPresets : sortedCustomPresets
 
-                  try presetManager.applyPreset(preset)
-                  dismiss()
-                } catch {
-                  print("Error applying preset: \(error)")
-                }
-              }
-            } label: {
-              HStack {
-                HStack(spacing: 8) {
-                  // Special badge for default preset
-                  if preset.isDefault {
-                    Image(systemName: "square.stack")
-                      .foregroundColor(.accentColor)
-                  }
-
-                  Text(preset.displayName)
-                    .foregroundColor(.primary)
-                }
-
-                Spacer()
-
-                // Only show checkmark if not in solo mode AND this is the current preset
-                let isSoloModeActive = audioManager.soloModeSound != nil
-                let isCurrentPreset = presetManager.currentPreset?.id == preset.id
-
-                if !isSoloModeActive && isCurrentPreset {
-                  Image(systemName: "checkmark")
-                    .foregroundColor(.accentColor)
-                }
-
-                // Show settings cog for custom presets
-                if !preset.isDefault && !isEditMode {
-                  Button {
-                    presetToRename = preset
-                    updatedPresetName = preset.name
-                  } label: {
-                    Image(systemName: "gearshape")
-                      .font(.body)
-                      .foregroundColor(.secondary)
-                  }
-                  .buttonStyle(.plain)
-                }
-              }
+          ForEach(customPresets) { preset in
+            PresetPickerRow(preset: preset, isEditMode: isEditMode) {
+              presetToRename = preset
+              updatedPresetName = preset.name
             }
             .deleteDisabled(!isEditMode || preset.isDefault)
           }
           .onDelete(perform: isEditMode ? deletePresets : nil)
+          .onMove(perform: isEditMode ? movePresets : nil)
         }
       }
       .navigationTitle("Presets")
@@ -185,7 +285,11 @@ struct PresetPickerView: View {
         ToolbarItem(placement: .cancellationAction) {
           if presetManager.hasCustomPresets {
             Button {
-              isEditMode.toggle()
+              if isEditMode {
+                cancelEditing()
+              } else {
+                startEditing()
+              }
             } label: {
               Text(isEditMode ? "Cancel" : "Edit", comment: "Edit mode toggle button")
             }
@@ -193,10 +297,17 @@ struct PresetPickerView: View {
         }
 
         ToolbarItem(placement: .primaryAction) {
-          Button {
-            showingNewPresetSheet = true
-          } label: {
-            Label("New Preset", systemImage: "plus")
+          if isEditMode {
+            Button("Done") {
+              saveEditing()
+            }
+            .fontWeight(.semibold)
+          } else {
+            Button {
+              showingNewPresetSheet = true
+            } label: {
+              Label("New Preset", systemImage: "plus")
+            }
           }
         }
 
@@ -234,6 +345,12 @@ struct PresetPickerView: View {
           Text(
             "Are you sure you want to delete '\(preset.name)'? This action cannot be undone.",
             comment: "Delete preset confirmation message")
+        }
+      }
+      .onDisappear {
+        // Cancel editing if view is dismissed (e.g., by swiping)
+        if isEditMode {
+          cancelEditing()
         }
       }
     }

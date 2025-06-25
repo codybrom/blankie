@@ -31,6 +31,9 @@ extension PresetManager {
       // Migrate any presets that contain old sound names with file extensions
       migratePresetSoundNames()
 
+      // Ensure all custom presets have order values
+      ensurePresetOrder()
+
       updateCustomPresetStatus()
 
       // Load last active preset or default
@@ -69,10 +72,11 @@ extension PresetManager {
     if let currentPreset = currentPreset,
       let index = presets.firstIndex(where: { $0.id == currentPreset.id })
     {
-      var updatedPreset = currentPreset
+      // Get the preset from the array to preserve any updates (like order)
+      var updatedPreset = presets[index]
       // For custom presets, only update sounds that are already in the preset
-      if !currentPreset.isDefault {
-        updatedPreset.soundStates = currentPreset.soundStates.map { existingState in
+      if !updatedPreset.isDefault {
+        updatedPreset.soundStates = updatedPreset.soundStates.map { existingState in
           // Find the current sound state
           if let sound = AudioManager.shared.sounds.first(where: {
             $0.fileName == existingState.fileName
@@ -110,10 +114,13 @@ extension PresetManager {
     let defaultPreset = presets.first { $0.isDefault }
     let customPresets = presets.filter { !$0.isDefault }
 
-    if let defaultPreset = defaultPreset {
-      PresetStorage.saveDefaultPreset(defaultPreset)
+    // Move file I/O to background queue to prevent UI blocking
+    Task.detached {
+      if let defaultPreset = defaultPreset {
+        PresetStorage.saveDefaultPreset(defaultPreset)
+      }
+      PresetStorage.saveCustomPresets(customPresets)
     }
-    PresetStorage.saveCustomPresets(customPresets)
 
     // Cache thumbnails for quick access
     Task {
@@ -176,6 +183,72 @@ extension PresetManager {
         PresetStorage.saveDefaultPreset(defaultPreset)
       }
       PresetStorage.saveCustomPresets(customPresets)
+    }
+  }
+
+  /// Ensures all custom presets have unique order values assigned
+  @MainActor
+  private func ensurePresetOrder() {
+    var needsSave = false
+    var updatedPresets = presets
+
+    // Get custom presets
+    let customPresets = updatedPresets.filter { !$0.isDefault }
+
+    // Check for duplicates or nil order values
+    var orderValues = Set<Int>()
+    var hasDuplicates = false
+
+    for preset in customPresets {
+      if let order = preset.order {
+        if orderValues.contains(order) {
+          hasDuplicates = true
+          print("🎛️ PresetManager: Found duplicate order value: \(order)")
+          break
+        }
+        orderValues.insert(order)
+      }
+    }
+
+    // Check if any custom preset is missing order or has duplicates
+    let hasUnorderedPresets = customPresets.contains { $0.order == nil } || hasDuplicates
+
+    if hasUnorderedPresets {
+      print("🎛️ PresetManager: Reassigning order values to all custom presets")
+
+      // Sort custom presets by current order (if exists) then by name
+      let sortedCustomPresets = customPresets.sorted { preset1, preset2 in
+        // First sort by existing order if both have it
+        if let order1 = preset1.order, let order2 = preset2.order {
+          return order1 < order2
+        }
+        // Put presets with order before those without
+        if preset1.order != nil && preset2.order == nil {
+          return true
+        }
+        if preset1.order == nil && preset2.order != nil {
+          return false
+        }
+        // Fall back to name comparison
+        return preset1.name < preset2.name
+      }
+
+      // Assign sequential order values to all custom presets
+      for (index, preset) in sortedCustomPresets.enumerated() {
+        var updatedPreset = preset
+        updatedPreset.order = index
+        print("🎛️ PresetManager: Assigning order \(index) to preset '\(preset.name)'")
+
+        if let presetIndex = updatedPresets.firstIndex(where: { $0.id == preset.id }) {
+          updatedPresets[presetIndex] = updatedPreset
+          needsSave = true
+        }
+      }
+
+      if needsSave {
+        setPresets(updatedPresets)
+        savePresets()
+      }
     }
   }
 }

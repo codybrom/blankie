@@ -19,6 +19,7 @@ import SwiftUI
         soundRowIcon
         soundRowControls
       }
+      .background(Color.clear)
     }
 
     private var soundRowIcon: some View {
@@ -106,6 +107,7 @@ import SwiftUI
             .id("\(sound.id)-\(sound.isSelected)-\(audioManager.isGloballyPlaying)")
             .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
             .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
               Button {
                 soundToEdit = sound
@@ -178,6 +180,7 @@ import SwiftUI
         .deleteDisabled(true)
       }
       .listStyle(.plain)
+      .scrollContentBackground(.hidden)
       .environment(\.editMode, $editMode)
       .transition(.opacity)
       .padding(.top, 8)

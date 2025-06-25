@@ -113,6 +113,7 @@ import SwiftUI
               .id("\(sound.id)-\(sound.isSelected)-\(audioManager.isGloballyPlaying)")
               .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
               .listRowSeparator(.hidden)
+              .listRowBackground(Color.clear)
               .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 Button {
                   soundToEdit = sound
@@ -150,6 +151,7 @@ import SwiftUI
           }
         }
         .listStyle(.plain)
+        .scrollContentBackground(.hidden)
         .environment(\.editMode, $editMode)
         .padding(.top, 8)
         .id("\(globalSettings.showSoundNames)")

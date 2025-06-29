@@ -7,6 +7,46 @@
 
 import PhotosUI
 import SwiftUI
+import UniformTypeIdentifiers
+
+extension UTType {
+  static let blankie = UTType(exportedAs: "com.codybrom.blankie.preset")
+}
+
+// MARK: - Exportable Preset
+
+struct ExportablePreset: Transferable {
+  let sheet: EditPresetSheet
+
+  static var transferRepresentation: some TransferRepresentation {
+    FileRepresentation(exportedContentType: .blankie) { exportable in
+      // Generate the export file on-demand
+      let updatedPreset = await exportable.sheet.createUpdatedPreset()
+      let tempArchiveURL = try await PresetExporter.shared.createArchive(for: updatedPreset)
+
+      // Move to Documents directory for proper sharing
+      let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        .first!
+      let fileName = "\(updatedPreset.name).blankie"
+        .replacingOccurrences(of: "/", with: "-")
+        .replacingOccurrences(of: ":", with: "-")
+      let finalURL = documentsPath.appendingPathComponent(fileName)
+
+      // Remove existing file if it exists
+      try? FileManager.default.removeItem(at: finalURL)
+
+      // Move the file
+      try FileManager.default.moveItem(at: tempArchiveURL, to: finalURL)
+
+      // Store the URL for cleanup later
+      await MainActor.run {
+        exportable.sheet.exportedURL = finalURL
+      }
+
+      return SentTransferredFile(finalURL, allowAccessingOriginalFile: true)
+    }
+  }
+}
 
 struct EditPresetSheet: View {
   let preset: Preset
@@ -29,6 +69,9 @@ struct EditPresetSheet: View {
   @State var backgroundBlurRadius: Double = 3.0  // Low Blur by default
   @State var backgroundOpacity: Double = 0.3  // Low Opacity by default
   @State var selectedBackgroundPhoto: PhotosPickerItem?
+  @State var exportError: String?
+  @State var exportedURL: URL?
+  @State var isExporting = false
   @Environment(\.dismiss) private var dismiss
 
   var orderedSounds: [Sound] {
@@ -50,7 +93,8 @@ struct EditPresetSheet: View {
       #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
-          leading: Button("Done") { isPresented = nil }
+          leading: Button("Done") { isPresented = nil },
+          trailing: exportButton
         )
       #else
         .formStyle(.grouped)
@@ -60,9 +104,16 @@ struct EditPresetSheet: View {
             Button("Done") { isPresented = nil }
             .keyboardShortcut(.escape)
           }
+          ToolbarItem(placement: .automatic) {
+            exportButton
+          }
         }
       #endif
       .onAppear(perform: setupInitialValues)
+      .onDisappear {
+        // Clean up exported file when sheet closes
+        cleanupExportedFile()
+      }
       #if os(iOS) || os(visionOS)
         .sheet(isPresented: $showingSoundSelection) {
           NavigationStack {
@@ -125,6 +176,82 @@ struct EditPresetSheet: View {
       }
     }
   }
+}
+
+// MARK: - Export Section
+
+extension EditPresetSheet {
+  @ViewBuilder
+  var exportButton: some View {
+    if !preset.isDefault {
+      if isExporting {
+        ProgressView()
+          .scaleEffect(0.8)
+      } else {
+        ShareLink(
+          item: ExportablePreset(sheet: self),
+          preview: {
+            if let artworkData = artworkData {
+              #if os(iOS)
+                if let uiImage = UIImage(data: artworkData) {
+                  SharePreview(
+                    presetName,
+                    image: Image(uiImage: uiImage),
+                    icon: Image(systemName: "doc.fill")
+                  )
+                } else {
+                  SharePreview(
+                    presetName,
+                    image: Image("NowPlaying"),
+                    icon: Image(systemName: "doc.fill")
+                  )
+                }
+              #else
+                if let nsImage = NSImage(data: artworkData) {
+                  SharePreview(
+                    presetName,
+                    image: Image(nsImage: nsImage),
+                    icon: Image(systemName: "doc.fill")
+                  )
+                } else {
+                  SharePreview(
+                    presetName,
+                    image: Image("NowPlaying"),
+                    icon: Image(systemName: "doc.fill")
+                  )
+                }
+              #endif
+            } else {
+              // Use the default Now Playing image
+              SharePreview(
+                presetName,
+                image: Image("NowPlaying"),
+                icon: Image(systemName: "doc.fill")
+              )
+            }
+          }()
+        ) {
+          Image(systemName: "square.and.arrow.up")
+        }
+        .onDisappear {
+          // Clean up the exported file when share sheet dismisses
+          cleanupExportedFile()
+        }
+      }
+    }
+  }
+
+  private func cleanupExportedFile() {
+    if let url = exportedURL {
+      // Delete the temporary file
+      try? FileManager.default.removeItem(at: url)
+      print("🗑️ Cleaned up temporary export file: \(url.lastPathComponent)")
+    }
+    // Reset the state
+    exportedURL = nil
+    exportError = nil
+  }
+
 }
 
 extension EditPresetSheet {
@@ -210,7 +337,7 @@ extension EditPresetSheet {
     }
   }
 
-  private func createUpdatedPreset() async -> Preset {
+  func createUpdatedPreset() async -> Preset {
     let currentVersion =
       Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
 

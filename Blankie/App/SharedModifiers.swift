@@ -22,7 +22,20 @@ struct SharedAppModifiers: ViewModifier {
       }
       .accentColor(globalSettings.customAccentColor ?? .accentColor)
       .onOpenURL { url in
-        audioFileImporter.handleIncomingFile(url)
+        if url.pathExtension == "blankie" {
+          // Handle preset import
+          Task { @MainActor in
+            do {
+              let importedPreset = try await PresetImporter.shared.importArchive(from: url)
+              print("📦 Imported preset '\(importedPreset.name)' from \(url.lastPathComponent)")
+            } catch {
+              print("❌ Failed to import presets: \(error)")
+            }
+          }
+        } else {
+          // Handle audio file import
+          audioFileImporter.handleIncomingFile(url)
+        }
       }
       .sheet(isPresented: $audioFileImporter.showingSoundSheet) {
         SoundSheet(mode: .add, preselectedFile: audioFileImporter.fileToImport)

@@ -236,6 +236,11 @@ class SoundCustomizationManager: ObservableObject {
     return !customizations.isEmpty
   }
 
+  /// Get all customizations
+  func getAllCustomizations() -> [SoundCustomization] {
+    return Array(customizations.values)
+  }
+
   // MARK: - Persistence
 
   private func saveCustomizationsInternal() {

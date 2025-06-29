@@ -84,6 +84,8 @@
 			<key>UTTypeConformsTo</key>
 			<array>
 				<string>public.data</string>
+				<string>public.content</string>
+				<string>public.item</string>
 			</array>
 			<key>UTTypeTagSpecification</key>
 			<dict>
@@ -97,6 +99,6 @@
 		</dict>
 	</array>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
-	<false/>
+	<true/>
 </dict>
 </plist>

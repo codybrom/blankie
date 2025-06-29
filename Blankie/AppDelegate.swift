@@ -5,9 +5,9 @@
 //  Created by Cody Bromley on 4/3/25.
 //
 
-#if os(macOS)
-  import SwiftUI
+import SwiftUI
 
+#if os(macOS)
   final class MacAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ notification: Notification) {
@@ -110,14 +110,6 @@
       return false  // Prevent app from quitting when last window closes
     }
 
-    func applicationWillTerminate(_ notification: Notification) {
-      // Save state
-      AudioManager.shared.saveState()
-      Task { @MainActor in
-        PresetManager.shared.savePresets()
-      }
-    }
-
     // Handle language change
     @objc private func languageDidChange(_ notification: Notification) {
       print("🌐 AppDelegate: Received language change notification")
@@ -153,7 +145,6 @@
     }
   }
 #elseif os(iOS) || os(visionOS)
-  import SwiftUI
   import UIKit
 
   final class IOSAppDelegate: NSObject, UIApplicationDelegate {
@@ -163,22 +154,6 @@
     ) -> Bool {
       // Setup background modes, notifications, etc.
       return true
-    }
-
-    func applicationWillTerminate(_ application: UIApplication) {
-      // Save state
-      AudioManager.shared.saveState()
-      Task { @MainActor in
-        PresetManager.shared.savePresets()
-      }
-    }
-
-    func applicationDidEnterBackground(_ application: UIApplication) {
-      // Save state when entering background
-      AudioManager.shared.saveState()
-      Task { @MainActor in
-        PresetManager.shared.savePresets()
-      }
     }
 
     func application(

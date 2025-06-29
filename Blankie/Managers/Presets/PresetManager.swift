@@ -8,10 +8,6 @@
 import Combine
 import SwiftUI
 
-#if os(iOS)
-  import UIKit
-#endif
-
 class PresetManager: ObservableObject {
   private var isInitializing = true
   static let shared = PresetManager()
@@ -104,27 +100,9 @@ class PresetManager: ObservableObject {
 
 extension PresetManager {
   private func setupObservers() {
-    // Observe app lifecycle for state changes that might affect presets
-    #if os(iOS)
-      NotificationCenter.default
-        .publisher(for: UIApplication.willTerminateNotification)
-        .sink { [weak self] _ in
-          Task { @MainActor in
-            self?.savePresets()
-          }
-        }
-        .store(in: &cancellables)
-
-      // Observe audio manager for state changes that might affect presets
-      NotificationCenter.default
-        .publisher(for: UIApplication.didEnterBackgroundNotification)
-        .sink { [weak self] _ in
-          Task { @MainActor in
-            self?.savePresets()
-          }
-        }
-        .store(in: &cancellables)
-    #endif
+    // Observe app lifecycle for state changes that might affect presets using SwiftUI scene phase
+    // This should be handled by SwiftUI's .onChange(of: scenePhase) in the app's main view
+    // Rather than using UIKit notifications directly
   }
 
 }
@@ -267,11 +245,9 @@ extension PresetManager {
         )
       }
 
-    // Only include sound order for sounds in this preset
-    let currentSoundOrder = AudioManager.shared.sounds
-      .filter { presetSoundFileNames.contains($0.fileName) }
-      .sorted { $0.customOrder < $1.customOrder }
-      .map(\.fileName)
+    // Preserve the preset's existing sound order, don't use global customOrder
+    // If the preset has an existing order, use it; otherwise use the order from soundStates
+    let currentSoundOrder = preset.soundOrder ?? preset.soundStates.map(\.fileName)
 
     return (newStates, currentSoundOrder)
   }
@@ -350,4 +326,480 @@ extension PresetManager {
     savePresets()
   }
 
+  @MainActor
+  func updateCurrentPresetSoundOrder(from source: IndexSet, to destination: Int) {
+    guard let preset = currentPreset else {
+      print("❌ PresetManager: No current preset to update sound order")
+      return
+    }
+
+    print("🎛️ PresetManager: Updating sound order for preset '\(preset.name)'")
+    print("  - Moving from indices: \(source) to destination: \(destination)")
+
+    // Get the current order of sounds in the preset
+    var soundOrder = preset.soundOrder ?? preset.soundStates.map(\.fileName)
+
+    // Filter to only include sounds that are actually in the preset
+    let presetSoundFileNames = Set(preset.soundStates.map(\.fileName))
+    soundOrder = soundOrder.filter { presetSoundFileNames.contains($0) }
+
+    // Debug: Print the sound being moved
+    for index in source {
+      if index < soundOrder.count {
+        print("  - Moving sound: '\(soundOrder[index])' from index \(index)")
+      } else {
+        print("  - WARNING: Index \(index) out of bounds for soundOrder count \(soundOrder.count)")
+      }
+    }
+
+    // Apply the move
+    soundOrder.move(fromOffsets: source, toOffset: destination)
+
+    // Update the preset
+    var updatedPreset = preset
+    updatedPreset.soundOrder = soundOrder
+    updatedPreset.lastModifiedVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+
+    // Update in the presets array
+    if let index = presets.firstIndex(where: { $0.id == preset.id }) {
+      presets[index] = updatedPreset
+      currentPreset = updatedPreset
+      savePresets()
+
+      print("🎛️ PresetManager: Updated sound order for preset '\(preset.name)'")
+      print("  - New order: \(soundOrder)")
+    }
+  }
+
+}
+
+// MARK: - Application Helpers
+
+extension PresetManager {
+
+  @MainActor func handleAlreadyActivePreset(_ preset: Preset) {
+    print("🎛️ PresetManager: Preset already active, but still updating Now Playing info")
+    print(
+      "🎨 PresetManager: Artwork ID: \(preset.artworkId != nil ? "✅ \(preset.artworkId!)" : "❌ None")"
+    )
+    AudioManager.shared.updateNowPlayingInfoForPreset(
+      presetName: preset.activeTitle,
+      creatorName: preset.creatorName,
+      artworkId: preset.artworkId
+    )
+  }
+
+  @MainActor func preparePresetApplication(_ preset: Preset) {
+    currentPreset = preset
+    PresetStorage.saveLastActivePresetID(preset.id)
+
+    // Pre-cache artwork for instant display
+    Task {
+      await PresetArtworkManager.shared.preCacheArtwork(for: preset)
+    }
+
+    print(
+      "🎨 PresetManager: Updating Now Playing with artwork ID: \(preset.artworkId != nil ? "✅ \(preset.artworkId!)" : "❌ None")"
+    )
+    AudioManager.shared.updateNowPlayingInfoForPreset(
+      presetName: preset.activeTitle,
+      creatorName: preset.creatorName,
+      artworkId: preset.artworkId
+    )
+  }
+
+  func executePresetApplication(preset: Preset, isInitialLoad: Bool) {
+    let targetStates = preset.soundStates
+    let wasPlaying = AudioManager.shared.isGloballyPlaying
+
+    Task { @MainActor in
+      if wasPlaying {
+        AudioManager.shared.pauseAll()
+        try? await Task.sleep(nanoseconds: 300_000_000)
+      }
+
+      applySoundStates(targetStates)
+
+      try? await Task.sleep(nanoseconds: 100_000_000)
+
+      let shouldAutoPlay = !isInitialLoad || GlobalSettings.shared.autoPlayOnLaunch
+      if shouldAutoPlay && targetStates.contains(where: { $0.isSelected }) {
+        AudioManager.shared.setGlobalPlaybackState(true)
+      }
+    }
+  }
+}
+
+// MARK: - Helper Methods
+
+extension PresetManager {
+  func handleError(_ error: Error) {
+    print("❌ PresetManager: Error occurred: \(error.localizedDescription)")
+    setError(error)
+  }
+
+  func updateCustomPresetStatus() {
+    setHasCustomPresets(presets.contains { !$0.isDefault })
+  }
+
+  func createDefaultPreset() -> Preset {
+    print("🎛️ PresetManager: Creating new default preset")
+    let currentVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+    return Preset(
+      id: UUID(),
+      name: "Default",
+      soundStates: AudioManager.shared.sounds.map { sound in
+        PresetState(
+          fileName: sound.fileName,
+          isSelected: false,
+          volume: 1.0
+        )
+      },
+      isDefault: true,
+      createdVersion: currentVersion,
+      lastModifiedVersion: currentVersion,
+      soundOrder: AudioManager.shared.sounds.map(\.fileName)
+    )
+  }
+
+  func logPresetState(_ preset: Preset) {
+    print("  - Name: '\(preset.name)'")
+    print("  - ID: \(preset.id)")
+    print("  - Is Default: \(preset.isDefault)")
+
+    // Only log active sounds
+    let activeStates = preset.soundStates.filter { $0.isSelected }
+    if !activeStates.isEmpty {
+      print("  - Active Sounds:")
+      activeStates.forEach { state in
+        print("    * \(state.fileName) (Volume: \(state.volume))")
+      }
+    }
+  }
+
+  func logPresetApplication(_ preset: Preset) {
+    print("\n🎛️ PresetManager: --- Begin Apply Preset ---")
+    print("🎛️ PresetManager: Applying preset '\(preset.name)':")
+    print("  - ID: \(preset.id)")
+    print("  - Is Default: \(preset.isDefault)")
+    print("  - Active Sounds:")
+    preset.soundStates
+      .filter { $0.isSelected }.forEach { state in
+        print("    * \(state.fileName) (Volume: \(state.volume))")
+      }
+  }
+
+  func applySoundStates(_ targetStates: [PresetState]) {
+    // Get the file names of sounds that should be in this preset
+    let presetSoundFileNames = Set(targetStates.map(\.fileName))
+
+    // First, disable all sounds that are NOT in this preset
+    AudioManager.shared.sounds.forEach { sound in
+      if !presetSoundFileNames.contains(sound.fileName) && sound.isSelected {
+        print("  - Disabling '\(sound.fileName)' (not in preset)")
+        sound.isSelected = false
+      }
+    }
+
+    // Then, apply the states for sounds that ARE in this preset
+    targetStates.forEach { state in
+      if let sound = AudioManager.shared.sounds.first(where: { $0.fileName == state.fileName }) {
+        let selectionChanged = sound.isSelected != state.isSelected
+        let volumeChanged = sound.volume != state.volume
+
+        if selectionChanged || volumeChanged {
+          print("  - Configuring '\(sound.fileName)':")
+          if selectionChanged {
+            print("    * Selection: \(sound.isSelected) -> \(state.isSelected)")
+          }
+          if volumeChanged {
+            print("    * Volume: \(sound.volume) -> \(state.volume)")
+          }
+
+          sound.isSelected = state.isSelected
+          sound.volume = state.volume
+        }
+      }
+    }
+  }
+
+}
+
+// MARK: - Persistence
+
+extension PresetManager {
+  @MainActor
+  func loadPresets() async {
+    print("\n🎛️ PresetManager: --- Begin Loading Presets ---")
+    setLoading(true)
+
+    do {
+      // Load or create default preset
+      let defaultPreset = PresetStorage.loadDefaultPreset() ?? createDefaultPreset()
+      setPresets([defaultPreset])
+
+      // Load custom presets
+      let customPresets = PresetStorage.loadCustomPresets()
+      if !customPresets.isEmpty {
+        var allPresets = presets
+        allPresets.append(contentsOf: customPresets)
+        setPresets(allPresets)
+      }
+
+      // Migrate any presets that contain old sound names with file extensions
+      migratePresetSoundNames()
+
+      // Ensure all custom presets have order values
+      ensurePresetOrder()
+
+      updateCustomPresetStatus()
+
+      // Load last active preset or default
+      if let lastID = PresetStorage.loadLastActivePresetID() {
+        print("🎛️ PresetManager: Found last active preset ID: \(lastID)")
+        if let lastPreset = presets.first(where: { $0.id == lastID }) {
+          print("🎛️ PresetManager: ✅ Found matching preset: '\(lastPreset.name)'")
+          print("\n🎛️ PresetManager: Loading last active preset:")
+          logPresetState(lastPreset)
+          try applyPreset(lastPreset, isInitialLoad: true)
+          print("🎛️ PresetManager: ✅ Successfully applied last active preset '\(lastPreset.name)'")
+        } else {
+          print("❌ PresetManager: Last active preset ID \(lastID) not found in loaded presets")
+          print("🎛️ PresetManager: Available presets: \(presets.map { "\($0.name) (\($0.id))" })")
+          print("🎛️ PresetManager: Falling back to default preset")
+          try applyPreset(presets[0], isInitialLoad: true)
+        }
+      } else {
+        print("🎛️ PresetManager: No last active preset ID found, applying default")
+        try applyPreset(presets[0], isInitialLoad: true)
+      }
+    } catch {
+      handleError(error)
+    }
+
+    setLoading(false)
+    setInitialLoad(false)
+    print("🎛️ PresetManager: --- End Loading Presets ---\n")
+  }
+
+  @MainActor
+  func savePresets() {
+    print("\n🎛️ PresetManager: --- Begin Saving Presets ---")
+
+    // Update current preset's state before saving
+    if let currentPreset = currentPreset,
+      let index = presets.firstIndex(where: { $0.id == currentPreset.id })
+    {
+      // Get the preset from the array to preserve any updates (like order)
+      var updatedPreset = presets[index]
+      // For custom presets, only update sounds that are already in the preset
+      if !updatedPreset.isDefault {
+        updatedPreset.soundStates = updatedPreset.soundStates.map { existingState in
+          // Find the current sound state
+          if let sound = AudioManager.shared.sounds.first(where: {
+            $0.fileName == existingState.fileName
+          }) {
+            return PresetState(
+              fileName: existingState.fileName,
+              isSelected: sound.isSelected,
+              volume: sound.volume
+            )
+          }
+          return existingState
+        }
+      } else {
+        // For default preset, include all sounds
+        updatedPreset.soundStates = AudioManager.shared.sounds.map { sound in
+          PresetState(
+            fileName: sound.fileName,
+            isSelected: sound.isSelected,
+            volume: sound.volume
+          )
+        }
+      }
+      updatePresetAtIndex(index, with: updatedPreset)
+      setCurrentPreset(updatedPreset)
+
+      print("Saving current preset state for '\(updatedPreset.name)':")
+      print("  - Active sounds:")
+      updatedPreset.soundStates
+        .filter { $0.isSelected }
+        .forEach { state in
+          print("    * \(state.fileName) (Volume: \(state.volume))")
+        }
+    }
+
+    let defaultPreset = presets.first { $0.isDefault }
+    let customPresets = presets.filter { !$0.isDefault }
+
+    // Move file I/O to background queue to prevent UI blocking
+    Task.detached {
+      if let defaultPreset = defaultPreset {
+        PresetStorage.saveDefaultPreset(defaultPreset)
+      }
+      PresetStorage.saveCustomPresets(customPresets)
+    }
+
+    // Cache thumbnails for quick access
+    Task {
+      await cacheAllThumbnails()
+    }
+
+    print("🎛️ PresetManager: --- End Saving Presets ---\n")
+  }
+
+  /// Migrates preset sound names from old format (with file extensions) to new format (without extensions)
+  private func migratePresetSoundNames() {
+    let legacyExtensions = ["mp3", "m4a", "wav", "aiff"]
+    var migratedPresets = [Preset]()
+    var hasMigrations = false
+
+    for preset in presets {
+      var migratedSoundStates = [PresetState]()
+      var presetHasMigrations = false
+
+      for soundState in preset.soundStates {
+        var migratedFileName = soundState.fileName
+
+        // Check if this fileName has a legacy extension
+        for ext in legacyExtensions where soundState.fileName.hasSuffix(".\(ext)") {
+          migratedFileName = soundState.fileName.replacingOccurrences(of: ".\(ext)", with: "")
+          presetHasMigrations = true
+          print(
+            "🔄 PresetManager: Migrating sound name in preset '\(preset.name)': '\(soundState.fileName)' -> '\(migratedFileName)'"
+          )
+          break
+        }
+
+        migratedSoundStates.append(
+          PresetState(
+            fileName: migratedFileName,
+            isSelected: soundState.isSelected,
+            volume: soundState.volume
+          ))
+      }
+
+      if presetHasMigrations {
+        var migratedPreset = preset
+        migratedPreset.soundStates = migratedSoundStates
+        migratedPresets.append(migratedPreset)
+        hasMigrations = true
+      } else {
+        migratedPresets.append(preset)
+      }
+    }
+
+    if hasMigrations {
+      setPresets(migratedPresets)
+      print("🔄 PresetManager: Preset migration completed, saving updated presets")
+
+      // Save the migrated presets immediately
+      let defaultPreset = migratedPresets.first { $0.isDefault }
+      let customPresets = migratedPresets.filter { !$0.isDefault }
+
+      if let defaultPreset = defaultPreset {
+        PresetStorage.saveDefaultPreset(defaultPreset)
+      }
+      PresetStorage.saveCustomPresets(customPresets)
+    }
+  }
+
+  /// Ensures all custom presets have unique order values assigned
+  @MainActor
+  private func ensurePresetOrder() {
+    var needsSave = false
+    var updatedPresets = presets
+
+    // Get custom presets
+    let customPresets = updatedPresets.filter { !$0.isDefault }
+
+    // Check for duplicates or nil order values
+    var orderValues = Set<Int>()
+    var hasDuplicates = false
+
+    for preset in customPresets {
+      if let order = preset.order {
+        if orderValues.contains(order) {
+          hasDuplicates = true
+          print("🎛️ PresetManager: Found duplicate order value: \(order)")
+          break
+        }
+        orderValues.insert(order)
+      }
+    }
+
+    // Check if any custom preset is missing order or has duplicates
+    let hasUnorderedPresets = customPresets.contains { $0.order == nil } || hasDuplicates
+
+    if hasUnorderedPresets {
+      print("🎛️ PresetManager: Reassigning order values to all custom presets")
+
+      // Sort custom presets by current order (if exists) then by name
+      let sortedCustomPresets = customPresets.sorted { preset1, preset2 in
+        // First sort by existing order if both have it
+        if let order1 = preset1.order, let order2 = preset2.order {
+          return order1 < order2
+        }
+        // Put presets with order before those without
+        if preset1.order != nil && preset2.order == nil {
+          return true
+        }
+        if preset1.order == nil && preset2.order != nil {
+          return false
+        }
+        // Fall back to name comparison
+        return preset1.name < preset2.name
+      }
+
+      // Assign sequential order values to all custom presets
+      for (index, preset) in sortedCustomPresets.enumerated() {
+        var updatedPreset = preset
+        updatedPreset.order = index
+        print("🎛️ PresetManager: Assigning order \(index) to preset '\(preset.name)'")
+
+        if let presetIndex = updatedPresets.firstIndex(where: { $0.id == preset.id }) {
+          updatedPresets[presetIndex] = updatedPreset
+          needsSave = true
+        }
+      }
+
+      if needsSave {
+        setPresets(updatedPresets)
+        savePresets()
+      }
+    }
+  }
+}
+
+// MARK: - Thumbnails
+
+extension PresetManager {
+  /// Cache a small thumbnail for quick access
+  @MainActor
+  func cacheThumbnail(for preset: Preset) async {
+    // Thumbnail caching should be handled by SwiftUI's image caching system
+    // or by the PresetArtworkManager directly, not through UserDefaults
+    // This avoids the need for UIKit image manipulation
+
+    // Simply ensure the artwork is pre-cached if it exists
+    if let artworkId = preset.artworkId {
+      _ = await PresetArtworkManager.shared.loadArtwork(id: artworkId)
+    }
+  }
+
+  /// Cache thumbnails for all presets
+  @MainActor
+  func cacheAllThumbnails() async {
+    for preset in presets {
+      await cacheThumbnail(for: preset)
+    }
+  }
+
+  /// Remove cached thumbnail when preset is deleted
+  func removeThumbnail(for presetId: UUID) {
+    // Let PresetArtworkManager handle its own cache cleanup
+    // No need for manual UserDefaults cleanup
+  }
 }

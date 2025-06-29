@@ -166,6 +166,28 @@ class PresetArtworkManager: ObservableObject {
     return results.first?.imageData
   }
 
+  /// Load raw artwork data by artwork ID
+  func loadArtworkData(id: UUID) async -> Data? {
+    await Task {
+      guard let context = modelContext else {
+        print("❌ PresetArtworkManager: No model context")
+        return nil
+      }
+
+      let descriptor = FetchDescriptor<PresetArtwork>(
+        predicate: #Predicate { $0.id == id }
+      )
+
+      do {
+        let results = try context.fetch(descriptor)
+        return results.first?.imageData
+      } catch {
+        print("❌ PresetArtworkManager: Failed to load artwork data: \(error)")
+        return nil
+      }
+    }.value
+  }
+
   /// Delete artwork for a preset
   func deleteArtwork(for presetId: UUID) async throws {
     guard let context = modelContext else {

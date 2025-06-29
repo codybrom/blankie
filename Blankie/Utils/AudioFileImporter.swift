@@ -20,6 +20,13 @@ class AudioFileImporter: ObservableObject {
 
     print("🎵 AudioFileImporter: Received file: \(url.lastPathComponent)")
 
+    // Check if it's a .blankie preset file first
+    if url.pathExtension.lowercased() == "blankie" {
+      print("📦 AudioFileImporter: Detected .blankie preset file, importing as preset")
+      handleBlankiePresetImport(url)
+      return
+    }
+
     // Verify it's an audio file
     guard let type = UTType(filenameExtension: url.pathExtension),
       type.conforms(to: .audio)
@@ -60,6 +67,18 @@ class AudioFileImporter: ObservableObject {
   func clearImport() {
     fileToImport = nil
     showingSoundSheet = false
+  }
+
+  private func handleBlankiePresetImport(_ url: URL) {
+    Task {
+      do {
+        let preset = try await PresetImporter.shared.importArchive(from: url)
+        print("📦 AudioFileImporter: Successfully imported preset '\(preset.name)'")
+      } catch {
+        print("❌ AudioFileImporter: Failed to import preset: \(error)")
+        // TODO: Show error alert to user
+      }
+    }
   }
 
 }

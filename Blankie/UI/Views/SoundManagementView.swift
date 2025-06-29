@@ -25,11 +25,11 @@ struct SoundManagementView: View {
   @State private var customSoundsExpanded = true
 
   private var builtInSounds: [Sound] {
-    audioManager.sounds.filter { !$0.isCustom }.sorted { $0.customOrder < $1.customOrder }
+    audioManager.sounds.filter { !$0.isCustom }
   }
 
   private var customSounds: [Sound] {
-    audioManager.sounds.filter { $0.isCustom }.sorted { $0.customOrder < $1.customOrder }
+    audioManager.sounds.filter { $0.isCustom }
   }
 
   var body: some View {
@@ -55,7 +55,7 @@ struct SoundManagementView: View {
         }
         .fileImporter(
           isPresented: $showingFilePicker,
-          allowedContentTypes: [.audio],
+          allowedContentTypes: [.audio, .blankiePreset],
           allowsMultipleSelection: false
         ) { result in
           handleFileImport(result)
@@ -226,6 +226,15 @@ struct SoundManagementView: View {
     switch result {
     case .success(let urls):
       guard let url = urls.first else { return }
+
+      // Check if it's a .blankie preset file
+      if url.pathExtension.lowercased() == "blankie" {
+        // Use AudioFileImporter to handle preset import
+        AudioFileImporter.shared.handleIncomingFile(url)
+        return
+      }
+
+      // Otherwise, it's an audio file for custom sound
       selectedFileURL = url
       showingImportSheet = true
     case .failure(let error):

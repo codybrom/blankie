@@ -26,6 +26,9 @@ class CustomSoundData {
   var detectedLUFS: Float?  // Store the detected LUFS (Loudness Units relative to Full Scale)
   var normalizationFactor: Float?  // Pre-calculated normalization factor
 
+  // File integrity
+  var sha256Hash: String?  // SHA-256 hash of the audio file for deduplication and integrity
+
   // Credit information for custom sounds
   var originalFileName: String?
   var creditAuthor: String?
@@ -41,9 +44,9 @@ class CustomSoundData {
   var id3Comment: String?
   var id3Url: String?
 
-  // Permissions for future sharing features
-  var allowOthersToEdit: Bool = true
-  var allowOthersToReshare: Bool = true
+  // Import metadata
+  var importedFromPresetId: UUID?  // Which preset this sound was imported with
+  var importedFromPresetName: String?  // Name of the preset it was imported with
 
   init(
     title: String,
@@ -63,8 +66,8 @@ class CustomSoundData {
     creditLicenseType: String = "",
     creditCustomLicenseText: String? = nil,
     creditCustomLicenseUrl: String? = nil,
-    allowOthersToEdit: Bool = true,
-    allowOthersToReshare: Bool = true
+    importedFromPresetId: UUID? = nil,
+    importedFromPresetName: String? = nil
   ) {
     self.title = title
     self.systemIconName = systemIconName
@@ -84,8 +87,8 @@ class CustomSoundData {
     self.creditLicenseType = creditLicenseType
     self.creditCustomLicenseText = creditCustomLicenseText
     self.creditCustomLicenseUrl = creditCustomLicenseUrl
-    self.allowOthersToEdit = allowOthersToEdit
-    self.allowOthersToReshare = allowOthersToReshare
+    self.importedFromPresetId = importedFromPresetId
+    self.importedFromPresetName = importedFromPresetName
   }
 
   // Convert to SoundData for compatibility with existing system

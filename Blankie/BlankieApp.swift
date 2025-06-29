@@ -17,6 +17,7 @@ struct BlankieApp: App {
   // Shared state objects
   @StateObject private var globalSettings = GlobalSettings.shared
   @State private var showingAbout = false
+  @Environment(\.scenePhase) private var scenePhase
 
   // Initialize SwiftData
   init() {
@@ -44,6 +45,9 @@ struct BlankieApp: App {
           showingSettings: .constant(false)
         )
         .sharedAppModifiers(appSetup: appSetup, globalSettings: globalSettings)
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+          handleScenePhaseChange(oldPhase: oldPhase, newPhase: newPhase)
+        }
       }
       .modelContainer(modelContainer)
       .defaultPosition(.center)
@@ -64,7 +68,6 @@ struct BlankieApp: App {
     @UIApplicationDelegateAdaptor(IOSAppDelegate.self) private var appDelegate
     @StateObject private var presetManager = PresetManager.shared
     @StateObject private var timerManager = TimerManager.shared
-    @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
       WindowGroup {
@@ -76,13 +79,38 @@ struct BlankieApp: App {
           globalSettings.appearance == .system
             ? nil : (globalSettings.appearance == .dark ? .dark : .light)
         )
-        .onChange(of: scenePhase) { _, _ in
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+          handleScenePhaseChange(oldPhase: oldPhase, newPhase: newPhase)
           timerManager.handleScenePhaseChange()
         }
       }
       .modelContainer(modelContainer)
     }
   #endif
+
+  // MARK: - Scene Phase Handling
+
+  private func handleScenePhaseChange(oldPhase: ScenePhase, newPhase: ScenePhase) {
+    switch newPhase {
+    case .background:
+      // Save state when app goes to background
+      AudioManager.shared.saveState()
+      Task { @MainActor in
+        PresetManager.shared.savePresets()
+      }
+    case .inactive:
+      // Save state when app becomes inactive
+      AudioManager.shared.saveState()
+      Task { @MainActor in
+        PresetManager.shared.savePresets()
+      }
+    case .active:
+      // App is active, no action needed
+      break
+    @unknown default:
+      break
+    }
+  }
 }
 
 #if DEBUG

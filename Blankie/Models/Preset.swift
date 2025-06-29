@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 struct Preset: Codable, Identifiable, Equatable {
   let id: UUID
@@ -28,6 +29,10 @@ struct Preset: Codable, Identifiable, Equatable {
   // Preset order for navigation
   var order: Int?
 
+  // Import metadata - tracks if this preset was imported
+  var isImported: Bool?
+  var originalId: UUID?  // Original ID from imported preset for duplicate detection
+
   /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
   var displayName: String {
     return isDefault ? "Blankie – All Sounds" : name
@@ -49,6 +54,7 @@ struct Preset: Codable, Identifiable, Equatable {
       && lhs.backgroundBlurRadius == rhs.backgroundBlurRadius
       && lhs.backgroundOpacity == rhs.backgroundOpacity
       && lhs.order == rhs.order
+      && lhs.isImported == rhs.isImported
   }
 
   func validate() -> Bool {
@@ -80,5 +86,25 @@ struct Preset: Codable, Identifiable, Equatable {
     }
 
     return true
+  }
+}
+
+// MARK: - Transferable
+extension UTType {
+  static let blankiePreset = UTType(exportedAs: "com.codybrom.blankie.preset")
+}
+
+// Wrapper for the exported file with proper metadata
+struct BlankiePresetFile: Transferable {
+  let url: URL
+  let presetName: String
+
+  static var transferRepresentation: some TransferRepresentation {
+    FileRepresentation(exportedContentType: .blankiePreset) { file in
+      SentTransferredFile(file.url, allowAccessingOriginalFile: true)
+    }
+    .suggestedFileName { file in
+      "\(file.presetName).blankie"
+    }
   }
 }

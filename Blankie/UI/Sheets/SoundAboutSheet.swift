@@ -110,8 +110,6 @@ struct SoundAboutSheet: View {
 
         editableCredits.customLicenseText = customSoundData.creditCustomLicenseText ?? ""
         editableCredits.customLicenseUrl = customSoundData.creditCustomLicenseUrl ?? ""
-        allowOthersToEdit = customSoundData.allowOthersToEdit
-        allowOthersToReshare = customSoundData.allowOthersToReshare
       }
     }
   }
@@ -140,8 +138,6 @@ struct SoundAboutSheet: View {
             editableCredits.customLicenseText.isEmpty ? nil : editableCredits.customLicenseText
           data.creditCustomLicenseUrl =
             editableCredits.customLicenseUrl.isEmpty ? nil : editableCredits.customLicenseUrl
-          data.allowOthersToEdit = allowOthersToEdit
-          data.allowOthersToReshare = allowOthersToReshare
 
           try modelContext.save()
         }

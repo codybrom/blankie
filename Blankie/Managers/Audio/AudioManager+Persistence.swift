@@ -40,4 +40,12 @@ extension AudioManager {
     }
     UserDefaults.standard.set(state, forKey: "soundState")
   }
+
+
+  func updateDefaultSoundOrder(from source: IndexSet, to destination: Int) {
+    defaultSoundOrder.move(fromOffsets: source, toOffset: destination)
+    UserDefaults.standard.set(defaultSoundOrder, forKey: "defaultSoundOrder")
+    objectWillChange.send()
+    print("🎵 AudioManager: Updated default sound order - moved from \(source) to \(destination)")
+  }
 }

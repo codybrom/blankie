@@ -249,7 +249,6 @@ extension Sound {
     // Clear user defaults
     UserDefaults.standard.removeObject(forKey: "\(fileName)_isSelected")
     UserDefaults.standard.removeObject(forKey: "\(fileName)_volume")
-    UserDefaults.standard.removeObject(forKey: "\(fileName)_customOrder")
     UserDefaults.standard.removeObject(forKey: "\(fileName)_isHidden")
 
     print("✅ Sound: Reset complete for '\(fileName)'")

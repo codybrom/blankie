@@ -372,6 +372,42 @@ extension PresetManager {
     }
   }
 
+  @MainActor
+  func updateCurrentPresetWithOrder(_ newOrder: [String]) {
+    guard let preset = currentPreset else {
+      print("❌ PresetManager: No current preset to update sound order")
+      return
+    }
+
+    print("🎛️ PresetManager: Updating sound order for preset '\(preset.name)'")
+    print("  - New order: \(newOrder)")
+
+    // Update the preset
+    var updatedPreset = preset
+    updatedPreset.soundOrder = newOrder
+    updatedPreset.lastModifiedVersion =
+      Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
+
+    // Update in the presets array
+    if let index = presets.firstIndex(where: { $0.id == preset.id }) {
+      presets[index] = updatedPreset
+      currentPreset = updatedPreset
+      savePresets()
+
+      // Force UI update
+      objectWillChange.send()
+
+      print("🎛️ PresetManager: Successfully updated sound order")
+      
+      // Verify the update
+      if let verifyPreset = presets.first(where: { $0.id == preset.id }) {
+        print("🎛️ PresetManager: Verified saved order: \(verifyPreset.soundOrder ?? [])")
+      }
+    } else {
+      print("❌ PresetManager: Failed to find preset in array!")
+    }
+  }
+
 }
 
 // MARK: - Application Helpers

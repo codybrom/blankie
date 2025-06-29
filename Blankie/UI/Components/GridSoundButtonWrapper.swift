@@ -14,6 +14,7 @@ import SwiftUI
     @Binding var editMode: EditMode
     @Binding var draggedIndex: Int?
     let audioManager: AudioManager
+    let onMove: ((Int, Int) -> Void)?
 
     @State private var isDropTarget = false
 
@@ -53,9 +54,14 @@ import SwiftUI
               if let draggedIdx = draggedIndex,
                 draggedIdx != index
               {
-                // Perform the move on drop
+                // Perform the move on drop using the provided move handler
                 withAnimation(.easeInOut(duration: 0.2)) {
-                  audioManager.moveVisibleSound(from: draggedIdx, to: index)
+                  if let onMove = onMove {
+                    onMove(draggedIdx, index)
+                  } else {
+                    // Fallback to default behavior for backward compatibility
+                    audioManager.moveVisibleSound(from: draggedIdx, to: index)
+                  }
                 }
                 draggedIndex = nil
                 return true

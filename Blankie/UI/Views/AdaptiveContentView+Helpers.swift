@@ -8,13 +8,19 @@ import SwiftUI
       let currentHash =
         audioManager.getVisibleSounds().count.hashValue ^ hideInactiveSounds.hashValue
         ^ editMode.hashValue ^ (presetManager.currentPreset?.id.hashValue ?? 0)
+        ^ (presetManager.currentPreset?.soundOrder?.hashValue ?? 0)
         ^ soundsUpdateTrigger.hashValue
 
+      print("🔍 FilteredSounds: Current hash: \(currentHash), Last hash: \(lastFilterHash)")
+      print("🔍 FilteredSounds: soundsUpdateTrigger: \(soundsUpdateTrigger)")
+      
       // Only recompute if dependencies changed
       if currentHash != lastFilterHash {
+        print("🔍 FilteredSounds: Hash changed, recomputing...")
         return computeFilteredSounds(currentHash: currentHash)
       }
 
+      print("🔍 FilteredSounds: Using cached results")
       return cachedFilteredSounds
     }
 
@@ -32,7 +38,7 @@ import SwiftUI
     private func filterSounds() -> [Sound] {
       let visibleSounds = audioManager.getVisibleSounds()
 
-      return visibleSounds.filter { sound in
+      let filteredSounds = visibleSounds.filter { sound in
         // First check if sound is included in current preset
         if let currentPreset = presetManager.currentPreset {
           // For default preset, show all sounds
@@ -64,6 +70,33 @@ import SwiftUI
           } else {
             return true
           }
+        }
+      }
+
+      // Sort filtered sounds according to preset order or default sound order
+      if let currentPreset = presetManager.currentPreset,
+        !currentPreset.isDefault,
+        let soundOrder = currentPreset.soundOrder
+      {
+        // Use preset's sound order for custom presets
+        print("🔍 FilteredSounds: Using preset order: \(soundOrder)")
+        let orderDict = Dictionary(uniqueKeysWithValues: soundOrder.enumerated().map { ($1, $0) })
+
+        return filteredSounds.sorted { sound1, sound2 in
+          let index1 = orderDict[sound1.fileName] ?? Int.max
+          let index2 = orderDict[sound2.fileName] ?? Int.max
+          return index1 < index2
+        }
+      } else {
+        // Use default sound order for default preset or no preset
+        print("🔍 FilteredSounds: Using default order: \(audioManager.defaultSoundOrder)")
+        let orderDict = Dictionary(
+          uniqueKeysWithValues: audioManager.defaultSoundOrder.enumerated().map { ($1, $0) })
+
+        return filteredSounds.sorted { sound1, sound2 in
+          let index1 = orderDict[sound1.fileName] ?? Int.max
+          let index2 = orderDict[sound2.fileName] ?? Int.max
+          return index1 < index2
         }
       }
     }

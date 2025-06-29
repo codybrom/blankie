@@ -97,13 +97,6 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
     }
   }
 
-  @Published var customOrder: Int = 0 {
-    didSet {
-      UserDefaults.standard.set(customOrder, forKey: "\(fileName)_customOrder")
-      print("🔊 Sound: \(fileName) -  customOrder set to \(customOrder)")
-    }
-  }
-
   internal var volumeDebounceTimer: Timer?
   internal var updateVolumeLogTimer: Timer?
 
@@ -189,13 +182,6 @@ open class Sound: NSObject, ObservableObject, Identifiable, AVAudioPlayerDelegat
 
     // Restore selected state
     self.isSelected = UserDefaults.standard.bool(forKey: "\(fileName)_isSelected")
-
-    // Restore custom order (use default order if not set)
-    if UserDefaults.standard.object(forKey: "\(fileName)_customOrder") != nil {
-      self.customOrder = UserDefaults.standard.integer(forKey: "\(fileName)_customOrder")
-    } else {
-      self.customOrder = defaultOrder
-    }
 
     // Observe "All Sounds" volume changes
     globalSettingsObserver = GlobalSettings.shared.$volume

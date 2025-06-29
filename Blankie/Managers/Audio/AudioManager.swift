@@ -17,6 +17,7 @@ class AudioManager: ObservableObject {
   var onReset: (() -> Void)?
 
   @Published var sounds: [Sound] = []
+  @Published var defaultSoundOrder: [String] = []  // Order of sounds in default view
   @Published var isGloballyPlaying: Bool = false
   @Published var soloModeSound: Sound?
   @Published var hasSelectedSounds: Bool = false

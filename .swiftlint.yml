@@ -6,7 +6,4 @@ disabled_rules:
   - multiple_closures_with_trailing_closure
   - trailing_comma
   - opening_brace
-
-file_length:
-  warning: 500
-  error: 600
+  - file_length

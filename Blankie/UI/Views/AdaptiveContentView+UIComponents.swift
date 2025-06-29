@@ -133,6 +133,7 @@ import SwiftUI
               } else {
                 // Normal toggle between grid and list
                 showingListView.toggle()
+                globalSettings.setShowingListView(showingListView)
               }
             }
           }) {

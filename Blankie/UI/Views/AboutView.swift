@@ -27,6 +27,7 @@ struct AboutView: View {
   @Environment(\.dismiss) private var dismiss
   @State private var isSoundCreditsExpanded = false
   @State private var isLicenseExpanded = false
+  @State private var isAcknowledgementsExpanded = false
   @State private var contributors: [String] = []
   @State private var translators: [String: [String]] = [:]
 
@@ -176,8 +177,9 @@ struct AboutView: View {
             comment: "Expandable section title: Sound Credits",
             isExpanded: $isSoundCreditsExpanded,
             onExpand: {
-              // Close other section when this one opens
+              // Close other sections when this one opens
               isLicenseExpanded = false
+              isAcknowledgementsExpanded = false
             }
           ) {
             VStack(alignment: .leading, spacing: 4) {
@@ -192,11 +194,25 @@ struct AboutView: View {
             comment: "Expandable section title: Software License",
             isExpanded: $isLicenseExpanded,
             onExpand: {
-              // Close other section when this one opens
+              // Close other sections when this one opens
               isSoundCreditsExpanded = false
+              isAcknowledgementsExpanded = false
             }
           ) {
             SoftwareLicenseSection()
+          }
+
+          ExpandableSection(
+            title: "Acknowledgements",
+            comment: "Expandable section title: Acknowledgements",
+            isExpanded: $isAcknowledgementsExpanded,
+            onExpand: {
+              // Close other sections when this one opens
+              isSoundCreditsExpanded = false
+              isLicenseExpanded = false
+            }
+          ) {
+            AcknowledgementsSection()
           }
         }
 

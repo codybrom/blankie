@@ -8,22 +8,27 @@ import bySvg from "../assets/by.svg";
 const title = "Credits";
 const contributors = creditsJSON.contributors || [];
 const translators = creditsJSON.translators || {};
+const dependencies = creditsJSON.dependencies || [];
 
 interface Sound {
   title: string;
   author: string;
-  authorUrl: string | null;
+  authorUrl: string;
   license: string;
-  soundUrl: string | null;
-  soundName?: string;
+  soundUrl: string;
+  soundName: string;
   description?: string;
-  note?: string;
+  fileName: string;
+  systemIconName: string;
+  defaultOrder: number;
+  lufs: number;
+  normalizationFactor: number;
 }
 
 let sounds: Sound[] = [];
 
 if (soundsJSON && soundsJSON.sounds) {
-  sounds = soundsJSON.sounds;
+  sounds = soundsJSON.sounds as Sound[];
 } else {
   console.error("Error: Invalid JSON structure or missing 'sounds' array");
 }
@@ -335,6 +340,28 @@ function getLicenseURL(license: string) {
             </a>.
           </p>
         </div>
+
+        <!-- Software Dependencies subsection -->
+        {
+          dependencies.length > 0 && (
+            <div>
+              <h3 class="text-xl font-medium mb-3">Software Dependencies</h3>
+              <div class="space-y-2">
+                {dependencies.map((dependency) => (
+                  <p class="text-sm">
+                    <a
+                      href={dependency.url}
+                      class="text-yellow-500 hover:text-yellow-700 transition-colors"
+                    >
+                      {dependency.name}
+                    </a>{" "}
+                    by {dependency.author}, licensed under the {dependency.license}.
+                  </p>
+                ))}
+              </div>
+            </div>
+          )
+        }
 
         <!-- Website Content subsection -->
         <div>

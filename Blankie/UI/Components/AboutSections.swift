@@ -113,7 +113,8 @@ struct TranslatorSection: View {
 
         // Centered last item if odd count
         if let lastLanguage = lastLanguage,
-          let translatorList = translators[lastLanguage], !translatorList.isEmpty {
+          let translatorList = translators[lastLanguage], !translatorList.isEmpty
+        {
           VStack(spacing: 4) {
             Text(lastLanguage)
               .font(.system(size: 12, weight: .medium))
@@ -179,6 +180,47 @@ struct SoftwareLicenseSection: View {
       .foregroundColor(.accentColor)
       .font(.system(size: 12))
       .handCursor()
+    }
+  }
+}
+
+struct AcknowledgementsSection: View {
+  @State private var dependencies: [Dependency] = []
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      if dependencies.isEmpty {
+        Text("Loading dependencies...")
+          .font(.system(size: 12))
+          .foregroundStyle(.secondary)
+      } else {
+        ForEach(dependencies, id: \.name) { dependency in
+          Text(
+            verbatim:
+              "\(dependency.name) by \(dependency.author), licensed under the \(dependency.license)."
+          )
+          .font(.system(size: 12))
+        }
+      }
+    }
+    .onAppear {
+      loadDependencies()
+    }
+  }
+
+  private func loadDependencies() {
+    guard let url = Bundle.main.url(forResource: "credits", withExtension: "json") else {
+      print("Unable to find credits.json in bundle")
+      return
+    }
+
+    do {
+      let data = try Data(contentsOf: url)
+      let decoder = JSONDecoder()
+      let credits = try decoder.decode(Credits.self, from: data)
+      self.dependencies = credits.dependencies ?? []
+    } catch {
+      print("Error loading dependencies: \(error)")
     }
   }
 }

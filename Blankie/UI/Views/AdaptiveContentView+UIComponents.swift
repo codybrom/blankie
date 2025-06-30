@@ -14,7 +14,41 @@ import SwiftUI
 
     @ViewBuilder
     var statusBanners: some View {
-      if audioManager.soloModeSound != nil && editMode == .inactive {
+      // Timer banner (highest priority)
+      if TimerManager.shared.isTimerActive && editMode == .inactive {
+        HStack(spacing: 8) {
+          Image(systemName: "timer")
+            .font(.system(size: 16))
+            .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+
+          if TimerManager.shared.remainingTime < 60 {
+            // Show countdown for less than 1 minute
+            Text("Blankie will stop in \(formatTime(TimerManager.shared.remainingTime))")
+              .font(.system(.subheadline, design: .rounded, weight: .medium))
+              .foregroundColor(.primary)
+          } else {
+            // Show end time for 1 minute or more
+            Text("Blankie will stop at \(formatEndTime())")
+              .font(.system(.subheadline, design: .rounded, weight: .medium))
+              .foregroundColor(.primary)
+          }
+
+          Spacer()
+
+          Button("Modify") {
+            showingTimer = true
+          }
+          .font(.system(.subheadline, weight: .medium))
+          .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
+          .buttonStyle(.plain)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
+        .padding(.horizontal, 16)
+        .foregroundStyle(.primary)
+        .background(.regularMaterial)
+        .transition(.move(edge: .top).combined(with: .opacity))
+      } else if audioManager.soloModeSound != nil && editMode == .inactive {
         // Solo mode banner
         HStack(spacing: 12) {
           Image(systemName: "headphones.circle.fill")
@@ -52,20 +86,6 @@ import SwiftUI
             .font(.system(.subheadline, design: .rounded, weight: .medium))
 
           Spacer()
-
-          if showingListView && !isLargeDevice {
-            Button(action: {
-              withAnimation(.easeInOut(duration: 0.3)) {
-                editMode = editMode == .active ? .inactive : .active
-              }
-            }) {
-              Text(editMode == .active ? "Done" : "Reorder")
-                .font(.system(.subheadline, weight: .medium))
-                .foregroundColor(globalSettings.customAccentColor ?? .accentColor)
-            }
-            .buttonStyle(.plain)
-            .sensoryFeedback(.selection, trigger: editMode)
-          }
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 8)
@@ -260,6 +280,24 @@ import SwiftUI
           }
       }
       .sensoryFeedback(.selection, trigger: menuTrigger)
+    }
+
+    // MARK: - Helper Functions
+
+    private func formatTime(_ timeInterval: TimeInterval) -> String {
+      let formatter = DateComponentsFormatter()
+      formatter.unitsStyle = .full
+      formatter.allowedUnits = timeInterval >= 60 ? [.hour, .minute] : [.minute, .second]
+      formatter.zeroFormattingBehavior = .dropAll
+
+      return formatter.string(from: timeInterval) ?? "0 seconds"
+    }
+
+    private func formatEndTime() -> String {
+      let endTime = Date().addingTimeInterval(TimerManager.shared.remainingTime)
+      let formatter = DateFormatter()
+      formatter.timeStyle = .short
+      return formatter.string(from: endTime)
     }
   }
 #endif

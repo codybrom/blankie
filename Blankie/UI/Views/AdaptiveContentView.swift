@@ -14,6 +14,7 @@ private struct AnimationTrigger: Equatable {
     @StateObject var audioManager = AudioManager.shared
     @StateObject var globalSettings = GlobalSettings.shared
     @StateObject var presetManager = PresetManager.shared
+    @StateObject var timerManager = TimerManager.shared
 
     @State var showingListView = false
     @State var showingPresetPicker = false

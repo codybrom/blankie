@@ -153,6 +153,7 @@ import SwiftUI
             timerManager.selectedHours * 3600 + timerManager.selectedMinutes * 60)
           if totalSeconds > 0 {
             timerManager.startTimer(duration: totalSeconds)
+            dismiss()
           }
         }) {
           Label("Start Timer", systemImage: "timer")
@@ -166,7 +167,7 @@ import SwiftUI
         .padding(.horizontal)
         .disabled(timerManager.selectedHours == 0 && timerManager.selectedMinutes == 0)
 
-        Text("Blankie will pause when timer expires")
+        Text("Blankie will stop when timer expires")
           .font(.body)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)

@@ -108,37 +108,7 @@ import SwiftUI
             .listRowInsets(EdgeInsets(top: 12, leading: 20, bottom: 8, trailing: 20))
             .listRowSeparator(.hidden)
             .listRowBackground(Color.clear)
-            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-              Button {
-                soundToEdit = sound
-              } label: {
-                Label("Edit", systemImage: "pencil")
-              }
-              .tint(.blue)
-
-              // Solo button - only show if not already in solo mode
-              if audioManager.soloModeSound?.id != sound.id {
-                Button {
-                  withAnimation(.easeInOut(duration: 0.3)) {
-                    audioManager.toggleSoloMode(for: sound)
-                  }
-                } label: {
-                  Label("Solo", systemImage: "headphones")
-                }
-                .tint(.orange)
-                .sensoryFeedback(.selection, trigger: audioManager.soloModeSound?.id)
-              }
-            }
             .contextMenu {
-              // Title with credits
-              Text(
-                isCustomSound(sound)
-                  ? "\(sound.title) (Custom • Added By You)"
-                  : "\(sound.title) (Built-in\(getSoundAuthor(for: sound).map { " • By \($0)" } ?? ""))"
-              )
-              .font(.title2)
-              .fontWeight(.bold)
-
               // Solo Mode - only show if not already in solo mode
               if audioManager.soloModeSound?.id != sound.id {
                 Button(action: {

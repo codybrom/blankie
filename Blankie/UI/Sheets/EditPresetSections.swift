@@ -20,10 +20,10 @@ extension EditPresetSheet {
   }
 }
 
-// MARK: - Now Playing Section (Name, Creator & Artwork)
+// MARK: - Core Section (Name and Sounds)
 extension EditPresetSheet {
-  var nowPlayingInfoSection: some View {
-    Section("Now Playing") {
+  var coreSection: some View {
+    Section {
       // Name field
       LabeledContent("Name") {
         TextField("Required", text: $presetName)
@@ -32,7 +32,45 @@ extension EditPresetSheet {
             applyChangesInstantly()
           }
       }
+      
+      // Sounds field
+      #if os(iOS)
+        Button {
+          showingSoundSelection = true
+        } label: {
+          LabeledContent("Sounds") {
+            HStack {
+              Text("\(selectedSounds.count) Selected")
+                .foregroundStyle(.secondary)
+              Image(systemName: "chevron.right")
+                .foregroundStyle(.tertiary)
+                .imageScale(.small)
+            }
+          }
+        }
+        .buttonStyle(.plain)
+      #else
+        NavigationLink(
+          destination: SoundSelectionView(
+            selectedSounds: $selectedSounds, orderedSounds: orderedSounds)
+        ) {
+          LabeledContent("Sounds") {
+            Text("\(selectedSounds.count) Selected")
+              .foregroundStyle(.secondary)
+          }
+        }
+      #endif
+    }
+    .onChange(of: selectedSounds) { _, _ in
+      applyChangesInstantly()
+    }
+  }
+}
 
+// MARK: - Now Playing Section (Creator & Artwork)
+extension EditPresetSheet {
+  var nowPlayingSection: some View {
+    Section("Now Playing") {
       // Creator field
       LabeledContent("Creator") {
         TextField("Optional", text: $creatorName)
@@ -86,10 +124,10 @@ extension EditPresetSheet {
   }
 }
 
-// MARK: - Basic Info Section (deprecated - use nowPlayingInfoSection)
+// MARK: - Basic Info Section (deprecated - use nowPlayingSection)
 extension EditPresetSheet {
   var basicInfoSection: some View {
-    nowPlayingInfoSection
+    nowPlayingSection
   }
 }
 

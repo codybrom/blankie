@@ -131,6 +131,13 @@ struct EditPresetSheet: View {
         .sheet(isPresented: $showingImagePicker) {
           #if os(iOS)
             ImagePicker(imageData: $artworkData)
+              .onDisappear {
+                if artworkData != nil {
+                  // Generate new ID for the new artwork
+                  artworkId = UUID()
+                  applyChangesInstantly()
+                }
+              }
           #endif
         }
       #else
@@ -258,9 +265,11 @@ extension EditPresetSheet {
   var editablePresetSections: some View {
     Group {
       errorSection
-      soundsSection
-      nowPlayingInfoSection  // Name, Creator & Artwork together
-      backgroundSection
+      coreSection
+      nowPlayingSection  // Creator & Artwork
+      if artworkData != nil || artworkId != nil {
+        backgroundSection
+      }
       deleteSection
     }
   }
@@ -270,9 +279,9 @@ extension EditPresetSheet {
     creatorName = preset.creatorName ?? ""
     selectedSounds = Set(preset.soundStates.map(\.fileName))
     artworkId = preset.artworkId
-    showBackgroundImage = preset.showBackgroundImage ?? false
-    // Default to using artwork as background if artwork exists and useArtworkAsBackground hasn't been set
-    useArtworkAsBackground = preset.useArtworkAsBackground ?? (preset.artworkId != nil)
+    showBackgroundImage = preset.showBackgroundImage ?? true
+    // Default to using artwork as background
+    useArtworkAsBackground = preset.useArtworkAsBackground ?? true
     backgroundImageId = preset.backgroundImageId
     backgroundBlurRadius = preset.backgroundBlurRadius ?? 15.0
     backgroundOpacity = preset.backgroundOpacity ?? 0.65
@@ -363,7 +372,7 @@ extension EditPresetSheet {
     updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
     updatedPreset.soundStates = selectedSoundStates
 
-    // Handle artwork saving - await completion before returning
+    // Handle artwork saving or deletion
     if let data = artworkData {
       // Save artwork (this will update existing or create new)
       do {
@@ -373,6 +382,14 @@ extension EditPresetSheet {
         print("🎨 EditPresetSheet: Saved artwork with ID: \(savedId)")
       } catch {
         print("❌ EditPresetSheet: Failed to save artwork: \(error)")
+      }
+    } else if artworkId == nil && preset.artworkId != nil {
+      // Artwork was deleted - clean up old artwork
+      do {
+        try await PresetArtworkManager.shared.deleteArtwork(for: preset.artworkId!)
+        print("🎨 EditPresetSheet: Deleted old artwork")
+      } catch {
+        print("❌ EditPresetSheet: Failed to delete old artwork: \(error)")
       }
     }
 
@@ -437,6 +454,8 @@ extension EditPresetSheet {
             let targetSize = CGSize(width: 300, height: 300)
             if let processedData = processImage(nsImage: nsImage, targetSize: targetSize) {
               artworkData = processedData
+              artworkId = UUID()  // Generate new ID for the new artwork
+              applyChangesInstantly()
             }
           }
         } catch {

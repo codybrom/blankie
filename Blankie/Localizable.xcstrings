@@ -1,177 +1,54 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    " — " : {
-      "comment" : "Text separator",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : " — "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : " — "
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : " — "
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : " — "
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : " — "
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : " — "
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "" : {
+
     },
-    ", " : {
-      "comment" : "Text separator",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ", "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : ", "
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ", "
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ", "
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ", "
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : ", "
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "-50%" : {
+      "comment" : "Volume decrease label"
     },
-    "•" : {
-      "comment" : "Text separator",
-      "extractionState" : "manual",
+    "%@ (Built-in%@)" : {
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "•"
-          }
-        },
         "en" : {
           "stringUnit" : {
-            "state" : "translated",
-            "value" : "•"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "•"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "•"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "•"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "•"
+            "state" : "new",
+            "value" : "%1$@ (Built-in%2$@)"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
-    "© 2025 " : {
-      "comment" : "Copyright symbol and year",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 "
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "© 2025 "
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 "
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 "
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 "
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 "
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "%@ (Custom • Added By You)" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld Selected" : {
+
+    },
+    "%lld sounds" : {
+
+    },
+    "%lld Sounds" : {
+
+    },
+    "%lld%%" : {
+
+    },
+    "+50%" : {
+      "comment" : "Volume increase label"
+    },
+    "+700%" : {
+      "comment" : "Volume increase label"
+    },
+    "9:16 aspect ratio recommended" : {
+
+    },
+    "About & Sharing" : {
+      "comment" : "About and sharing button label"
+    },
+    "About %@" : {
+
     },
     "About Blankie" : {
       "comment" : "About section title",
@@ -317,6 +194,43 @@
         }
       }
     },
+    "Active Sounds" : {
+      "comment" : "Active sounds section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active Sounds"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Active Sounds"
+          }
+        }
+      }
+    },
+    "Add More Time" : {
+
+    },
+    "Add Preset" : {
+      "comment" : "Add new preset button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Preset"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add Preset"
+          }
+        }
+      }
+    },
     "Add Sound (Coming Soon!)" : {
       "comment" : "Add sound menu item",
       "extractionState" : "manual",
@@ -389,6 +303,9 @@
         }
       }
     },
+    "Added" : {
+
+    },
     "All Sounds" : {
       "comment" : "All sounds label",
       "extractionState" : "manual",
@@ -460,6 +377,12 @@
           }
         }
       }
+    },
+    "Allow others to edit this sound" : {
+
+    },
+    "Allow others to re-share this sound" : {
+
     },
     "Always Start Paused" : {
       "comment" : "Preference toggle label",
@@ -677,6 +600,45 @@
         }
       }
     },
+    "Are you sure you want to delete \"%@\"? This action cannot be undone." : {
+
+    },
+    "Are you sure you want to delete this sound? This action cannot be undone." : {
+      "comment" : "Delete sound confirmation message"
+    },
+    "Are you sure you want to reset all customizations for this sound?" : {
+      "comment" : "Reset confirmation message"
+    },
+    "Artwork" : {
+
+    },
+    "at %@" : {
+
+    },
+    "Audio" : {
+      "comment" : "Audio options section header"
+    },
+    "Author" : {
+      "comment" : "Sound author label"
+    },
+    "Author name" : {
+
+    },
+    "Automatic" : {
+      "comment" : "Appearance mode"
+    },
+    "Automatically balance volume levels" : {
+      "comment" : "Description for audio normalization toggle"
+    },
+    "Autoplay on Open" : {
+
+    },
+    "Background" : {
+
+    },
+    "Background Image" : {
+
+    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -822,46 +784,7 @@
       }
     },
     "Blankie" : {
-      "comment" : "App name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Blankie"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Blankie"
-          }
-        }
-      },
+      "comment" : "Default preset displayed as Blankie",
       "shouldTranslate" : false
     },
     "Blankie Help" : {
@@ -936,6 +859,9 @@
         }
       }
     },
+    "Blankie pauses other audio and responds to device media controls" : {
+
+    },
     "Blankie Settings" : {
       "comment" : "Preferences menu label",
       "extractionState" : "manual",
@@ -1008,47 +934,19 @@
         }
       }
     },
+    "Blankie Volume with Media" : {
+
+    },
+    "Blankie will stop when timer expires" : {
+
+    },
+    "Blankie will stop at %@" : {
+
+    },
+    "Blankie will stop in %@" : {
+
+    },
     "blankie.rest" : {
-      "comment" : "Web address label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "blankie.rest"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "blankie.rest"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "blankie.rest"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "blankie.rest"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "blankie.rest"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "blankie.rest"
-          }
-        }
-      },
       "shouldTranslate" : false
     },
     "Blue" : {
@@ -1122,6 +1020,9 @@
           }
         }
       }
+    },
+    "Blur" : {
+
     },
     "Boat" : {
       "comment" : "Sound name",
@@ -1267,6 +1168,9 @@
         }
       }
     },
+    "Built-in Sounds" : {
+
+    },
     "By" : {
       "comment" : "Attribution label",
       "extractionState" : "manual",
@@ -1411,6 +1315,55 @@
         }
       }
     },
+    "Cancel Timer" : {
+
+    },
+    "Category" : {
+      "comment" : "Icon category picker label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Category"
+          }
+        }
+      }
+    },
+    "Change" : {
+      "comment" : "Change file button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change"
+          }
+        }
+      }
+    },
+    "Channels" : {
+      "comment" : "Audio channels label"
+    },
+    "Choose" : {
+
+    },
+    "Choose Icon" : {
+
+    },
+    "Choose Photo" : {
+
+    },
     "City" : {
       "comment" : "Sound name",
       "extractionState" : "manual",
@@ -1482,6 +1435,12 @@
           }
         }
       }
+    },
+    "Clear" : {
+
+    },
+    "Clear All" : {
+
     },
     "Close" : {
       "comment" : "File menu option",
@@ -1627,49 +1586,6 @@
         }
       }
     },
-    "Cody Bromley" : {
-      "comment" : "Developer name",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cody Bromley"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Cody Bromley"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
     "Cody Bromley and contributors. All rights reserved." : {
       "comment" : "Copyright notice",
       "extractionState" : "manual",
@@ -1814,6 +1730,12 @@
         }
       }
     },
+    "Color" : {
+      "comment" : "Color picker label\nCustom color field label"
+    },
+    "Connected to CarPlay" : {
+
+    },
     "Contributors" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -1885,6 +1807,44 @@
           }
         }
       }
+    },
+    "Create" : {
+
+    },
+    "Creator" : {
+
+    },
+    "Credits" : {
+
+    },
+    "Current Theme" : {
+      "comment" : "Current theme color option"
+    },
+    "Custom artwork for Now Playing" : {
+
+    },
+    "Custom Sounds" : {
+      "comment" : "Custom sounds view title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Sounds"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Custom Sounds"
+          }
+        }
+      }
+    },
+    "Customize" : {
+
+    },
+    "Customize Sound" : {
+
     },
     "Cyan" : {
       "comment" : "Accent color name",
@@ -2246,6 +2206,32 @@
         }
       }
     },
+    "Delete Sound" : {
+      "comment" : "Delete sound confirmation alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Sound"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete Sound"
+          }
+        }
+      }
+    },
+    "Describe the license terms" : {
+
+    },
+    "Description" : {
+      "comment" : "Sound description label"
+    },
+    "Details" : {
+
+    },
     "Developed By" : {
       "comment" : "Developed by label",
       "extractionState" : "manual",
@@ -2318,6 +2304,44 @@
         }
       }
     },
+    "Device media controls won't pause Blankie" : {
+
+    },
+    "Done" : {
+      "comment" : "Settings done button\nVolume controls done button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "Done Moving" : {
+
+    },
+    "Done Reordering" : {
+
+    },
+    "Drag sounds to reorder" : {
+
+    },
+    "Drop audio file to import" : {
+
+    },
+    "Duration" : {
+      "comment" : "Audio duration label"
+    },
+    "Edit" : {
+
+    },
     "Edit Preset" : {
       "comment" : "Edit preset sheet title",
       "extractionState" : "manual",
@@ -2386,6 +2410,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "编辑预设"
+          }
+        }
+      }
+    },
+    "Edit Sound" : {
+      "comment" : "Edit sound sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Sound"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Sound"
           }
         }
       }
@@ -2462,6 +2503,23 @@
         }
       }
     },
+    "Enter a name for this sound" : {
+      "comment" : "Sound name text field placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name for this sound"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a name for this sound"
+          }
+        }
+      }
+    },
     "Error" : {
       "comment" : "Error alert title",
       "extractionState" : "manual",
@@ -2533,6 +2591,15 @@
           }
         }
       }
+    },
+    "Exit" : {
+
+    },
+    "Exit Solo Mode" : {
+
+    },
+    "File Size" : {
+      "comment" : "File size label"
     },
     "Fireplace" : {
       "comment" : "Sound name",
@@ -2606,48 +2673,11 @@
         }
       }
     },
-    "GitHub" : {
-      "comment" : "GitHub link label",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "GitHub"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "GitHub"
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "Format" : {
+      "comment" : "File format label"
+    },
+    "Full" : {
+
     },
     "Green" : {
       "comment" : "Accent color name",
@@ -2721,6 +2751,9 @@
         }
       }
     },
+    "Grid" : {
+
+    },
     "Hide Inactive Sounds" : {
       "comment" : "Hide inactive sounds menu item",
       "extractionState" : "manual",
@@ -2793,6 +2826,35 @@
         }
       }
     },
+    "High" : {
+
+    },
+    "Hours" : {
+
+    },
+    "https://..." : {
+
+    },
+    "Icon" : {
+      "comment" : "Icon selection label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Icon"
+          }
+        }
+      }
+    },
+    "Icon Size" : {
+      "comment" : "Icon size picker label"
+    },
     "If disabled, Blankie will immediately play your most recent preset on launch" : {
       "comment" : "Help for \"Always start paused\" toggle",
       "extractionState" : "manual",
@@ -2864,6 +2926,83 @@
           }
         }
       }
+    },
+    "Import" : {
+
+    },
+    "Import custom sounds and manage hidden sounds" : {
+
+    },
+    "Import Error" : {
+      "comment" : "Import error alert title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Error"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Error"
+          }
+        }
+      }
+    },
+    "Import Sound" : {
+      "comment" : "Import sound button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Sound"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import Sound"
+          }
+        }
+      }
+    },
+    "Import your own sounds to personalize your mix." : {
+      "comment" : "Empty state description for custom sounds",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import your own sounds to personalize your mix."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import your own sounds to personalize your mix."
+          }
+        }
+      }
+    },
+    "Importing sound..." : {
+      "comment" : "Import progress message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importing sound…"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importing sound…"
+          }
+        }
+      }
+    },
+    "In a future update these settings will allow you to control if others can edit a sound's credits or export this sound as a part of a preset." : {
+
     },
     "Indigo" : {
       "comment" : "Accent color name",
@@ -3081,7 +3220,7 @@
       }
     },
     "Language" : {
-      "comment" : "Preferences menu label",
+      "comment" : "Language picker label",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3152,7 +3291,7 @@
       }
     },
     "Language Changed" : {
-      "comment" : "Restart app to change language, alert title",
+      "comment" : "Language change alert title",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3199,7 +3338,7 @@
       }
     },
     "Later" : {
-      "comment" : "Restart app to change language, cancel button",
+      "comment" : "Cancel restart button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -3317,6 +3456,15 @@
         }
       }
     },
+    "License" : {
+
+    },
+    "License Details" : {
+
+    },
+    "License URL" : {
+
+    },
     "Light" : {
       "comment" : "Appearance mode",
       "extractionState" : "manual",
@@ -3388,6 +3536,12 @@
           }
         }
       }
+    },
+    "List" : {
+
+    },
+    "Loading dependencies..." : {
+
     },
     "Loading Presets..." : {
       "comment" : "Preset loading indicator",
@@ -3461,6 +3615,24 @@
         }
       }
     },
+    "Loop Sound" : {
+      "comment" : "Toggle label for looping sound playback"
+    },
+    "Loudness (LUFS)" : {
+      "comment" : "Audio LUFS loudness label"
+    },
+    "Low" : {
+
+    },
+    "LUFS" : {
+
+    },
+    "Manage Sounds" : {
+      "comment" : "Sound management label"
+    },
+    "Medium" : {
+
+    },
     "Mint" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -3529,6 +3701,35 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "薄荷色"
+          }
+        }
+      }
+    },
+    "Minutes" : {
+
+    },
+    "Mix with Other Audio" : {
+
+    },
+    "Modify" : {
+
+    },
+    "Move" : {
+
+    },
+    "Name" : {
+      "comment" : "Display name field label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
           }
         }
       }
@@ -3677,6 +3878,9 @@
         }
       }
     },
+    "No Active Sounds" : {
+
+    },
     "No Custom Presets" : {
       "comment" : "Empty state title",
       "extractionState" : "manual",
@@ -3749,48 +3953,66 @@
         }
       }
     },
-    "NSHumanReadableCopyright" : {
-      "comment" : "Human readable copyright string",
-      "extractionState" : "manual",
+    "No custom sounds" : {
+
+    },
+    "No Custom Sounds" : {
+      "comment" : "Empty state title for custom sounds",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "©️ 2025 Cody Bromley und Mitwirkende"
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "© 2025 Cody Bromley and contributors"
+            "value" : "No Custom Sounds"
           }
         },
         "en-GB" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 Cody Bromley and contributors"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 Cody Bromley and contributors"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 Cody Bromley and contributors"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "© 2025 Cody Bromley and contributors"
+            "state" : "translated",
+            "value" : "No Custom Sounds"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
+    },
+    "No matching icons found" : {
+      "comment" : "No icon search results message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching icons found"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No matching icons found"
+          }
+        }
+      }
+    },
+    "No Sounds Selected" : {
+
+    },
+    "No Visible Sounds" : {
+
+    },
+    "No waveform data" : {
+
+    },
+    "None" : {
+
+    },
+    "Normalization Factor" : {
+      "comment" : "Audio normalization factor label"
+    },
+    "Normalization Gain" : {
+      "comment" : "Audio normalization gain label"
+    },
+    "Normalize Audio" : {
+      "comment" : "Toggle label for audio normalization"
+    },
+    "Now Playing" : {
+
     },
     "OK" : {
       "comment" : "OK button label",
@@ -3864,6 +4086,12 @@
         }
       }
     },
+    "Opacity" : {
+
+    },
+    "Optional" : {
+
+    },
     "Orange" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -3936,48 +4164,14 @@
         }
       }
     },
-    "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:" : {
-      "comment" : "MIT License Section 1",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:"
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "Original Work" : {
+
+    },
+    "Other media plays at system volume" : {
+
+    },
+    "Peak Level" : {
+      "comment" : "Audio peak level label"
     },
     "Pink" : {
       "comment" : "Accent color name",
@@ -4194,6 +4388,9 @@
           }
         }
       }
+    },
+    "Playback" : {
+      "comment" : "Settings section header for playback options"
     },
     "Playback Paused" : {
       "comment" : "Playback paused banner",
@@ -4413,6 +4610,7 @@
     },
     "Preset %d" : {
       "comment" : "New preset name format",
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4481,6 +4679,9 @@
           }
         }
       }
+    },
+    "Preset Information" : {
+
     },
     "Preset Name" : {
       "comment" : "Preset name text field",
@@ -4842,6 +5043,9 @@
         }
       }
     },
+    "Quick Mix" : {
+
+    },
     "Quit" : {
       "comment" : "Menu option",
       "extractionState" : "manual",
@@ -5058,6 +5262,9 @@
         }
       }
     },
+    "Randomize Start Position" : {
+      "comment" : "Toggle label for randomizing sound start position"
+    },
     "Red" : {
       "comment" : "Accent color name",
       "extractionState" : "manual",
@@ -5202,6 +5409,18 @@
         }
       }
     },
+    "Reorder" : {
+
+    },
+    "Reorder Sounds" : {
+
+    },
+    "Repeat continuously when playing" : {
+      "comment" : "Description for loop sound toggle"
+    },
+    "Replace Sound" : {
+
+    },
     "Report an Issue" : {
       "comment" : "Report an issue label",
       "extractionState" : "manual",
@@ -5273,6 +5492,12 @@
           }
         }
       }
+    },
+    "Required" : {
+
+    },
+    "Reset" : {
+      "comment" : "Reset sounds button"
     },
     "Reset Sounds" : {
       "comment" : "Reset sounds button label",
@@ -5346,8 +5571,14 @@
         }
       }
     },
+    "Reset to Default" : {
+
+    },
+    "Reset to Defaults" : {
+      "comment" : "Reset confirmation alert title"
+    },
     "Restart Now" : {
-      "comment" : "Restart app to change language, restart now button",
+      "comment" : "Restart now button",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -5465,6 +5696,24 @@
         }
       }
     },
+    "Save current sound configuration as a preset." : {
+      "comment" : "New preset alert message",
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save current sound configuration as a preset."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save current sound configuration as a preset."
+          }
+        }
+      }
+    },
     "Save your current sound configuration as a preset to quickly access it later." : {
       "comment" : "Empty state subtitle",
       "extractionState" : "manual",
@@ -5536,6 +5785,89 @@
           }
         }
       }
+    },
+    "Saving changes..." : {
+      "comment" : "Save progress message",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving changes..."
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving changes..."
+          }
+        }
+      }
+    },
+    "Search icons..." : {
+      "comment" : "Icon search field placeholder"
+    },
+    "Select All" : {
+
+    },
+    "Select Image" : {
+
+    },
+    "Select Sound File" : {
+      "comment" : "Select sound file button label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Sound File"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select Sound File"
+          }
+        }
+      }
+    },
+    "Selected:" : {
+      "comment" : "Selected icon label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected:"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selected:"
+          }
+        }
+      }
+    },
+    "Set Timer" : {
+
+    },
+    "Settings" : {
+      "comment" : "Settings menu item",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "Sharing Permissions" : {
+
     },
     "Show All Sounds" : {
       "comment" : "View menu item",
@@ -5609,6 +5941,24 @@
         }
       }
     },
+    "Show Background Image" : {
+
+    },
+    "Show Inactive Sounds" : {
+
+    },
+    "Show Labels" : {
+      "comment" : "Toggle to show/hide labels"
+    },
+    "Show Progress Border" : {
+
+    },
+    "Show Progress Borders" : {
+
+    },
+    "Shows in Now Playing info" : {
+
+    },
     "Software License" : {
       "comment" : "About section title",
       "extractionState" : "manual",
@@ -5680,6 +6030,21 @@
           }
         }
       }
+    },
+    "Solo" : {
+
+    },
+    "Solo Mode" : {
+
+    },
+    "Solo Mode - %@" : {
+
+    },
+    "Sound Check" : {
+      "comment" : "Toggle label for Sound Check (audio normalization)"
+    },
+    "Sound Check adjusts the loudness between different sounds to play at the same volume." : {
+      "comment" : "Description for Sound Check toggle"
     },
     "Sound Credits" : {
       "comment" : "About section title",
@@ -5753,6 +6118,38 @@
         }
       }
     },
+    "Sound File" : {
+      "comment" : "Sound file section header",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound File"
+          }
+        },
+        "en-GB" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound File"
+          }
+        }
+      }
+    },
+    "Sound Information" : {
+      "comment" : "Sound information section header"
+    },
+    "Sound Name" : {
+      "comment" : "Sound name text field placeholder"
+    },
+    "Sound Settings" : {
+
+    },
+    "Sounds" : {
+      "comment" : "Settings section header for sound management\nSounds section header"
+    },
+    "Source URL" : {
+
+    },
     "Star on GitHub" : {
       "comment" : "Link label",
       "extractionState" : "manual",
@@ -5824,6 +6221,18 @@
           }
         }
       }
+    },
+    "Start playback from a random position each time" : {
+      "comment" : "Description for randomize start position toggle"
+    },
+    "Start Timer" : {
+
+    },
+    "Stop Timer" : {
+
+    },
+    "Stopping in" : {
+
     },
     "Storm" : {
       "comment" : "Sound name",
@@ -6185,48 +6594,8 @@
         }
       }
     },
-    "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software." : {
-      "comment" : "MIT License Section 2",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software."
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "The default preset cannot be modified" : {
+
     },
     "The default preset cannot be renamed" : {
       "comment" : "Default preset rename warning",
@@ -6300,91 +6669,31 @@
         }
       }
     },
-    "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE." : {
-      "comment" : "MIT License Section 3",
-      "extractionState" : "manual",
+    "Theme" : {
+      "comment" : "Theme color option",
       "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+            "value" : "Theme"
           }
         },
         "en-GB" : {
           "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+            "state" : "translated",
+            "value" : "Theme"
           }
         }
-      },
-      "shouldTranslate" : false
+      }
     },
-    "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License." : {
-      "comment" : "MIT License Section 4",
-      "extractionState" : "manual",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "en-GB" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "needs_review",
-            "value" : "This application comes with absolutely no warranty. This program is free software: you can redistribute it and/or modify it under the terms of the MIT License."
-          }
-        }
-      },
-      "shouldTranslate" : false
+    "Theme Color" : {
+
+    },
+    "Timer" : {
+
+    },
+    "Title" : {
+
     },
     "Train" : {
       "comment" : "Sound name",
@@ -6530,6 +6839,12 @@
         }
       }
     },
+    "Try a different search term" : {
+      "comment" : "No icon search results suggestion"
+    },
+    "Use Cover Art" : {
+
+    },
     "Version %@ (%@)" : {
       "comment" : "Version string",
       "extractionState" : "manual",
@@ -6601,6 +6916,21 @@
           }
         }
       }
+    },
+    "View Mode" : {
+
+    },
+    "View Preset" : {
+
+    },
+    "View Settings" : {
+
+    },
+    "Volume" : {
+      "comment" : "Volume section header\nVolume slider label"
+    },
+    "Volume Adjustment" : {
+      "comment" : "Volume adjustment field label"
     },
     "Waves" : {
       "comment" : "Sound name",
@@ -6963,7 +7293,7 @@
       }
     },
     "You will need to restart Blankie for the language change to take effect." : {
-      "comment" : "Restart app to change language message",
+      "comment" : "Language change restart message",
       "localizations" : {
         "en" : {
           "stringUnit" : {

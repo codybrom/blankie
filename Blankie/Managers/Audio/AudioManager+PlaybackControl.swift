@@ -1,0 +1,243 @@
+//
+//  AudioManager+PlaybackControl.swift
+//  Blankie
+//
+//  Created by Cody Bromley on 1/2/25.
+//
+
+import AVFoundation
+import Foundation
+import SwiftUI
+
+extension AudioManager {
+  /// Toggles the playback state of all selected sounds
+  @MainActor func togglePlayback() {
+    print("🎵 AudioManager: Toggling playback")
+    print("  - Current state (pre-toggle): \(isGloballyPlaying)")
+    setGlobalPlaybackState(!isGloballyPlaying)
+    print("  - New state (post-toggle): \(isGloballyPlaying)")
+  }
+
+  @MainActor
+  func resetSounds() {
+    print("🎵 AudioManager: Resetting all sounds")
+
+    // First pause all sounds immediately
+    sounds.forEach { sound in
+      print("  - Stopping '\(sound.fileName)'")
+      sound.pause(immediate: true)
+    }
+    setGlobalPlaybackState(false)
+    // Reset all sounds
+    sounds.forEach { sound in
+      sound.volume = 0.75
+      sound.isSelected = false
+    }
+    // Reset "All Sounds" volume
+    GlobalSettings.shared.setVolume(1.0)
+
+    // Update hasSelectedSounds after resetting
+    updateHasSelectedSounds()
+
+    // Call the reset callback
+    onReset?()
+    print("🎵 AudioManager: Reset complete")
+  }
+
+  public func updateNowPlayingInfoForPreset(
+    presetName: String? = nil, creatorName: String? = nil, artworkId: UUID? = nil
+  ) {
+    Task { @MainActor in
+      nowPlayingManager.updateInfo(
+        presetName: presetName,
+        creatorName: creatorName,
+        artworkId: artworkId,
+        isPlaying: isGloballyPlaying
+      )
+    }
+  }
+
+  func updateNowPlayingState() {
+    Task { @MainActor in
+      nowPlayingManager.updatePlaybackState(isPlaying: isGloballyPlaying)
+    }
+  }
+
+  func setPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
+    Task { @MainActor [weak self] in
+      guard let self = self else { return }
+
+      guard !self.isInitializing || forceUpdate else {
+        print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
+        return
+      }
+
+      if self.isGloballyPlaying != playing {
+        print(
+          "🎵 AudioManager: Setting playback state to \(playing) - Current global state: \(self.isGloballyPlaying)"
+        )
+        self.isGloballyPlaying = playing
+
+        if playing {
+          self.playSelected()
+        } else {
+          self.pauseAll()
+        }
+        let currentPreset = PresetManager.shared.currentPreset
+        self.nowPlayingManager.updateInfo(
+          presetName: currentPreset?.name,
+          creatorName: currentPreset?.creatorName,
+          artworkId: currentPreset?.artworkId,
+          isPlaying: playing
+        )
+      } else {
+        print("🎵 AudioManager: setPlaybackState called, but state is the same \(playing), ignoring")
+      }
+    }
+  }
+
+  func playSelected() {
+    print("🎵 AudioManager: Playing selected sounds")
+    guard isGloballyPlaying else {
+      print("🎵 AudioManager: Not playing sounds because global playback is disabled")
+      return
+    }
+
+    #if os(iOS) || os(visionOS)
+      // Setup audio session when starting playback
+      setupAudioSessionForPlayback()
+      // Setup audio session observers on first playback
+      setupAudioSessionObservers()
+    #endif
+
+    // If in solo mode, play only the solo sound
+    if let soloSound = soloModeSound {
+      print("  - In solo mode, playing only '\(soloSound.fileName)'")
+
+      // Play the solo sound at its current volume
+      soloSound.play()
+
+      // Update Now Playing info for solo mode
+      Task { @MainActor in
+        nowPlayingManager.updateInfo(
+          presetName: soloSound.title,
+          isPlaying: true
+        )
+      }
+      return
+    }
+
+    // Normal mode: play all selected sounds according to preset
+    for sound in sounds where sound.isSelected {
+      print(
+        "  - About to play '\(sound.fileName)', isSelected: \(sound.isSelected), player exists: \(sound.player != nil)"
+      )
+
+      // Check if this sound is starting fresh (not paused or playing)
+      let wasPlaying = sound.player?.isPlaying == true
+      let currentTime = sound.player?.currentTime ?? 0
+      let duration = sound.player?.duration ?? 0
+      let isPaused = sound.player != nil && !wasPlaying && currentTime > 0 && currentTime < duration
+
+      if !wasPlaying && !isPaused {
+        // Sound is truly stopped/new/finished, reset position (respecting randomization)
+        sound.resetSoundPosition()
+      }
+
+      sound.play()
+      print(
+        "  - After play call for '\(sound.fileName)', player playing: \(sound.player?.isPlaying ?? false), volume: \(sound.player?.volume ?? 0)"
+      )
+    }
+
+    // Update Now Playing info with full preset details
+    Task { @MainActor in
+      let currentPreset = PresetManager.shared.currentPreset
+      self.nowPlayingManager.updateInfo(
+        presetName: currentPreset?.name,
+        creatorName: currentPreset?.creatorName,
+        artworkId: currentPreset?.artworkId,
+        isPlaying: true
+      )
+    }
+
+  }
+
+  func pauseAll() {
+    print("🎵 AudioManager: Pausing all sounds")
+    print("  - Current global play state: \(isGloballyPlaying)")
+
+    sounds.forEach { sound in
+      if sound.isSelected {
+        print("  - Pausing '\(sound.fileName)'")
+        sound.pause()
+      }
+    }
+
+    #if os(iOS) || os(visionOS)
+      // Deactivate audio session when stopping to allow other apps to play
+      do {
+        try AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
+        print("🎵 AudioManager: Audio session deactivated")
+      } catch {
+        print("❌ AudioManager: Failed to deactivate audio session: \(error)")
+      }
+    #endif
+
+    print("🎵 AudioManager: Pause all complete")
+  }
+
+  @MainActor
+  public func setGlobalPlaybackState(_ playing: Bool, forceUpdate: Bool = false) {
+    guard !isInitializing || forceUpdate else {
+      print("🎵 AudioManager: Ignoring setPlaybackState during initialization")
+      return
+    }
+
+    print(
+      "🎵 AudioManager: Setting playback state to \(playing) - Current global state: \(self.isGloballyPlaying)"
+    )
+
+    // Update state first
+    self.isGloballyPlaying = playing
+
+    // Then handle playback
+    if playing {
+      self.playSelected()
+    } else {
+      self.pauseAll()
+    }
+
+    // Always update Now Playing info with full preset details
+    if let soloSound = soloModeSound {
+      // In solo mode, just show the sound title
+      nowPlayingManager.updateInfo(
+        presetName: soloSound.title,
+        isPlaying: isGloballyPlaying
+      )
+    } else {
+      // Normal mode - include full preset details
+      let currentPreset = PresetManager.shared.currentPreset
+      nowPlayingManager.updateInfo(
+        presetName: currentPreset?.name,
+        creatorName: currentPreset?.creatorName,
+        artworkId: currentPreset?.artworkId,
+        isPlaying: isGloballyPlaying
+      )
+    }
+  }
+
+  // MARK: - Update Playing Sounds
+
+  func updatePlayingSounds() {
+    // Stop any sounds that are playing but shouldn't be
+    sounds.forEach { sound in
+      if !sound.isSelected && sound.player?.isPlaying == true {
+        print(
+          "🎵 AudioManager: Stopping deselected sound '\(sound.fileName)' that was still playing")
+        sound.pause(immediate: true)
+      }
+    }
+  }
+
+}

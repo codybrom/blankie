@@ -12,11 +12,9 @@
     <a href="https://github.com/codybrom/blankie/blob/master/LICENSE"><img src="https://img.shields.io/github/license/codybrom/blankie.svg?style=flat" alt="License"></a>
     <a href="https://formulae.brew.sh/cask/blankie"><img src="https://img.shields.io/badge/Homebrew-Available-FBB040?style=flat&logo=homebrew&logoColor=white" alt="Homebrew"></a>
   </p>
-  
   <p align="center">
     <a href="https://apps.apple.com/us/app/blankie/id6740096581"><img src="docs/src/assets/download-on-mac-app-store.svg" alt="Download on the Mac App Store" width="202"></a>
   </p>
-  
   <p align="center">
     <img src="docs/src/assets/en-dark.png" alt="Screenshot of Blankie" style="max-width: 100%; height: auto;">
   </p>
@@ -27,7 +25,7 @@
 - 📖 [FAQ](FAQ.md)
 - 🤝 [Contributing](CONTRIBUTING.md)
 - 💻 [Development Setup](DEVELOPMENT.md)
-- 🚀 [Release Process](RELEASING.md)
+- 🚀 [Release Process](notes/RELEASE.md.md)
 - 📋 [Changelog](CHANGELOG.md)
 - 🌐 [Website](https://blankie.rest)
 

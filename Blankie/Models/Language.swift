@@ -22,10 +22,8 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static var system: Language {
-    // Read the system's actual language preference from UserDefaults global domain
-    let globalDomain = UserDefaults(suiteName: UserDefaults.globalDomain)
-    let systemLanguages = globalDomain?.object(forKey: "AppleLanguages") as? [String]
-    let systemLanguageCode = systemLanguages?.first ?? "en"
+    // Read the system's actual language preference
+    let systemLanguageCode = Locale.preferredLanguages.first ?? "en"
 
     // For display, we want just the base language code (e.g., "en" from "en-US")
     let languageCode =
@@ -41,7 +39,7 @@ struct Language: Hashable, Identifiable, Equatable {
     let displayName =
       "\(NSLocalizedString("System", comment: "System default language option")) (\(languageName))"
 
-    print("🌐 System language from global domain: code=\(languageCode), name=\(languageName)")
+    print("🌐 System language: code=\(languageCode), name=\(languageName)")
 
     return Language(
       code: "system",
@@ -200,19 +198,26 @@ struct Language: Hashable, Identifiable, Equatable {
   }
 
   static func restartApp() {
-    let url = Bundle.main.bundleURL
-    let task = Process()
-    task.launchPath = "/usr/bin/open"
-    task.arguments = ["-n", url.path]
+    #if os(macOS)
+      let url = Bundle.main.bundleURL
+      let task = Process()
+      task.launchPath = "/usr/bin/open"
+      task.arguments = ["-n", url.path]
 
-    // Store a flag to indicate we're restarting
-    UserDefaults.standard.set(true, forKey: "AppIsRestarting")
-    UserDefaults.standard.synchronize()
+      // Store a flag to indicate we're restarting
+      UserDefaults.standard.set(true, forKey: "AppIsRestarting")
+      UserDefaults.standard.synchronize()
 
-    // Allow some time for UserDefaults to sync before quitting
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-      task.launch()
-      NSApplication.shared.terminate(nil)
-    }
+      // Allow some time for UserDefaults to sync before quitting
+      DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+        task.launch()
+        NSApplication.shared.terminate(nil)
+      }
+    #else
+      // iOS doesn't support app restart - show message to user instead
+      UserDefaults.standard.set(true, forKey: "LanguageChangePending")
+      UserDefaults.standard.synchronize()
+    // On iOS, the language change will take effect when the app is relaunched
+    #endif
   }
 }

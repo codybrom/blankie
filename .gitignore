@@ -80,3 +80,7 @@ Configuration.xcconfig
 releases/*
 .ignored
 .mcp.json
+notes/carplay/*
+notes/widgetkit/*
+notes/WidgetKitNotes/*
+notes/Widget*

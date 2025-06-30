@@ -101,13 +101,13 @@ You can submit translations in three ways:
 
    ```bash
    # Make the tool executable
-   chmod +x blanki18n.swift
+   chmod +x scripts/blanki18n.swift
    
    # Using interactive mode (will prompt for language code)
-   ./blanki18n.swift path/to/your-translation.[csv|json]
+   ./scripts/blanki18n.swift path/to/your-translation.[csv|json]
    
    # Or specify language code directly
-   ./blanki18n.swift path/to/your-translation.[csv|json] es
+   ./scripts/blanki18n.swift path/to/your-translation.[csv|json] es
    ```
 
    The tool will update `Localizable.xcstrings` directly with your translations for you to build and then test locally. You can then create a pull request with your changes on a fork.
@@ -123,7 +123,7 @@ When adding support for a new language to Blankie, you need to update several fi
 1. **`Blankie/Localizable.xcstrings`**
    * This is the main translation file containing all localized strings
    * Add your new language code as a new localization
-   * Use the `blanki18n` tool to import translations from a JSON or CSV file
+   * Use the `scripts/blanki18n` tool to import translations from a JSON or CSV file
 
 2. **`Blankie.xcodeproj/project.pbxproj`**
    * Add the language to the project's known regions

@@ -13,6 +13,7 @@ struct PresetPicker: View {
   @State private var newPresetName = ""
   @State private var error: Error?
   @State private var selectedPresetForEdit: Preset?
+  @State private var showingCreatePreset = false
 
   var body: some View {
     HStack {
@@ -22,8 +23,10 @@ struct PresetPicker: View {
         HStack(spacing: 4) {
           Text(
             presetManager.hasCustomPresets
-              ? (presetManager.currentPreset?.name
-                ?? String(localized: "Default", comment: "Default preset name"))
+              ? (presetManager.currentPreset?.isDefault == true
+                ? String(localized: "Blankie", comment: "Default preset displayed as Blankie")
+                : (presetManager.currentPreset?.name
+                  ?? String(localized: "Blankie", comment: "Default preset displayed as Blankie")))
               : String(localized: "Presets", comment: "Presets menu title")
           )
           .fontWeight(.bold)
@@ -47,18 +50,8 @@ struct PresetPicker: View {
             Divider()
 
             Button(action: {
-              // Count existing custom presets
-              let customPresetCount = presetManager.presets.filter { !$0.isDefault }.count
-              // Create name like "Preset 1", "Preset 2", etc.
-              let newPresetName = String(
-                format: String(localized: "Preset %d", comment: "New preset name format"),
-                customPresetCount + 1
-              )
-
-              Task {
-                presetManager.saveNewPreset(name: newPresetName)
-                showingPresetPopover = false
-              }
+              showingCreatePreset = true
+              showingPresetPopover = false
             }) {
               Label(
                 String(localized: "New Preset", comment: "New preset button"), systemImage: "plus")
@@ -72,9 +65,11 @@ struct PresetPicker: View {
     .sheet(item: $selectedPresetForEdit) { preset in
       EditPresetSheet(
         preset: preset,
-        presetName: $newPresetName,
         isPresented: $selectedPresetForEdit
       )
+    }
+    .sheet(isPresented: $showingCreatePreset) {
+      CreatePresetSheet(isPresented: $showingCreatePreset)
     }
   }
 }
@@ -84,6 +79,14 @@ private struct PresetList: View {
   @Binding var isPresented: Bool
   @Binding var selectedPresetForEdit: Preset?
   @State private var error: Error?
+
+  var backgroundColorForPlatform: Color {
+    #if os(macOS)
+      return Color(NSColor.controlBackgroundColor)
+    #else
+      return Color(UIColor.secondarySystemBackground)
+    #endif
+  }
 
   var body: some View {
     VStack(spacing: 0) {
@@ -104,10 +107,8 @@ private struct PresetList: View {
         }
       }
     }
-    .background(Color(NSColor.controlBackgroundColor))
-    .alert(
-      "Error", isPresented: .constant(error != nil)
-    ) {
+    .background(backgroundColorForPlatform)
+    .alert("Error", isPresented: .constant(error != nil)) {
       Button("OK") { error = nil }
     } message: {
       if let error = error {
@@ -129,6 +130,16 @@ private struct PresetRow: View {
     HStack(spacing: 8) {
       Button(action: {
         do {
+          // Exit solo mode without resuming if active
+          if AudioManager.shared.soloModeSound != nil {
+            AudioManager.shared.exitSoloModeWithoutResuming()
+          }
+
+          // Exit CarPlay Quick Mix if active
+          if AudioManager.shared.isQuickMix {
+            AudioManager.shared.exitQuickMix()
+          }
+
           try presetManager.applyPreset(preset)
           isPresented = false
         } catch {
@@ -159,8 +170,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Rename Preset")
-
+        #if os(macOS)
+          .help("Rename Preset")
+        #endif
         Button(action: {
           presetManager.deletePreset(preset)
         }) {
@@ -168,7 +180,9 @@ private struct PresetRow: View {
             .foregroundStyle(.secondary)
         }
         .buttonStyle(.plain)
-        .help("Delete Preset")
+        #if os(macOS)
+          .help("Delete Preset")
+        #endif
       }
     }
     .padding(.horizontal, 12)

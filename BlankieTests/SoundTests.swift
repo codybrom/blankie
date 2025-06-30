@@ -10,10 +10,12 @@ import XCTest
 @testable import Blankie
 
 class MockSound: Sound {
-  override init(title: String, systemIconName: String, fileName: String) {
-    super.init(title: title, systemIconName: systemIconName, fileName: fileName)
-    self.isSelected = false  // Must explicitly set to false
-    self.volume = 1.0  // Ensure initial volume is set
+  init(
+    title: String, systemIconName: String, fileName: String, fileExtension: String = "mp3"
+  ) {
+    super.init(
+      title: title, systemIconName: systemIconName, fileName: fileName, fileExtension: fileExtension
+    )
   }
 
   override func loadSound() {

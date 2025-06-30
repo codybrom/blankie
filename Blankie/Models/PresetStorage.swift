@@ -16,6 +16,7 @@ struct PresetStorage {
 
   static func saveDefaultPreset(_ preset: Preset) {
     print("💾 PresetStorage: Saving default preset")
+
     if let data = try? JSONEncoder().encode(preset) {
       defaults.set(data, forKey: defaultPresetKey)
       print("💾 PresetStorage: Default preset saved successfully")
@@ -38,11 +39,17 @@ struct PresetStorage {
 
   static func saveCustomPresets(_ presets: [Preset]) {
     print("💾 PresetStorage: Saving \(presets.count) custom presets")
+
     if let data = try? JSONEncoder().encode(presets) {
       // Add debug logging before saving
       print("Saving presets:")
       presets.forEach { preset in
         print("  - '\(preset.name)':")
+        print("    * Order: \(preset.order ?? -1)")
+        print(
+          "    * Artwork ID: \(preset.artworkId?.uuidString ?? "None")"
+        )
+        print("    * Creator: \(preset.creatorName ?? "None")")
         print("    * Active sounds:")
         preset.soundStates
           .filter { $0.isSelected }
@@ -50,20 +57,32 @@ struct PresetStorage {
             print("      - \(state.fileName) (Volume: \(state.volume))")
           }
       }
-      UserDefaults.standard.set(data, forKey: customPresetsKey)
+
+      // Check data size
+      let sizeInMB = Double(data.count) / 1024.0 / 1024.0
+      if sizeInMB > 1.0 {
+        print("⚠️ PresetStorage: Large data size: \(String(format: "%.2f", sizeInMB)) MB")
+      }
+
+      defaults.set(data, forKey: customPresetsKey)
       print("💾 PresetStorage: Custom presets saved successfully")
     }
   }
 
   static func loadCustomPresets() -> [Preset] {
     print("💾 PresetStorage: Loading custom presets")
-    if let data = UserDefaults.standard.data(forKey: customPresetsKey),
+    if let data = defaults.data(forKey: customPresetsKey),
       let presets = try? JSONDecoder().decode([Preset].self, from: data)
     {
       print("💾 PresetStorage: Loaded \(presets.count) custom presets")
       // Add debug logging
       presets.forEach { preset in
         print("  - Loaded preset '\(preset.name)':")
+        print("    * Order: \(preset.order ?? -1)")
+        print(
+          "    * Artwork ID: \(preset.artworkId?.uuidString ?? "None")"
+        )
+        print("    * Creator: \(preset.creatorName ?? "None")")
         print("    * Active sounds:")
         preset.soundStates
           .filter { $0.isSelected }

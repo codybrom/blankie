@@ -13,7 +13,7 @@ import SwiftUI
 
       print("🔍 FilteredSounds: Current hash: \(currentHash), Last hash: \(lastFilterHash)")
       print("🔍 FilteredSounds: soundsUpdateTrigger: \(soundsUpdateTrigger)")
-      
+
       // Only recompute if dependencies changed
       if currentHash != lastFilterHash {
         print("🔍 FilteredSounds: Hash changed, recomputing...")

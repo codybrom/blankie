@@ -25,18 +25,18 @@ extension AudioManager {
         self.loadCustomSounds()
       }
     }
-    
+
     // Load the saved default sound order after built-in sounds are loaded
     // (Custom sounds will update the order when they're loaded)
     if let savedOrder = UserDefaults.standard.stringArray(forKey: "defaultSoundOrder") {
       defaultSoundOrder = savedOrder
       print("🎵 AudioManager: Loaded default sound order with \(savedOrder.count) sounds")
-      
+
       // Add any new built-in sounds that aren't in the saved order
       let currentSoundFileNames = Set(sounds.map(\.fileName))
       let savedOrderSet = Set(savedOrder)
       let newSounds = currentSoundFileNames.subtracting(savedOrderSet)
-      
+
       if !newSounds.isEmpty {
         defaultSoundOrder.append(contentsOf: newSounds)
         UserDefaults.standard.set(defaultSoundOrder, forKey: "defaultSoundOrder")
@@ -46,7 +46,8 @@ extension AudioManager {
       // Initialize with default order (all sounds in their loaded order)
       defaultSoundOrder = sounds.map(\.fileName)
       UserDefaults.standard.set(defaultSoundOrder, forKey: "defaultSoundOrder")
-      print("🎵 AudioManager: Initialized default sound order with \(defaultSoundOrder.count) sounds")
+      print(
+        "🎵 AudioManager: Initialized default sound order with \(defaultSoundOrder.count) sounds")
     }
   }
 

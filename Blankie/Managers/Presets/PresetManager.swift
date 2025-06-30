@@ -398,7 +398,7 @@ extension PresetManager {
       objectWillChange.send()
 
       print("🎛️ PresetManager: Successfully updated sound order")
-      
+
       // Verify the update
       if let verifyPreset = presets.first(where: { $0.id == preset.id }) {
         print("🎛️ PresetManager: Verified saved order: \(verifyPreset.soundOrder ?? [])")

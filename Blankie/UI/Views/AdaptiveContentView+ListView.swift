@@ -189,24 +189,22 @@ import SwiftUI
 
     private func moveItems(from source: IndexSet, to destination: Int) {
       print("📱 ListView: moveItems called - source: \(source), destination: \(destination)")
-      
+
       // Check if we have a current preset (not default)
       if let preset = presetManager.currentPreset, !preset.isDefault {
         print("📱 ListView: Moving sounds in preset '\(preset.name)'")
-        
+
         // Get the actual filtered sounds array that the list is displaying
         let displayedSounds = filteredSounds
         print("📱 ListView: Displayed sounds count: \(displayedSounds.count)")
         print("📱 ListView: Displayed sounds order: \(displayedSounds.map { $0.fileName })")
-        
+
         // Create a mutable copy of the current order
         var newOrder = displayedSounds.map { $0.fileName }
-        
+
         // Debug: Show what's being moved
-        for index in source {
-          if index < newOrder.count {
-            print("📱 ListView: Moving '\(newOrder[index])' from index \(index) to \(destination)")
-          }
+        for index in source where index < newOrder.count {
+          print("📱 ListView: Moving '\(newOrder[index])' from index \(index) to \(destination)")
         }
 
         // Apply the move operation
@@ -222,7 +220,7 @@ import SwiftUI
         for state in preset.soundStates where !displayedSet.contains(state.fileName) {
           completeOrder.append(state.fileName)
         }
-        
+
         print("📱 ListView: Complete order being sent: \(completeOrder)")
 
         // Update the preset with the new order
@@ -234,7 +232,7 @@ import SwiftUI
       } else {
         // We're reordering the main sound grid (default preset or no preset)
         print("📱 ListView: Moving sounds in default view")
-        
+
         // Get the actual filtered sounds array that the list is displaying
         let displayedSounds = filteredSounds
         print("📱 ListView: Displayed sounds count: \(displayedSounds.count)")
@@ -242,12 +240,10 @@ import SwiftUI
 
         // Create a mutable copy of the current order
         var newOrder = displayedSounds.map { $0.fileName }
-        
+
         // Debug: Show what's being moved
-        for index in source {
-          if index < newOrder.count {
-            print("📱 ListView: Moving '\(newOrder[index])' from index \(index) to \(destination)")
-          }
+        for index in source where index < newOrder.count {
+          print("📱 ListView: Moving '\(newOrder[index])' from index \(index) to \(destination)")
         }
 
         // Apply the move operation
@@ -263,7 +259,7 @@ import SwiftUI
         for fileName in audioManager.defaultSoundOrder where !displayedSet.contains(fileName) {
           completeOrder.append(fileName)
         }
-        
+
         print("📱 ListView: Complete default order being saved: \(completeOrder)")
 
         // Update the default order

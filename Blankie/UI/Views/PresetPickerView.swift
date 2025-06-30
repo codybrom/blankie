@@ -3,9 +3,16 @@ import SwiftUI
 struct PresetPickerRow: View {
   let preset: Preset
   let isEditMode: Bool
+  let onSelection: (() -> Void)?
   @ObservedObject private var presetManager = PresetManager.shared
   @ObservedObject private var audioManager = AudioManager.shared
   @Environment(\.dismiss) private var dismiss
+
+  init(preset: Preset, isEditMode: Bool, onSelection: (() -> Void)? = nil) {
+    self.preset = preset
+    self.isEditMode = isEditMode
+    self.onSelection = onSelection
+  }
 
   var body: some View {
     Button {
@@ -25,6 +32,7 @@ struct PresetPickerRow: View {
 
           try presetManager.applyPreset(preset)
           dismiss()
+          onSelection?()
         } catch {
           print("Error applying preset: \(error)")
         }
@@ -242,15 +250,19 @@ struct PresetPickerView: View {
 
           // Default preset (not reorderable)
           if let defaultPreset = presetManager.presets.first(where: { $0.isDefault }) {
-            PresetPickerRow(preset: defaultPreset, isEditMode: isEditMode)
+            PresetPickerRow(preset: defaultPreset, isEditMode: isEditMode) {
+              dismiss()
+            }
           }
 
           // Custom presets (reorderable)
           let customPresets = isEditMode ? editingPresets : sortedCustomPresets
 
           ForEach(customPresets) { preset in
-            PresetPickerRow(preset: preset, isEditMode: isEditMode)
-              .deleteDisabled(!isEditMode || preset.isDefault)
+            PresetPickerRow(preset: preset, isEditMode: isEditMode) {
+              dismiss()
+            }
+            .deleteDisabled(!isEditMode || preset.isDefault)
           }
           .onDelete(perform: isEditMode ? deletePresets : nil)
           .onMove(perform: isEditMode ? movePresets : nil)

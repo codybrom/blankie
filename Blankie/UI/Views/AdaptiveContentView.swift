@@ -57,7 +57,7 @@ private struct AnimationTrigger: Equatable {
       }
       .sheet(isPresented: $showingPresetPicker) {
         PresetPickerView()
-          .presentationDetents([.medium, .large])
+          .presentationDetents([.large])
       }
       .sheet(item: $soundToEdit) { sound in
         SoundSheet(mode: .edit(sound))

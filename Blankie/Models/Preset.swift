@@ -33,9 +33,9 @@ struct Preset: Codable, Identifiable, Equatable {
   var isImported: Bool?
   var originalId: UUID?  // Original ID from imported preset for duplicate detection
 
-  /// Display name for the preset (shows "Blankie – All Sounds" for default preset)
+  /// Display name for the preset (shows "All Blankie Sounds" for default preset)
   var displayName: String {
-    return isDefault ? "Blankie – All Sounds" : name
+    return isDefault ? "All Blankie Sounds" : name
   }
 
   /// Title to show when this preset is active (shows "Blankie" for default preset)

@@ -149,7 +149,7 @@
 
       // Add creator name first if available
       if let creator = preset.creatorName, !creator.isEmpty {
-        detailParts.append("Mixed by \(creator)")
+        detailParts.append(creator)
       }
 
       // Add sound names

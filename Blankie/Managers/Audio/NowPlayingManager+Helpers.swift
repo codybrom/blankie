@@ -48,7 +48,7 @@ extension NowPlayingManager {
   private func getArtistInfo(creatorName: String? = nil) -> String {
     // If creator name is provided, show it first
     if let creator = creatorName {
-      return "Mixed by \(creator)"
+      return creator
     }
 
     // Otherwise show active sounds

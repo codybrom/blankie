@@ -164,8 +164,9 @@ private struct AnimationTrigger: Equatable {
                 Button {
                   presetToEdit = currentPreset
                 } label: {
-                  Image(systemName: "gearshape")
-                    .font(.system(size: 18))
+                  Image(systemName: "gearshape.fill")
+                    .font(.system(size: 14))
+                    .foregroundColor(.secondary)
                 }
               }
             }

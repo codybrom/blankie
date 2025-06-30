@@ -3,7 +3,6 @@ import SwiftUI
 struct PresetPickerRow: View {
   let preset: Preset
   let isEditMode: Bool
-  let onEditTap: () -> Void
   @ObservedObject private var presetManager = PresetManager.shared
   @ObservedObject private var audioManager = AudioManager.shared
   @Environment(\.dismiss) private var dismiss
@@ -53,18 +52,6 @@ struct PresetPickerRow: View {
           Image(systemName: "checkmark")
             .foregroundColor(.accentColor)
         }
-
-        // Show settings cog for custom presets
-        if !preset.isDefault && !isEditMode {
-          Button {
-            onEditTap()
-          } label: {
-            Image(systemName: "gearshape")
-              .font(.body)
-              .foregroundColor(.secondary)
-          }
-          .buttonStyle(.plain)
-        }
       }
     }
   }
@@ -75,8 +62,6 @@ struct PresetPickerView: View {
   @ObservedObject private var audioManager = AudioManager.shared
   @State private var showingNewPresetSheet = false
   @State private var newPresetName = ""
-  @State private var presetToRename: Preset?
-  @State private var updatedPresetName = ""
   @State private var presetToDelete: Preset?
   @State private var isEditMode = false
   @State private var editingPresets: [Preset] = []
@@ -257,21 +242,15 @@ struct PresetPickerView: View {
 
           // Default preset (not reorderable)
           if let defaultPreset = presetManager.presets.first(where: { $0.isDefault }) {
-            PresetPickerRow(preset: defaultPreset, isEditMode: isEditMode) {
-              presetToRename = defaultPreset
-              updatedPresetName = defaultPreset.name
-            }
+            PresetPickerRow(preset: defaultPreset, isEditMode: isEditMode)
           }
 
           // Custom presets (reorderable)
           let customPresets = isEditMode ? editingPresets : sortedCustomPresets
 
           ForEach(customPresets) { preset in
-            PresetPickerRow(preset: preset, isEditMode: isEditMode) {
-              presetToRename = preset
-              updatedPresetName = preset.name
-            }
-            .deleteDisabled(!isEditMode || preset.isDefault)
+            PresetPickerRow(preset: preset, isEditMode: isEditMode)
+              .deleteDisabled(!isEditMode || preset.isDefault)
           }
           .onDelete(perform: isEditMode ? deletePresets : nil)
           .onMove(perform: isEditMode ? movePresets : nil)
@@ -315,9 +294,6 @@ struct PresetPickerView: View {
       #if os(iOS)
         .environment(\.editMode, .constant(isEditMode ? EditMode.active : EditMode.inactive))
       #endif
-      .sheet(item: $presetToRename) { preset in
-        EditPresetSheet(preset: preset, isPresented: $presetToRename)
-      }
       .sheet(isPresented: $showingNewPresetSheet) {
         CreatePresetSheet(isPresented: $showingNewPresetSheet)
       }

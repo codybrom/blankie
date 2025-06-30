@@ -27,6 +27,7 @@ private struct AnimationTrigger: Equatable {
     @State var showingViewSettings = false
     @State var showingTimer = false
     @State var soundToEdit: Sound?
+    @State private var presetToEdit: Preset?
     @State var soundsUpdateTrigger = 0
     @State var editMode: EditMode = .inactive
     @State var playPauseTrigger = 0
@@ -93,6 +94,9 @@ private struct AnimationTrigger: Equatable {
         TimerSheetView()
           .presentationDetents([.medium, .large])
       }
+      .sheet(item: $presetToEdit) { preset in
+        EditPresetSheet(preset: preset, isPresented: $presetToEdit)
+      }
       .modifier(AudioErrorHandler())
       .onAppear {
         showingListView = globalSettings.showingListView
@@ -153,7 +157,17 @@ private struct AnimationTrigger: Equatable {
               presetButton
             }
             ToolbarItem(placement: .navigationBarTrailing) {
-              TimerButton()
+              if let currentPreset = presetManager.currentPreset,
+                !currentPreset.isDefault,
+                !audioManager.isQuickMix
+              {
+                Button {
+                  presetToEdit = currentPreset
+                } label: {
+                  Image(systemName: "gearshape")
+                    .font(.system(size: 18))
+                }
+              }
             }
           }
           .toolbarBackground(.visible, for: .navigationBar)

@@ -131,13 +131,13 @@ struct EditPresetSheet: View {
         .sheet(isPresented: $showingImagePicker) {
           #if os(iOS)
             ImagePicker(imageData: $artworkData)
-              .onDisappear {
-                if artworkData != nil {
-                  // Generate new ID for the new artwork
-                  artworkId = UUID()
-                  applyChangesInstantly()
-                }
+            .onDisappear {
+              if artworkData != nil {
+                // Generate new ID for the new artwork
+                artworkId = UUID()
+                applyChangesInstantly()
               }
+            }
           #endif
         }
       #else
@@ -350,29 +350,52 @@ extension EditPresetSheet {
     let currentVersion =
       Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
 
-    // Create sound states ONLY for sounds that were selected in the form
-    let selectedSoundStates: [PresetState] =
-      selectedSounds.compactMap { fileName in
-        guard let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) else {
-          return nil
-        }
-        return PresetState(
-          fileName: sound.fileName,
-          isSelected: sound.isSelected,
-          volume: sound.volume
-        )
-      }
-
-    print(
-      "🎨 EditPresetSheet: Creating \(selectedSoundStates.count) sound states from \(selectedSounds.count) selected sounds"
-    )
+    // Create sound states
+    let selectedSoundStates = createSoundStates()
 
     var updatedPreset = preset
     updatedPreset.name = presetName
     updatedPreset.creatorName = creatorName.isEmpty ? nil : creatorName
     updatedPreset.soundStates = selectedSoundStates
 
-    // Handle artwork saving or deletion
+    // Handle artwork
+    await handleArtworkChanges()
+
+    // Handle background
+    await handleBackgroundChanges()
+
+    // Update preset properties
+    updatedPreset.artworkId = artworkId
+    updatedPreset.showBackgroundImage = showBackgroundImage
+    updatedPreset.useArtworkAsBackground = useArtworkAsBackground
+    updatedPreset.backgroundImageId = backgroundImageId
+    updatedPreset.backgroundBlurRadius = backgroundBlurRadius
+    updatedPreset.backgroundOpacity = backgroundOpacity
+    updatedPreset.lastModifiedVersion = currentVersion
+
+    return updatedPreset
+  }
+
+  private func createSoundStates() -> [PresetState] {
+    let states: [PresetState] = selectedSounds.compactMap { fileName -> PresetState? in
+      guard let sound = audioManager.sounds.first(where: { $0.fileName == fileName }) else {
+        return nil
+      }
+      return PresetState(
+        fileName: sound.fileName,
+        isSelected: sound.isSelected,
+        volume: sound.volume
+      )
+    }
+
+    print(
+      "🎨 EditPresetSheet: Creating \(states.count) sound states from \(selectedSounds.count) selected sounds"
+    )
+
+    return states
+  }
+
+  private func handleArtworkChanges() async {
     if let data = artworkData {
       // Save artwork (this will update existing or create new)
       do {
@@ -392,7 +415,9 @@ extension EditPresetSheet {
         print("❌ EditPresetSheet: Failed to delete old artwork: \(error)")
       }
     }
+  }
 
+  private func handleBackgroundChanges() async {
     if let data = backgroundImageData {
       // Save background (this will update existing or create new)
       do {
@@ -404,16 +429,6 @@ extension EditPresetSheet {
         print("❌ EditPresetSheet: Failed to save background: \(error)")
       }
     }
-
-    updatedPreset.artworkId = artworkId
-    updatedPreset.showBackgroundImage = showBackgroundImage
-    updatedPreset.useArtworkAsBackground = useArtworkAsBackground
-    updatedPreset.backgroundImageId = backgroundImageId
-    updatedPreset.backgroundBlurRadius = backgroundBlurRadius
-    updatedPreset.backgroundOpacity = backgroundOpacity
-    updatedPreset.lastModifiedVersion = currentVersion
-
-    return updatedPreset
   }
 
   // MARK: - Direct Preset Saving

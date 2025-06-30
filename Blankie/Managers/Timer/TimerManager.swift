@@ -91,7 +91,7 @@ class TimerManager: ObservableObject {
     formatter.unitsStyle = .positional
     formatter.allowedUnits = [.hour, .minute, .second]
     formatter.zeroFormattingBehavior = .pad
-    
+
     return formatter.string(from: remainingTime) ?? "0:00"
   }
 

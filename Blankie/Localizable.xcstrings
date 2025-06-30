@@ -639,9 +639,6 @@
     "Background Image" : {
 
     },
-    "Background Source" : {
-
-    },
     "Behavior" : {
       "comment" : "Preferences section",
       "extractionState" : "manual",
@@ -940,7 +937,13 @@
     "Blankie Volume with Media" : {
 
     },
-    "Blankie will pause when timer expires" : {
+    "Blankie will stop when timer expires" : {
+
+    },
+    "Blankie will stop at %@" : {
+
+    },
+    "Blankie will stop in %@" : {
 
     },
     "blankie.rest" : {
@@ -1820,9 +1823,6 @@
     "Custom artwork for Now Playing" : {
 
     },
-    "Custom Background" : {
-
-    },
     "Custom Sounds" : {
       "comment" : "Custom sounds view title",
       "localizations" : {
@@ -2340,9 +2340,6 @@
       "comment" : "Audio duration label"
     },
     "Edit" : {
-
-    },
-    "Edit background image in preset settings" : {
 
     },
     "Edit Preset" : {
@@ -3712,6 +3709,9 @@
 
     },
     "Mix with Other Audio" : {
+
+    },
+    "Modify" : {
 
     },
     "Move" : {
@@ -6843,9 +6843,6 @@
       "comment" : "No icon search results suggestion"
     },
     "Use Cover Art" : {
-
-    },
-    "Use Preset Artwork" : {
 
     },
     "Version %@ (%@)" : {
